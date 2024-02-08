@@ -3,5 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - dao-2048
-  - headlamp
+  - ./dao-2048.yaml
+  - ./headlamp.yaml
