@@ -6,11 +6,10 @@ metadata:
   name: dao-2048
   namespace: dao-2048
 spec:
-  interval: 5m
+  interval: 1m
   chart:
     spec:
       chart: dao-2048
-      version: '4.0.x'
       sourceRef:
         kind: HelmRepository
         name: dao-2048
