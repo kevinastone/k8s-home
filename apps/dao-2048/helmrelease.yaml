@@ -9,7 +9,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: dao-2048/dao-2048
+      chart: dao-2048
       version: '4.0.x'
       sourceRef:
         kind: HelmRepository
