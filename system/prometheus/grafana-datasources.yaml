@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-prometheus-datasources
+  labels:
+    grafana_datasource: 'true' # default value for: sidecar.datasources.label
+stringData:
+  prometheus.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        uid: prometheus
+        url: http://prometheus-kube-prometheus-prometheus.prometheus:9090
+        editable: false
+        jsonData:
+          # httpMethod: POST
+          prometheusType: Prometheus
+          prometheusVersion: 2.49.1

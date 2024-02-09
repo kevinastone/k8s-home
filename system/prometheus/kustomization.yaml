@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: prometheus
+resources:
+  - ./helmrelease.yaml
+  - ./helmrelease-blackbox-exporter.yaml
+  - ./grafana-datasources.yaml
+configMapGenerator:
+  - name: prometheus-dashboards
+    options:
+      labels:
+        grafana_dashboard: 'true'
+    files:
+      - prometheus.json=./dashboards/prometheus.json
+      - blackbox-exporter.json=./dashboards/blackbox-exporter.json

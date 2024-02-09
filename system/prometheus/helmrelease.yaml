@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: prometheus
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 1m
+  values:
+    crds:
+      enabled: false
+
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+      defaultDashboardsEditable: false
+      sidecar:
+        dashboards:
+          labelValue: "true"
+
+    prometheus:
+      prometheusSpec:
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        ruleSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+
+    defaultRules:
+      rules:
+        # We run Cilium which replaces kube-proxy
+        kubeProxy: false
+
+    # We run Cilium which replaces kube-proxy
+    kubeProxy:
+      enabled: false

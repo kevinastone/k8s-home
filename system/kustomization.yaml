@@ -10,3 +10,4 @@ resources:
   - metrics-server
   - node-feature-discovery
   - k8s-gateway
+  - prometheus

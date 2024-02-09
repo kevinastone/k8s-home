@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: blackbox-exporter
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: prometheus-blackbox-exporter
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 1m
+  values:
+    serviceMonitor:  
+      enabled: true
+
+      selfMonitor:
+        enabled: true
+
+      defaults:
+        labels:
+          release: prometheus
+
+      targets:
+      - name: octopi
+        url: https://octopi.home.kevinastone.com
+      - name: zigbee2mqtt
+        url: https://automation.home.kevinastone.com/zigbee2mqtt/
