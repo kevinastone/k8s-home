@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: cert-manager
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: cert-manager
+      sourceRef:
+        kind: HelmRepository
+        name: jetstack
+        namespace: flux-system
+      interval: 1m
+  install:
+    createNamespace: true
+  driftDetection:
+    mode: enabled
+  values:
+    installCRDs: true
+
+    dns01RecursiveNameservers: "rodney.ns.cloudflare.com:53,rosalyn.ns.cloudflare.com:53"
+
+    prometheus:
+      enabled: true
+
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+
+    config:
+      apiVersion: controller.config.cert-manager.io/v1alpha1
+      kind: ControllerConfiguration
+      featureGates:
+        ExperimentalGatewayAPISupport: true

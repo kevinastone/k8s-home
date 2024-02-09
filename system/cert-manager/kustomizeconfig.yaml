@@ -1,0 +1,6 @@
+nameReference:
+- kind: Secret
+  version: v1
+  fieldSpecs:
+  - path: spec/acme/solvers[0]/dns01/cloudflare/name
+    kind: ClusterIssuer

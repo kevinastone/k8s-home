@@ -7,4 +7,5 @@ resources:
   - ./dao-2048.yaml
   - ./descheduler.yaml
   - ./headlamp.yaml
+  - ./jetstack.yaml
   - ./kubernetes-dashboard.yaml
