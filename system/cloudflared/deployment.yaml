@@ -24,7 +24,7 @@ spec:
         - run
         envFrom:
         - secretRef:
-            name: cloudflared-tunnel-secret
+            name: cloudflared-tunnel-secret # overriden by kustomizeconfig
         livenessProbe:
           httpGet:
             path: /ready
@@ -39,7 +39,7 @@ spec:
       volumes:
       - name: config
         configMap:
-          name: cloudflared-config
+          name: cloudflared-config # overriden by kustomizeconfig
           items:
           - key: config.yaml
             path: config.yaml

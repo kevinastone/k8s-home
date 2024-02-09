@@ -5,9 +5,12 @@ kind: Kustomization
 namespace: cloudflared
 resources:
   - ./namespace.yaml
-  - ./cloudflared-tunnel-secret.yaml
   - ./deployment.yaml
 configMapGenerator:
   - name: cloudflared-config
     files:
       - resources/config.yaml
+secretGenerator:
+  - name: cloudflared-tunnel-secret
+    files:
+      - TUNNEL_TOKEN=./secrets/cloudflare.token.encrypted
