@@ -21,8 +21,6 @@ spec:
         # Points cloudflared to the config file, which configures what
         # cloudflared will actually do. This file is created by a ConfigMap
         # below.
-        - --loglevel
-        - debug
         - --config
         - /etc/cloudflared/config/config.yaml
         - run
