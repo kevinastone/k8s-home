@@ -1,0 +1,66 @@
+title: "Dashboard"
+subtitle: "kevinastone"
+
+# logo: "assets/icons/logo.svg"
+logo: assets/theme/current/assets/logos/dark_circle.png
+# # Alternatively a fa icon can be provided:
+# icon: "fas fa-skull-crossbones"
+
+header: true # Set to false to hide the header
+
+columns: 2
+connectivityCheck: false
+
+# Set the default layout and color scheme
+defaults:
+  layout: columns # Either 'columns', or 'list'
+  colorTheme: auto # One of 'auto', 'light', or 'dark'
+
+stylesheet:
+  - 'assets/theme/current/flavours/catppuccin-mocha.css'
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links: []
+
+# Services
+# First level array represent a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+services:
+  - name: Metrics
+    icon: fas fa-chart-line
+    items:
+      - name: Grafana
+        logo: /assets/icons/current/svg/grafana.svg
+        url: "https://grafana.k8s.kevinastone.com"
+      - name: Kubernetes Dashboard
+        logo: /assets/icons/current/svg/kubernetes.svg
+        url: "https://dashboard.k8s.kevinastone.com"
+      - name: Prometheus
+        type: Prometheus
+        logo: /assets/icons/current/svg/prometheus.svg
+        url: "https://prometheus.k8s.kevinastone.com"
+      - name: Chronograf
+        logo: /assets/icons/current/svg/influxdb.svg
+        url: "https://chronograf.k8s.kevinastone.com"
+      - name: Longhorn
+        logo: /assets/icons/current/svg/longhorn.svg
+        url: "https://longhorn.k8s.kevinastone.com"
+      - name: Headlamp
+        logo: https://headlamp.dev/media/footer-logo.svg
+        url: "https://headlamp.k8s.kevinastone.com"
+  - name: Servers
+    icon: fas fa-server
+    items:
+      - name: Home Assistant
+        logo: /assets/icons/current/svg/home-assistant-alt.svg
+        url: "https://automation.k8s.kevinastone.com"
+      - name: Zigbee2MQTT
+        logo: /assets/icons/current/svg/zigbee2mqtt.svg
+        url: "https://automation.home.kevinastone.com/zigbee2mqtt/"
+      - name: OctoPi
+        type: OctoPrint
+        logo: https://raw.githubusercontent.com/OctoPrint/OctoPrint/master/src/octoprint/static/img/logo.png
+        url: &octoprint "https://octopi.home.kevinastone.com"
+        endpoint: *octoprint
+        apikey: 6DAAA562B5124111BB65D39998F6E08D

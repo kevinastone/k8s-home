@@ -1,0 +1,79 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: homer
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 1m
+  values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+
+    controllers:
+      main:
+        replicas: 2
+        type: statefulset
+        statefulset:
+          volumeClaimTemplates:
+            - name: assets
+              accessMode: ReadWriteOnce
+              size: 10Gi
+              retain: false
+              globalMounts:
+                - path: /www/assets
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/bastienwirtz/homer
+              tag: v23.10.1
+              pullPolicy: IfNotPresent
+        initContainers:
+          sync-icons:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: "v4.2.0"
+            args:
+              - --repo=https://github.com/walkxcode/dashboard-icons.git
+              - --depth=1
+              - --one-time
+              - --ref=75950684602fd6871e2a2c39ce7e2ccd4880310d
+              - --link=current
+              - --root=/www/assets/icons
+          sync-theme:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: "v4.2.0"
+            args:
+              - --repo=https://github.com/mrpbennett/catppuccin-homer.git
+              - --depth=1
+              - --one-time
+              - --ref=377dd768acd4e87560db75edc312ddd7b62b3252
+              - --link=current
+              - --root=/www/assets/theme
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: homer-config # overriden by kustomizeconfig
+        globalMounts:
+          - path: /www/assets/config.yml
+            subPath: config.yml
