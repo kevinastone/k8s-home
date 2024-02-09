@@ -16,6 +16,9 @@ spec:
       interval: 1m
   install:
     createNamespace: true
+  dependsOn:
+    - name: mosquitto
+      namespace: mqtt
   values:
     controllers:
       # Configure the main controller
