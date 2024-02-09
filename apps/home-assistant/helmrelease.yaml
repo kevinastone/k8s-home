@@ -24,8 +24,6 @@ spec:
       # Configure the main controller
       main:
         type: statefulset
-        annotations:
-          reloader.stakater.com/auto: "true"
 
         containers:
           # Configure the main application container
