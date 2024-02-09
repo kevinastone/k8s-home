@@ -14,5 +14,5 @@ spec:
         name: dao-2048
         namespace: flux-system
       interval: 1m
-  # values:
-  #   replicaCount: 2
+  install:
+    createNamespace: true

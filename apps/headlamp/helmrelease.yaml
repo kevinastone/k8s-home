@@ -14,3 +14,5 @@ spec:
         name: headlamp
         namespace: flux-system
       interval: 1m
+  install:
+    createNamespace: true

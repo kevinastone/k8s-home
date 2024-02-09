@@ -6,3 +6,4 @@ resources:
   - ./bjw-s.yaml
   - ./dao-2048.yaml
   - ./headlamp.yaml
+  - ./kubernetes-dashboard.yaml
