@@ -1,0 +1,16 @@
+---
+# # CORS wildcard only implemented recently: https://github.com/envoyproxy/gateway/pull/2389
+# apiVersion: gateway.envoyproxy.io/v1alpha1
+# kind: SecurityPolicy
+# metadata:
+#   name: envoy-gateway-policy
+#   namespace: envoy
+# spec:
+#   targetRef:
+#     group: gateway.networking.k8s.io
+#     kind: Gateway
+#     name: envoy-gateway
+#     namespace: envoy
+#   cors:
+#     allowOrigins:
+#       - "*"

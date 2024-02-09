@@ -1,0 +1,24 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: envoy
+    release: kube-prometheus-stack
+  name: envoy-proxy
+  namespace: envoy
+spec:
+  podMetricsEndpoints:
+  - honorLabels: true
+    interval: 30s
+    path: /stats/prometheus
+    port: metrics
+    scheme: http
+    scrapeTimeout: 30s
+  jobLabel: envoy
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: proxy
+      app.kubernetes.io/name: envoy
