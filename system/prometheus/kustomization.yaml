@@ -13,5 +13,5 @@ configMapGenerator:
       labels:
         grafana_dashboard: 'true'
     files:
-      - prometheus.json=./dashboards/prometheus.json
-      - blackbox-exporter.json=./dashboards/blackbox-exporter.json
+      - dashboards/prometheus.json
+      - dashboards/blackbox-exporter.json

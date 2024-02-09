@@ -8,7 +8,7 @@ resources:
 configMapGenerator:
   - name: blocky-config
     files:
-      - config.yml=./resources/config.yml
+      - resources/config.yml
   - name: blocky-dashboard
     options:
       labels:

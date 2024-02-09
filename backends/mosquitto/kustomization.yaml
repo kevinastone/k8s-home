@@ -8,6 +8,6 @@ resources:
 configMapGenerator:
   - name: mosquitto-config
     files:
-      - mosquitto.conf=./resources/mosquitto.conf
+      - resources/mosquitto.conf
 configurations:
   - ./kustomizeconfig.yaml

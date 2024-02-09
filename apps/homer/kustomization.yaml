@@ -12,9 +12,9 @@ configMapGenerator:
       - config.yml=./resources/config.yml
   - name: homer-assets
     files:
-      - 2048.svg=./assets/2048.svg
+      - assets/2048.svg
       # Bug in configMapGenerator with binary data
-      # - octoprint.png=./assets/octoprint.png
-      - headlamp.svg=./assets/headlamp.svg
+      # - assets/octoprint.png
+      - assets/headlamp.svg
 configurations:
   - ./kustomizeconfig.yaml

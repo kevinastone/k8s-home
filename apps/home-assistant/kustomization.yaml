@@ -9,16 +9,16 @@ resources:
 configMapGenerator:
   - name: home-assistant-config-data
     files:
-      - automation.yaml=./resources/automation.yaml
-      - clock.yaml=./resources/clock.yaml
-      - configuration.yaml=./resources/configuration.yaml
-      - cover.yaml=./resources/cover.yaml
-      - customize.yaml=./resources/customize.yaml
-      - group.yaml=./resources/group.yaml
-      - script.yaml=./resources/script.yaml
-      - secrets.example.yaml=./resources/secrets.example.yaml
-      - ui-lovelace.yaml=./resources/ui-lovelace.yaml
-      - zone.yaml=./resources/zone.yaml
+      - resources/automation.yaml
+      - resources/clock.yaml
+      - resources/configuration.yaml
+      - resources/cover.yaml
+      - resources/customize.yaml
+      - resources/group.yaml
+      - resources/script.yaml
+      - resources/secrets.example.yaml
+      - resources/ui-lovelace.yaml
+      - resources/zone.yaml
 configurations:
   - ./kustomizeconfig.yaml
 secretGenerator:
