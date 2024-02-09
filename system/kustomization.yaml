@@ -6,4 +6,5 @@ resources:
   - cert-manager
   - cloudflared
   - descheduler
+  - intel-gpu-plugin
   - node-feature-discovery
