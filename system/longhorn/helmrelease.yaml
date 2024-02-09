@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: longhorn
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: longhorn
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+      interval: 1m
+  install:
+    createNamespace: true
+  values:
+    longhornUI:
+      replicas: 1
+
+    metrics:
+      serviceMonitor:
+        enabled: true
+
+    persistence:
+      defaultClass: true
+      defaultClassReplicaCount: 2
+      defaultFsType: xfs
+      defaultDataLocality: best-effort
+
+    defaultSettings:
+      defaultReplicaCount: 2
+      replicaAutoBalance: best-effort
