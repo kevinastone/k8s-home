@@ -7,6 +7,7 @@ resources:
   - ./bjw-s.yaml
   - ./dao-2048.yaml
   - ./descheduler.yaml
+  - ./grafana.yaml
   - ./headlamp.yaml
   - ./intel.yaml
   - ./jetstack.yaml
