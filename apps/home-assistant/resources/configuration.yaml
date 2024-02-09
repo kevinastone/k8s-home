@@ -1,0 +1,65 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: !secret home_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  country: US
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Los_Angeles
+
+  packages: !include_dir_named packages
+  # Customization file
+  customize: !include customize.yaml
+
+# Enables Defaults
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  use_x_forwarded_for: yes
+  trusted_proxies:
+    - 172.16.0.0/12
+    - 10.0.0.0/8
+    - 192.168.0.0/16
+#   base_url: example.duckdns.org:8123
+
+# Enables the frontend
+frontend:
+lovelace:
+  mode: yaml
+
+# Enables support for tracking state changes over time
+history:
+
+# InfluxDB
+influxdb:
+  host: influxdb.k8s.kevinastone.com
+  max_retries: 3
+
+# View all events in a logbook
+logbook:
+
+## # MQTT
+## mqtt:
+##   broker: mqtt
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# zigbee:
+#   device: /dev/zigbee
+
+# zwave:
+#  usb_path: /dev/zwave
+
+group: !include group.yaml
+automation: !include automation.yaml
+script: !include script.yaml
+zone: !include zone.yaml

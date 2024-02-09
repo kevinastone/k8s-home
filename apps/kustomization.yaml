@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - dao-2048
   - headlamp
+  - home-assistant
   - homer

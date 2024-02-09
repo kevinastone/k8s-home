@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: home-assistant
+resources:
+  - ./helmrelease.yaml
+  - ./http-route.yaml
+configMapGenerator:
+  - name: home-assistant-config-data
+    files:
+      - clock.yaml=./resources/clock.yaml
+      - configuration.yaml=./resources/configuration.yaml
+      - cover.yaml=./resources/cover.yaml
+      - customize.yaml=./resources/customize.yaml
+      - group.yaml=./resources/group.yaml
+      - script.yaml=./resources/script.yaml
+      - secrets.example.yaml=./resources/secrets.example.yaml
+      - ui-lovelace.yaml=./resources/ui-lovelace.yaml
+      - zone.yaml=./resources/zone.yaml
+configurations:
+  - ./kustomizeconfig.yaml
+secretGenerator:
+  - name: home-assistant-secret
+    files:
+    - secrets.yaml=./secrets/secrets.yaml.encrypted

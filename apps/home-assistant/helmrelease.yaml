@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 1m
+  values:
+    controllers:
+      # Configure the main controller
+      main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          # Configure the main application container
+          main:
+            image:
+              # -- image repository
+              repository: ghcr.io/onedr0p/home-assistant
+              # pullPolicy: IfNotPresent
+              # -- image tag
+              # this example is not automatically updated, so be sure to use the latest image
+              tag: 2024.1.5
+          # Configure the code-server sidecar
+          code:
+            dependsOn: main
+            image:
+              # -- image repository
+              repository: ghcr.io/coder/code-server
+              # -- image tag
+              # this example is not automatically updated, so be sure to use the latest image
+              tag: 4.20.1
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+              - --port
+              - "8081"
+              - "/config"
+
+        initContainers:
+          init-config:
+            image:
+              repository: busybox
+              tag: "1.28"
+            args:
+              - /bin/sh
+              - -c
+              - "cp -f /config-data/*.yaml /config/"
+
+    service:
+      # Configure a service for the main application
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            port: 8123
+      code:
+        type: ClusterIP
+        controller: main
+        ports:
+          http:
+            port: 8081
+
+    ingress:
+      # Configure an Ingress for the main application
+      main:
+        enabled: false
+      code:
+        enabled: false
+
+    persistence:
+      # Configure the main configuration storage location
+      config:
+        enabled: true
+        retain: false
+        size: 10Gi
+        storageClass: longhorn
+        accessMode: ReadWriteMany
+        globalMounts:
+          - path: /config
+      config-data:
+        enabled: true
+        type: configMap
+        name: home-assistant-config-data # overriden by kustomizeconfig
+        globalMounts:
+          - path: /config-data
