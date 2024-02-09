@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: blocky-redis
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: redis
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 1m
+  values:
+    auth:
+      enabled: false
+
+    master:
+      persistentVolumeClaimRetentionPolicy:
+        enabled: true
+        whenScaled: Delete
+        whenDeleted: Delete
+
+    replica:
+      replicaCount: 0
+      persistentVolumeClaimRetentionPolicy:
+        enabled: true
+        whenScaled: Delete
+        whenDeleted: Delete
