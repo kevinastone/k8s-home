@@ -9,5 +9,11 @@ configMapGenerator:
   - name: blocky-config
     files:
       - config.yml=./resources/config.yml
+  - name: blocky-dashboard
+    options:
+      labels:
+        grafana_dashboard: 'true'
+    files:
+      - blocky.json=./dashboards/blocky.json
 configurations:
   - ./kustomizeconfig.yaml
