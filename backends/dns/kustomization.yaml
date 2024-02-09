@@ -6,4 +6,4 @@ namespace: dns
 resources:
   - ./namespace.yaml
   - redis
-  # - blocky
+  - blocky

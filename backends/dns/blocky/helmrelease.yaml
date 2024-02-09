@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: blocky
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 1m
+  values:
+    controllers:
+      main:
+        replicas: 2
+        strategy: RollingUpdate
+        containers:
+          main:
+            image:
+              repository: ghcr.io/0xerr0r/blocky
+              tag: v0.23
+              pullPolicy: IfNotPresent
+            env:
+              - name: TZ
+                value: UTC
+            ports:
+              - containerPort: 53
+                name: dns-udp
+                protocol: UDP
+              - containerPort: 53
+                name: dns-tcp
+                protocol: TCP
+              - containerPort: 4000
+                name: http
+            probes:
+              liveness:
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /app/blocky
+                      - healthcheck
+              readiness:
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /app/blocky
+                      - healthcheck
+              startup:
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /app/blocky
+                      - healthcheck
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        labels:
+          ip-pool: static
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.120.53
+          metallb.universe.tf/loadBalancerIPs: 192.168.120.53
+        ports:
+          http:
+            port: 80
+            targetPort: http
+          dns-udp:
+            port: 53
+            protocol: UDP
+            targetPort: dns-udp
+          dns-tcp:
+            port: 53
+            protocol: TCP
+            targetPort: dns-tcp
+
+    serviceMonitor:
+      main:
+        enabled: true
+
+    ingress:
+      main:
+        enabled: false
+
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: blocky-config # overriden by kustomizeconfig
+        globalMounts:
+          - path: /app/config.yml
+            subPath: config.yml
