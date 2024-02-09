@@ -7,6 +7,7 @@ resources:
   - cloudflared
   - descheduler
   - envoy-gateway
+  - fluxcd
   - intel-gpu-plugin
   - metrics-server
   - node-feature-discovery
