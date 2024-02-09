@@ -34,6 +34,14 @@ spec:
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
 
+        storageSpec:
+          volumeClaimTemplate:
+           spec:
+             accessModes: ["ReadWriteOnce"]
+             resources:
+               requests:
+                 storage: 50Gi
+
     defaultRules:
       rules:
         # We run Cilium which replaces kube-proxy
