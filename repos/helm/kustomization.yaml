@@ -9,6 +9,7 @@ resources:
   - ./descheduler.yaml
   - ./grafana.yaml
   - ./headlamp.yaml
+  - ./influxdata.yaml
   - ./intel.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml

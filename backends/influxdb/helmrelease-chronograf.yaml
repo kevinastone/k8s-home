@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: chronograf
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: chronograf
+      sourceRef:
+        kind: HelmRepository
+        name: influxdata
+        namespace: flux-system
+      interval: 1m
+  install:
+    createNamespace: true
+  values:
+    persistence:
+      enabled: true
