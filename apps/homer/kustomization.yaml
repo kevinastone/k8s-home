@@ -10,5 +10,8 @@ configMapGenerator:
   - name: homer-config
     files:
       - config.yml=./resources/config.yml
+  - name: homer-assets
+    files:
+      - 2048.svg=./assets/2048.svg
 configurations:
   - ./kustomizeconfig.yaml

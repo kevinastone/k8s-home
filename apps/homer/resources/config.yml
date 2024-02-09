@@ -64,3 +64,9 @@ services:
         url: &octoprint "https://octopi.home.kevinastone.com"
         endpoint: *octoprint
         apikey: 6DAAA562B5124111BB65D39998F6E08D
+  - name: Games
+    icon: fas fa-gamepad
+    items:
+      - name: "2048"
+        logo: /assets/custom/2048.svg
+        url: "https://2048.k8s.kevinastone.com"
