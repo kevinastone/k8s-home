@@ -4,3 +4,8 @@ nameReference:
   fieldSpecs:
   - path: spec/values/persistence/config-data/name
     kind: HelmRelease
+- kind: Secret
+  version: v1
+  fieldSpecs:
+  - path: spec/values/persistence/secret-data/name
+    kind: HelmRelease

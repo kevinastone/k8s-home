@@ -61,6 +61,14 @@ spec:
               - /bin/sh
               - -c
               - "cp -f /config-data/*.yaml /config/"
+          init-secret:
+            image:
+              repository: busybox
+              tag: "1.28"
+            args:
+              - /bin/sh
+              - -c
+              - "cp -f /secret-data/*.yaml /config/"
 
     service:
       # Configure a service for the main application
@@ -99,3 +107,9 @@ spec:
         name: home-assistant-config-data # overriden by kustomizeconfig
         globalMounts:
           - path: /config-data
+      secret-data:
+        enabled: true
+        type: secret
+        name: home-assistant-secret # overriden by kustomizeconfig
+        globalMounts:
+          - path: /secret-data
