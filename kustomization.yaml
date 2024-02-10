@@ -6,5 +6,6 @@ resources:
   - repos
   - crds
   - system
+  - monitoring
   - backends
   - apps
