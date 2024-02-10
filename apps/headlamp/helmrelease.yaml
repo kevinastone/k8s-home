@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: headlamp
 spec:
-  interval: 1m
+  interval: 5m
   chart:
     spec:
       chart: headlamp
@@ -14,6 +14,6 @@ spec:
         kind: HelmRepository
         name: headlamp
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   install:
     createNamespace: true

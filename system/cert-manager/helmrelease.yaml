@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   install:
     createNamespace: true
   driftDetection:

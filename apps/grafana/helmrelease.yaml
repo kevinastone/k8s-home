@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: grafana
 spec:
-  interval: 1m
+  interval: 5m
   chart:
     spec:
       chart: grafana
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   install:
     createNamespace: true
   values:

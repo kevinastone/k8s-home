@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: blocky-redis
 spec:
-  interval: 1m
+  interval: 5m
   chart:
     spec:
       chart: redis
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   values:
     auth:
       enabled: false

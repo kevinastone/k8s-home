@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: kubernetes-dashboard
 spec:
-  interval: 1m
+  interval: 5m
   chart:
     spec:
       chart: kubernetes-dashboard
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: kubernetes-dashboard
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   install:
     createNamespace: true
   values:

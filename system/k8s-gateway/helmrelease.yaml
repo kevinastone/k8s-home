@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: k8s-gateway
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   install:
     createNamespace: true
   values:

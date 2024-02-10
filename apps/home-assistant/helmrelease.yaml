@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   install:
     createNamespace: true
   dependsOn:
