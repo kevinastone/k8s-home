@@ -9,6 +9,7 @@ spec:
   chart:
     spec:
       chart: dao-2048
+      version: 1.4.1
       sourceRef:
         kind: HelmRepository
         name: dao-2048

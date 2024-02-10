@@ -6,7 +6,7 @@ metadata:
   name: node-feature-discovery
   namespace: flux-system
 spec:
-  interval: 5m0s
+  interval: 5m
   url: https://github.com/kubernetes-sigs/node-feature-discovery
   ref:
     tag: v0.15.1

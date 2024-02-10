@@ -5,5 +5,5 @@ kind: HelmRepository
 metadata:
   name: influxdata
 spec:
-  interval: 5m0s
+  interval: 5m
   url: https://helm.influxdata.com/

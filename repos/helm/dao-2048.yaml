@@ -5,6 +5,5 @@ kind: HelmRepository
 metadata:
   name: dao-2048
 spec:
-  # type: oci
-  interval: 5m0s
+  interval: 5m
   url: http://daocloud.github.io/dao-2048/

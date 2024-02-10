@@ -6,5 +6,5 @@ metadata:
   name: headlamp
 spec:
   # type: oci
-  interval: 5m0s
+  interval: 5m
   url: https://headlamp-k8s.github.io/headlamp/
