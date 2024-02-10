@@ -10,6 +10,7 @@ resources:
   - fluxcd
   - intel-gpu-plugin
   - longhorn
+  - metallb
   - metrics-server
   - node-feature-discovery
   - k8s-gateway
