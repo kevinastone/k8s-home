@@ -6,7 +6,7 @@ metadata:
   name: metallb
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 10m
   sourceRef:
     kind: GitRepository
     name: metallb
@@ -14,3 +14,4 @@ spec:
   path: "config/prometheus-native"
   prune: true
   timeout: 3m
+  retryInterval: 1m

@@ -13,6 +13,7 @@ spec:
   path: "deployment/overlays/default"
   prune: true
   timeout: 1m
+  retryInterval: 1m
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -28,3 +29,4 @@ spec:
   path: "deployment/overlays/prometheus"
   prune: true
   timeout: 1m
+  retryInterval: 1m
