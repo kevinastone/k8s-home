@@ -36,5 +36,11 @@ spec:
     monitoring:
       dashboards:
         enabled: true
+        annotations:
+          grafana_folder: Loki
         labels:
           grafana_dashboard: "true"
+      lokiCanary:
+        enabled: false
+    test:
+      enabled: false
