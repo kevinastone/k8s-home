@@ -13,4 +13,4 @@ spec:
     namespace: flux-system
   path: "config/prometheus-native"
   prune: true
-  timeout: 1m
+  timeout: 3m
