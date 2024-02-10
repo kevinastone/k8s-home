@@ -3,7 +3,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./ks.yaml
+  - https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
+  # - ./ks.yaml
   - ./metal-primary-pool.yaml
   - ./metal-static-pool.yaml
   - ./metal-l2-advertisement.yaml
