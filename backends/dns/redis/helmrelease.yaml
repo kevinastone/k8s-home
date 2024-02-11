@@ -16,18 +16,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    architecture: standalone
     auth:
       enabled: false
-
     master:
-      persistentVolumeClaimRetentionPolicy:
-        enabled: true
-        whenScaled: Delete
-        whenDeleted: Delete
-
+      kind: Deployment
+      disableCommands: []
+      persistence:
+        enabled: false
     replica:
       replicaCount: 0
-      persistentVolumeClaimRetentionPolicy:
-        enabled: true
-        whenScaled: Delete
-        whenDeleted: Delete
