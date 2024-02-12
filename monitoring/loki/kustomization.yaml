@@ -7,3 +7,4 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - helmrelease-promtail.yaml
+  - grafana-datasources.yaml
