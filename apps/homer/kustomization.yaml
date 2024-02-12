@@ -13,8 +13,8 @@ configMapGenerator:
   - name: homer-assets
     files:
       - assets/2048.svg
-      # Bug in configMapGenerator with binary data
+      # # Bug in configMapGenerator with binary data
+      # # https://github.com/kubernetes-sigs/kustomize/issues/3504
       # - assets/octoprint.png
-      - assets/headlamp.svg
 configurations:
   - ./kustomizeconfig.yaml

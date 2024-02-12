@@ -46,9 +46,6 @@ services:
       - name: Longhorn
         logo: /assets/icons/current/svg/longhorn.svg
         url: "https://longhorn.k8s.kevinastone.com"
-      - name: Headlamp
-        logo: /assets/custom/headlamp.svg
-        url: "https://headlamp.k8s.kevinastone.com"
   - name: Servers
     icon: fas fa-server
     items:

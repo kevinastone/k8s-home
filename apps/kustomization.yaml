@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - dao-2048
   - grafana
-  - headlamp
   - home-assistant
   - homer
   - kubernetes-dashboard
