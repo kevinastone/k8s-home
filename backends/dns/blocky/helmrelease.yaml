@@ -99,3 +99,8 @@ spec:
         globalMounts:
           - path: /app/config.yml
             subPath: config.yml
+      lists:
+        type: configMap
+        name: blocky-lists # overriden by kustomizeconfig
+        globalMounts:
+          - readOnly: true
