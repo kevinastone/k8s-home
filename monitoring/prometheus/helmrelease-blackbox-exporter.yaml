@@ -29,5 +29,3 @@ spec:
       targets:
       - name: octopi
         url: https://octopi.home.kevinastone.com
-      - name: zigbee2mqtt
-        url: https://automation.home.kevinastone.com/zigbee2mqtt/
