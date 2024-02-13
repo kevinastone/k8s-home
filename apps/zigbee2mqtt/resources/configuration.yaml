@@ -1,0 +1,45 @@
+# Let new devices join our zigbee network
+# permit_join: true
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mosquitto.mqtt
+
+# Zigbee Adapter path
+serial:
+  # port: /dev/zigbee
+  port: tcp://automation.home.kevinastone.com:20108
+
+# Enable the Zigbee2MQTT frontend
+frontend:
+  port: 80
+  host: 0.0.0.0
+
+advanced:
+  log_level: info
+  log_output:
+    - console
+
+  pan_id: 63555
+  ext_pan_id:
+    - 221
+    - 13
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+  network_key: '!secret network_key'
+
+homeassistant: true
+
+devices:
+  '0x00158d0008913148':
+    friendly_name: 'Bedroom Temperature'
+  '0x00158d0008a6fe1e':
+    friendly_name: 'Office Temperature'
+  '0x00158d0008a6fe47':
+    friendly_name: 'Living Room Temperature'
+  '0x00124b002513acba':
+    friendly_name: 'Plug Extender'

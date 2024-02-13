@@ -8,3 +8,4 @@ resources:
   - home-assistant
   - homer
   - kubernetes-dashboard
+  - zigbee2mqtt
