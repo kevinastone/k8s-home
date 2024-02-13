@@ -5,20 +5,5 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - namespace.yaml
-  - webhook-receiver.yaml
-  - pod-monitor.yaml
-configurations:
-  - kustomizeconfig.yaml
-configMapGenerator:
-  - name: fluxcd-dashboards
-    options:
-      labels:
-        grafana_dashboard: 'true'
-    files:
-      - dashboards/cluster.json
-      - dashboards/control-plane.json
-      - dashboards/logs.json
-secretGenerator:
-  - name: webhook-token
-    files:
-    - token=secrets/webhook.token.encrypted
+  - webhook
+  - monitoring
