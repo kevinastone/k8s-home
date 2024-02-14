@@ -7,10 +7,17 @@ resources:
   - namespace.yaml
   - deployment.yaml
   - service.yaml
+  - pod-monitor.yaml
 configMapGenerator:
   - name: cloudflared-config
     files:
       - resources/config.yaml
+  - name: cloudflared-dashboard
+    options:
+      labels:
+        grafana_dashboard: 'true'
+    files:
+      - dashboards/cloudflared.json
 secretGenerator:
   - name: cloudflared-tunnel-creds
     files:

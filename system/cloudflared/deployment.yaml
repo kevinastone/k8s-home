@@ -24,10 +24,14 @@ spec:
         - --loglevel
         - debug
         - run
+        ports:
+        - containerPort: 2000
+          name: metrics
+          protocol: TCP
         livenessProbe:
           httpGet:
             path: /ready
-            port: 2000
+            port: metrics
           failureThreshold: 1
           initialDelaySeconds: 10
           periodSeconds: 10
