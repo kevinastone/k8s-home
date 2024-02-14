@@ -34,3 +34,6 @@ spec:
     defaultSettings:
       defaultReplicaCount: 2
       replicaAutoBalance: best-effort
+
+      backupTarget: cifs://storage.home.kevinastone.com/NAS/longhorn
+      backupTargetCredentialSecret: storage-cifs-secret
