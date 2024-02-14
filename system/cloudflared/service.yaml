@@ -1,0 +1,9 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cloudflared
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: fluxcd.ext.kevinastone.com
+spec:
+  type: ExternalName
+  externalName: 312aa2cc-05e9-47c5-8802-d35ecd9fe569.cfargotunnel.com

@@ -4,8 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: cloudflared
 resources:
-  - ./namespace.yaml
-  - ./deployment.yaml
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
 configMapGenerator:
   - name: cloudflared-config
     files:
@@ -14,3 +15,6 @@ secretGenerator:
   - name: cloudflared-tunnel-secret
     files:
       - TUNNEL_TOKEN=./secrets/cloudflare.token.encrypted
+  - name: cloudflared-tunnel-creds
+    files:
+      - credentials.json=secrets/credentials.encrypted.json
