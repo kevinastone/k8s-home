@@ -6,3 +6,11 @@ namespace: longhorn-system
 resources:
   - ./helmrelease.yaml
   - ./http-route.yaml
+secretGenerator:
+  - name: storage-cifs-secret
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - CIFS_USERNAME=longhorn
+    files:
+      - CIFS_PASSWORD=secrets/password.txt.encrypted
