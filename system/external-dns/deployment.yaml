@@ -26,14 +26,10 @@ spec:
         # (optional) configure how many DNS records to fetch per request
         - --cloudflare-dns-records-per-page
         - "5000"
-        - --source
-        - service
-         # (optional) limit to only example.com domains; change to match the zone created above.
+        - --source=service
+        # - --source=gateway-httproute
         - --domain-filter
         - $(DOMAIN_NAME)
-        - --dry-run
-        - --log-level
-        - debug
         envFrom:
         - configMapRef:
             name: external-dns-config # overriden by kustomizeconfig

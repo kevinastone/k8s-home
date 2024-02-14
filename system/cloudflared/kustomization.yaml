@@ -12,9 +12,6 @@ configMapGenerator:
     files:
       - resources/config.yaml
 secretGenerator:
-  - name: cloudflared-tunnel-secret
-    files:
-      - TUNNEL_TOKEN=./secrets/cloudflare.token.encrypted
   - name: cloudflared-tunnel-creds
     files:
       - credentials.json=secrets/credentials.encrypted.json

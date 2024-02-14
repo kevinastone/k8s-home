@@ -1,6 +1,7 @@
 # Name of the tunnel you want to run
-tunnel: k8s-home
-# credentials-file: /etc/cloudflared/creds/credentials.json
+tunnel: 7830819a-c96e-4ac6-a997-9bffa30a57fc
+
+credentials-file: /creds/credentials.json
 # Serves the metrics server under /metrics and the readiness server under /ready
 metrics: 0.0.0.0:2000
 # Autoupdates applied in a k8s pod will be lost when the pod is removed or restarted, so
