@@ -3,18 +3,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./bitnami.yaml
-  - ./bjw-s.yaml
-  - ./dao-2048.yaml
-  - ./descheduler.yaml
-  - ./envoyproxy.yaml
-  - ./grafana.yaml
-  - ./headlamp.yaml
-  - ./influxdata.yaml
-  - ./intel.yaml
-  - ./jetstack.yaml
-  - ./k8s-gateway.yaml
-  - ./kubernetes-dashboard.yaml
-  - ./longhorn.yaml
-  - ./metrics-server.yaml
-  - ./prometheus.yaml
+  - bitnami.yaml
+  - bjw-s.yaml
+  - dao-2048.yaml
+  - descheduler.yaml
+  - envoyproxy.yaml
+  - grafana.yaml
+  - headlamp.yaml
+  - influxdata.yaml
+  - intel.yaml
+  - jetstack.yaml
+  - k8s-gateway.yaml
+  - k8tz.yaml
+  - kubernetes-dashboard.yaml
+  - longhorn.yaml
+  - metrics-server.yaml
+  - prometheus.yaml

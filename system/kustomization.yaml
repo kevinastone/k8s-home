@@ -9,6 +9,7 @@ resources:
   - envoy-gateway
   - fluxcd
   - intel-gpu-plugin
+  - k8tz
   - longhorn
   - metallb
   - node-feature-discovery
