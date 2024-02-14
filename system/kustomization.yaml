@@ -7,6 +7,7 @@ resources:
   - cloudflared
   - descheduler
   - envoy-gateway
+  - external-dns
   - fluxcd
   - intel-gpu-plugin
   - k8tz

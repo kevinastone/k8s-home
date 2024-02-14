@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+      - name: external-dns
+        image: registry.k8s.io/external-dns/external-dns:v0.14.0
+        args:
+        - --txt-owner-id
+        - $(OWNER_ID)
+        - --provider
+        - cloudflare
+        # (optional) configure how many DNS records to fetch per request
+        - --cloudflare-dns-records-per-page
+        - "5000"
+        - --source
+        - service
+         # (optional) limit to only example.com domains; change to match the zone created above.
+        - --domain-filter
+        - $(DOMAIN_NAME)
+        - --dry-run
+        - --log-level
+        - debug
+        envFrom:
+        - configMapRef:
+            name: external-dns-config # overriden by kustomizeconfig
+        - secretRef:
+            name: external-dns-secret # overriden by kustomizeconfig

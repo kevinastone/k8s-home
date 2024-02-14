@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: external-dns
+resources:
+  - namespace.yaml
+  - rbac.yaml
+  - deployment.yaml
+secretGenerator:
+  - name: external-dns-secret
+    files:
+      - CF_API_TOKEN=secrets/cloudflare.token.encrypted
+configMapGenerator:
+  - name: external-dns-config
+    literals:
+      - OWNER_ID=k8s-home
+      - DOMAIN_NAME=kevinastone.com
