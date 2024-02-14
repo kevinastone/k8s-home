@@ -12,9 +12,8 @@ spec:
     name: fluxcd-sync
   path: "./apps"
   prune: true
-  timeout: 3m
+  timeout: 10m
   retryInterval: 1m
-  wait: true
   decryption:
     provider: sops
     secretRef:
