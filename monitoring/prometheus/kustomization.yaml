@@ -6,6 +6,7 @@ namespace: prometheus
 resources:
   - ./helmrelease.yaml
   - ./helmrelease-blackbox-exporter.yaml
+  - ./helmrelease-snmp-exporter.yaml
   - ./grafana-datasources.yaml
 configMapGenerator:
   - name: prometheus-dashboards
