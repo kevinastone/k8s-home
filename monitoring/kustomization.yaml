@@ -6,3 +6,4 @@ resources:
   - loki
   - metrics-server
   - prometheus
+  - synology
