@@ -11,4 +11,5 @@ resources:
   # # https://github.com/dmunozv04/iSponsorBlockTV/issues/82
   # - isponsorblocktv
   - kubernetes-dashboard
+  - super-sudoku
   - zigbee2mqtt
