@@ -67,3 +67,6 @@ services:
       - name: "2048"
         logo: /assets/custom/2048.svg
         url: "https://2048.k8s.kevinastone.com"
+      - name: Sudoku
+        logo: /assets/custom/sudoku.svg
+        url: "https://sudoku.k8s.kevinastone.com"

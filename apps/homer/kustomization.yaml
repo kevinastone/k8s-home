@@ -13,6 +13,7 @@ configMapGenerator:
   - name: homer-assets
     files:
       - assets/2048.svg
+      - assets/sudoku.svg
       # # Bug in configMapGenerator with binary data
       # # https://github.com/kubernetes-sigs/kustomize/issues/3504
       # - assets/octoprint.png
