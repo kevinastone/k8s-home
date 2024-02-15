@@ -7,5 +7,6 @@ resources:
   - grafana
   - home-assistant
   - homer
+  - isponsorblocktv
   - kubernetes-dashboard
   - zigbee2mqtt
