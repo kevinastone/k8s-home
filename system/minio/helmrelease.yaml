@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: minio
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: minio
+      version: 13.4.6
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  driftDetection:
+    mode: enabled
+  values:
+    # mode: distributed
+    # statefulset:
+    #   replicaCount: 4
+    #   zones: 1
+    persistence:
+      storageClass: storage-nas
+      size: 250Gi
+    # accessKey:
+    #   password: <random string>
+    # secretKey:
+    #   password: <random and long string>
+    metrics:
+      serviceMonitor:
+        enabled: true
+    auth:
+      existingSecret: minio-root-secret # overriden by kustomizeconfig
+    volumePermissions:
+      enabled: true
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    provisioning:
+      enabled: true
+      usersExistingSecrets:
+        - minio-users # overriden by kustomizeconfig
+      buckets:
+        - name: longhorn
