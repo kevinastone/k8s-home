@@ -18,5 +18,12 @@ secretGenerator:
       disableNameSuffixHash: true
     files:
       - longhorn=secrets/longhorn.txt.encrypted
+configMapGenerator:
+  - name: minio-dashboard
+    options:
+      labels:
+        grafana_dashboard: 'true'
+    files:
+      - dashboards/minio.json
 configurations:
   - kustomizeconfig.yaml
