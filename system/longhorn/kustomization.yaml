@@ -7,10 +7,11 @@ resources:
   - ./helmrelease.yaml
   - ./http-route.yaml
 secretGenerator:
-  - name: storage-cifs-secret
+  - name: backup-secret
     options:
       disableNameSuffixHash: true
     literals:
-      - CIFS_USERNAME=longhorn
+      - AWS_ACCESS_KEY_ID=longhorn
+      - AWS_ENDPOINTS=https://s3.k8s.kevinastone.com
     files:
-      - CIFS_PASSWORD=secrets/password.txt.encrypted
+      - AWS_SECRET_ACCESS_KEY=secrets/access.key.encrypted
