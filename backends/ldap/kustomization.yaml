@@ -17,11 +17,11 @@ secretGenerator:
     - password=secrets/postgres.password.encrypted
   - name: lldap-secret
     literals:
-    - POSTGRES_SUPER_USER=postgres
-    - LLDAP_LDAP_BASE_DN=dc=home,dc=arpa
+    - LLDAP_LDAP_BASE_DN=dc=home,dc=kevinastone,dc=com
+    - LLDAP_LDAP_USER_DN=admin
     files:
+    - LLDAP_KEY_SEED=secrets/lldap-key-seed.txt.encrypted
     - LLDAP_JWT_SECRET=secrets/lldap-jwt.txt.encrypted
     - LLDAP_LDAP_USER_PASS=secrets/lldap-user.password.encrypted
-    - POSTGRES_SUPER_PASS=secrets/postgres.password.encrypted
 configurations:
   - kustomizeconfig.yaml

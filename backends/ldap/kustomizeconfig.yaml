@@ -4,10 +4,3 @@ nameReference:
   fieldSpecs:
   - path: spec/superuserSecret/name
     kind: Cluster
-  # - path: spec/values/controllers/main/containers/main/envFrom/secretRef/name
-  #   kind: HelmRelease
-# - kind: ConfigMap
-#   version: v1
-#   fieldSpecs:
-#   - path: spec/values/controllers/main/containers/main/envFrom/configMapRef/name
-#     kind: HelmRelease

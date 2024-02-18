@@ -20,15 +20,11 @@ spec:
         envFrom:
         - secretRef:
             name: lldap-secret # overriden by kustomizeconfig
-        # - configMapRef:
-        #     name: lldap-config # overriden by kustomizeconfig
+        - secretRef:
+            name: postgres-app
         env:
-          # - name: LLDAP_HTTP_PORT
-          #   value: "80"
-          # - name: LLDAP_LDAP_PORT
-          #   value: "389"
           - name: LLDAP_DATABASE_URL
-            value: postgres://$(POSTGRES_SUPER_USER):$(POSTGRES_SUPER_PASS)@postgres-rw/lldap
+            value: $(uri)
         ports:
         - containerPort: 17170
           name: http
@@ -37,13 +33,10 @@ spec:
           name: ldap
           protocol: TCP
         livenessProbe: &probes
-          httpGet:
-            path: /health
-            port: http
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
-            failureThreshold: 3
+          exec:
+            command:
+              - /app/lldap
+              - healthcheck
         readinessProbe: *probes
         volumeMounts:
         - name: data

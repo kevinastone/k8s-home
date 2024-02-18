@@ -17,7 +17,6 @@ spec:
   bootstrap:
     initdb:
       database: lldap
-      owner: postgres
   resources:
     requests:
       cpu: 200m
