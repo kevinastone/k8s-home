@@ -58,6 +58,8 @@ services:
       - name: MinIO
         logo: /assets/icons/current/svg/minio.svg
         url: "https://minio.k8s.kevinastone.com/"
+      - name: LLDAP
+        url: "https://ldap.k8s.kevinastone.com/"
       - name: OctoPi
         type: OctoPrint
         logo: https://raw.githubusercontent.com/OctoPrint/OctoPrint/master/src/octoprint/static/img/logo.png
