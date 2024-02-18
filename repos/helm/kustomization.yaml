@@ -21,3 +21,4 @@ resources:
   - longhorn.yaml
   - metrics-server.yaml
   - prometheus.yaml
+  - redis-operator.yaml
