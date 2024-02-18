@@ -40,7 +40,10 @@ prometheus:
   path: /metrics
 
 redis:
-  address: blocky-redis-master:6379
+  # address: blocky-redis-master:6379
+  address: mymaster
   required: true
   connectionAttempts: 10
   connectionCooldown: 3s
+  sentinelAddresses:
+  - rfs-redis:26379
