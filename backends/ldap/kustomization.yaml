@@ -6,8 +6,9 @@ namespace: ldap
 resources:
   - namespace.yaml
   - postgres-cluster.yaml
-  # - helmrelease.yaml
-  # - http-route.yaml
+  - deployment.yaml
+  - service.yaml
+  - http-route.yaml
 secretGenerator:
   - name: postgres-secret
     literals:

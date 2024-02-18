@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=https://kubernetesjsonschema.dev/v1.14.0/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lldap
+spec:
+  selector:
+    matchLabels:
+      app: lldap
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lldap
+    spec:
+      containers:
+      - name: lldap
+        image: ghcr.io/lldap/lldap:v0.5.0
+        envFrom:
+        - secretRef:
+            name: lldap-secret # overriden by kustomizeconfig
+        # - configMapRef:
+        #     name: lldap-config # overriden by kustomizeconfig
+        env:
+          # - name: LLDAP_HTTP_PORT
+          #   value: "80"
+          # - name: LLDAP_LDAP_PORT
+          #   value: "389"
+          - name: LLDAP_DATABASE_URL
+            value: postgres://$(POSTGRES_SUPER_USER):$(POSTGRES_SUPER_PASS)@postgres-rw/lldap
+        ports:
+        - containerPort: 17170
+          name: http
+          protocol: TCP
+        - containerPort: 3890
+          name: ldap
+          protocol: TCP
+        livenessProbe: &probes
+          httpGet:
+            path: /health
+            port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+        readinessProbe: *probes
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        emptyDir: {}
