@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ldap
+resources:
+  - namespace.yaml
+  - postgres-cluster.yaml
+  # - helmrelease.yaml
+  # - http-route.yaml
+secretGenerator:
+  - name: postgres-secret
+    literals:
+    - username=postgres
+    files:
+    - password=secrets/postgres.password.encrypted
+  - name: lldap-secret
+    literals:
+    - POSTGRES_SUPER_USER=postgres
+    - LLDAP_LDAP_BASE_DN=dc=home,dc=arpa
+    files:
+    - LLDAP_JWT_SECRET=secrets/lldap-jwt.txt.encrypted
+    - LLDAP_LDAP_USER_PASS=secrets/lldap-user.password.encrypted
+    - POSTGRES_SUPER_PASS=secrets/postgres.password.encrypted
+configurations:
+  - kustomizeconfig.yaml

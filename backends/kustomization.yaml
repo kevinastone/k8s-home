@@ -6,4 +6,5 @@ resources:
   - postgres
   - dns
   - influxdb
+  - ldap
   - mosquitto
