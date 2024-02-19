@@ -27,7 +27,7 @@ spec:
               tag: v4.38.0-beta3
             envFrom:
             - secretRef:
-                name: authelia-secret # overriden by kustomizeconfig
+                name: authelia-env # overriden by kustomizeconfig
             - secretRef:
                 name: postgres-app
             env:
@@ -37,15 +37,13 @@ spec:
               AUTHELIA_TELEMETRY_METRICS_ADDRESS: tcp://0.0.0.0:8080
               AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
 
-              AUTHELIA_STORAGE_POSTGRES_ADDRESS: "$(host):$(port)"
-              AUTHELIA_STORAGE_POSTGRES_DATABASE: "$(dbname)"
-              AUTHELIA_STORAGE_POSTGRES_USERNAME: "$(username)"
-              AUTHELIA_STORAGE_POSTGRES_PASSWORD: "$(password)"
-
-              AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /secrets/jwt.token
               AUTHELIA_SESSION_SECRET_FILE: /secrets/session.token
               AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /secrets/storage-encryption.key
               AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /secrets/ldap-user.password
+              
+              AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /secrets/jwt.token
+              AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /secrets/oidc-hmac.secret
+              AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /secrets/oidc-issuer.key
 
               X_AUTHELIA_CONFIG: /config/configuration.yaml
               X_AUTHELIA_CONFIG_FILTERS: expand-env

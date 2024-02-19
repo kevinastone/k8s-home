@@ -19,12 +19,42 @@ spec:
     createNamespace: true
   values:
     grafana.ini:
-      auth.anonymous:
+      auth:
+        oauth_auto_login: true
+        oauth_allow_insecure_email_lookup: true
+      auth.generic_oauth:
         enabled: true
-        org_name: Main Org.
-        org_role: Admin
+        name: Authelia
+        icon: signin
+        client_id: grafana
+        # client_secret: insecure_secret
+        scopes: openid profile email groups
+        empty_scopes: false
+        auth_url: https://auth.k8s.kevinastone.com/api/oidc/authorization
+        token_url: https://auth.k8s.kevinastone.com/api/oidc/token
+        api_url: https://auth.k8s.kevinastone.com/api/oidc/userinfo
+        login_attribute_path: preferred_username
+        groups_attribute_path: groups
+        name_attribute_path: name
+        use_pkce: true
+        allow_assign_grafana_admin: true
+        skip_org_role_sync: false
+        role_attribute_path: |
+          'Admin'
+        org_id: 1
+      # auth.generic_oauth.group_mapping:
+      #   org_id: 1
+      #   role_attribute_path: |
+      #     contains(groups[*], 'lldap_admin') && 'Admin' || 'Viewer'
+      auth.anonymous:
+        enabled: false
+      # auth.anonymous:
+      #   enabled: true
+      #   org_name: Main Org.
+      #   org_role: Admin
       server:
         serve_from_sub_path: false
+        root_url: https://grafana.k8s.kevinastone.com
       panels:
         disable_sanitize_html: true
       news:
@@ -44,3 +74,5 @@ spec:
         searchNamespace: ALL
     serviceMonitor:
       enabled: true
+
+    envFromSecret: grafana-secret # overriden by kustomizeconfig
