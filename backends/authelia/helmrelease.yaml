@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: authelia
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  driftDetection:
+    mode: enabled
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        containers:
+          main:
+            image:
+              repository: ghcr.io/authelia/authelia
+              tag: v4.38.0-beta3
+            envFrom:
+            - secretRef:
+                name: authelia-secret # overriden by kustomizeconfig
+            - secretRef:
+                name: postgres-app
+            env:
+              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:8000
+              AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
+
+              AUTHELIA_TELEMETRY_METRICS_ADDRESS: tcp://0.0.0.0:8080
+              AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
+
+              AUTHELIA_STORAGE_POSTGRES_ADDRESS: "$(host):$(port)"
+              AUTHELIA_STORAGE_POSTGRES_DATABASE: "$(dbname)"
+              AUTHELIA_STORAGE_POSTGRES_USERNAME: "$(username)"
+              AUTHELIA_STORAGE_POSTGRES_PASSWORD: "$(password)"
+
+              AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /secrets/jwt.token
+              AUTHELIA_SESSION_SECRET_FILE: /secrets/session.token
+              AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /secrets/storage-encryption.key
+              AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /secrets/ldap-user.password
+
+              X_AUTHELIA_CONFIG: /config/configuration.yaml
+              X_AUTHELIA_CONFIG_FILTERS: expand-env
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: &port 8000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+            targetPort: 8000
+          metrics:
+            port: 8080
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: authelia-config # overriden by kustomizeconfig
+        globalMounts:
+          - path: /config/configuration.yaml
+            subPath: configuration.yaml
+            readOnly: true
+      secrets:
+        type: secret
+        name: authelia-secret # overriden by kustomizeconfig
+        globalMounts:
+          - path: /secrets
+            readOnly: true

@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: authelia
+resources:
+  - namespace.yaml
+  - postgres-cluster.yaml
+  - redis.yaml
+  - helmrelease.yaml
+  - http-route.yaml
+configurations:
+  - kustomizeconfig.yaml
+configMapGenerator:
+  - name: authelia-config
+    files:
+      - resources/configuration.yaml
+secretGenerator:
+  - name: authelia-secret
+    files:
+    - jwt.token=secrets/jwt.token.encrypted
+    - session.token=secrets/session.token.encrypted
+    - storage-encryption.key=secrets/storage-encryption.key.encrypted
+    - ldap-user.password=../ldap/secrets/lldap-user.password.encrypted
