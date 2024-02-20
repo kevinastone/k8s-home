@@ -32,41 +32,42 @@ services:
     items:
       - name: Grafana
         logo: /assets/icons/current/svg/grafana.svg
-        url: "https://grafana.k8s.kevinastone.com"
+        url: https://grafana.k8s.kevinastone.com
       - name: Kubernetes Dashboard
         logo: /assets/icons/current/svg/kubernetes.svg
-        url: "https://dashboard.k8s.kevinastone.com"
+        url: https://dashboard.k8s.kevinastone.com
       - name: Prometheus
         type: Prometheus
         logo: /assets/icons/current/svg/prometheus.svg
-        url: "https://prometheus.k8s.kevinastone.com"
+        url: https://prometheus.k8s.kevinastone.com/alerts
+        endpoint: https://prometheus.k8s.kevinastone.com
       - name: Chronograf
         logo: /assets/icons/current/svg/influxdb.svg
-        url: "https://chronograf.k8s.kevinastone.com"
+        url: https://chronograf.k8s.kevinastone.com
       - name: Longhorn
         logo: /assets/icons/current/svg/longhorn.svg
-        url: "https://longhorn.k8s.kevinastone.com"
+        url: https://longhorn.k8s.kevinastone.com
   - name: Servers
     icon: fas fa-server
     items:
       - name: Home Assistant
         logo: /assets/icons/current/svg/home-assistant-alt.svg
-        url: "https://automation.k8s.kevinastone.com"
+        url: https://automation.k8s.kevinastone.com
       - name: Zigbee2MQTT
         logo: /assets/icons/current/svg/zigbee2mqtt.svg
-        url: "https://zigbee2mqtt.k8s.kevinastone.com/"
+        url: https://zigbee2mqtt.k8s.kevinastone.com/
       - name: MinIO
         logo: /assets/icons/current/svg/minio.svg
-        url: "https://minio.k8s.kevinastone.com/"
+        url: https://minio.k8s.kevinastone.com/
       - name: Authelia
         logo: /assets/icons/current/svg/authelia.svg
-        url: "https://auth.k8s.kevinastone.com/"
+        url: https://auth.k8s.kevinastone.com/
       - name: LLDAP
-        url: "https://ldap.k8s.kevinastone.com/"
+        url: https://ldap.k8s.kevinastone.com/
       - name: OctoPi
         type: OctoPrint
         logo: https://raw.githubusercontent.com/OctoPrint/OctoPrint/master/src/octoprint/static/img/logo.png
-        url: &octoprint "https://octopi.home.kevinastone.com"
+        url: &octoprint https://octopi.home.kevinastone.com
         endpoint: *octoprint
         apikey: 6DAAA562B5124111BB65D39998F6E08D
   - name: Games
@@ -74,7 +75,7 @@ services:
     items:
       - name: "2048"
         logo: /assets/custom/2048.svg
-        url: "https://2048.k8s.kevinastone.com"
+        url: https://2048.k8s.kevinastone.com
       - name: Sudoku
         logo: /assets/custom/sudoku.svg
-        url: "https://sudoku.k8s.kevinastone.com"
+        url: https://sudoku.k8s.kevinastone.com
