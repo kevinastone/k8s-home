@@ -11,7 +11,6 @@ resources:
   - descheduler.yaml
   - envoyproxy.yaml
   - grafana.yaml
-  - headlamp.yaml
   - influxdata.yaml
   - intel.yaml
   - jetstack.yaml
