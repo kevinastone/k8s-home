@@ -45,16 +45,6 @@ spec:
               - "8081"
               - "/config"
 
-        initContainers:
-          init-config:
-            image:
-              repository: busybox
-              tag: "1.36"
-            args:
-              - /bin/sh
-              - -c
-              - "cp -f /config-data/*.yaml /config/"
-
     service:
       main:
         type: ClusterIP
@@ -80,9 +70,24 @@ spec:
       config-data:
         enabled: true
         type: configMap
-        name: home-assistant-config-data # overriden by kustomizeconfig
+        name: home-assistant-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /config-data
+          - path: /config/automation.yaml
+            subPath: automation.yaml
+          - path: /config/configuration.yaml
+            subPath: configuration.yaml
+          - path: /config/customize.yaml
+            subPath: customize.yaml
+          - path: /config/group.yaml
+            subPath: group.yaml
+          - path: /config/script.yaml
+            subPath: script.yaml
+          - path: /config/secrets.example.yaml
+            subPath: secrets.example.yaml
+          - path: /config/ui-lovelace.yaml
+            subPath: ui-lovelace.yaml
+          - path: /config/zone.yaml
+            subPath: zone.yaml
       secrets:
         enabled: true
         type: secret
