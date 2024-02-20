@@ -18,6 +18,9 @@ secretGenerator:
       disableNameSuffixHash: true
     files:
       - longhorn=secrets/longhorn.txt.encrypted
+  - name: minio-secret
+    files:
+      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=secrets/client.secret.encrypted
 configMapGenerator:
   - name: minio-dashboard
     options:

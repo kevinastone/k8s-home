@@ -25,10 +25,25 @@ spec:
     persistence:
       storageClass: storage-nas
       size: 250Gi
-    # accessKey:
-    #   password: <random string>
-    # secretKey:
-    #   password: <random and long string>
+    extraEnvVars:
+    - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+      value: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
+    - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+      value: minio
+    - name: MINIO_IDENTITY_OPENID_ROLE_POLICY
+      value: readonly
+    - name: MINIO_IDENTITY_OPENID_CLAIM_PREFIX
+      value: authelia
+    - name: MINIO_IDENTITY_OPENID_DISPLAY_NAME
+      value: Authelia
+    - name: MINIO_IDENTITY_OPENID_SCOPES
+      value: openid,profile,email
+    - name: MINIO_BROWSER_REDIRECT_URL
+      value: https://minio.k8s.kevinastone.com/oauth_callback
+    # @Deprecated
+    - name: MINIO_IDENTITY_OPENID_REDIRECT_URI
+      value: https://minio.k8s.kevinastone.com/oauth_callback
+    extraEnvVarsSecret: minio-secret
     metrics:
       serviceMonitor:
         enabled: true

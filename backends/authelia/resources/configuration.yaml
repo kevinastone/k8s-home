@@ -85,7 +85,7 @@ identity_providers:
     clients:
     - id: grafana
       description: Grafana
-      secret: ${GRAFANA_CLIENT_SECRET}
+      secret: "${GRAFANA_CLIENT_SECRET}"
       public: false
       authorization_policy: one_factor
       redirect_uris:
@@ -95,4 +95,18 @@ identity_providers:
         - profile
         - groups
         - email
+      userinfo_signed_response_alg: none
+    - id: minio
+      description: MinIO
+      secret: "${MINIO_CLIENT_SECRET}"
+      public: false
+      authorization_policy: one_factor
+      redirect_uris:
+        - https://minio.k8s.kevinastone.com/apps/oidc_login/oidc
+        - https://minio.k8s.kevinastone.com/oauth_callback
+      scopes:
+        - openid
+        - profile
+        - email
+        - groups
       userinfo_signed_response_alg: none

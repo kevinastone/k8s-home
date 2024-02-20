@@ -19,6 +19,7 @@ secretGenerator:
   - name: authelia-env
     files:
     - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
+    - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
   - name: authelia-secret
     files:
     - jwt.token=secrets/jwt.token.encrypted
