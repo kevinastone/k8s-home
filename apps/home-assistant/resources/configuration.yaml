@@ -43,6 +43,9 @@ influxdb:
 # View all events in a logbook
 logbook:
 
+recorder:
+  db_url: !env_var uri
+
 ## # MQTT
 ## mqtt:
 ##   broker: mqtt
