@@ -7,5 +7,5 @@ nameReference:
 - kind: Secret
   version: v1
   fieldSpecs:
-  - path: spec/values/persistence/secret-data/name
+  - path: spec/values/persistence/secrets/name
     kind: HelmRelease
