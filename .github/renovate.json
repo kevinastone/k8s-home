@@ -4,6 +4,9 @@
   "flux": {
     "fileMatch": ["\\.yaml$"]
   },
+  "helm-values": {
+    "fileMatch": ["\\.yaml$"]
+  },
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   }
