@@ -28,36 +28,12 @@ spec:
             envFrom:
             - secretRef:
                 name: postgres-app
-          # Configure the code-server sidecar
-          code:
-            dependsOn: main
-            image:
-              repository: ghcr.io/coder/code-server
-              tag: 4.21.1
-            args:
-              - --auth
-              - "none"
-              - --user-data-dir
-              - "/config/.vscode"
-              - --extensions-dir
-              - "/config/.vscode"
-              - --port
-              - "8081"
-              - "/config"
-
     service:
       main:
         type: ClusterIP
         ports:
           http:
             port: 8123
-      code:
-        type: ClusterIP
-        controller: main
-        ports:
-          http:
-            port: 8081
-
     persistence:
       config:
         enabled: true
