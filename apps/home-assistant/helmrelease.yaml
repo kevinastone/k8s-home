@@ -31,7 +31,7 @@ spec:
           main:
             image:
               # -- image repository
-              repository: ghcr.io/onedr0p/home-assistant
+              repository: ghcr.io/home-assistant/home-assistant
               # pullPolicy: IfNotPresent
               # -- image tag
               # this example is not automatically updated, so be sure to use the latest image
