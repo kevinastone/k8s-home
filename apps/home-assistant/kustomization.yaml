@@ -12,9 +12,7 @@ configMapGenerator:
   - name: home-assistant-config-data
     files:
       - resources/automation.yaml
-      - resources/clock.yaml
       - resources/configuration.yaml
-      - resources/cover.yaml
       - resources/customize.yaml
       - resources/group.yaml
       - resources/script.yaml
