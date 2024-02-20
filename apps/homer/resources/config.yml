@@ -58,6 +58,9 @@ services:
       - name: MinIO
         logo: /assets/icons/current/svg/minio.svg
         url: "https://minio.k8s.kevinastone.com/"
+      - name: Authelia
+        logo: /assets/icons/current/svg/authelia.svg
+        url: "https://auth.k8s.kevinastone.com/"
       - name: LLDAP
         url: "https://ldap.k8s.kevinastone.com/"
       - name: OctoPi
