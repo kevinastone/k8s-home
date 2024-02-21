@@ -6,5 +6,7 @@ metadata:
 spec:
   redis:
     replicas: 3
+    imagePullPolicy: IfNotPresent
   sentinel:
     replicas: 3
+    imagePullPolicy: IfNotPresent
