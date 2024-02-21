@@ -88,6 +88,8 @@ identity_providers:
       secret: "${GRAFANA_CLIENT_SECRET}"
       public: false
       authorization_policy: one_factor
+      consent_mode: implicit
+      pre_configured_consent_duration: 1y
       redirect_uris:
         - https://grafana.k8s.kevinastone.com/login/generic_oauth
       scopes:
@@ -101,6 +103,8 @@ identity_providers:
       secret: "${MINIO_CLIENT_SECRET}"
       public: false
       authorization_policy: one_factor
+      consent_mode: implicit
+      pre_configured_consent_duration: 1y
       redirect_uris:
         - https://minio.k8s.kevinastone.com/apps/oidc_login/oidc
         - https://minio.k8s.kevinastone.com/oauth_callback
