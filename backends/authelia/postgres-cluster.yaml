@@ -21,8 +21,14 @@ spec:
       memory: 1Gi
   monitoring:
     enablePodMonitor: true
+  walStorage:
+    size: 256Mi
+    pvcTemplate:
+
+  replicationSlots:
+    highAvailability:
+      enabled: true
   postgresql:
     parameters:
-      # Try to reduce space occupied by the WAL
-      wal_keep_size: '128MB'
-      wal_keep_segments: '8'
+      max_slot_wal_keep_size: '128MB'
+      hot_standby_feedback: 'on'
