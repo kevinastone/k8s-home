@@ -24,7 +24,8 @@ spec:
       memory: 1Gi
   monitoring:
     enablePodMonitor: true
-    # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
-    podMonitorMetricRelabelings:
-      - { sourceLabels: ["cluster"], targetLabel: cnpg_cluster, action: replace }
-      - { regex: cluster, action: labeldrop }
+  postgresql:
+    parameters:
+      # Try to reduce space occupied by the WAL
+      wal_keep_size: '128MB'
+      wal_keep_segments: '8'
