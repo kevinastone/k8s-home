@@ -14,8 +14,8 @@ secretGenerator:
     files:
       - root-password=secrets/password.txt.encrypted
   - name: minio-users
-    options:
-      disableNameSuffixHash: true
+    # options:
+    #   disableNameSuffixHash: true
     files:
       - longhorn=secrets/longhorn.txt.encrypted
   - name: minio-secret

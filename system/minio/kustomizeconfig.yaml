@@ -6,3 +6,5 @@ nameReference:
     kind: HelmRelease
   - path: spec/values/extraEnvVarsSecret
     kind: HelmRelease
+  - path: spec/values/provisioning/usersExistingSecrets
+    kind: HelmRelease
