@@ -33,7 +33,7 @@ spec:
       wal_keep_size: '128MB'
   backup:
     barmanObjectStore:
-      destinationPath: s3://postgres@us-east-1/
+      destinationPath: s3://postgres/authelia
       endpointURL: https://s3.k8s.kevinastone.com
       s3Credentials:
         accessKeyId:
@@ -42,3 +42,4 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: SECRET_KEY
+    retentionPolicy: "30d"
