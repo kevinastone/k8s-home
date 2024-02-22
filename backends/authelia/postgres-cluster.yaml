@@ -23,7 +23,6 @@ spec:
     enablePodMonitor: true
   walStorage:
     size: 256Mi
-    pvcTemplate:
 
   replicationSlots:
     highAvailability:
@@ -32,3 +31,4 @@ spec:
     parameters:
       max_slot_wal_keep_size: '128MB'
       hot_standby_feedback: 'on'
+      wal_keep_size: '128MB'
