@@ -23,7 +23,6 @@ spec:
     enablePodMonitor: true
   walStorage:
     size: 256Mi
-
   replicationSlots:
     highAvailability:
       enabled: true
@@ -32,3 +31,14 @@ spec:
       max_slot_wal_keep_size: '128MB'
       hot_standby_feedback: 'on'
       wal_keep_size: '128MB'
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://postgres@us-east-1/
+      endpointURL: https://s3.k8s.kevinastone.com
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY
+        secretAccessKey:
+          name: s3-creds
+          key: SECRET_KEY

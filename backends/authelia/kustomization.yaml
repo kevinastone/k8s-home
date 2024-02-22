@@ -28,3 +28,8 @@ secretGenerator:
     - ldap-user.password=../ldap/secrets/lldap-user.password.encrypted
     - oidc-hmac.secret=secrets/oidc-hmac.secret.encrypted
     - oidc-issuer.key=secrets/oidc-issuer.key.encrypted
+  - name: s3-creds
+    literals:
+    - ACCESS_KEY=postgres
+    files:
+    - SECRET_KEY=secrets/s3-secret.key.encrypted

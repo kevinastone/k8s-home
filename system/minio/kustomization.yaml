@@ -16,6 +16,7 @@ secretGenerator:
   - name: minio-users
     files:
       - longhorn=secrets/longhorn.txt.encrypted
+      - postgres=secrets/postgres.txt.encrypted
   - name: minio-secret
     files:
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=secrets/client.secret.encrypted
