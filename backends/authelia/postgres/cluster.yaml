@@ -42,4 +42,8 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: SECRET_KEY
+      wal:
+        compression: &compression bzip2
+      data:
+        compression: *compression
     retentionPolicy: "30d"
