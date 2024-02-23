@@ -27,7 +27,7 @@ spec:
       hot_standby_feedback: 'on'
       wal_keep_size: 32MB
       max_wal_size: 64MB
-      min_wal_size: 16MB
+      min_wal_size: 32MB
   backup:
     barmanObjectStore:
       destinationPath: s3://postgres/lldap
