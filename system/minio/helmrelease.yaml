@@ -50,7 +50,7 @@ spec:
     auth:
       existingSecret: minio-root-secret # overriden by kustomizeconfig
     volumePermissions:
-      enabled: true
+      enabled: false
     securityContext:
       enabled: true
       fsGroup: 1001
