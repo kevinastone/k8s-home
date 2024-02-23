@@ -11,4 +11,4 @@ secretGenerator:
     literals:
     - ACCESS_KEY=postgres
     files:
-    - SECRET_KEY=secrets/s3-secret.key.encrypted
+    - SECRET_KEY=../../../crds/postgres/secrets/s3-secret.key.encrypted
