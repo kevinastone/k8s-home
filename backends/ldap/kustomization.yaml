@@ -5,16 +5,11 @@ kind: Kustomization
 namespace: ldap
 resources:
   - namespace.yaml
-  - postgres-cluster.yaml
+  - postgres
   - deployment.yaml
   - service.yaml
   - http-route.yaml
 secretGenerator:
-  - name: postgres-secret
-    literals:
-    - username=postgres
-    files:
-    - password=secrets/postgres.password.encrypted
   - name: lldap-secret
     literals:
     - LLDAP_LDAP_BASE_DN=dc=home,dc=kevinastone,dc=com
@@ -23,5 +18,3 @@ secretGenerator:
     - LLDAP_KEY_SEED=secrets/lldap-key-seed.txt.encrypted
     - LLDAP_JWT_SECRET=secrets/lldap-jwt.txt.encrypted
     - LLDAP_LDAP_USER_PASS=secrets/lldap-user.password.encrypted
-configurations:
-  - kustomizeconfig.yaml
