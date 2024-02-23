@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cluster.yaml
+configurations:
+  - kustomizeconfig.yaml
+secretGenerator:
+  - name: s3-creds
+    literals:
+    - ACCESS_KEY=postgres
+    files:
+    - SECRET_KEY=../../../crds/postgres/secrets/s3-secret.key.encrypted

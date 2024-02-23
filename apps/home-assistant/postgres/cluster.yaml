@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2-3
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 10Gi
+    storageClass: longhorn
+  bootstrap:
+    initdb:
+      database: home-assistant
+  resources:
+    requests:
+      cpu: 200m
+    limits:
+      memory: 1Gi
+  monitoring:
+    enablePodMonitor: true
+  postgresql:
+    parameters:
+      max_slot_wal_keep_size: 256MB
+      hot_standby_feedback: 'on'
+      wal_keep_size: 32MB
+      max_wal_size: 256MB
+      min_wal_size: 32MB
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://postgres/home-assistant
+      endpointURL: https://s3.k8s.kevinastone.com
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY
+        secretAccessKey:
+          name: s3-creds
+          key: SECRET_KEY
+      wal:
+        compression: &compression bzip2
+      data:
+        compression: *compression
+    retentionPolicy: "30d"
