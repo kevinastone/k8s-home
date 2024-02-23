@@ -28,9 +28,11 @@ spec:
       enabled: true
   postgresql:
     parameters:
-      max_slot_wal_keep_size: '96MB'
+      max_slot_wal_keep_size: 96MB
       hot_standby_feedback: 'on'
-      wal_keep_size: '96MB'
+      wal_keep_size: 32MB
+      max_wal_size: 64MB
+      min_wal_size: 16MB
   backup:
     barmanObjectStore:
       destinationPath: s3://postgres/authelia
