@@ -27,7 +27,7 @@ spec:
               tag: 2024.2.3
             envFrom:
             - secretRef:
-                name: postgres-app
+                name: postgres2-app
     service:
       main:
         type: ClusterIP
