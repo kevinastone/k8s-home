@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/scheduledbackup_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: postgres
+spec:
+  schedule: "0 30 4 * * *"
+  backupOwnerReference: self
+  method: barmanObjectStore
+  cluster:
+    name: postgres
+  immediate: true
