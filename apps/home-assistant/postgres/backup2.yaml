@@ -3,11 +3,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: postgres
+  name: postgres2
 spec:
   schedule: "0 30 4 * * *"
   backupOwnerReference: self
   method: barmanObjectStore
   cluster:
-    name: postgres
+    name: postgres2
   immediate: true
