@@ -10,6 +10,7 @@ resources:
   - dao-2048.yaml
   - descheduler.yaml
   - envoyproxy.yaml
+  - fairwinds.yaml
   - grafana.yaml
   - influxdata.yaml
   - intel.yaml
