@@ -1,4 +1,53 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "Prometheus connection to SNMP_Exporter",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.4.7"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,9 +73,8 @@
   "description": "Dashboard for viewing Synology System Information using Prometheus and SNMP_Exporter",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 18643,
   "graphTooltip": 1,
-  "id": 48,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -67,8 +115,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -91,11 +138,9 @@
           "fields": "/^modelName$/",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -138,8 +183,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -162,11 +206,9 @@
           "fields": "/^serialNumber$/",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -226,8 +268,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -240,8 +281,6 @@
       "id": 131,
       "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -251,10 +290,9 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -315,8 +353,7 @@
               }
             ]
           },
-          "unit": "celsius",
-          "unitScale": true
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -329,8 +366,6 @@
       "id": 137,
       "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -340,10 +375,9 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -395,8 +429,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -410,8 +443,6 @@
       "id": 12,
       "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -421,10 +452,9 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -485,8 +515,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -499,8 +528,6 @@
       "id": 14,
       "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -510,10 +537,9 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -564,8 +590,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": [
           {
@@ -594,8 +619,6 @@
       "id": 141,
       "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -605,10 +628,9 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -662,8 +684,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": [
           {
@@ -692,8 +713,6 @@
       "id": 142,
       "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -703,10 +722,9 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -759,8 +777,7 @@
               }
             ]
           },
-          "unit": "dtdhms",
-          "unitScale": true
+          "unit": "dtdhms"
         },
         "overrides": []
       },
@@ -786,11 +803,9 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -840,8 +855,7 @@
               }
             ]
           },
-          "unit": "deckbytes",
-          "unitScale": true
+          "unit": "deckbytes"
         },
         "overrides": []
       },
@@ -866,11 +880,9 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -924,8 +936,7 @@
               }
             ]
           },
-          "unit": "deckbytes",
-          "unitScale": true
+          "unit": "deckbytes"
         },
         "overrides": []
       },
@@ -950,11 +961,9 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -1018,8 +1027,7 @@
               }
             ]
           },
-          "unit": "none",
-          "unitScale": true
+          "unit": "none"
         },
         "overrides": [
           {
@@ -1047,7 +1055,6 @@
       },
       "id": 104,
       "options": {
-        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "enablePagination": false,
@@ -1059,7 +1066,7 @@
         },
         "showHeader": false
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -1219,8 +1226,7 @@
               }
             ]
           },
-          "unit": "none",
-          "unitScale": true
+          "unit": "none"
         },
         "overrides": [
           {
@@ -1395,7 +1401,6 @@
       },
       "id": 90,
       "options": {
-        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "enablePagination": false,
@@ -1408,7 +1413,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -1503,8 +1508,7 @@
                 "value": null
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": [
           {
@@ -1649,7 +1653,6 @@
       },
       "id": 97,
       "options": {
-        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
@@ -1661,7 +1664,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -1785,8 +1788,7 @@
                 "value": 176
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": [
           {
@@ -1882,7 +1884,6 @@
       },
       "id": 109,
       "options": {
-        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
@@ -1894,7 +1895,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -2018,8 +2019,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -2043,11 +2043,9 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": true
+        "textMode": "value_and_name"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -2103,8 +2101,7 @@
               }
             ]
           },
-          "unit": "none",
-          "unitScale": true
+          "unit": "none"
         },
         "overrides": [
           {
@@ -2259,7 +2256,6 @@
       },
       "id": 62,
       "options": {
-        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "enablePagination": false,
@@ -2272,7 +2268,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -2403,7 +2399,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2417,7 +2412,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2455,8 +2449,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -2539,7 +2532,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "counter",
@@ -2553,7 +2545,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2583,8 +2574,7 @@
               }
             ]
           },
-          "unit": "short",
-          "unitScale": true
+          "unit": "short"
         },
         "overrides": [
           {
@@ -2707,7 +2697,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2721,7 +2710,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2746,8 +2734,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "rgba(50, 172, 45, 0.97)",
-                "value": null
+                "color": "rgba(50, 172, 45, 0.97)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -2759,8 +2746,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -2822,7 +2808,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2836,7 +2821,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2859,8 +2843,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -2872,8 +2855,7 @@
               }
             ]
           },
-          "unit": "deckbytes",
-          "unitScale": true
+          "unit": "deckbytes"
         },
         "overrides": [
           {
@@ -4768,7 +4750,8 @@
   ],
   "refresh": "10s",
   "revision": 1,
-  "schemaVersion": 39,
+  "schemaVersion": 38,
+  "style": "dark",
   "tags": [
     "synology",
     "dsm",
@@ -4780,7 +4763,7 @@
         "current": {
           "selected": false,
           "text": "Prometheus",
-          "value": "prometheus"
+          "value": "Prometheus"
         },
         "hide": 0,
         "includeAll": false,
@@ -4796,11 +4779,7 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "storage.home.kevinastone.com",
-          "value": "storage.home.kevinastone.com"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
@@ -4823,11 +4802,7 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "snmp-exporter-prometheus-snmp-exporter",
-          "value": "snmp-exporter-prometheus-snmp-exporter"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
@@ -4870,11 +4845,7 @@
         "type": "textbox"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
@@ -4917,6 +4888,7 @@
   "timezone": "browser",
   "title": "Synology SNMP",
   "uid": "RT8yFrEVz",
-  "version": 1,
-  "weekStart": "monday"
+  "version": 35,
+  "weekStart": "monday",
+  "gnetId": 18643
 }

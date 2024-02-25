@@ -1,12 +1,71 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    },
+    {
+      "name": "VAR_BLOCKY_URL",
+      "type": "constant",
+      "label": "blocky API URL",
+      "value": "",
+      "description": ""
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.3.3"
+    },
+    {
+      "type": "panel",
+      "id": "heatmap",
+      "name": "Heatmap",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "piechart",
+      "name": "Pie chart",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
+        "datasource": "-- Grafana --",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -14,21 +73,18 @@
         "target": {
           "limit": 100,
           "matchAny": false,
-          "tags": [
-            "blocky",
-            "dns"
-          ],
+          "tags": [],
           "type": "dashboard"
         },
         "type": "dashboard"
       }
     ]
   },
-  "editable": false,
+  "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 13768,
   "graphTooltip": 0,
-  "id": 31,
+  "id": null,
+  "iteration": 1641070862290,
   "links": [
     {
       "icon": "external link",
@@ -42,10 +98,6 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "current service state",
       "fieldConfig": {
         "defaults": {
@@ -98,10 +150,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -122,10 +173,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "Is blocking enabled?",
       "fieldConfig": {
         "defaults": {
@@ -184,10 +231,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value",
-        "wideLayout": true
+        "textMode": "value"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -220,32 +266,15 @@
       },
       "id": 42,
       "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
         "content": "<style>\n\n.blocky_btn {\n    border: none;\n  cursor: pointer; \n    padding: 12px;\n  font-size: 16px;\n  min-width: 100px\n}\n\n.blocky_greenbtn { \n  background-color: #4CAF50;\n  color: white;\n}\n\n.blocky_redbtn { \n  background-color: #AF504C;\n  color: white;\n}\n\n\n.blocky_alert {\n  font-size: 14px\n}\n</style>\n<div class=\"blocky_alert blocky_alert-warning fade in\">\n  <a href=\"#\" class=\"close\" data-dismiss=\"blocky_alert\" aria-label=\"close\" style=\"text-decoration:none\">&times;</a>Done!\n</div>\n<div>\n   <button class=\"blocky_btn blocky_greenbtn\" onclick=\"blocky_status_enable()\">On</button>\n   <button class=\"blocky_btn blocky_redbtn\" onclick=\"blocky_status_disable5m()\">Off 5m</button>\n   <button class=\"blocky_btn blocky_redbtn\" onclick=\"blocky_status_disable30m()\">Off 30m</button>\n<div>\n\n\n<script type=\"text/javascript\">\n\nfunction blocky_status_disable() {\n  blocky_status_switch(false, 0)\n}\n\nfunction blocky_status_disable5m() {\n  blocky_status_switch(false, 5*60)\n}\n\nfunction blocky_status_disable30m() {\n  blocky_status_switch(false, 30*60)\n}\n\nfunction blocky_status_enable() {\n  blocky_status_switch(true, 0)\n}\n\nfunction blocky_status_switch(enable, duration) {\n  var url = '$blocky_url';\n  op = enable ? 'enable' : 'disable?duration='+duration+\"s\"\n  $.get(url + '/api/blocking/'+op, function(data) {\n    showAlert()\n  })\n   .fail(function() {\n    alert( \"error\" );\n  })\n}\n\nvar showAlert = function() {\n\t// first show the alert\n  $('.blocky_alert').show().fadeTo(500, 1);\n  \n  // Now set a timeout to hide it\n  window.setTimeout(function() {\n    $(\".blocky_alert\").fadeTo(500, 0).slideUp(500, function() {\n      $(this).hide();\n    });\n  }, 3000);\n}\n\n// start with the alert hidden\n$('.blocky_alert').hide();\n\n</script>",
         "mode": "html"
       },
-      "pluginVersion": "10.2.3",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "prometheus"
-          },
-          "refId": "A"
-        }
-      ],
+      "pluginVersion": "8.3.3",
       "title": "Blocking status",
       "transparent": true,
       "type": "text"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "Blocky [version](https://github.com/0xERR0R/blocky) number",
       "fieldConfig": {
         "defaults": {
@@ -285,10 +314,9 @@
           "fields": "/^version$/",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "repeatDirection": "v",
       "targets": [
         {
@@ -375,10 +403,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -450,10 +477,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -525,10 +551,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -607,10 +632,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -683,10 +707,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -745,10 +768,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -813,10 +835,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -896,10 +917,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -958,10 +978,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -1023,10 +1042,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -1090,10 +1108,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -1114,10 +1131,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "Time since last list refresh",
       "fieldConfig": {
         "defaults": {
@@ -1155,10 +1168,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -1217,10 +1229,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -1240,19 +1251,12 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "avg requests / min",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1264,7 +1268,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1310,13 +1313,11 @@
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
+          "displayMode": "hidden",
+          "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         }
       },
       "pluginVersion": "8.3.3",
@@ -1340,19 +1341,12 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "avg requests / min",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1364,7 +1358,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1411,12 +1404,10 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+          "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         }
       },
       "pluginVersion": "8.3.3",
@@ -1449,25 +1440,6 @@
         "mode": "opacity"
       },
       "dataFormat": "tsbuckets",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "scaleDistribution": {
-              "type": "linear"
-            }
-          }
-        },
-        "overrides": []
-      },
       "gridPos": {
         "h": 9,
         "w": 24,
@@ -1481,45 +1453,6 @@
       "legend": {
         "show": true
       },
-      "options": {
-        "calculate": false,
-        "calculation": {},
-        "cellGap": 2,
-        "cellValues": {},
-        "color": {
-          "exponent": 0.5,
-          "fill": "#FADE2A",
-          "mode": "opacity",
-          "reverse": false,
-          "scale": "exponential",
-          "scheme": "Oranges",
-          "steps": 128
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-9
-        },
-        "legend": {
-          "show": true
-        },
-        "rowsFrame": {
-          "layout": "auto"
-        },
-        "showValue": "never",
-        "tooltip": {
-          "show": true,
-          "showColorScale": false,
-          "yHistogram": false
-        },
-        "yAxis": {
-          "axisPlacement": "left",
-          "reverse": false,
-          "unit": "ms"
-        }
-      },
-      "pluginVersion": "10.2.3",
       "reverseYBuckets": false,
       "targets": [
         {
@@ -1554,10 +1487,6 @@
       "yBucketBound": "auto"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1590,7 +1519,6 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -1605,8 +1533,7 @@
           "values": false
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         }
       },
       "pluginVersion": "6.6.2",
@@ -1630,10 +1557,6 @@
       "type": "piechart"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1666,7 +1589,6 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -1681,8 +1603,7 @@
           "values": false
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         }
       },
       "pluginVersion": "6.6.2",
@@ -1706,10 +1627,6 @@
       "type": "piechart"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1742,7 +1659,6 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
           "values": [
             "value"
           ]
@@ -1756,8 +1672,7 @@
           "values": false
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         }
       },
       "pluginVersion": "6.6.2",
@@ -1781,10 +1696,6 @@
       "type": "piechart"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1817,7 +1728,6 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -1832,8 +1742,7 @@
           "values": false
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         }
       },
       "targets": [
@@ -1856,10 +1765,6 @@
       "type": "piechart"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1893,7 +1798,6 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -1931,10 +1835,6 @@
       "type": "piechart"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1967,7 +1867,6 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -2005,8 +1904,9 @@
       "type": "piechart"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 39,
+  "refresh": false,
+  "schemaVersion": 34,
+  "style": "dark",
   "tags": [],
   "templating": {
     "list": [
@@ -2014,9 +1914,21 @@
         "hide": 2,
         "label": "blocky API URL",
         "name": "blocky_url",
-        "query": "192.168.120.53",
+        "query": "${VAR_BLOCKY_URL}",
         "skipUrlSync": false,
-        "type": "constant"
+        "type": "constant",
+        "current": {
+          "value": "${VAR_BLOCKY_URL}",
+          "text": "${VAR_BLOCKY_URL}",
+          "selected": false
+        },
+        "options": [
+          {
+            "value": "${VAR_BLOCKY_URL}",
+            "text": "${VAR_BLOCKY_URL}",
+            "selected": false
+          }
+        ]
       }
     ]
   },
@@ -2039,8 +1951,9 @@
     ]
   },
   "timezone": "",
-  "title": "Blocky",
+  "title": "blocky",
   "uid": "JvOqE4gRk",
   "version": 1,
-  "weekStart": ""
+  "weekStart": "",
+  "gnetId": 13768
 }

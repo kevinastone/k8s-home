@@ -1,0 +1,2 @@
+[cert-manager]
+url = "https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json"

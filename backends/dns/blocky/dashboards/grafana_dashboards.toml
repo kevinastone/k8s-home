@@ -1,4 +1,4 @@
-# [blocky]
-# url = "https://raw.githubusercontent.com/0xERR0R/blocky/main/docs/blocky-query-grafana.json"
-# id = 13768
-
+[blocky]
+id = 13768
+revision = 3
+datasource = { DS_PROMETHEUS = "prometheus" }

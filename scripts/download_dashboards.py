@@ -20,7 +20,7 @@ def fetch(url, destination, datasource):
         data = request.read().decode(charset)
         if isinstance(datasource, str):
             # From https://github.com/grafana/helm-charts/blob/main/charts/grafana/templates/_config.tpl#L120
-            data = re.sub(r'"datasource":.*,', rf'"datasource": "{dashboard["datasource"]}",', data)
+            data = re.sub(r'"datasource":.*,', rf'"datasource": "{datasource}",', data)
         elif isinstance(datasource, dict):
             for key, val in datasource.items():
                 data = re.sub(rf'"\${{{key}}}"', rf'"{val}"', data)
