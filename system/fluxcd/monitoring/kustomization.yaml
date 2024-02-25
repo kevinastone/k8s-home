@@ -11,6 +11,6 @@ configMapGenerator:
       labels:
         grafana_dashboard: 'true'
     files:
-      - dashboards/cluster.json
-      - dashboards/control-plane.json
-      - dashboards/logs.json
+      - dashboards/fluxcd-cluster.json
+      - dashboards/fluxcd-control-plane.json
+      - dashboards/fluxcd-logs.json
