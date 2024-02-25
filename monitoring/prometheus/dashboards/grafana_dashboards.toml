@@ -1,0 +1,4 @@
+[blackbox-exporter]
+id = 14928
+revision = 6
+datasource = { DS_PROMETHEUS = "prometheus" }

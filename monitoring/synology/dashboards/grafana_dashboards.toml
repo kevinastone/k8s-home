@@ -1,0 +1,3 @@
+[synology]
+id = 18643
+datasource = { DS_PROMETHEUS = "prometheus" }
