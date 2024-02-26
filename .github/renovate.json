@@ -32,8 +32,8 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["zigbee2mqtt", "ldap", "prometheus"],
-       "excludePackagePatterns": ["mosquitto", "prometheus", "gateway-helm"],
+      "matchPackagePatterns": ["minio", "home-assistant", "isponsorblocktv", "homer"],
+       "excludePackagePatterns": ["mosquitto", "prometheus", "gateway-helm", "minio"],
       "pinDigests": true,
       "automerge": true
     }
