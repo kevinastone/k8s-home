@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: lldap
-        image: ghcr.io/lldap/lldap:v0.5.0
+        image: ghcr.io/lldap/lldap:v0.5.0@sha256:f0f5d92cd6c6dca9415993cfc57919f0618e87090b323a98c1536975860fa45a
         envFrom:
         - secretRef:
             name: lldap-secret # overriden by kustomizeconfig
