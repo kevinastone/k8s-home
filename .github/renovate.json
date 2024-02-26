@@ -1,8 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    ":disableRateLimiting"
+    "config:best-practices",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    ":automergePatch",
+    ":rebaseStalePrs",
+    "docker:enableMajor"
   ],
   "flux": {
     "fileMatch": ["\\.yaml$"]
@@ -12,5 +16,10 @@
   },
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
-  }
+  },
+  "packageRules": [{
+    "matchPackagePatterns": ["redis-operator", "grafana"],
+    "automerge": false,
+    "updateTypes": ["minor", "patch", "pin", "digest"]
+  }]
 }
