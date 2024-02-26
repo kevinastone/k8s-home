@@ -18,3 +18,5 @@ spec:
   values:
     dashboard:
       replicaCount: 1
+      flags:
+        enable-cost: "false"
