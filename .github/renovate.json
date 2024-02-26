@@ -33,7 +33,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["*"],
-       "excludePackagePatterns": ["prometheus", "gateway-helm", "minio"],
+       "excludePackagePatterns": ["prometheus", "gateway-helm", "registry-1.docker.io/bitnamicharts/minio"],
       "pinDigests": true,
       "automerge": true
     }
