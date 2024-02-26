@@ -24,7 +24,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2024.2.3
+              tag: 2024.2.3@sha256:c4b82b1381732ac81cbedf51c80ae69a19e959197c15befd395b03a34b36483a
             envFrom:
             - secretRef:
                 name: postgres2-app
