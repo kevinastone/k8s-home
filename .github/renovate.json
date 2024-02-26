@@ -20,11 +20,13 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["redis-operator"],
-      "allowedVersions": "!/v3.3.0/"
+      "versioning": "semver",
+      "allowedVersions": "!/3.3.0/"
     },
     {
       "matchPackagePatterns": ["grafana"],
-      "allowedVersions": "!/v7.3.2/"
+      "versioning": "semver",
+      "allowedVersions": "!/7.3.2/"
     },
     {
       "matchDatasources": ["kubernetes-api"],
