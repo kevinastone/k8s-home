@@ -36,7 +36,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["*"],
-       "excludePackagePatterns": ["prometheus", "gateway-helm", "registry-1.docker.io/bitnamicharts/minio"],
+       "excludePackagePatterns": ["ghcr.io/prometheus-community/charts", "registry-1.docker.io/envoyproxy/gateway-helm", "registry-1.docker.io/bitnamicharts/minio"],
       "pinDigests": true
     }
   ]
