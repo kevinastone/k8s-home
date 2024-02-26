@@ -36,10 +36,6 @@
        "excludePackagePatterns": ["mosquitto", "gateway-helm"],
       "pinDigests": true,
       "automerge": true
-    },
-    {
-      "matchManagers": ["helm-values"],
-      "pinDigests": false
     }
   ]
 }
