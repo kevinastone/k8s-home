@@ -32,8 +32,8 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["blocky", "authelia"],
-       "excludePackagePatterns": ["mosquitto", "gateway-helm"],
+      "matchPackagePatterns": ["zigbee2mqtt", "ldap", "prometheus"],
+       "excludePackagePatterns": ["mosquitto", "prometheus", "gateway-helm"],
       "pinDigests": true,
       "automerge": true
     }
