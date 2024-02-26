@@ -46,7 +46,7 @@ spec:
           sync-icons:
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: "v4.2.1"
+              tag: "v4.2.1@sha256:004c213800fac0b71fa2f51979513f5fb383df713c4eaf514ddab65c9efa78b8"
             args:
               - --repo=https://github.com/walkxcode/dashboard-icons.git
               - --depth=1
@@ -57,7 +57,7 @@ spec:
           sync-theme:
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: "v4.2.1"
+              tag: "v4.2.1@sha256:004c213800fac0b71fa2f51979513f5fb383df713c4eaf514ddab65c9efa78b8"
             args:
               - --repo=https://github.com/mrpbennett/catppuccin-homer.git
               - --depth=1
