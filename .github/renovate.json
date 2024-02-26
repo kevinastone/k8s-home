@@ -9,17 +9,33 @@
     "docker:enableMajor"
   ],
   "flux": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
   "helm-values": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
-  "packageRules": [{
-    "matchPackagePatterns": ["redis-operator", "grafana"],
-    "automerge": false,
-    "updateTypes": ["minor", "patch", "pin", "digest"]
-  }]
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "redis-operator",
+        "grafana"
+      ],
+      "automerge": false,
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    }
+  ]
 }
