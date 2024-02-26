@@ -32,7 +32,7 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["minio", "home-assistant", "isponsorblocktv", "homer"],
+      "matchPackagePatterns": ["*"],
        "excludePackagePatterns": ["mosquitto", "prometheus", "gateway-helm", "minio"],
       "pinDigests": true,
       "automerge": true
