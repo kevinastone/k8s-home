@@ -33,7 +33,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["*"],
-       "excludePackagePatterns": ["mosquitto", "prometheus", "gateway-helm", "minio"],
+       "excludePackagePatterns": ["prometheus", "gateway-helm", "minio"],
       "pinDigests": true,
       "automerge": true
     }
