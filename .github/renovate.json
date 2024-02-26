@@ -6,8 +6,11 @@
     ":semanticCommits",
     ":rebaseStalePrs",
     ":skipStatusChecks",
-    "docker:enableMajor"
+    "docker:enableMajor",
+    ":automergeMinor",
+    ":automergeDigest"
   ],
+  "ignorePaths": ["**/resources/**"],
   "flux": {
     "fileMatch": ["\\.yaml$"]
   },
@@ -20,12 +23,10 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["redis-operator"],
-      "versioning": "semver",
       "allowedVersions": "!/3.3.0/"
     },
     {
       "matchPackagePatterns": ["grafana"],
-      "versioning": "semver",
       "allowedVersions": "!/7.3.2/"
     },
     {
@@ -36,8 +37,7 @@
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["*"],
        "excludePackagePatterns": ["prometheus", "gateway-helm", "registry-1.docker.io/bitnamicharts/minio"],
-      "pinDigests": true,
-      "automerge": true
+      "pinDigests": true
     }
   ]
 }
