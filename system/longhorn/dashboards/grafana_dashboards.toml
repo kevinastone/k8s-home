@@ -1,0 +1,3 @@
+[longhorn]
+id = 17626
+datasource = { DS_PROMETHEUS-LONGHORN = 'prometheus' }
