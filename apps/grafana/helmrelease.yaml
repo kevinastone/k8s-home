@@ -40,7 +40,7 @@ spec:
         allow_assign_grafana_admin: true
         skip_org_role_sync: false
         role_attribute_path: |
-          'Admin'
+          "'Admin'"
         org_id: 1
       # auth.generic_oauth.group_mapping:
       #   org_id: 1
