@@ -6,6 +6,8 @@ metadata:
   name: system
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: crds
   interval: 10m
   sourceRef:
     kind: GitRepository
