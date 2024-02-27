@@ -47,6 +47,9 @@ services:
       - name: Longhorn
         logo: /assets/icons/current/svg/longhorn.svg
         url: https://longhorn.k8s.kevinastone.com
+      - name: Goldilocks
+        logo: /assets/custom/goldilocks.svg
+        url: https://goldilocks.k8s.kevinastone.com
   - name: Servers
     icon: fas fa-server
     items:
