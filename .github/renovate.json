@@ -38,6 +38,13 @@
       "matchPackagePatterns": ["*"],
        "excludePackagePatterns": ["registry-1.docker.io/envoyproxy/gateway-helm", "registry-1.docker.io/bitnamicharts/minio"],
       "pinDigests": true
-    }
+    },
+    {
+      "description": ["CalVer for Home-Assistant"],
+      "matchDatasources": ["docker"],
+      "versioning": "loose",
+      "matchPackagePatterns": ["home-assistant"],
+      "automerge": true
+    },
   ]
 }
