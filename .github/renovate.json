@@ -26,8 +26,8 @@
       "allowedVersions": "!/3.3.0/"
     },
     {
-      "matchPackagePatterns": ["grafana"],
-      "allowedVersions": "!/7.3.2/"
+      "matchPackagePatterns": ["prometheus-snmp-exporter"],
+      "allowedVersions": "!/3.1.0/"
     },
     {
       "matchDatasources": ["kubernetes-api"],
