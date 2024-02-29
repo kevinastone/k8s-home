@@ -26,6 +26,8 @@ spec:
       storageClass: storage-nas
       size: 250Gi
     extraEnvVars:
+    - name: GOGC
+      value: "20"
     - name: MINIO_IDENTITY_OPENID_CONFIG_URL
       value: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
     - name: MINIO_IDENTITY_OPENID_CLIENT_ID
