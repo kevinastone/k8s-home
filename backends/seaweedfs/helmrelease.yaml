@@ -41,5 +41,13 @@ spec:
         type: emptyDir
       s3:
         enabled: true
+        # You may specify buckets to be created during the install process.
+        # Buckets may be exposed publicly by setting `anonymousRead` to `true`
+        createBuckets:
+          - name: longhorn
+            anonymousRead: true
+          - name: postgres
+            anonymousRead: true
+
     s3:
       enabled: true
