@@ -53,13 +53,6 @@ views:
               - entity: sensor.desk_power_energy
                 name: Usage
             title: Desk Power
-      - type: vertical-stack
-        cards:
-          - type: map
-            entities:
-              - entity: zone.home
-            title: Home
-            default_zoom: 14
     badges:
       - sensor.bedroom_temperature_temperature
       - sensor.office_temperature_temperature
