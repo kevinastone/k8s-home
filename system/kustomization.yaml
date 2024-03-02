@@ -10,6 +10,7 @@ resources:
   - envoy-gateway
   - external-dns
   - fluxcd
+  - generic-device-plugin
   - intel-gpu-plugin
   - k8tz
   - longhorn
