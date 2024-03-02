@@ -30,6 +30,16 @@ spec:
             env:
             - name: DEBUG
               value: zigbee-herdsman
+ 
+        initContainers:
+         init-config:
+           image:
+             repository: busybox
+             tag: "1.36"
+           args:
+             - /bin/sh
+             - -c
+             - "cp -f /config-data/*.yaml /app/data/"
 
     service:
       main:
@@ -55,7 +65,7 @@ spec:
         type: configMap
         name: zigbee2mqtt-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /app/data/configuration.yaml
+          - path: /config-data/configuration.yaml
             subPath: configuration.yaml
       secrets:
         enabled: true
