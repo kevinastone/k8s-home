@@ -32,6 +32,29 @@ views:
             title: Living Room Temperature
       - type: vertical-stack
         cards:
+          - type: entities
+            entities:
+              - entity: sensor.rack_power_power
+                name: Energy
+              - entity: sensor.rack_power_energy
+                name: Usage
+            title: Rack Power
+          - type: entities
+            entities:
+              - entity: sensor.media_power_power
+                name: Energy
+              - entity: sensor.media_power_energy
+                name: Usage
+            title: Media Power
+          - type: entities
+            entities:
+              - entity: sensor.desk_power_power
+                name: Energy
+              - entity: sensor.desk_power_energy
+                name: Usage
+            title: Desk Power
+      - type: vertical-stack
+        cards:
           - type: map
             entities:
               - entity: zone.home
