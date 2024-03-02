@@ -1,5 +1,5 @@
 # Let new devices join our zigbee network
-# permit_join: true
+permit_join: true
 
 mqtt:
   base_topic: zigbee2mqtt
