@@ -1,5 +1,5 @@
 # Let new devices join our zigbee network
-permit_join: true
+permit_join: false
 
 mqtt:
   base_topic: zigbee2mqtt
@@ -43,3 +43,11 @@ devices:
     friendly_name: 'Living Room Temperature'
   '0x00124b002513acba':
     friendly_name: 'Plug Extender'
+  '0x282c02bfffebd4d0':
+    friendly_name: 'Desk Power'
+  '0x282c02bfffebcca6':
+    friendly_name: 'Media Power'
+  '0x282c02bfffeb99a4':
+    friendly_name: 'Rack Power'
+  '0x282c02bfffebd7d3':
+    friendly_name: 'Hallway Power'
