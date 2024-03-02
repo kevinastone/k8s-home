@@ -30,7 +30,9 @@ spec:
             env:
             - name: DEBUG
               value: zigbee-herdsman
- 
+            resources:          
+              limits:
+                squat.ai/serial: 1
         initContainers:
          init-config:
            image:
