@@ -18,7 +18,7 @@ frontend:
   host: 0.0.0.0
 
 advanced:
-  log_level: debug
+  log_level: info
   log_output:
     - console
 
