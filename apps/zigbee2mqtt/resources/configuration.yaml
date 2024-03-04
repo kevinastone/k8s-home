@@ -4,6 +4,7 @@ permit_join: false
 mqtt:
   base_topic: zigbee2mqtt
   server: mqtt://mosquitto.mqtt
+  version: 5
 
 # Zigbee Adapter path
 serial:
@@ -34,6 +35,9 @@ advanced:
   network_key: '!secret network_key'
 
 homeassistant: true
+
+device_options:
+  retain: true
 
 devices:
   '0x00158d0008913148':
