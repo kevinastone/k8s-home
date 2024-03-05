@@ -59,6 +59,8 @@ influxdb:
 
 recorder:
   db_url: !env_var uri
+  db_max_retries: 360  # 60 minutes (with 10sec interval below)
+  db_retry_wait: 10
 
 ## # MQTT
 ## mqtt:
