@@ -12,8 +12,8 @@ spec:
     - dashboard.k8s.kevinastone.com
   rules:
     - backendRefs:
-        - name: kubernetes-dashboard
-          port: 80
+        - name: kubernetes-dashboard-web
+          port: 8000
       matches:
         - path:
             type: PathPrefix
