@@ -30,6 +30,10 @@
       "allowedVersions": "!/3.1.0/"
     },
     {
+      "matchPackagePatterns": ["kubernetes-dashboard"],
+      "allowedVersions": "<7"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
