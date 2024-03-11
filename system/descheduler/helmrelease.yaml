@@ -20,3 +20,10 @@ spec:
   values:
     serviceMonitor:
       enabled: true
+    deschedulerPolicy:
+      strategies:
+        RemovePodsViolatingNodeAffinity:
+          params:
+            nodeAffinityType:
+            - requiredDuringSchedulingIgnoredDuringExecution
+            - preferredDuringSchedulingIgnoredDuringExecution
