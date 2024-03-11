@@ -36,7 +36,6 @@ spec:
                 enabled: true
                 type: HTTP
               readiness: *probes
-              startup: *probes
 
     service:
       main:
