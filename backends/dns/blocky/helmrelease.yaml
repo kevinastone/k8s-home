@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -63,6 +63,7 @@ spec:
 
     service:
       main:
+        controller: main
         type: LoadBalancer
         externalTrafficPolicy: Local
         labels:
@@ -85,11 +86,11 @@ spec:
 
     serviceMonitor:
       main:
-        enabled: true
-
-    ingress:
-      main:
-        enabled: false
+        serviceName: blocky
+        endpoints:
+        - port: http
+          scheme: http
+          path: /metrics
 
     persistence:
       config:
