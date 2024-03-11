@@ -4,12 +4,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: homer
 resources:
-  - ./helmrelease.yaml
-  - ./http-route.yaml
+  - namespace.yaml
+  - helmrelease.yaml
+  - http-route.yaml
 configMapGenerator:
   - name: homer-config
     files:
-      - config.yml=./resources/config.yml
+      - config.yml=resources/config.yml
   - name: homer-assets
     files:
       - assets/2048.svg
@@ -19,4 +20,4 @@ configMapGenerator:
       # # https://github.com/kubernetes-sigs/kustomize/issues/3504
       # - assets/octoprint.png
 configurations:
-  - ./kustomizeconfig.yaml
+  - kustomizeconfig.yaml
