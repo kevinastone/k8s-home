@@ -28,6 +28,16 @@ spec:
             envFrom:
             - secretRef:
                 name: postgres2-app
+            ports:
+            - containerPort: 8123
+              name: http
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+              readiness: *probes
+              startup: *probes
+
     service:
       main:
         controller: main
