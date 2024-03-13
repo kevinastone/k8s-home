@@ -4,11 +4,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: envoy
 resources:
-  - ./namespace.yaml
-  - ./helmrelease.yaml
-  - ./envoy-proxy.yaml
-  - ./gateway-class.yaml
-  - ./gateway.yaml
-  # - ./security-policy.yaml
-  - ./pod-monitor.yaml
-  - ./http-route.yaml
+  - namespace.yaml
+  - helmrelease.yaml
+  - envoy-proxy.yaml
+  - gateway-class.yaml
+  - gateway.yaml
+  - security-policy.yaml
+  - pod-monitor.yaml
+  - http-route.yaml
