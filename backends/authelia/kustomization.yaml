@@ -9,6 +9,7 @@ resources:
   - redis.yaml
   - helmrelease.yaml
   - http-route.yaml
+  - resource-grant.yaml
 configurations:
   - kustomizeconfig.yaml
 configMapGenerator:

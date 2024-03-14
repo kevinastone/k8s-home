@@ -1,0 +1,11 @@
+---
+kind: ReferenceGrant
+metadata:
+  name: authelia
+spec:
+  from:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+  to:
+  - group: ""
+    kind: Service
