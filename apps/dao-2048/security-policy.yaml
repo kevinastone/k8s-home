@@ -1,0 +1,22 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: "2048"
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: "2048"
+  extAuth:
+    http:
+      backendRef:
+        name: authelia
+        namespace: authelia
+        port: 80
+      path: /api/authz/ext-authz/
+    headersToExtAuth:
+    - authorization
+    - proxy-authorization
+    - accept
+    - cookie
