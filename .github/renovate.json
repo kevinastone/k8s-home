@@ -48,6 +48,6 @@
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["home-assistant"],
       "automerge": true
-    },
+    }
   ]
 }
