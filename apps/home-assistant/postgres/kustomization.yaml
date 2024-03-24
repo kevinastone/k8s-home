@@ -4,7 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cluster2.yaml
-  # - cluster3.yaml
+  - cluster3.yaml
   - backup2.yaml
   # - backup3.yaml
 configurations:

@@ -66,3 +66,7 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: SECRET_KEY
+      wal:
+        compression: *compression
+      data:
+        compression: *compression
