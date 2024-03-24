@@ -17,4 +17,5 @@ resources:
   - metallb
   - minio
   - node-feature-discovery
+  - openebs
   - vertical-pod-autoscaler

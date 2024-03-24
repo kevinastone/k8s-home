@@ -20,6 +20,7 @@ resources:
   - kubernetes-dashboard.yaml
   - longhorn.yaml
   - metrics-server.yaml
+  - openebs.yaml
   - prometheus.yaml
   - redis-operator.yaml
   - seaweedfs.yaml
