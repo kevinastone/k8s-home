@@ -12,7 +12,7 @@ spec:
     podAntiAffinityType: required
   storage:
     size: 1Gi
-    storageClass: longhorn
+    storageClass: openebs-hostpath
   bootstrap:
     initdb:
       database: authelia
@@ -25,6 +25,7 @@ spec:
     enablePodMonitor: true
   walStorage:
     size: 256Mi
+    storageClass: openebs-hostpath
   replicationSlots:
     highAvailability:
       enabled: true

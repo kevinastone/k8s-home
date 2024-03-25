@@ -12,7 +12,7 @@ spec:
     podAntiAffinityType: required
   storage:
     size: 1Gi
-    storageClass: longhorn
+    storageClass: openebs-hostpath
   bootstrap:
     initdb:
       database: lldap
