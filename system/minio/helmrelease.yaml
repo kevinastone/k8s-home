@@ -26,8 +26,6 @@ spec:
       storageClass: storage-nas
       size: 250Gi
     extraEnvVars:
-    - name: MINIO_LOG_LEVEL
-      value: DEBUG
     - name: GOGC
       value: "20"
     - name: MINIO_IDENTITY_OPENID_CONFIG_URL
@@ -52,10 +50,6 @@ spec:
       existingSecret: minio-root-secret # overriden by kustomizeconfig
     volumePermissions:
       enabled: false
-    securityContext:
-      enabled: true
-      fsGroup: 1001
-      runAsUser: 1001
     provisioning:
       enabled: true
       usersExistingSecrets:
@@ -65,3 +59,7 @@ spec:
         - name: postgres
       networkPolicy:
         enabled: false
+    containerSecurityContext:
+      seLinuxOptions: null
+      runAsGroup: 0
+      readOnlyRootFilesystem: false
