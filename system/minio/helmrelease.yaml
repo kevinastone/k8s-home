@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: minio
-      version: 14.1.2
+      version: 13.7.0
       sourceRef:
         kind: HelmRepository
         name: bitnami
@@ -28,6 +28,9 @@ spec:
     extraEnvVars:
     - name: GOGC
       value: "20"
+    # NOTE: users who have limited memory can set CI=true to reduce pre-allocated memory from 1GiB/2GiB to 256MiB.
+    - name: CI
+      value: "true"
     - name: MINIO_IDENTITY_OPENID_CONFIG_URL
       value: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
     - name: MINIO_IDENTITY_OPENID_CLIENT_ID
@@ -59,7 +62,3 @@ spec:
         - name: postgres
       networkPolicy:
         enabled: false
-    containerSecurityContext:
-      seLinuxOptions: null
-      runAsGroup: 0
-      readOnlyRootFilesystem: false

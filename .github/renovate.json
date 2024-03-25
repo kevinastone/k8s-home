@@ -30,6 +30,10 @@
       "allowedVersions": "!/3.1.0/"
     },
     {
+      "matchPackagePatterns": ["minio"],
+      "allowedVersions": "<=13.7.0"
+    },
+    {
       "matchPackagePatterns": ["kubernetes-dashboard"],
       "allowedVersions": "<7"
     },
