@@ -38,7 +38,7 @@ spec:
   backup:
     barmanObjectStore:
       destinationPath: s3://postgres/home-assistant
-      endpointURL: https://s3.k8s.kevinastone.com
+      endpointURL: http://minio.minio:9000
       s3Credentials:
         accessKeyId:
           name: s3-creds
