@@ -12,7 +12,8 @@ spec:
     podAntiAffinityType: required
   storage:
     size: 10Gi
-    storageClass: longhorn
+    # storageClass: longhorn
+    storageClass: openebs-hostpath
   bootstrap:
     initdb:
       database: home-assistant
@@ -25,6 +26,8 @@ spec:
     enablePodMonitor: true
   walStorage:
     size: 1Gi
+    # storageClass: longhorn
+    storageClass: openebs-hostpath
   replicationSlots:
     highAvailability:
       enabled: true
