@@ -20,7 +20,8 @@ spec:
   driftDetection:
     mode: enabled
   values:
-    installCRDs: true
+    crds:
+      enabled: true
 
     dns01RecursiveNameservers: "rodney.ns.cloudflare.com:53,rosalyn.ns.cloudflare.com:53"
 
