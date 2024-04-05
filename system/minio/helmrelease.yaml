@@ -36,7 +36,7 @@ spec:
     - name: MINIO_IDENTITY_OPENID_CLIENT_ID
       value: minio
     - name: MINIO_IDENTITY_OPENID_ROLE_POLICY
-      value: readonly
+      value: consoleAdmin
     - name: MINIO_IDENTITY_OPENID_CLAIM_PREFIX
       value: authelia
     - name: MINIO_IDENTITY_OPENID_DISPLAY_NAME
