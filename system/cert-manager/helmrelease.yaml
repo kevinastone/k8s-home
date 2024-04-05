@@ -15,13 +15,11 @@ spec:
         name: jetstack
         namespace: flux-system
       interval: 5m
-  install:
-    createNamespace: true
   driftDetection:
     mode: enabled
   values:
     crds:
-      enabled: true
+      enabled: false
 
     dns01RecursiveNameservers: "rodney.ns.cloudflare.com:53,rosalyn.ns.cloudflare.com:53"
 
