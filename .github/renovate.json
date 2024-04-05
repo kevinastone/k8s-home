@@ -38,6 +38,10 @@
       "allowedVersions": "<7"
     },
     {
+      "matchPackagePatterns": ["kube-prometheus-stack"],
+      "allowedVersions": "!/57.2.0/"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
