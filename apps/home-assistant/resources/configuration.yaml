@@ -27,7 +27,6 @@ homeassistant_alerts:
 cloud:
 image_upload:
 logbook:
-map:
 media_source:
 mobile_app:
 my:
