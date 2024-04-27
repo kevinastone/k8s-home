@@ -8,4 +8,5 @@ resources:
   - influxdb
   - ldap
   - mosquitto
+  - postgres
   # - seaweedfs

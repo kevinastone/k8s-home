@@ -6,6 +6,7 @@ resources:
   - bitnami.yaml
   - bjw-s.yaml
   - cloudnative-pg.yaml
+  - cloudnative-pg-dashboards.yaml
   - csi-driver-smb.yaml
   - dao-2048.yaml
   - descheduler.yaml

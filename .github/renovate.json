@@ -42,10 +42,6 @@
       "allowedVersions": "!/57.2.0/"
     },
     {
-      "matchPackagePatterns": ["cloudnative-pg"],
-      "allowedVersions": "<v0.21"
-    },
-    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
