@@ -64,6 +64,7 @@ spec:
     chunksCache:
       # default is 500MB, with limited memory keep this smaller
       writebackSizeLimit: 10MB
+      allocatedMemory: 512
     monitoring:
       dashboards:
         enabled: true
