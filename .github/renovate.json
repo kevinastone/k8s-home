@@ -42,6 +42,10 @@
       "allowedVersions": "!/57.2.0/"
     },
     {
+      "matchPackagePatterns": ["descheduler"],
+      "allowedVersions": "!/0.30.0/"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
