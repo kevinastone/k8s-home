@@ -46,6 +46,10 @@
       "allowedVersions": "!/0.30.0/"
     },
     {
+      "matchPackagePatterns": ["csi-driver-smb"],
+      "allowedVersions": "!/v1.15.0/"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
