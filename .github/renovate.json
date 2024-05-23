@@ -50,10 +50,6 @@
       "allowedVersions": "!/v1.15.0/"
     },
     {
-      "matchPackagePatterns": ["homer"],
-      "allowedVersions": "!/v24.05.1/"
-    },
-    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
