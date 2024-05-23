@@ -2,7 +2,7 @@ title: "Dashboard"
 subtitle: "kevinastone"
 
 # logo: "assets/icons/logo.svg"
-logo: assets/theme/current/assets/logos/dark_circle.png
+logo: assets/extra/theme/current/assets/logos/dark_circle.png
 # # Alternatively a fa icon can be provided:
 # icon: "fas fa-skull-crossbones"
 
@@ -17,7 +17,7 @@ defaults:
   colorTheme: auto # One of 'auto', 'light', or 'dark'
 
 stylesheet:
-  - 'assets/theme/current/flavours/catppuccin-mocha.css'
+  - 'assets/extra/theme/current/flavours/catppuccin-mocha.css'
 
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
@@ -31,21 +31,21 @@ services:
     icon: fas fa-chart-line
     items:
       - name: Grafana
-        logo: /assets/icons/current/svg/grafana.svg
+        logo: /assets/extra/icons/current/svg/grafana.svg
         url: https://grafana.k8s.kevinastone.com
       - name: Kubernetes Dashboard
-        logo: /assets/icons/current/svg/kubernetes.svg
+        logo: /assets/extra/icons/current/svg/kubernetes.svg
         url: https://dashboard.k8s.kevinastone.com
       - name: Prometheus
         type: Prometheus
-        logo: /assets/icons/current/svg/prometheus.svg
+        logo: /assets/extra/icons/current/svg/prometheus.svg
         url: https://prometheus.k8s.kevinastone.com/alerts
         endpoint: https://prometheus.k8s.kevinastone.com
       - name: Chronograf
-        logo: /assets/icons/current/svg/influxdb.svg
+        logo: /assets/extra/icons/current/svg/influxdb.svg
         url: https://chronograf.k8s.kevinastone.com
       - name: Longhorn
-        logo: /assets/icons/current/svg/longhorn.svg
+        logo: /assets/extra/icons/current/svg/longhorn.svg
         url: https://longhorn.k8s.kevinastone.com
       - name: Goldilocks
         logo: /assets/custom/goldilocks.svg
@@ -54,16 +54,16 @@ services:
     icon: fas fa-server
     items:
       - name: Home Assistant
-        logo: /assets/icons/current/svg/home-assistant-alt.svg
+        logo: /assets/extra/icons/current/svg/home-assistant-alt.svg
         url: https://automation.k8s.kevinastone.com
       - name: Zigbee2MQTT
-        logo: /assets/icons/current/svg/zigbee2mqtt.svg
+        logo: /assets/extra/icons/current/svg/zigbee2mqtt.svg
         url: https://zigbee2mqtt.k8s.kevinastone.com/
       - name: MinIO
-        logo: /assets/icons/current/svg/minio.svg
+        logo: /assets/extra/icons/current/svg/minio.svg
         url: https://minio.k8s.kevinastone.com/
       - name: Authelia
-        logo: /assets/icons/current/svg/authelia.svg
+        logo: /assets/extra/icons/current/svg/authelia.svg
         url: https://auth.k8s.kevinastone.com/
       - name: LLDAP
         url: https://ldap.k8s.kevinastone.com/
