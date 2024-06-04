@@ -46,8 +46,8 @@ devices:
     friendly_name: 'Office Temperature'
   '0x00158d0008a6fe47':
     friendly_name: 'Living Room Temperature'
-  # '0x00124b002513acba':
-  #   friendly_name: 'Plug Extender'
+  '0x282c02bfffea2d2e':
+    friendly_name: 'Laundry Power'
   '0x282c02bfffebd4d0':
     friendly_name: 'Desk Power'
   '0x282c02bfffebcca6':

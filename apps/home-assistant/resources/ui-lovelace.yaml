@@ -53,6 +53,13 @@ views:
               - entity: sensor.desk_power_energy
                 name: Usage
             title: Desk Power
+          - type: entities
+            entities:
+              - entity: sensor.laundry_power_power
+                name: Energy
+              - entity: sensor.laundry_power_energy
+                name: Usage
+            title: Laundry Power
     badges:
       - sensor.bedroom_temperature_temperature
       - sensor.office_temperature_temperature
