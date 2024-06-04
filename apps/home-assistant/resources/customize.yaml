@@ -8,3 +8,7 @@ binary_sensor.my_opengarage_vehicle:
   friendly_name: Vehicle in Garage
   icon: mdi:car
   device_class: occupancy
+
+binary_sensor.washing_machine:
+  friendly_name: Washing Machine
+  icon: mdi:washing-machine

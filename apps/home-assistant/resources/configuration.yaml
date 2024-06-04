@@ -69,3 +69,9 @@ group: !include group.yaml
 automation: !include automation.yaml
 script: !include script.yaml
 zone: !include zone.yaml
+
+template:
+  - binary_sensor:
+    - name: "washing_machine"
+      state: >
+        {{ states('sensor.laundry_power_power')|float > 10 }}
