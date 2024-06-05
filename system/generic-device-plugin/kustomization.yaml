@@ -5,3 +5,8 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - https://raw.githubusercontent.com/squat/generic-device-plugin/main/manifests/generic-device-plugin.yaml
+patches:
+  - path: daemonset-patch.yaml
+    target:
+      kind: Daemonset
+      name: generic-device-plugin
