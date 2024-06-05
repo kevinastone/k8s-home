@@ -5,3 +5,11 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - https://raw.githubusercontent.com/squat/generic-device-plugin/main/manifests/generic-device-plugin.yaml
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 100m
+    target:
+      kind: DaemonSet
+      name: generic-device-plugin
