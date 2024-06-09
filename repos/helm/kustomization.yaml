@@ -21,6 +21,7 @@ resources:
   - kubernetes-dashboard.yaml
   - longhorn.yaml
   - metrics-server.yaml
+  - node-feature-discovery.yaml
   - openebs.yaml
   - prometheus.yaml
   - redis-operator.yaml
