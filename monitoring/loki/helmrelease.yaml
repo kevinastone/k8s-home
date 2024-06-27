@@ -32,6 +32,8 @@ spec:
       auth_enabled: false
       commonConfig:
         replication_factor: 1
+      limits_config:
+        retention_period: "168h"
       storage:
         type: filesystem
       schemaConfig:
@@ -61,6 +63,13 @@ spec:
         # Keep a little bit lower than memory limits
         - name: GOMEMLIMIT
           value: 3750MiB
+    compactor:
+      replicas: 0
+      retention_enabled: true
+      retention_delete_delay: 1h
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 144h
     chunksCache:
       # default is 500MB, with limited memory keep this smaller
       writebackSizeLimit: 10MB
@@ -90,8 +99,6 @@ spec:
     queryScheduler:
       replicas: 0
     distributor:
-      replicas: 0
-    compactor:
       replicas: 0
     indexGateway:
       replicas: 0
