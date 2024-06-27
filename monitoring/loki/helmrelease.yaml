@@ -33,7 +33,8 @@ spec:
       commonConfig:
         replication_factor: 1
       limits_config:
-        retention_period: "168h"
+        max_query_lookback: 168h
+        retention_period: 168h
       storage:
         type: filesystem
       schemaConfig:
@@ -50,6 +51,12 @@ spec:
       querier:
         # Default is 4, if you have enough memory and CPU you can increase, reduce if OOMing
         max_concurrent: 2
+      compactor:
+        compaction_interval: 10m
+        retention_enabled: true
+        retention_delete_delay: 1h
+        retention_delete_worker_count: 150
+        delete_request_store: filesystem
     singleBinary:
       replicas: 1
       resources:
@@ -63,13 +70,6 @@ spec:
         # Keep a little bit lower than memory limits
         - name: GOMEMLIMIT
           value: 3750MiB
-    compactor:
-      replicas: 0
-      retention_enabled: true
-      retention_delete_delay: 1h
-    table_manager:
-      retention_deletes_enabled: true
-      retention_period: 144h
     chunksCache:
       # default is 500MB, with limited memory keep this smaller
       writebackSizeLimit: 10MB
@@ -105,4 +105,6 @@ spec:
     bloomCompactor:
       replicas: 0
     bloomGateway:
+      replicas: 0
+    compactor:
       replicas: 0
