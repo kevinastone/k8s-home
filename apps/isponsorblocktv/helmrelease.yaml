@@ -22,7 +22,7 @@ spec:
           main:
             image:
               repository: ghcr.io/dmunozv04/isponsorblocktv
-              tag: v2.0.8@sha256:03d56604cc8a09601fa6e223666734c3b8ebb0b7706bacc14e2754bf3291dba0
+              tag: v2.1.0@sha256:5081159324ca13f2b6641eec08f68ef5711f736354cb2cada61c2a69c49a8928
 
     persistence:
       config:
