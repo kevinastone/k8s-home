@@ -38,6 +38,10 @@
       "allowedVersions": "!/57.2.0/"
     },
     {
+      "matchPackagePatterns": ["loki"],
+      "allowedVersions": "!/6.6.6/"
+    },
+    {
       "matchPackagePatterns": ["csi-driver-smb"],
       "allowedVersions": "!/v1.15.0/"
     },
