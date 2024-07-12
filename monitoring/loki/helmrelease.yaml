@@ -71,7 +71,7 @@ spec:
         - name: GOMEMLIMIT
           value: 3750MiB
       persistence:
-        size: 50gb
+        size: 50Gi
     chunksCache:
       # default is 500MB, with limited memory keep this smaller
       writebackSizeLimit: 10MB
