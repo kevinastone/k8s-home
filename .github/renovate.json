@@ -46,6 +46,10 @@
       "allowedVersions": "!/6.16.0/"
     },
     {
+      "matchPackagePatterns": ["gateway-helm"],
+      "allowedVersions": "<1.1"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
