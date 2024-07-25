@@ -9,6 +9,7 @@ resources:
   - helmrelease-blackbox-exporter.yaml
   - helmrelease-snmp-exporter.yaml
   - grafana-datasources.yaml
+  - http-route.yaml
 configMapGenerator:
   - name: prometheus-dashboards
     options:
