@@ -26,16 +26,8 @@
       "allowedVersions": "!/3.3.0/"
     },
     {
-      "matchPackagePatterns": ["prometheus-snmp-exporter"],
-      "allowedVersions": "!/3.1.0/"
-    },
-    {
       "matchPackagePatterns": ["kubernetes-dashboard"],
       "allowedVersions": "<7"
-    },
-    {
-      "matchPackagePatterns": ["kube-prometheus-stack"],
-      "allowedVersions": "!/57.2.0/"
     },
     {
       "matchPackagePatterns": ["csi-driver-smb"],
