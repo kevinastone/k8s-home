@@ -67,6 +67,9 @@ services:
         url: https://auth.k8s.kevinastone.com/
       - name: LLDAP
         url: https://ldap.k8s.kevinastone.com/
+      - name: Ghostfolio
+        logo: /assets/extra/icons/current/png/ghostfolio.png
+        url: https://ghostfolio.k8s.kevinastone.com/
       - name: OctoPi
         type: OctoPrint
         logo: https://raw.githubusercontent.com/OctoPrint/OctoPrint/master/src/octoprint/static/img/logo.png
