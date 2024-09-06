@@ -26,7 +26,7 @@ spec:
               repository: ghostfolio/ghostfolio
               tag: 2.105.0@sha256:855e1f97a353a92460cb197e91c1aceda88bfbc9b5b11d1d4912db027cf025aa
             env:
-              # REDIS_HOST: rfr-redis-0
+              REDIS_HOST: dragonfly
               # REDIS_PORT: 6379
               DATABASE_URL: $(uri)
               POSTGRES_DB: ghostfolio
