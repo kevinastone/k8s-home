@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: ghostfolio
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bernd-schorgers
+        namespace: flux-system
+  driftDetection:
+    mode: enabled
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        containers:
+          main:
+            image:
+              repository: ghostfolio/ghostfolio
+              tag: 2.105.0
+            env:
+              # REDIS_HOST: rfs-redis
+              # REDIS_PORT: 26379
+            envFrom:
+            - secretRef:
+                name: ghostfolio-env # overriden by kustomizeconfig
+            - secretRef:
+                name: postgres-app
+            ports:
+            - containerPort: 3333
+              name: http
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+              readiness: *probes
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 80
+            targetPort: 3333
