@@ -6,7 +6,7 @@ namespace: ghostfolio
 resources:
   - namespace.yaml
   - postgres
-  - redis.yaml
+  - dragonfly.yaml
   - helmrelease.yaml
   - http-route.yaml
 configurations:
