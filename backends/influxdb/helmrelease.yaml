@@ -17,3 +17,11 @@ spec:
       interval: 5m
   install:
     createNamespace: true
+  values:
+    resources:
+      requests:
+        cpu: 15m
+        memory: 442M
+      limits:
+        cpu: 67m
+        memory: 1297M
