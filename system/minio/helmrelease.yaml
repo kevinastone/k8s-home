@@ -25,7 +25,9 @@ spec:
     persistence:
       storageClass: storage-nas
       size: 250Gi
+    resourcesPreset: small
     extraEnvVars:
+    # Trigger the GO-GC more frequently (everytime it grows by 20%)
     - name: GOGC
       value: "20"
     # NOTE: users who have limited memory can set CI=true to reduce pre-allocated memory from 1GiB/2GiB to 256MiB.
