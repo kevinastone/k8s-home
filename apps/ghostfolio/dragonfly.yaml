@@ -14,3 +14,5 @@ spec:
   - --version_check=false
   - --cache_mode
   - --maxmemory=256M
+  # Needed by Ghostfolio
+  - '--default_lua_flags=allow-undeclared-keys,disable-atomicity'
