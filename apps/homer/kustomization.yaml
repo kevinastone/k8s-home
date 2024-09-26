@@ -16,8 +16,5 @@ configMapGenerator:
       - assets/2048.svg
       - assets/sudoku.svg
       - assets/goldilocks.svg
-      # # Bug in configMapGenerator with binary data
-      # # https://github.com/kubernetes-sigs/kustomize/issues/3504
-      # - assets/octoprint.png
 configurations:
   - kustomizeconfig.yaml

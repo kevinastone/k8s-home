@@ -26,6 +26,6 @@ spec:
         labels:
           release: prometheus
 
-      targets:
-      - name: octopi
-        url: https://octopi.home.kevinastone.com
+      targets: []
+      # - name: octopi
+      #   url: https://octopi.home.kevinastone.com

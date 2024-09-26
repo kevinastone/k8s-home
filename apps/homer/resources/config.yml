@@ -73,12 +73,6 @@ services:
       - name: Change Detection
         logo: /assets/extra/icons/current/png/changedetection-io.png
         url: https://changedetection.k8s.kevinastone.com/
-      - name: OctoPi
-        type: OctoPrint
-        logo: https://raw.githubusercontent.com/OctoPrint/OctoPrint/master/src/octoprint/static/img/logo.png
-        url: &octoprint https://octopi.home.kevinastone.com
-        endpoint: *octoprint
-        apikey: 6DAAA562B5124111BB65D39998F6E08D
   - name: Games
     icon: fas fa-gamepad
     items:
