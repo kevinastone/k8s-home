@@ -26,5 +26,7 @@ spec:
         - name: backup
           target: backup.home.kevinastone.com
           module: [synology]
+      selector:
+        release: prometheus
       selfMonitor:
         enabled: true
