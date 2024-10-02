@@ -29,14 +29,16 @@ spec:
     volume:
       dataDirs:
       - name: data
-        type: none
-        storageClass: storage-nas
-        size: 250Gi              
-    filer:
-      data:
         type: persistentVolumeClaim
         storageClass: longhorn
-        size: 10Gi
+        size: 100Gi
+        maxVolumes: 0
+    filer:
+      data:
+        type: emptyDir
+        # type: persistentVolumeClaim
+        # storageClass: longhorn
+        # size: 10Gi
       logs:
         type: emptyDir
       s3:
