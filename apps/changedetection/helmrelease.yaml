@@ -29,36 +29,36 @@ spec:
             env:
               PORT: &port 5000
               BASE_URL: https://changedetection.k8s.kevinastone.com
-              # USE_X_SETTINGS: 1
-              # PLAYWRIGHT_DRIVER_URL: ws://localhost:3000/?stealth=1&--disable-web-security=true&--user-data-dir=~/tmp/cache
+              USE_X_SETTINGS: 1
+              PLAYWRIGHT_DRIVER_URL: ws://localhost:3000/?stealth=1&--disable-web-security=true&--user-data-dir=~/tmp/cache
             resources:
               requests:
                 cpu: 25m
                 memory: 145M
               limits:
                 memory: 512M
-          # browser:
-          #   image:
-          #     repository: docker.io/browserless/chrome
-          #     tag: latest
-          #     pullPolicy: IfNotPresent
-          #   env:
-          #     - { name: SCREEN_WIDTH, value: "1920" }
-          #     - { name: SCREEN_HEIGHT, value: "1024" }
-          #     - { name: SCREEN_DEPTH, value: "16" }
-          #     - { name: ENABLE_DEBUGGER, value: "false" }
-          #     - { name: PREBOOT_CHROME, value: "true" }
-          #     - { name: CONNECTION_TIMEOUT, value: "300000" }
-          #     - { name: MAX_CONCURRENT_SESSIONS, value: "10" }
-          #     - { name: CHROME_REFRESH_TIME, value: "600000" }
-          #     - { name: DEFAULT_BLOCK_ADS, value: "true" }
-          #     - { name: DEFAULT_STEALTH, value: "true" }
-          #   resources:
-          #     requests:
-          #       cpu: 25m
-          #       memory: 979M
-          #     limits:
-          #       memory: 1G
+          browser:
+            image:
+              repository: docker.io/browserless/chrome
+              tag: 1-chrome-stable
+              pullPolicy: IfNotPresent
+            env:
+              - { name: SCREEN_WIDTH, value: "1920" }
+              - { name: SCREEN_HEIGHT, value: "1024" }
+              - { name: SCREEN_DEPTH, value: "16" }
+              - { name: ENABLE_DEBUGGER, value: "false" }
+              - { name: PREBOOT_CHROME, value: "true" }
+              - { name: CONNECTION_TIMEOUT, value: "300000" }
+              - { name: MAX_CONCURRENT_SESSIONS, value: "10" }
+              - { name: CHROME_REFRESH_TIME, value: "600000" }
+              - { name: DEFAULT_BLOCK_ADS, value: "true" }
+              - { name: DEFAULT_STEALTH, value: "true" }
+            resources:
+              requests:
+                cpu: 25m
+                memory: 979M
+              limits:
+                memory: 1G
 
     service:
       app:
