@@ -10,3 +10,4 @@ resources:
   - mosquitto
   - postgres
   - seaweedfs
+  - s3gw

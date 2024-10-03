@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: s3gw
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: s3gw
+      version: 0.23.0
+      sourceRef:
+        kind: HelmRepository
+        name: s3gw
+        namespace: flux-system
+      interval: 5m
+  driftDetection:
+    mode: enabled
+  values:
+    ingress:
+      enabled: false
+    storageSize: 100Gi
+    storageClass:
+      name: longhorn
+    # Workaround for broken configmap: https://github.com/s3gw-tech/s3gw-charts/blob/main/charts/s3gw/templates/configmap.yaml#L11-L14
+    publicDomain: s3gw.svc.cluster.local
