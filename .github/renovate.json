@@ -38,6 +38,10 @@
       "allowedVersions": "!/6.16.0/"
     },
     {
+      "matchPackagePatterns": ["eclipse-mosquitto"],
+      "allowedVersions": "!/v2.0.19/"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
