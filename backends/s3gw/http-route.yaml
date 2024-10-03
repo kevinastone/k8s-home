@@ -1,0 +1,20 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: s3gw
+spec:
+  parentRefs:
+    - name: envoy-gateway
+      namespace: envoy
+      sectionName: https
+  hostnames:
+    - s3gw.k8s.kevinastone.com
+  rules:
+    - backendRefs:
+        - name: s3gw
+          port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
