@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - changedetection
   - dao-2048
-  - ghostfolio
   - grafana
   - home-assistant
   - homer

@@ -67,9 +67,6 @@ services:
         url: https://auth.k8s.kevinastone.com/
       - name: LLDAP
         url: https://ldap.k8s.kevinastone.com/
-      - name: Ghostfolio
-        logo: /assets/extra/icons/current/png/ghostfolio.png
-        url: https://ghostfolio.k8s.kevinastone.com/
       - name: Change Detection
         logo: /assets/extra/icons/current/png/changedetection-io.png
         url: https://changedetection.k8s.kevinastone.com/

@@ -1,8 +1,0 @@
-nameReference:
-- kind: Secret
-  version: v1
-  fieldSpecs:
-  - path: spec/backup/barmanObjectStore/s3Credentials/accessKeyId/name
-    kind: Cluster
-  - path: spec/backup/barmanObjectStore/s3Credentials/secretAccessKey/name
-    kind: Cluster
