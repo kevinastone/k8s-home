@@ -8,9 +8,7 @@ mqtt:
 
 # Zigbee Adapter path
 serial:
-  # port: /dev/zigbee
-  # port: tcp://automation.home.kevinastone.com:20108
-  port: /dev/ttyUSB0
+  port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_72af82d8e612ec11b59620c7bd930c07-if00-port0
 
 # Enable the Zigbee2MQTT frontend
 frontend:
