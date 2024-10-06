@@ -74,6 +74,6 @@ template:
   - binary_sensor:
     - name: "washing_machine"
       state: >
-        {{ states('sensor.laundry_power_power')|float > 10 }}
+        {{ states('sensor.laundry_power_power')|float(0) > 10 }}
       delay_on: "00:00:10"
       delay_off: "00:02:00"
