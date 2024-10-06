@@ -31,7 +31,7 @@ spec:
               tag: 1.40.2@sha256:40dca7e6ee816c84d6220daeb92cf20a52cf35446ec1d3ef0c2965a87cd397cc
             resources:
               limits:
-                squat.ai/serial: 1
+                squat.ai/zigbee: 1
             ports:
             - containerPort: 80
               name: http
