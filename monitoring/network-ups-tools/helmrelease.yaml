@@ -1,0 +1,60 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: network-ups-tools
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 1m
+  upgrade:
+    timeout: 1m
+    cleanupOnFail: true
+  driftDetection:
+    mode: enabled
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jr0dd/network-ups-tools
+              tag: v2.8.1@sha256:2a6e47d431cbb901482ad6692f089a7541524fd3538e42857b39663bb331ba25
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+          exporter:
+            image:
+              repository: ghcr.io/druggeri/nut_exporter
+              tag: 3.1.1
+    service:
+      app:
+        controller: main
+        annotations:
+          coredns.io/hostname: "ups.k8s.kevinastone.com"
+        type: LoadBalancer
+        ports:
+          http:
+            port: 3493
+            protocol: TCP
+    persistence:
+      config:
+        type: configMap
+        name: network-ups-tools-config # overriden by kustomizeconfig
+        defaultMode: 0640
+        globalMounts:
+          - path: /etc/nut
+            readOnly: true

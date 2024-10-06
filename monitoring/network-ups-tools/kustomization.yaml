@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: network-ups-tools
+resources:
+  - namespace.yaml
+  - helmrelease.yaml
+configMapGenerator:
+  - name: network-ups-tools-config
+    files:
+      - resources/nut.conf
+      - resources/ups.conf
+      - resources/upsd.conf
+      - resources/upsd.users
+      - resources/evolution500.seq
+configurations:
+  - kustomizeconfig.yaml

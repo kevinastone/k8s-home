@@ -6,5 +6,6 @@ resources:
   - goldilocks
   - loki
   - metrics-server
+  - network-ups-tools
   - prometheus
   - synology
