@@ -50,6 +50,19 @@ spec:
           http:
             port: 3493
             protocol: TCP
+          metrics:
+            port: 9199
+    serviceMonitor:
+      app:
+        enabled: true
+        serviceName: network-ups-tools
+        endpoints:
+        - path: /ups_metrics
+          interval: 30s
+          scrapeTimeout: 10s
+          port: metrics
+          params:
+            ups: [dummy1]
     persistence:
       config:
         type: configMap
