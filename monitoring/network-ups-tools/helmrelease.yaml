@@ -61,8 +61,6 @@ spec:
           interval: 30s
           scrapeTimeout: 10s
           port: metrics
-          params:
-            ups: [dummy1]
     persistence:
       config:
         type: configMap
