@@ -68,6 +68,17 @@ spec:
           interval: 30s
           scrapeTimeout: 10s
           port: metrics
+          params:
+            ups: [cyberpower]
+          relabelings:
+          - targetLabel: ups
+            sourceLabels: [__param_ups]            
+          metricRelabelings:
+            # Remove noise from changing pod ids and addresses
+          - targetLabel: instance
+            replacement: ups
+          - targetLabel: pod
+            replacement: ""
     persistence:
       config:
         type: configMap
