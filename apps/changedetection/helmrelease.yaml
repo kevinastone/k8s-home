@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/dgtlmoon/changedetection.io
-              tag: 0.47.00@sha256:8384f62f2f487771b35be4746ec983f8d38238ff3ae13348de744e8e8d1a1bda
+              tag: 0.47.02@sha256:3a3da89da343043e9c135ce7fee5290c91b37db5d59c81720a6a6bf1b92bf877
             env:
               PORT: &port 5000
               BASE_URL: https://changedetection.k8s.kevinastone.com
