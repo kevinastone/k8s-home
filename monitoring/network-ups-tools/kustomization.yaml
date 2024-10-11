@@ -13,7 +13,6 @@ configMapGenerator:
       - resources/ups.conf
       - resources/upsd.conf
       - resources/upsd.users
-      - resources/evolution500.seq
   - name: network-ups-tools-dashboard
     options:
       labels:
