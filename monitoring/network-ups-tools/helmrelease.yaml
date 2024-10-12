@@ -71,7 +71,7 @@ spec:
           scrapeTimeout: 10s
           port: metrics
           params:
-            ups: [cyberpower]
+            ups: [ups]
           relabelings:
           - targetLabel: ups
             sourceLabels: [__param_ups]            
