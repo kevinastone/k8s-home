@@ -147,6 +147,7 @@
           },
           "expr": "network_ups_tools_ups_status == 1",
           "interval": "",
+          "instant": true,
           "legendFormat": "{{flag}}",
           "refId": "A"
         }
@@ -213,6 +214,7 @@
           },
           "expr": "network_ups_tools_device_info{ups=\"$ups\"}",
           "interval": "",
+          "instant": true,
           "legendFormat": "{{mfr}}",
           "refId": "A"
         }
@@ -279,6 +281,7 @@
           },
           "expr": "network_ups_tools_device_info{ups=\"$ups\"}",
           "interval": "",
+          "instant": true,
           "legendFormat": "{{model}}",
           "refId": "A"
         }
