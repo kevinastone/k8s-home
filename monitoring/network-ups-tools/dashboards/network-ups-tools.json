@@ -43,6 +43,7 @@
     },
     {
       "datasource": {
+        "default": false,
         "type": "prometheus",
         "uid": "${datasource}"
       },
@@ -110,7 +111,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "network_ups_tools_ups_status == 1",
+          "editorMode": "code",
+          "expr": "network_ups_tools_ups_status{ups=\"$ups\"} == 1",
           "instant": true,
           "interval": "",
           "legendFormat": "{{flag}}",
@@ -331,12 +333,123 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "default": false,
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "displayName": "­",
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "OB": {
+                  "color": "red",
+                  "index": 1
+                },
+                "OL": {
+                  "color": "green",
+                  "index": 0
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 33,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "max(network_ups_tools_ups_status{ups=\"$ups\", flag=~\"OB|OL\"} == 1) by (flag)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "transformations": [
+        {
+          "id": "seriesToRows",
+          "options": {}
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "Metric"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "state-timeline"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 7
       },
       "id": 30,
       "panels": [],
@@ -385,7 +498,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 5
+        "y": 8
       },
       "id": 2,
       "options": {
@@ -507,7 +620,7 @@
         "h": 6,
         "w": 10,
         "x": 3,
-        "y": 5
+        "y": 8
       },
       "id": 27,
       "options": {
@@ -606,7 +719,7 @@
         "h": 6,
         "w": 11,
         "x": 13,
-        "y": 5
+        "y": 8
       },
       "id": 15,
       "options": {
@@ -648,7 +761,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 14
       },
       "id": 17,
       "panels": [],
@@ -704,7 +817,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 12
+        "y": 15
       },
       "id": 5,
       "options": {
@@ -806,7 +919,7 @@
         "h": 6,
         "w": 10,
         "x": 3,
-        "y": 12
+        "y": 15
       },
       "id": 12,
       "options": {
@@ -901,7 +1014,7 @@
         "h": 6,
         "w": 11,
         "x": 13,
-        "y": 12
+        "y": 15
       },
       "id": 11,
       "options": {
@@ -941,7 +1054,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 21
       },
       "id": 31,
       "panels": [],
@@ -997,7 +1110,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 19
+        "y": 22
       },
       "id": 4,
       "options": {
@@ -1098,7 +1211,7 @@
         "h": 6,
         "w": 10,
         "x": 3,
-        "y": 19
+        "y": 22
       },
       "id": 13,
       "options": {
@@ -1194,7 +1307,7 @@
         "h": 6,
         "w": 11,
         "x": 13,
-        "y": 19
+        "y": 22
       },
       "id": 28,
       "options": {
@@ -1253,7 +1366,7 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "ups",
           "value": "ups"
         },
@@ -1304,6 +1417,6 @@
   "timezone": "",
   "title": "UPS Monitoring",
   "uid": "j4a-DMWRk",
-  "version": 10,
+  "version": 14,
   "weekStart": ""
 }
