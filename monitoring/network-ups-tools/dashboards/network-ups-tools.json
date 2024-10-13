@@ -982,7 +982,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "auto",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
@@ -1030,7 +1030,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
