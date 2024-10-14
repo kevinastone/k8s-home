@@ -93,7 +93,7 @@
         "textMode": "name",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -163,7 +163,7 @@
         "textMode": "name",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -257,7 +257,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -319,6 +319,7 @@
               "type": "value"
             }
           ],
+          "noValue": "-­",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -355,7 +356,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -444,7 +445,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -519,7 +520,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -811,7 +812,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -1125,7 +1126,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -1426,7 +1427,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -1613,7 +1614,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.1",
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -1820,6 +1821,6 @@
   "timezone": "",
   "title": "UPS Monitoring",
   "uid": "j4a-DMWRk",
-  "version": 29,
+  "version": 1,
   "weekStart": ""
 }
