@@ -26,5 +26,4 @@ resources:
   - openebs.yaml
   - prometheus.yaml
   - redis-operator.yaml
-  - s3gw.yaml
   - seaweedfs.yaml
