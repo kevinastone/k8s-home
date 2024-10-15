@@ -78,8 +78,16 @@ spec:
           metricRelabelings:
             # Remove noise from changing pod ids and addresses
           - targetLabel: instance
-            replacement: ups
+            replacement: ""
           - targetLabel: pod
+            replacement: ""
+          - targetLabel: endpoint
+            replacement: ""
+          - targetLabel: job
+            replacement: ""
+          - targetLabel: namespace
+            replacement: ""
+          - targetLabel: service
             replacement: ""
     persistence:
       config:
