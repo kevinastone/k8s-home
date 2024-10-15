@@ -20,6 +20,8 @@ spec:
   values:
     ingress:
       enabled: false
+    useExistingSecret: true
+    defaultUserCredentialsSecret: s3gw-secret # overriden by kustomizeconfig
     storageSize: 100Gi
     storageClass:
       name: longhorn

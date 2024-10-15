@@ -7,3 +7,11 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - http-route.yaml
+configurations:
+  - kustomizeconfig.yaml
+secretGenerator:
+  - name: s3gw-secret
+    literals:
+    - RGW_DEFAULT_USER_ACCESS_KEY=root
+    files:
+    - RGW_DEFAULT_USER_SECRET_KEY=secrets/client.secret.encrypted
