@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - cert-manager
   - cloudflared
-  - csi-driver-smb
   - descheduler
   - envoy-gateway
   - external-dns
