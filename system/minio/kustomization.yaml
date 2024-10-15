@@ -15,7 +15,6 @@ secretGenerator:
       - root-password=secrets/password.txt.encrypted
   - name: minio-users
     files:
-      - longhorn=secrets/longhorn.txt.encrypted
       - postgres=secrets/postgres.txt.encrypted
   - name: minio-secret
     files:

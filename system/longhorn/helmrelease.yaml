@@ -34,6 +34,3 @@ spec:
     defaultSettings:
       defaultReplicaCount: 2
       replicaAutoBalance: best-effort
-
-      backupTarget: s3://longhorn@us-east-1/
-      backupTargetCredentialSecret: backup-secret

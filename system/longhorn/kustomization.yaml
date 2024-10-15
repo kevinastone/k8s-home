@@ -6,15 +6,6 @@ namespace: longhorn-system
 resources:
   - helmrelease.yaml
   - http-route.yaml
-secretGenerator:
-  - name: backup-secret
-    options:
-      disableNameSuffixHash: true
-    literals:
-      - AWS_ACCESS_KEY_ID=longhorn
-      - AWS_ENDPOINTS=https://s3.k8s.kevinastone.com
-    files:
-      - AWS_SECRET_ACCESS_KEY=secrets/access.key.encrypted
 configMapGenerator:
   - name: longhorn-dashboard
     options:

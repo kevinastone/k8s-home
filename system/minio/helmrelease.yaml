@@ -60,7 +60,6 @@ spec:
       usersExistingSecrets:
         - minio-users # overriden by kustomizeconfig
       buckets:
-        - name: longhorn
         - name: postgres
       networkPolicy:
         enabled: false
