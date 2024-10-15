@@ -18,13 +18,9 @@ spec:
   driftDetection:
     mode: enabled
   values:
-    # mode: distributed
-    # statefulset:
-    #   replicaCount: 4
-    #   zones: 1
     persistence:
-      storageClass: storage-nas
-      size: 250Gi
+      storageClass: longhorn
+      size: 100Gi
     resourcesPreset: small
     extraEnvVars:
     # Trigger the GO-GC more frequently (everytime it grows by 20%)
