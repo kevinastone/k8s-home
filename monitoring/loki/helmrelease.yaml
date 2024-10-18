@@ -61,15 +61,15 @@ spec:
       replicas: 1
       resources:
         requests:
-          cpu: 22m
+          cpu: 100m
           memory: 547M
         limits:
-          cpu: 102m
-          memory: 1601M
+          cpu: 250m
+          memory: 2048M
       extraEnv:
         # Keep a little bit lower than memory limits
         - name: GOMEMLIMIT
-          value: 3750MiB
+          value: 1792MiB
       persistence:
         size: 50Gi
     chunksCache:
