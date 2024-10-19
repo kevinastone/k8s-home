@@ -8,4 +8,5 @@ resources:
   - metrics-server
   - network-ups-tools
   - prometheus
-  - synology
+  # Disabled due to preventing hdd hibernation
+  # - synology
