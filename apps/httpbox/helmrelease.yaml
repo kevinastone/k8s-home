@@ -22,7 +22,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/httpbox
-              tag: master@sha256:a341fde930eb166a6c1f0b84902b65632226d09e7f94e8cb96e6710a6efb896a
+              tag: master@sha256:95a23468b1237ff190ea0e56a5cb0c769761a4487468042abf41701538f7ba87
             env:
               PORT: &port 80
             ports:
@@ -32,6 +32,7 @@ spec:
               liveness: &probes
                 enabled: true
                 type: HTTP
+                path: /healthz
               readiness: *probes
 
     service:
