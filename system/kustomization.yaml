@@ -13,7 +13,7 @@ resources:
   - intel-gpu-plugin
   - k8tz
   - longhorn
-  - metallb
+  # - metallb
   - minio
   - node-feature-discovery
   - openebs
