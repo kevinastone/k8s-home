@@ -25,8 +25,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 20,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -93,7 +93,7 @@
         "textMode": "name",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -163,7 +163,7 @@
         "textMode": "name",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -257,7 +257,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -272,6 +272,7 @@
           "refId": "A"
         }
       ],
+      "title": "",
       "transformations": [
         {
           "id": "seriesToRows",
@@ -356,7 +357,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -446,7 +447,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -525,7 +526,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -595,7 +596,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -690,6 +691,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -708,6 +710,7 @@
           "useBackend": false
         }
       ],
+      "title": "",
       "transformations": [
         {
           "id": "seriesToRows",
@@ -728,7 +731,7 @@
       "type": "state-timeline"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -736,82 +739,84 @@
         "y": 11
       },
       "id": 35,
-      "panels": [
-        {
-          "datasource": {
-            "default": false,
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "fillOpacity": 70,
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineWidth": 0,
-                "spanNulls": false
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 24,
-            "x": 0,
-            "y": 12
-          },
-          "id": 34,
-          "options": {
-            "alignValue": "left",
-            "legend": {
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": false
-            },
-            "mergeValues": true,
-            "rowHeight": 0.9,
-            "showValue": "never",
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "max(network_ups_tools_ups_status{ups=\"$ups\"} == 1) by (flag)",
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "type": "state-timeline"
-        }
-      ],
+      "panels": [],
       "title": "Status Breakdown",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 34,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "max(network_ups_tools_ups_status{ups=\"$ups\"} == 1) by (flag)",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "",
+      "type": "state-timeline"
     },
     {
       "collapsed": false,
@@ -819,7 +824,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 19
       },
       "id": 30,
       "panels": [],
@@ -869,7 +874,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 2,
       "options": {
@@ -887,7 +892,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -987,7 +992,7 @@
         "h": 6,
         "w": 10,
         "x": 3,
-        "y": 13
+        "y": 20
       },
       "id": 28,
       "options": {
@@ -1002,7 +1007,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1012,7 +1017,7 @@
           "editorMode": "code",
           "expr": "network_ups_tools_battery_charge{ups=\"$ups\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Charge",
           "range": true,
           "refId": "A"
         }
@@ -1108,7 +1113,7 @@
         "h": 6,
         "w": 11,
         "x": 13,
-        "y": 13
+        "y": 20
       },
       "id": 27,
       "options": {
@@ -1123,16 +1128,18 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "network_ups_tools_battery_runtime{ups=\"$ups\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Runtime",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1146,7 +1153,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 19
+        "y": 26
       },
       "id": 39,
       "panels": [],
@@ -1186,7 +1193,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 20
+        "y": 27
       },
       "id": 40,
       "options": {
@@ -1204,7 +1211,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1291,7 +1298,7 @@
         "h": 6,
         "w": 10,
         "x": 3,
-        "y": 20
+        "y": 27
       },
       "id": 15,
       "options": {
@@ -1306,16 +1313,18 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "network_ups_tools_ups_load{ups=\"$ups\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Load",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1387,7 +1396,7 @@
         "h": 6,
         "w": 11,
         "x": 13,
-        "y": 20
+        "y": 27
       },
       "id": 11,
       "options": {
@@ -1402,7 +1411,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1412,7 +1421,7 @@
           "editorMode": "code",
           "expr": "(network_ups_tools_ups_load{ups=\"$ups\"} / 100) * network_ups_tools_ups_realpower_nominal{ups=\"$ups\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Power",
           "range": true,
           "refId": "A"
         }
@@ -1423,27 +1432,14 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 33
       },
       "id": 17,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Power Health",
       "type": "row"
     },
@@ -1487,7 +1483,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 27
+        "y": 34
       },
       "id": 5,
       "options": {
@@ -1505,7 +1501,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1593,7 +1589,7 @@
         "h": 6,
         "w": 9,
         "x": 3,
-        "y": 27
+        "y": 34
       },
       "id": 12,
       "options": {
@@ -1608,19 +1604,22 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "network_ups_tools_input_voltage{ups=\"$ups\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Input Voltage",
+          "range": true,
           "refId": "A"
         }
       ],
+      "title": "",
       "transparent": true,
       "type": "timeseries"
     },
@@ -1674,7 +1673,7 @@
         "h": 6,
         "w": 3,
         "x": 12,
-        "y": 27
+        "y": 34
       },
       "id": 4,
       "options": {
@@ -1692,7 +1691,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.2.2",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -1779,7 +1778,7 @@
         "h": 6,
         "w": 9,
         "x": 15,
-        "y": 27
+        "y": 34
       },
       "id": 13,
       "options": {
@@ -1794,19 +1793,22 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "network_ups_tools_battery_voltage{ups=\"$ups\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Battery Voltage",
+          "range": true,
           "refId": "A"
         }
       ],
+      "title": "",
       "transparent": true,
       "type": "timeseries"
     },
@@ -1816,7 +1818,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 40
       },
       "id": 31,
       "panels": [],
@@ -1824,31 +1826,27 @@
       "type": "row"
     }
   ],
+  "preload": false,
   "refresh": "5s",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "Prometheus",
           "value": "prometheus"
         },
-        "hide": 0,
         "includeAll": false,
-        "multi": false,
         "name": "datasource",
         "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
         "current": {
-          "selected": false,
           "text": "ups",
           "value": "ups"
         },
@@ -1857,10 +1855,8 @@
           "uid": "${datasource}"
         },
         "definition": "label_values(network_ups_tools_device_info, ups)",
-        "hide": 0,
         "includeAll": false,
         "label": "UPS",
-        "multi": false,
         "name": "ups",
         "options": [],
         "query": {
@@ -1869,12 +1865,7 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       }
     ]
   },
@@ -1882,23 +1873,10 @@
     "from": "now-30m",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "",
   "title": "UPS Monitoring",
   "uid": "j4a-DMWRk",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }
