@@ -12,3 +12,12 @@ resources:
   - security-policy.yaml
   - pod-monitor.yaml
   - http-route.yaml
+configMapGenerator:
+  - name: envoy-gateway-dashboard
+    options:
+      labels:
+        grafana_dashboard: 'true'
+    files:
+      - dashboards/envoy-clusters.json
+      - dashboards/envoy-gateway-global.json
+      - dashboards/envoy-proxy-global.json
