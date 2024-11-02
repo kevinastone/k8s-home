@@ -44,7 +44,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["*"],
-       "excludePackagePatterns": ["registry-1.docker.io/envoyproxy/gateway-helm", "registry-1.docker.io/bitnamicharts/minio"],
+       "excludePackagePatterns": ["docker.io/envoyproxy/gateway-helm", "docker.io/bitnamicharts/minio"],
       "pinDigests": true
     },
     {
