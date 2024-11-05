@@ -25,3 +25,12 @@ spec:
       limits:
         cpu: 2
         memory: 1Gi
+    persistence:
+      size: 20Gi
+    initScripts:
+      enabled: true
+      scripts:
+        creat_telegraf_db.iql: |+
+          CREATE DATABASE "telegraf"
+        creat_home_assistant_db.iql: |+
+          CREATE DATABASE "home_assistant"
