@@ -6,6 +6,7 @@ namespace: homer
 resources:
   - namespace.yaml
   - helmrelease.yaml
+  - helmrelease-static.yaml
   - http-route.yaml
 configMapGenerator:
   - name: homer-config
