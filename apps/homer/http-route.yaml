@@ -11,10 +11,17 @@ spec:
   hostnames:
     - home.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: homer
-          port: 8080
-      matches:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /static/
+      backendRefs:
+        - name: homer-static
+          port: 80
+    - matches:
         - path:
             type: PathPrefix
             value: /
+      backendRefs:
+        - name: homer
+          port: 80

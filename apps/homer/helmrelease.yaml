@@ -40,8 +40,8 @@ spec:
               tag: v24.11.1@sha256:dcb90201b2426eef0f6f207a8f62c6dc47584391bff3f01b69c762fca9d25f48
               pullPolicy: IfNotPresent
             ports:
-            - containerPort: 8080
-              name: http
+              - containerPort: 8080
+                name: http
             probes:
               liveness: &probes
                 enabled: true
@@ -76,7 +76,8 @@ spec:
         controller: main
         ports:
           http:
-            port: 8080
+            port: 80
+            targetPort: 8080
 
     persistence:
       config:

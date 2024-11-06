@@ -42,7 +42,7 @@ spec:
               - --one-time
               - --ref=75950684602fd6871e2a2c39ce7e2ccd4880310d
               - --link=current
-              - --root=/usr/share/nginx/html/icons
+              - --root=/usr/share/nginx/html/static/icons
           sync-theme:
             image:
               repository: registry.k8s.io/git-sync/git-sync
@@ -53,7 +53,7 @@ spec:
               - --one-time
               - --ref=377dd768acd4e87560db75edc312ddd7b62b3252
               - --link=current
-              - --root=/usr/share/nginx/html/theme
+              - --root=/usr/share/nginx/html/static/theme
     service:
       main:
         controller: main
@@ -68,4 +68,4 @@ spec:
         size: 10Gi
         accessMode: ReadWriteOnce
         globalMounts:
-          - path: /usr/share/nginx/html
+          - path: /usr/share/nginx/html/static
