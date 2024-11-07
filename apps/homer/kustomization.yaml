@@ -12,10 +12,5 @@ configMapGenerator:
   - name: homer-config
     files:
       - config.yml=resources/config.yml
-  - name: homer-assets
-    files:
-      - assets/2048.svg
-      - assets/sudoku.svg
-      - assets/goldilocks.svg
 configurations:
   - kustomizeconfig.yaml
