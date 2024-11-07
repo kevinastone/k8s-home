@@ -55,9 +55,3 @@ spec:
         globalMounts:
           - path: /www/assets/config.yml
             subPath: config.yml
-      custom-assets:
-        enabled: true
-        type: configMap
-        name: homer-assets # overriden by kustomizeconfig
-        globalMounts:
-          - path: /www/assets/custom
