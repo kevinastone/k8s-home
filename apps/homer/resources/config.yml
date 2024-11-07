@@ -2,7 +2,7 @@ title: "Dashboard"
 subtitle: "kevinastone"
 
 # logo: "assets/icons/logo.svg"
-logo: assets/extra/theme/current/assets/logos/dark_circle.png
+logo: /static/theme/current/assets/logos/dark_circle.png
 # # Alternatively a fa icon can be provided:
 # icon: "fas fa-skull-crossbones"
 
@@ -13,11 +13,11 @@ connectivityCheck: false
 
 # Set the default layout and color scheme
 defaults:
-  layout: columns # Either 'columns', or 'list'
-  colorTheme: auto # One of 'auto', 'light', or 'dark'
+    layout: columns # Either 'columns', or 'list'
+    colorTheme: auto # One of 'auto', 'light', or 'dark'
 
 stylesheet:
-  - 'assets/extra/theme/current/flavours/catppuccin-mocha.css'
+    - "/static/theme/current/flavours/catppuccin-mocha.css"
 
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
@@ -27,57 +27,57 @@ links: []
 # First level array represent a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: Metrics
-    icon: fas fa-chart-line
-    items:
-      - name: Grafana
-        logo: /assets/extra/icons/current/svg/grafana.svg
-        url: https://grafana.k8s.kevinastone.com
-      - name: Kubernetes Dashboard
-        logo: /assets/extra/icons/current/svg/kubernetes.svg
-        url: https://dashboard.k8s.kevinastone.com
-      - name: Prometheus
-        type: Prometheus
-        logo: /assets/extra/icons/current/svg/prometheus.svg
-        url: https://prometheus.k8s.kevinastone.com/alerts
-        endpoint: https://prometheus.k8s.kevinastone.com
-      - name: Chronograf
-        logo: /assets/extra/icons/current/svg/influxdb.svg
-        url: https://chronograf.k8s.kevinastone.com
-      - name: Longhorn
-        logo: /assets/extra/icons/current/svg/longhorn.svg
-        url: https://longhorn.k8s.kevinastone.com
-      - name: Goldilocks
-        logo: /assets/custom/goldilocks.svg
-        url: https://goldilocks.k8s.kevinastone.com
-  - name: Servers
-    icon: fas fa-server
-    items:
-      - name: Home Assistant
-        logo: /assets/extra/icons/current/svg/home-assistant-alt.svg
-        url: https://automation.k8s.kevinastone.com
-      - name: Zigbee2MQTT
-        logo: /assets/extra/icons/current/svg/zigbee2mqtt.svg
-        url: https://zigbee2mqtt.k8s.kevinastone.com/
-      - name: MinIO
-        logo: /assets/extra/icons/current/svg/minio.svg
-        url: https://minio.k8s.kevinastone.com/
-      - name: Authelia
-        logo: /assets/extra/icons/current/svg/authelia.svg
-        url: https://auth.k8s.kevinastone.com/
-      - name: LLDAP
-        url: https://ldap.k8s.kevinastone.com/
-      - name: Change Detection
-        logo: /assets/extra/icons/current/png/changedetection-io.png
-        url: https://changedetection.k8s.kevinastone.com/
-      - name: httpbox
-        url: https://httpbox.k8s.kevinastone.com/
-  - name: Games
-    icon: fas fa-gamepad
-    items:
-      - name: "2048"
-        logo: /assets/custom/2048.svg
-        url: https://2048.k8s.kevinastone.com
-      - name: Sudoku
-        logo: /assets/custom/sudoku.svg
-        url: https://sudoku.k8s.kevinastone.com
+    - name: Metrics
+      icon: fas fa-chart-line
+      items:
+          - name: Grafana
+            logo: /static/icons/current/svg/grafana.svg
+            url: https://grafana.k8s.kevinastone.com
+          - name: Kubernetes Dashboard
+            logo: /static/icons/current/svg/kubernetes.svg
+            url: https://dashboard.k8s.kevinastone.com
+          - name: Prometheus
+            type: Prometheus
+            logo: /static/icons/current/svg/prometheus.svg
+            url: https://prometheus.k8s.kevinastone.com/alerts
+            endpoint: https://prometheus.k8s.kevinastone.com
+          - name: Chronograf
+            logo: /static/icons/current/svg/influxdb.svg
+            url: https://chronograf.k8s.kevinastone.com
+          - name: Longhorn
+            logo: /static/icons/current/svg/longhorn.svg
+            url: https://longhorn.k8s.kevinastone.com
+          - name: Goldilocks
+            logo: assets/custom/goldilocks.svg
+            url: https://goldilocks.k8s.kevinastone.com
+    - name: Servers
+      icon: fas fa-server
+      items:
+          - name: Home Assistant
+            logo: /static/icons/current/svg/home-assistant-alt.svg
+            url: https://automation.k8s.kevinastone.com
+          - name: Zigbee2MQTT
+            logo: /static/icons/current/svg/zigbee2mqtt.svg
+            url: https://zigbee2mqtt.k8s.kevinastone.com/
+          - name: MinIO
+            logo: /static/icons/current/svg/minio.svg
+            url: https://minio.k8s.kevinastone.com/
+          - name: Authelia
+            logo: /static/icons/current/svg/authelia.svg
+            url: https://auth.k8s.kevinastone.com/
+          - name: LLDAP
+            url: https://ldap.k8s.kevinastone.com/
+          - name: Change Detection
+            logo: /static/icons/current/png/changedetection-io.png
+            url: https://changedetection.k8s.kevinastone.com/
+          - name: httpbox
+            url: https://httpbox.k8s.kevinastone.com/
+    - name: Games
+      icon: fas fa-gamepad
+      items:
+          - name: "2048"
+            logo: assets/custom/2048.svg
+            url: https://2048.k8s.kevinastone.com
+          - name: Sudoku
+            logo: assets/custom/sudoku.svg
+            url: https://sudoku.k8s.kevinastone.com
