@@ -48,7 +48,7 @@ services:
             logo: /static/icons/svg/longhorn.svg
             url: https://longhorn.k8s.kevinastone.com
           - name: Goldilocks
-            logo: assets/custom/goldilocks.svg
+            logo: /static/custom/goldilocks.svg
             url: https://goldilocks.k8s.kevinastone.com
     - name: Servers
       icon: fas fa-server
@@ -76,8 +76,8 @@ services:
       icon: fas fa-gamepad
       items:
           - name: "2048"
-            logo: assets/custom/2048.svg
+            logo: /static/custom/2048.svg
             url: https://2048.k8s.kevinastone.com
           - name: Sudoku
-            logo: assets/custom/sudoku.svg
+            logo: /static/custom/sudoku.svg
             url: https://sudoku.k8s.kevinastone.com
