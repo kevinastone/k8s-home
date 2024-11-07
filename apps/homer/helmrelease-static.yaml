@@ -16,10 +16,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    defaultPodOptions:
-      securityContext:
-        fsGroup: 1000
-        fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       main:
         strategy: RollingUpdate
@@ -32,6 +28,11 @@ spec:
             ports:
               - containerPort: 8080
                 name: http
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+              readiness: *probes
     service:
       main:
         controller: main
