@@ -10,77 +10,48 @@
     ":automergeMinor",
     ":automergeDigest"
   ],
-  "ignorePaths": [
-    "**/resources/**"
-  ],
+  "ignorePaths": ["**/resources/**"],
   "flux": {
-    "fileMatch": [
-      "\\.yaml$"
-    ]
+    "fileMatch": ["\\.yaml$"]
   },
   "helm-values": {
-    "fileMatch": [
-      "\\.yaml$"
-    ]
+    "fileMatch": ["\\.yaml$"]
   },
   "kubernetes": {
-    "fileMatch": [
-      "\\.yaml$"
-    ]
+    "fileMatch": ["\\.yaml$"]
   },
   "packageRules": [
     {
-      "allowedVersions": "!/3.3.0/",
-      "matchPackageNames": [
-        "/redis-operator/"
-      ]
+      "matchPackagePatterns": ["redis-operator"],
+      "allowedVersions": "!/3.3.0/"
     },
     {
-      "allowedVersions": "<7",
-      "matchPackageNames": [
-        "/kubernetes-dashboard/"
-      ]
+      "matchPackagePatterns": ["kubernetes-dashboard"],
+      "allowedVersions": "<7"
     },
     {
-      "allowedVersions": "!/v1.15.0/",
-      "matchPackageNames": [
-        "/csi-driver-smb/"
-      ]
+      "matchPackagePatterns": ["csi-driver-smb"],
+      "allowedVersions": "!/v1.15.0/"
     },
     {
-      "allowedVersions": "!/6.16.0/",
-      "matchPackageNames": [
-        "/promtail/"
-      ]
+      "matchPackagePatterns": ["promtail"],
+      "allowedVersions": "!/6.16.0/"
     },
     {
-      "matchDatasources": [
-        "kubernetes-api"
-      ],
+      "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
     {
-      "matchDatasources": [
-        "docker"
-      ],
-      "pinDigests": true,
-      "matchPackageNames": [
-        "*",
-        "!/docker.io/envoyproxy/gateway-helm/",
-        "!/docker.io/bitnamicharts/minio/"
-      ]
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["*"],
+       "excludePackagePatterns": ["docker.io/envoyproxy/gateway-helm", "docker.io/bitnamicharts/minio"],
+      "pinDigests": true
     },
     {
-      "description": [
-        "CalVer for Home-Assistant"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "automerge": true,
-      "matchPackageNames": [
-        "/home-assistant/"
-      ]
+      "description": ["CalVer for Home-Assistant"],
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["home-assistant"],
+      "automerge": true
     }
   ]
 }
