@@ -44,7 +44,11 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["*"],
-       "excludePackagePatterns": ["docker.io/envoyproxy/gateway-helm", "docker.io/bitnamicharts/minio"],
+      "excludePackagePatterns": [
+        "docker.io/envoyproxy/gateway-helm",
+        "docker.io/bitnamicharts/minio",
+        "ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator"
+      ],
       "pinDigests": true
     },
     {
