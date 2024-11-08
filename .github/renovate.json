@@ -22,19 +22,19 @@
   },
   "packageRules": [
     {
-      "matchPackagePatterns": ["redis-operator"],
+      "matchPackageNames": ["redis-operator"],
       "allowedVersions": "!/3.3.0/"
     },
     {
-      "matchPackagePatterns": ["kubernetes-dashboard"],
+      "matchPackageNames": ["kubernetes-dashboard"],
       "allowedVersions": "<7"
     },
     {
-      "matchPackagePatterns": ["csi-driver-smb"],
+      "matchPackageNames": ["csi-driver-smb"],
       "allowedVersions": "!/v1.15.0/"
     },
     {
-      "matchPackagePatterns": ["promtail"],
+      "matchPackageNames": ["promtail"],
       "allowedVersions": "!/6.16.0/"
     },
     {
@@ -43,18 +43,17 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["*"],
-      "excludePackagePatterns": [
-        "docker.io/envoyproxy/gateway-helm",
-        "docker.io/bitnamicharts/minio",
-        "ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator"
+      "matchPackageNames": [
+        "!docker.io/envoyproxy/gateway-helm",
+        "!docker.io/bitnamicharts/minio",
+        "!ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator"
       ],
       "pinDigests": true
     },
     {
       "description": ["CalVer for Home-Assistant"],
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["home-assistant"],
+      "matchPackageNames": ["home-assistant"],
       "automerge": true
     }
   ]
