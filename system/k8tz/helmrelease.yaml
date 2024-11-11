@@ -18,3 +18,4 @@ spec:
   values:
     namespace: null
     timezone: America/Los_Angeles
+    injectionStrategy: hostPath
