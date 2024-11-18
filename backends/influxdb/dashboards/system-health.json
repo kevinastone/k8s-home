@@ -15,10 +15,10 @@
       }
     ]
   },
-  "editable": false,
+  "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 8,
   "links": [],
   "panels": [
     {
@@ -125,25 +125,19 @@
           },
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "host"
-              ],
+              "params": ["host"],
               "type": "tag"
             },
             {
-              "params": [
-                "none"
-              ],
+              "params": ["none"],
               "type": "fill"
             }
           ],
-          "measurement": "cpu_temperature",
+          "measurement": "temp",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -151,20 +145,12 @@
           "select": [
             [
               {
-                "params": [
-                  "value"
-                ],
+                "params": ["temp"],
                 "type": "field"
               },
               {
                 "params": [],
                 "type": "mean"
-              },
-              {
-                "params": [
-                  " / 1000"
-                ],
-                "type": "math"
               }
             ]
           ],
@@ -265,21 +251,15 @@
           },
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "host"
-              ],
+              "params": ["host"],
               "type": "tag"
             },
             {
-              "params": [
-                "none"
-              ],
+              "params": ["none"],
               "type": "fill"
             }
           ],
@@ -291,9 +271,7 @@
           "select": [
             [
               {
-                "params": [
-                  "usage_active"
-                ],
+                "params": ["usage_active"],
                 "type": "field"
               },
               {
@@ -404,21 +382,15 @@
           },
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "host"
-              ],
+              "params": ["host"],
               "type": "tag"
             },
             {
-              "params": [
-                "none"
-              ],
+              "params": ["none"],
               "type": "fill"
             }
           ],
@@ -430,9 +402,7 @@
           "select": [
             [
               {
-                "params": [
-                  "load1"
-                ],
+                "params": ["load1"],
                 "type": "field"
               },
               {
@@ -537,21 +507,15 @@
           },
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "host"
-              ],
+              "params": ["host"],
               "type": "tag"
             },
             {
-              "params": [
-                "none"
-              ],
+              "params": ["none"],
               "type": "fill"
             }
           ],
@@ -563,9 +527,7 @@
           "select": [
             [
               {
-                "params": [
-                  "load5"
-                ],
+                "params": ["load5"],
                 "type": "field"
               },
               {
@@ -620,9 +582,7 @@
         "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": true
         },
@@ -640,9 +600,7 @@
           },
           "groupBy": [
             {
-              "params": [
-                "host"
-              ],
+              "params": ["host"],
               "type": "tag"
             }
           ],
@@ -656,9 +614,7 @@
           "select": [
             [
               {
-                "params": [
-                  "used_percent"
-                ],
+                "params": ["used_percent"],
                 "type": "field"
               },
               {
