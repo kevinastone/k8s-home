@@ -4,22 +4,34 @@ import pathlib
 import re
 import sys
 import urllib.request
-
+from dataclasses import dataclass, field, InitVar
+import typing as t
 import tomllib
 
 
-def url_for_dashboard(dashboard) -> str:
-    return dashboard.get('url') or \
-        f"https://grafana.com/api/dashboards/{dashboard['id']}/revisions/{dashboard.get('revision', 1)}/download"
+@dataclass
+class Dashboard:
+    datasource: t.Optional[dict | str] = None
+    url: str = ""
+    id: InitVar[t.Optional[int]] = None
+    revision: InitVar[int] = 1
+
+    def __post_init__(self, id: t.Optional[int], revision: int):
+        if not self.url:
+            if id:
+                # From https://github.com/grafana/helm-charts/blob/main/charts/grafana/templates/_config.tpl#L120
+                self.url = f"https://grafana.com/api/dashboards/{id}/revisions/{revision}/download"
+            else:
+                raise ValueError("Either url or id must be set")
 
 
-def fetch(url, destination, datasource):
+def fetch(url: str, destination: pathlib.Path, datasource: t.Optional[dict | str] = None):
     print(f"Downloading {destination} from {url}")
     with io.open(destination, "w", encoding='utf-8') as output, urllib.request.urlopen(url) as request:
         charset = request.info().get_content_charset()
         data = request.read().decode(charset)
         if isinstance(datasource, str):
-            # From https://github.com/grafana/helm-charts/blob/main/charts/grafana/templates/_config.tpl#L120
+
             data = re.sub(r'"datasource":.*,', rf'"datasource": "{datasource}",', data)
         elif isinstance(datasource, dict):
             for key, val in datasource.items():
@@ -27,15 +39,18 @@ def fetch(url, destination, datasource):
         output.write(data)
 
 
-def process_config(cfg_file):
+def process_config(cfg_file: str):
     cwd = pathlib.Path(cfg_file).parent
     with open(cfg_file, "rb") as f:
         dashboards = tomllib.load(f)
-        for filename, dashboard in dashboards.items():
-            url = url_for_dashboard(dashboard)
-            datasource = dashboard.get('datasource')
+        for filename, config in dashboards.items():
+            try:
+                dashboard = Dashboard(**config)
+            except ValueError as e:
+                print(f"Skipping {filename} because it is not valid: {e}")
+                continue
             dest_file = cwd / f"{filename}.json"
-            fetch(url, dest_file, datasource)
+            fetch(dashboard.url, dest_file, dashboard.datasource)
 
 
 def main() -> int:
