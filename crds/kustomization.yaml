@@ -6,5 +6,6 @@ resources:
   - cert-manager
   # - dragonfly-operator
   - gateway-api
+  - metallb
   - postgres
   - redis-operator
