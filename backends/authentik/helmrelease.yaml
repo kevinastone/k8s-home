@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: authentik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: authentik
+      version: v2024.10.5
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: flux-system
+  driftDetection:
+    mode: enabled
+  values:
+    global:
+      envFrom:
+        - secretRef:
+            name: authentik-secret # overriden by kustomizeconfig
+        - secretRef:
+            name: authentik-bootstrap # overriden by kustomizeconfig
+        - secretRef:
+            name: postgres-app
+      env:
+        - name: AUTHENTIK_POSTGRESQL__NAME
+          value: $(dbname)
+        - name: AUTHENTIK_POSTGRESQL__HOST
+          value: $(host)
+        - name: AUTHENTIK_POSTGRESQL__PORT
+          value: $(port)
+        - name: AUTHENTIK_POSTGRESQL__USER
+          value: $(user)
+        - name: AUTHENTIK_POSTGRESQL__PASSWORD
+          value: $(password)
+        - name: AUTHENTIK_DISABLE_STARTUP_ANALYTICS
+          value: "true"
+        - name: AUTHENTIK_DISABLE_UPDATE_CHECK
+          value: "true"
+        - name: AUTHENTIK_ERROR_REPORTING__ENABLED
+          value: "false"
+    server:
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+    worker:
+      envFrom:
+        - secretRef:
+            name: authentik-bootstrap # overriden by kustomizeconfig
+    prometheus:
+      rules:
+        enabled: true
+    postgresql:
+      enabled: false
+    redis:
+      enabled: true
+    blueprints:
+      # -- List of config maps to mount blueprints from.
+      # Only keys in the configMap ending with `.yaml` will be discovered and applied.
+      configMaps: []
+      # -- List of secrets to mount blueprints from.
+      # Only keys in the secret ending with `.yaml` will be discovered and applied.
+      secrets: []
