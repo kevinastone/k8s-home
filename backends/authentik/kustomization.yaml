@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: authentik
+resources:
+  - namespace.yaml
+  - postgres
+  - redis.yaml
+  - helmrelease.yaml
+  - http-route.yaml
+configurations:
+  - kustomizeconfig.yaml
+secretGenerator:
+  # - name: authentik-env
+  #   files:
+  #   - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
+  #   - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
+  - name: authentik-secret
+    files:
+      - AUTHENTIK_SECRET_KEY=secrets/secret.key.encrypted
+    # - jwt.token=secrets/jwt.token.encrypted
+    # - session.token=secrets/session.token.encrypted
+    # - storage-encryption.key=secrets/storage-encryption.key.encrypted
+    # - ldap-user.password=../ldap/secrets/lldap-user.password.encrypted
+    # - oidc-hmac.secret=secrets/oidc-hmac.secret.encrypted
+    # - oidc-issuer.key=secrets/oidc-issuer.key.encrypted
