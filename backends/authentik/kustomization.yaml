@@ -6,8 +6,9 @@ namespace: authentik
 resources:
   - namespace.yaml
   - postgres
-  # - redis.yaml
+  - redis.yaml
   - helmrelease.yaml
+  - helmrelease-redis-sentinel-proxy.yaml
   - http-route.yaml
 configurations:
   - kustomizeconfig.yaml

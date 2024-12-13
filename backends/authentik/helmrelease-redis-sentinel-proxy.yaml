@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: redis-sentinel-proxy
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        containers:
+          main:
+            image:
+              repository: patrickdk/redis-sentinel-proxy
+              tag: v1.1@sha256:d7fecdf1701cbb960770a8fc5e3e413f0854b30e9ef2b35c0e587f79b7a48821
+              pullPolicy: IfNotPresent
+            env:
+              - name: SENTINEL
+                value: rfs-redis:26379
+            ports:
+              - containerPort: 9999
+                name: redis
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: redis
+              readiness: *probes
+    service:
+      main:
+        controller: main
+        ports:
+          redis:
+            primary: true
+            protocol: TCP
+            port: 6379
+            targetPort: redis

@@ -36,6 +36,8 @@ spec:
           value: $(user)
         - name: AUTHENTIK_POSTGRESQL__PASSWORD
           value: $(password)
+        - name: AUTHENTIK_REDIS__HOST
+          value: redis-sentinel-proxy
         - name: AUTHENTIK_DISABLE_STARTUP_ANALYTICS
           value: "true"
         - name: AUTHENTIK_DISABLE_UPDATE_CHECK
@@ -57,7 +59,7 @@ spec:
     postgresql:
       enabled: false
     redis:
-      enabled: true
+      enabled: false
     blueprints:
       # -- List of config maps to mount blueprints from.
       # Only keys in the configMap ending with `.yaml` will be discovered and applied.
