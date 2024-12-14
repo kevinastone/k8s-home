@@ -8,6 +8,7 @@ resources:
   - helmrelease.yaml
   - helmrelease-static.yaml
   - http-route.yaml
+  - ../../backends/authelia/security-policy.yaml
 configMapGenerator:
   - name: homer-config
     files:
