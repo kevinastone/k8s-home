@@ -4,10 +4,15 @@ kind: SecurityPolicy
 metadata:
   name: httpbox
 spec:
-  targetRefs:
+  targetSelectors:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: httpbox
+      matchLabels:
+        auth: authelia
+  # targetRefs:
+  #   - group: gateway.networking.k8s.io
+  #     kind: HTTPRoute
+  #     name: httpbox
   extAuth:
     failOpen: false
     headersToExtAuth:
