@@ -1,0 +1,27 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: authelia-extauth
+spec:
+  targetSelectors:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      matchLabels:
+        auth: authelia
+  extAuth:
+    failOpen: false
+    headersToExtAuth:
+      - X-Forwarded-Proto
+      - authorization
+      - proxy-authorization
+      - accept
+      - cookie
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authelia
+          namespace: authelia
+          port: 80
+      path: /api/authz/ext-authz/

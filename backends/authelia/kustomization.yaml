@@ -9,6 +9,7 @@ resources:
   - redis.yaml
   - helmrelease.yaml
   - http-route.yaml
+  - security-policy.yaml
   - reference-grant.yaml
 configurations:
   - kustomizeconfig.yaml
@@ -19,13 +20,13 @@ configMapGenerator:
 secretGenerator:
   - name: authelia-env
     files:
-    - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
-    - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
+      - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
+      - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
   - name: authelia-secret
     files:
-    - jwt.token=secrets/jwt.token.encrypted
-    - session.token=secrets/session.token.encrypted
-    - storage-encryption.key=secrets/storage-encryption.key.encrypted
-    - ldap-user.password=../ldap/secrets/lldap-user.password.encrypted
-    - oidc-hmac.secret=secrets/oidc-hmac.secret.encrypted
-    - oidc-issuer.key=secrets/oidc-issuer.key.encrypted
+      - jwt.token=secrets/jwt.token.encrypted
+      - session.token=secrets/session.token.encrypted
+      - storage-encryption.key=secrets/storage-encryption.key.encrypted
+      - ldap-user.password=../ldap/secrets/lldap-user.password.encrypted
+      - oidc-hmac.secret=secrets/oidc-hmac.secret.encrypted
+      - oidc-issuer.key=secrets/oidc-issuer.key.encrypted
