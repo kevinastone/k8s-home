@@ -22,8 +22,6 @@ spec:
         - secretRef:
             name: authentik-secret # overriden by kustomizeconfig
         - secretRef:
-            name: authentik-bootstrap # overriden by kustomizeconfig
-        - secretRef:
             name: postgres-app
       env:
         - name: AUTHENTIK_POSTGRESQL__NAME
