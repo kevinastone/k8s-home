@@ -2,7 +2,7 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: authelia-extauth
+  name: authelia
 spec:
   targetSelectors:
     - group: gateway.networking.k8s.io
