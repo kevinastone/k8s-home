@@ -26,6 +26,12 @@ spec:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
       namespace: zigbee2mqtt
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: prometheus
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: goldilocks
   to:
     - group: ""
       kind: Service
