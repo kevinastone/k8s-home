@@ -16,6 +16,12 @@ configMapGenerator:
   - name: authelia-config
     files:
       - resources/configuration.yaml
+  - name: authelia-dashboard
+    options:
+      labels:
+        grafana_dashboard: "true"
+    files:
+      - dashboards/authelia.json
 secretGenerator:
   - name: authelia-env
     files:
