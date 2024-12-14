@@ -32,6 +32,9 @@ spec:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
       namespace: goldilocks
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: influxdb
   to:
     - group: ""
       kind: Service
