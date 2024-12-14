@@ -5,7 +5,7 @@ metadata:
   name: minio-admin
 spec:
   parentRefs:
-    - name: envoy-gateway
+    - name: public-gateway
       namespace: envoy
       sectionName: https
   hostnames:
@@ -25,7 +25,7 @@ metadata:
   name: minio-s3
 spec:
   parentRefs:
-    - name: envoy-gateway
+    - name: public-gateway
       namespace: envoy
       sectionName: https
   hostnames:

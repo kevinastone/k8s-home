@@ -2,13 +2,28 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: envoy-gateway-policy
+  name: auth-gateway-policy
   namespace: envoy
 spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
-    name: envoy-gateway
+    name: auth-gateway
+    namespace: envoy
+  cors:
+    allowOrigins:
+      - "*"
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: public-gateway-policy
+  namespace: envoy
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: public-gateway
     namespace: envoy
   cors:
     allowOrigins:

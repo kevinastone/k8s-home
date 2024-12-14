@@ -2,31 +2,63 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: envoy-gateway
+  name: auth-gateway
   namespace: envoy
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   gatewayClassName: envoy-gateway-class
   listeners:
-  - name: http
-    protocol: HTTP
-    port: 80
-    allowedRoutes:
-      kinds:
-      - kind: HTTPRoute
-      namespaces:
-        from: All
-  - name: https
-    protocol: HTTPS
-    hostname: "*.k8s.kevinastone.com"
-    port: 443
-    tls:
-      mode: Terminate
-      certificateRefs:
-        - name: envoy-tls
-    allowedRoutes:
-      kinds:
-      - kind: HTTPRoute
-      namespaces:
-        from: All
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      hostname: "*.k8s.kevinastone.com"
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: envoy-tls
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+        namespaces:
+          from: All
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: public-gateway
+  namespace: envoy
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  gatewayClassName: envoy-gateway-class
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      hostname: "*.k8s.kevinastone.com"
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: envoy-tls
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+        namespaces:
+          from: All

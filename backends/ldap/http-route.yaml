@@ -5,7 +5,7 @@ metadata:
   name: lldap
 spec:
   parentRefs:
-    - name: envoy-gateway
+    - name: public-gateway
       namespace: envoy
       sectionName: https
   hostnames:

@@ -5,7 +5,7 @@ metadata:
   name: longhorn
 spec:
   parentRefs:
-    - name: envoy-gateway
+    - name: auth-gateway
       namespace: envoy
       sectionName: https
   hostnames:
