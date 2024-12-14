@@ -25,8 +25,8 @@ authentication_backend:
 
 session:
   same_site: lax
-  inactivity: 5m
-  expiration: 1h
+  inactivity: 1h
+  expiration: 1d
   remember_me: 1M
   cookies:
     - name: auth_session
