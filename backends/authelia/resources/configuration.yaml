@@ -29,10 +29,10 @@ session:
   expiration: 1h
   remember_me: 1M
   cookies:
-  - name: auth_session
-    domain: k8s.kevinastone.com
-    authelia_url: https://auth.k8s.kevinastone.com
-    default_redirection_url: https://home.k8s.kevinastone.com
+    - name: auth_session
+      domain: k8s.kevinastone.com
+      authelia_url: https://auth.k8s.kevinastone.com
+      default_redirection_url: https://home.k8s.kevinastone.com
   redis:
     high_availability:
       sentinel_name: mymaster
@@ -51,7 +51,7 @@ storage:
 notifier:
   disable_startup_check: true
   filesystem:
-      filename: /dev/null
+    filename: /dev/null
 
 totp:
   disable: false
@@ -68,14 +68,14 @@ theme: dark
 access_control:
   default_policy: deny
   networks:
-  - name: internal
-    networks:
-    - "10.0.0.0/8"
-    - "172.16.0.0/12"
-    - "192.168.0.0/16"
+    - name: internal
+      networks:
+        - "10.0.0.0/8"
+        - "172.16.0.0/12"
+        - "192.168.0.0/16"
   rules:
-  - domain: '*.k8s.kevinastone.com'
-    policy: bypass
+    - domain: "*.k8s.kevinastone.com"
+      policy: one_factor
 
 identity_providers:
   oidc:
@@ -83,34 +83,34 @@ identity_providers:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
     clients:
-    - id: grafana
-      description: Grafana
-      secret: "${GRAFANA_CLIENT_SECRET}"
-      public: false
-      authorization_policy: one_factor
-      consent_mode: implicit
-      pre_configured_consent_duration: 1y
-      redirect_uris:
-        - https://grafana.k8s.kevinastone.com/login/generic_oauth
-      scopes:
-        - openid
-        - profile
-        - groups
-        - email
-      userinfo_signed_response_alg: none
-    - id: minio
-      description: MinIO
-      secret: "${MINIO_CLIENT_SECRET}"
-      public: false
-      authorization_policy: one_factor
-      consent_mode: implicit
-      pre_configured_consent_duration: 1y
-      redirect_uris:
-        - https://minio.k8s.kevinastone.com/apps/oidc_login/oidc
-        - https://minio.k8s.kevinastone.com/oauth_callback
-      scopes:
-        - openid
-        - profile
-        - email
-        - groups
-      userinfo_signed_response_alg: none
+      - id: grafana
+        description: Grafana
+        secret: "${GRAFANA_CLIENT_SECRET}"
+        public: false
+        authorization_policy: one_factor
+        consent_mode: implicit
+        pre_configured_consent_duration: 1y
+        redirect_uris:
+          - https://grafana.k8s.kevinastone.com/login/generic_oauth
+        scopes:
+          - openid
+          - profile
+          - groups
+          - email
+        userinfo_signed_response_alg: none
+      - id: minio
+        description: MinIO
+        secret: "${MINIO_CLIENT_SECRET}"
+        public: false
+        authorization_policy: one_factor
+        consent_mode: implicit
+        pre_configured_consent_duration: 1y
+        redirect_uris:
+          - https://minio.k8s.kevinastone.com/apps/oidc_login/oidc
+          - https://minio.k8s.kevinastone.com/oauth_callback
+        scopes:
+          - openid
+          - profile
+          - email
+          - groups
+        userinfo_signed_response_alg: none
