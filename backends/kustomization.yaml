@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - authelia
   - dns
+  - envoy-gateway
   - influxdb
   - ldap
   - mosquitto

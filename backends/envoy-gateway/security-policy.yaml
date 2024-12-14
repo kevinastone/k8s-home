@@ -2,13 +2,15 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: authelia
+  name: auth-gateway-policy
 spec:
-  targetSelectors:
+  targetRefs:
     - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      matchLabels:
-        auth: authelia
+      kind: Gateway
+      name: auth-gateway
+  cors:
+    allowOrigins:
+      - "*"
   extAuth:
     failOpen: false
     headersToExtAuth:
@@ -25,3 +27,17 @@ spec:
           namespace: authelia
           port: 80
       path: /api/authz/ext-authz/
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: public-gateway-policy
+  namespace: envoy
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: public-gateway
+  cors:
+    allowOrigins:
+      - "*"

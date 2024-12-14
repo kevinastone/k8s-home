@@ -7,34 +7,7 @@ spec:
   from:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
-      namespace: changedetection
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: dao-2048
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: homer
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: httpbox
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: kubernetes-dashboard
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: super-sudoku
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: zigbee2mqtt
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: prometheus
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: goldilocks
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: influxdb
+      namespace: envoy
   to:
     - group: ""
       kind: Service

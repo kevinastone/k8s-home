@@ -6,4 +6,3 @@ namespace: dao-2048
 resources:
   - helmrelease.yaml
   - http-route.yaml
-  - ../../backends/authelia/security-policy.yaml

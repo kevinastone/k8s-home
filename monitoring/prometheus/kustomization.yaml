@@ -10,7 +10,6 @@ resources:
   # - helmrelease-snmp-exporter.yaml
   - grafana-datasources.yaml
   - http-route.yaml
-  - ../../backends/authelia/security-policy.yaml
 configMapGenerator:
   - name: prometheus-dashboards
     options:

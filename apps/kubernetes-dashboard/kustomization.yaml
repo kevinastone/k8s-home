@@ -6,4 +6,3 @@ namespace: kubernetes-dashboard
 resources:
   - helmrelease.yaml
   - http-route.yaml
-  - ../../backends/authelia/security-policy.yaml
