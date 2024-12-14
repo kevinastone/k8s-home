@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: envoy
+resources:
+  - envoy-proxy.yaml
+  - pod-monitor.yaml
+configMapGenerator:
+  - name: envoy-gateway-dashboard
+    options:
+      labels:
+        grafana_dashboard: "true"
+    files:
+      - dashboards/envoy-clusters.json
+      - dashboards/envoy-gateway-global.json
+      - dashboards/envoy-proxy-global.json
