@@ -11,6 +11,7 @@ spec:
   cors:
     allowOrigins:
       - "*"
+    allowCredentials: true
   extAuth:
     failOpen: false
     headersToExtAuth:
@@ -41,3 +42,4 @@ spec:
   cors:
     allowOrigins:
       - "*"
+    allowCredentials: true
