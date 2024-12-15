@@ -33,7 +33,6 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: public-gateway-policy
-  namespace: envoy
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
@@ -43,3 +42,14 @@ spec:
     allowOrigins:
       - "*"
     allowCredentials: true
+---
+# Overwrite the gateway policy for https-redirect routes
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: redirect-policy
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: https-redirect
