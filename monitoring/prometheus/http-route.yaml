@@ -11,6 +11,16 @@ spec:
   hostnames:
     - prometheus.k8s.kevinastone.com
   rules:
+    # Allow long-polling on notifications/live api endpoint
+    - backendRefs:
+        - name: prometheus-kube-prometheus-prometheus
+          port: 9090
+      matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/notifications/live
+      timeouts:
+        request: "5m"
     - backendRefs:
         - name: prometheus-kube-prometheus-prometheus
           port: 9090
