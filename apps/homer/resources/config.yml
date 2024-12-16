@@ -42,7 +42,7 @@ services:
       - name: Prometheus
         type: Prometheus
         logo: /static/icons/svg/prometheus.svg
-        url: https://prometheus.k8s.kevinastone.com/alerts
+        url: https://prometheus.k8s.kevinastone.com/alerts?state=firing&state=pending&showEmptyGroups=0
         endpoint: https://prometheus.k8s.kevinastone.com
       - name: Chronograf
         logo: /static/icons/svg/influxdb.svg
