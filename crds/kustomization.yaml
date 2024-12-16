@@ -8,4 +8,5 @@ resources:
   - gateway-api
   - metallb
   - postgres
+  - prometheus
   - redis-operator
