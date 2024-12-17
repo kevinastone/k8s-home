@@ -9,4 +9,4 @@ spec:
   interval: 5m
   url: https://github.com/metallb/metallb
   ref:
-    tag: v0.14.8
+    tag: v0.14.9
