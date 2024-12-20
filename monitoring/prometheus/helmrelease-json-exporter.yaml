@@ -19,11 +19,26 @@ spec:
     serviceMonitor:
       enabled: true
 
-      selfMonitor:
-        enabled: true
+      targets:
+        - name: verizon-lte
+          url: http://192.168.20.161/webapi/simStatus
+          module: verizon
 
-      defaults:
-        labels:
-          release: prometheus
-
-      targets: []
+    configuration:
+      config: |
+        ---
+        modules:
+          verizon:
+            metrics:
+              - name: cell_type
+                path: "{ .cellType }"
+              - name: active_ue_count
+                path: "{ .activeUECount }"
+              - name: active_ue_count_tot
+                path: "{ .activeUECountTot }"
+              - name: ip_mode
+                path: "{ .ipMode }"
+              - name: gps_signal
+                path: "{ .gpsSignal }"
+              - name: result
+                path: "{ .result }"
