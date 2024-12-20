@@ -30,15 +30,13 @@ spec:
         modules:
           verizon:
             metrics:
-              - name: cell_type
-                path: "{ .cellType }"
-              - name: active_ue_count
-                path: "{ .activeUECount }"
-              - name: active_ue_count_tot
-                path: "{ .activeUECountTot }"
-              - name: ip_mode
-                path: "{ .ipMode }"
-              - name: gps_signal
-                path: "{ .gpsSignal }"
-              - name: result
-                path: "{ .result }"
+              - name: verizon_lte_status
+                type: object
+                path: "{@}"
+                values:
+                  cell_type: "{.cellType}"
+                  active_ue_count: "{.activeUECount}"
+                  active_ue_count_tot: "{.activeUECountTot}"
+                  ip_mode: "{.ipMode}"
+                  gps_signal: "{.gpsSignal}"
+                  result: "{.result}"
