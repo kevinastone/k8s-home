@@ -19,13 +19,13 @@ spec:
     serviceMonitor:
       enabled: true
       namespace: prometheus
-      params:
-        - name: storage
-          target: storage.home.kevinastone.com
-          module: [synology]
-        - name: backup
-          target: backup.home.kevinastone.com
-          module: [synology]
+      params: []
+      # - name: storage
+      #   target: storage.home.kevinastone.com
+      #   module: [synology]
+      # - name: backup
+      #   target: backup.home.kevinastone.com
+      #   module: [synology]
       selector:
         release: prometheus
       selfMonitor:

@@ -7,7 +7,8 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - helmrelease-blackbox-exporter.yaml
-  # - helmrelease-snmp-exporter.yaml
+  - helmrelease-snmp-exporter.yaml
+  - helmrelease-json-exporter.yaml
   - grafana-datasources.yaml
   - http-route.yaml
 configMapGenerator:
