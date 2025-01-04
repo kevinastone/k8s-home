@@ -19,6 +19,10 @@ advanced:
   log_level: info
   log_output:
     - console
+  homeassistant_legacy_entity_attributes: false
+  homeassistant_legacy_triggers: false
+  legacy_api: false
+  legacy_availability_payload: false
 
   pan_id: 63555
   ext_pan_id:
@@ -30,27 +34,28 @@ advanced:
     - 221
     - 221
     - 221
-  network_key: '!secret network_key'
+  network_key: "!secret network_key"
 
 homeassistant: true
 
 device_options:
   retain: true
+  legacy: false
 
 devices:
-  '0x00158d0008913148':
-    friendly_name: 'Bedroom Temperature'
-  '0x00158d0008a6fe1e':
-    friendly_name: 'Office Temperature'
-  '0x00158d0008a6fe47':
-    friendly_name: 'Living Room Temperature'
-  '0x282c02bfffea2d2e':
-    friendly_name: 'Laundry Power'
-  '0x282c02bfffebd4d0':
-    friendly_name: 'Desk Power'
-  '0x282c02bfffebcca6':
-    friendly_name: 'Media Power'
-  '0x282c02bfffeb99a4':
-    friendly_name: 'Rack Power'
-  '0x282c02bfffebd7d3':
-    friendly_name: 'Hallway Power'
+  "0x00158d0008913148":
+    friendly_name: "Bedroom Temperature"
+  "0x00158d0008a6fe1e":
+    friendly_name: "Office Temperature"
+  "0x00158d0008a6fe47":
+    friendly_name: "Living Room Temperature"
+  "0x282c02bfffea2d2e":
+    friendly_name: "Laundry Power"
+  "0x282c02bfffebd4d0":
+    friendly_name: "Desk Power"
+  "0x282c02bfffebcca6":
+    friendly_name: "Media Power"
+  "0x282c02bfffeb99a4":
+    friendly_name: "Rack Power"
+  "0x282c02bfffebd7d3":
+    friendly_name: "Hallway Power"
