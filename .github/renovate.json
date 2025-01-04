@@ -57,7 +57,7 @@
     {
       "description": ["CalVer for Home-Assistant"],
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["home-assistant"],
+      "matchPackageNames": ["ghcr.io/home-assistant/home-assistant"],
       "automerge": true
     }
   ]
