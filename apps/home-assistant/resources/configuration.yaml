@@ -6,7 +6,7 @@ homeassistant:
   longitude: !secret home_longitude
   elevation: !secret home_elevation
   # metric for Metric, imperial for Imperial
-  unit_system: imperial
+  unit_system: us_customary
   country: US
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
@@ -58,7 +58,7 @@ influxdb:
 
 recorder:
   db_url: !env_var uri
-  db_max_retries: 360  # 60 minutes (with 10sec interval below)
+  db_max_retries: 360 # 60 minutes (with 10sec interval below)
   db_retry_wait: 10
 
 ## # MQTT
@@ -72,8 +72,8 @@ zone: !include zone.yaml
 
 template:
   - binary_sensor:
-    - name: "washing_machine"
-      state: >
-        {{ states('sensor.laundry_power_power')|float(0) > 10 }}
-      delay_on: "00:00:10"
-      delay_off: "00:02:00"
+      - name: "washing_machine"
+        state: >
+          {{ states('sensor.laundry_power_power')|float(0) > 10 }}
+        delay_on: "00:00:10"
+        delay_off: "00:02:00"
