@@ -1,5 +1,4 @@
-# Let new devices join our zigbee network
-permit_join: false
+version: 4
 
 mqtt:
   base_topic: zigbee2mqtt
@@ -13,6 +12,7 @@ serial:
 
 # Enable the Zigbee2MQTT frontend
 frontend:
+  enabled: true
   port: 80
   host: 0.0.0.0
 
@@ -20,10 +20,6 @@ advanced:
   log_level: info
   log_output:
     - console
-  homeassistant_legacy_entity_attributes: false
-  homeassistant_legacy_triggers: false
-  legacy_api: false
-  legacy_availability_payload: false
 
   pan_id: 63555
   ext_pan_id:
@@ -37,11 +33,11 @@ advanced:
     - 221
   network_key: "!secret network_key"
 
-homeassistant: true
+homeassistant:
+  enabled: true
 
 device_options:
   retain: true
-  legacy: false
 
 devices:
   "0x00158d0008913148":
