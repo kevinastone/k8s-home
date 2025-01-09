@@ -55,6 +55,12 @@
       "pinDigests": true
     },
     {
+      "description": ["CalVer for Cloudflared"],
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["cloudflare/cloudflared"],
+      "automerge": true
+    },
+    {
       "description": ["CalVer for Home-Assistant"],
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/home-assistant/home-assistant"],
