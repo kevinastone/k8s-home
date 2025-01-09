@@ -1,0 +1,10 @@
+apiVersion: 1
+datasources:
+  - name: Alertmanager
+    type: alertmanager
+    access: proxy
+    uid: alertmanager
+    url: http://prometheus-kube-prometheus-alertmanager.prometheus:9090
+    editable: false
+    jsonData:
+      implementation: "prometheus"
