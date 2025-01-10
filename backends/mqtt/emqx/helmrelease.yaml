@@ -21,3 +21,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
+    # service:
+    #   annotations:
+    #     coredns.io/hostname: "emqx.k8s.kevinastone.com"
+    #   type: LoadBalancer
