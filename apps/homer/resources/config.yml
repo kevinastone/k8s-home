@@ -73,6 +73,9 @@ services:
       - name: Change Detection
         logo: /static/icons/png/changedetection-io.png
         url: https://changedetection.k8s.kevinastone.com/
+      - name: EMQX
+        logo: /static/icons/svg/emqx.svg
+        url: https://emqx.k8s.kevinastone.com/
       - name: httpbox
         url: https://httpbox.k8s.kevinastone.com/
   - name: Games
