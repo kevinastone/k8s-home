@@ -2,7 +2,7 @@ version: 4
 
 mqtt:
   base_topic: zigbee2mqtt
-  server: mqtt://mosquitto.mqtt
+  server: mqtt://emqx.mqtt
   version: 5
 
 # Zigbee Adapter path

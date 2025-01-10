@@ -16,6 +16,15 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    emqxConfig:
+      EMQX_AUTHORIZATION__NO_MATCH: allow
+      EMQX_LOG__CONSOLE_HANDLER__LEVEL: info
+
+    emqxAclConfig: >
+      {allow, {user, "dashboard"}, subscribe, ["$SYS/#"]}.
+      {allow, {ipaddr, "127.0.0.1"}, pubsub, ["$SYS/#", "#"]}.
+      {allow, all, subscribe, ["$SYS/#", {eq, "#"}]}.
+      {allow, all}.
     metrics:
       enabled: true
     persistence:
