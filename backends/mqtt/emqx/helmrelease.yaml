@@ -32,5 +32,5 @@ spec:
       size: 1Gi
     service:
       annotations:
-        coredns.io/hostname: "mqtt2.k8s.kevinastone.com"
+        coredns.io/hostname: "mqtt.k8s.kevinastone.com"
       type: LoadBalancer
