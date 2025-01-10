@@ -15,9 +15,6 @@ spec:
         name: bjw-s
         namespace: flux-system
       interval: 5m
-  dependsOn:
-    - name: mosquitto
-      namespace: mqtt
   values:
     controllers:
       main:
@@ -30,22 +27,22 @@ spec:
               limits:
                 squat.ai/zigbee: 1
             ports:
-            - containerPort: 80
-              name: http
+              - containerPort: 80
+                name: http
             probes:
               liveness: &probes
                 enabled: true
                 type: HTTP
               readiness: *probes
         initContainers:
-         init-config:
-           image:
-             repository: busybox
-             tag: "1.37@sha256:2919d0172f7524b2d8df9e50066a682669e6d170ac0f6a49676d54358fe970b5"
-           args:
-             - /bin/sh
-             - -c
-             - "cp -f /config-data/*.yaml /app/data/"
+          init-config:
+            image:
+              repository: busybox
+              tag: "1.37@sha256:2919d0172f7524b2d8df9e50066a682669e6d170ac0f6a49676d54358fe970b5"
+            args:
+              - /bin/sh
+              - -c
+              - "cp -f /config-data/*.yaml /app/data/"
 
     service:
       main:

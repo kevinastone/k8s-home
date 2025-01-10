@@ -29,10 +29,10 @@ spec:
               - "-c"
               - /config/mosquitto.conf
             ports:
-            - containerPort: 1883
-              name: mqtt
-            - containerPort: 9090
-              name: websocket
+              - containerPort: 1883
+                name: mqtt
+              - containerPort: 9090
+                name: websocket
             probes:
               liveness: &probes
                 enabled: true
@@ -45,8 +45,8 @@ spec:
     service:
       main:
         controller: main
-        annotations:
-          coredns.io/hostname: "mqtt.k8s.kevinastone.com"
+        # annotations:
+        #   coredns.io/hostname: "mqtt.k8s.kevinastone.com"
         type: LoadBalancer
         ports:
           mqtt:
