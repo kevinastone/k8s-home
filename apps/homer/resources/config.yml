@@ -71,7 +71,7 @@ services:
       - name: LLDAP
         url: https://ldap.k8s.kevinastone.com/
       - name: Change Detection
-        logo: /static/icons/png/changedetection-io.png
+        logo: /static/icons/svg/changedetection.svg
         url: https://changedetection.k8s.kevinastone.com/
       - name: EMQX
         logo: /static/icons/svg/emqx.svg
