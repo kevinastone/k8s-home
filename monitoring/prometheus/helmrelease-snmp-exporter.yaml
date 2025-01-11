@@ -22,10 +22,10 @@ spec:
       params: []
       # - name: storage
       #   target: storage.home.kevinastone.com
-      #   module: [synology]
+      #   module: [synology, ucd_la_table]
       # - name: backup
       #   target: backup.home.kevinastone.com
-      #   module: [synology]
+      #   module: [synology, ucd_la_table]
       selector:
         release: prometheus
       selfMonitor:
