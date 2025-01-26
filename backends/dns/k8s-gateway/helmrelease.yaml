@@ -19,7 +19,7 @@ spec:
     image:
       registry: ghcr.io
       repository: soliddowant/k8s_gateway
-      tag: v0.4.0-37-g9b0bbe7
+      tag: v0.4.0-37-g9b0bbe7@sha256:575030c4d9e0bf9bbc94f48be06cfa59b5839bd5d642e4c2156d5b4a332c394b
 
     domain: k8s.kevinastone.com
 
