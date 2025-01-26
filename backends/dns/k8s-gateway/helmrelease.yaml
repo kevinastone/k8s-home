@@ -15,9 +15,12 @@ spec:
         name: k8s-gateway
         namespace: flux-system
       interval: 5m
-  install:
-    createNamespace: true
   values:
+    image:
+      registry: ghcr.io
+      repository: soliddowant/k8s_gateway
+      tag: v0.4.0-37-g9b0bbe7
+
     domain: k8s.kevinastone.com
 
     replicaCount: 2
