@@ -17,3 +17,7 @@ spec:
       interval: 5m
   driftDetection:
     mode: enabled
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
