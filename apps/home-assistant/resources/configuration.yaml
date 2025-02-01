@@ -11,6 +11,8 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
 
+  external_url: https://automation.k8s.kevinastone.com
+
   # Customization file
   customize: !include customize.yaml
 
@@ -44,7 +46,6 @@ http:
     - 172.16.0.0/12
     - 10.0.0.0/8
     - 192.168.0.0/16
-#   base_url: example.duckdns.org:8123
 
 # Enables the frontend
 frontend:
