@@ -18,7 +18,9 @@ spec:
   values:
     serviceMonitor:
       enabled: true
-
+      defaults:
+        interval: 30s
+        scrapeTimeout: 30s
       targets:
         - name: verizon-lte
           url: http://192.168.20.161/webapi/simStatus
