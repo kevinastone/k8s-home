@@ -1,2 +1,2 @@
 [cert-manager]
-url = "https://raw.githubusercontent.com/imusmanmalik/cert-manager-mixin/refs/heads/main/dashboards/overview.json"
+# url = "https://raw.githubusercontent.com/imusmanmalik/cert-manager-mixin/refs/heads/main/dashboards/overview.json"
