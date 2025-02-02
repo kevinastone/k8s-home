@@ -11,6 +11,7 @@ resources:
   - http-route.yaml
   - http-route-chronograf.yaml
   - grafana-datasources.yaml
+  - alerts.yaml
 configMapGenerator:
   - name: influxdb-dashboards
     options:
