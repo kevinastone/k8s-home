@@ -15,3 +15,4 @@ configMapGenerator:
       - dashboards/envoy-clusters.json
       - dashboards/envoy-gateway-global.json
       - dashboards/envoy-proxy-global.json
+      - dashboards/envoy-overview.json

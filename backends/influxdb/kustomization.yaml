@@ -18,3 +18,6 @@ configMapGenerator:
         grafana_dashboard: "true"
     files:
       - dashboards/system-health.json
+      - dashboards/influxdb-cluster-overview.json
+      - dashboards/influxdb-instance-overview.json
+      - dashboards/influxdb-logs.json

@@ -6,3 +6,6 @@ url = "https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/char
 
 [envoy-proxy-global]
 url = "https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json"
+
+[envoy-overview]
+url = "https://raw.githubusercontent.com/monitoring-mixins/website/refs/heads/master/assets/envoy/dashboards/envoy-overview.json"

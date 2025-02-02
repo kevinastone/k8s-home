@@ -1,0 +1,9 @@
+[influxdb-cluster-overview]
+url = "https://raw.githubusercontent.com/monitoring-mixins/website/refs/heads/master/assets/influxdb/dashboards/influxdb-cluster-overview.json"
+
+[influxdb-instance-overview]
+url = "https://raw.githubusercontent.com/monitoring-mixins/website/refs/heads/master/assets/influxdb/dashboards/influxdb-instance-overview.json"
+
+
+[influxdb-logs]
+url = "https://raw.githubusercontent.com/monitoring-mixins/website/refs/heads/master/assets/influxdb/dashboards/influxdb-logs.json"
