@@ -42,18 +42,6 @@ spec:
           for: 5m
           labels:
             severity: critical
-        - alert: InfluxDBHighHeapMemoryUsage
-          annotations:
-            description:
-              The heap memory usage for instance {{$labels.instance}} on cluster
-              {{$labels.influxdb_cluster}} is {{ printf "%.0f" $value }} percent, which
-              is above the threshold of 80 percent.
-            summary: There is a high amount of heap memory being used.
-          expr: |
-            100 * go_memstats_heap_alloc_bytes/clamp_min((go_memstats_heap_idle_bytes + go_memstats_heap_alloc_bytes), 1) >= 80
-          for: 5m
-          labels:
-            severity: critical
         - alert: InfluxDBHighAverageAPIRequestLatency
           annotations:
             description:
