@@ -15,6 +15,8 @@ spec:
         name: bjw-s
         namespace: flux-system
       interval: 5m
+  driftDetection:
+    mode: enabled
   values:
     controllers:
       main:
@@ -26,11 +28,11 @@ spec:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2025.2.4@sha256:dae013e0bd935bf8dc500adef771604a3fd03dc5f2ca13b9566f51a094e3f8bf
             envFrom:
-            - secretRef:
-                name: postgres2-app
+              - secretRef:
+                  name: postgres2-app
             ports:
-            - containerPort: 8123
-              name: http
+              - containerPort: 8123
+                name: http
             probes:
               liveness: &probes
                 enabled: true
