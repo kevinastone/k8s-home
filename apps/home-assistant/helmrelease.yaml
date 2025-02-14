@@ -48,7 +48,7 @@ spec:
             port: 8123
     persistence:
       config:
-        retain: false
+        retain: true
         size: 10Gi
         storageClass: longhorn
         accessMode: ReadWriteMany
