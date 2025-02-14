@@ -6,7 +6,7 @@ resources:
   - cert-manager
   - cloudflared
   - descheduler
-  - envoy-gateway
+  # - envoy-gateway
   - external-dns
   - fluxcd
   - generic-device-plugin
