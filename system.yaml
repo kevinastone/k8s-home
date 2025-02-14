@@ -14,7 +14,7 @@ spec:
     name: fluxcd-sync
   path: "./system"
   prune: true
-  timeout: 10m
+  timeout: 2m
   retryInterval: 1m
   decryption:
     provider: sops
