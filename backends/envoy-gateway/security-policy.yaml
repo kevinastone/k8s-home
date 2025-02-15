@@ -13,7 +13,7 @@ spec:
       - "*"
     allowCredentials: true
   extAuth:
-    failOpen: false
+    failOpen: true
     headersToExtAuth:
       - X-Forwarded-Proto
       - authorization
