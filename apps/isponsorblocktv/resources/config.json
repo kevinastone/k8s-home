@@ -1,23 +1,16 @@
 {
-    "devices": [
-        {
-            "screen_id": "5f45q3mo5c99lk3n5lcitkt92d",
-            "name": "YouTube on TV",
-            "offset": 0
-        // },
-        // {
-        //     "screen_id": "abot5clk3crne86v5bethpcpuj",
-        //     "name": "YouTube on TV",
-        //     "offset": 0
-        }
-    ],
-    "skip_categories": [
-        "sponsor",
-        "selfpromo"
-    ],
-    "skip_count_tracking": true,
-    "mute_ads": true,
-    "skip_ads": true,
-    "apikey": "",
-    "channel_whitelist": []
+  "devices": [
+    {
+      "screen_id": "5f45q3mo5c99lk3n5lcitkt92d",
+      "name": "YouTube on TV",
+      "offset": 0
+    }
+  ],
+  "skip_categories": ["sponsor", "selfpromo"],
+  "skip_count_tracking": true,
+  "mute_ads": true,
+  "skip_ads": true,
+  "auto_play": false,
+  "apikey": "",
+  "channel_whitelist": []
 }

@@ -9,9 +9,7 @@ resources:
   - home-assistant
   - homer
   - httpbox
-  # # Disable iSponsorBlockTV until they figure out auto-play
-  # # https://github.com/dmunozv04/iSponsorBlockTV/issues/82
-  # - isponsorblocktv
+  - isponsorblocktv
   - kubernetes-dashboard
   - super-sudoku
   - zigbee2mqtt
