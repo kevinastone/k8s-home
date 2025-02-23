@@ -4,6 +4,11 @@
       "screen_id": "5f45q3mo5c99lk3n5lcitkt92d",
       "name": "YouTube on TV",
       "offset": 0
+    },
+    {
+      "screen_id": "abot5clk3crne86v5bethpcpuj",
+      "name": "YouTube on TV",
+      "offset": 1
     }
   ],
   "skip_categories": ["sponsor", "selfpromo"],
