@@ -53,6 +53,12 @@ services:
       - name: Goldilocks
         logo: /static/custom/goldilocks.svg
         url: https://goldilocks.k8s.kevinastone.com
+  - name: Media
+    icon: fas fa-photo-film
+    items:
+      - name: Sonarr
+        logo: /static/icons/svg/sonarr.svg
+        url: https://sonarr.k8s.kevinastone.com
   - name: Servers
     icon: fas fa-server
     items:
