@@ -29,9 +29,18 @@ spec:
               SONARR__AUTH__METHOD: External
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
               SONARR__LOG__DBENABLED: "False"
-              SONARR__LOG__LEVEL: info
+              SONARR__LOG__LEVEL: debug
               SONARR__PORT: &port 8989
               SONARR__UPDATE__BRANCH: develop
+              SONARR__POSTGRES__HOST: "$(postgres_host)"
+              SONARR__POSTGRES__PORT: "$(postgres_port)"
+              SONARR__POSTGRES__USER: "$(postgres_user)"
+              SONARR__POSTGRES__PASSWORD: "$(postgres_password)"
+              SONARR__POSTGRES__MAINDB: "$(postgres_dbname)"
+            envFrom:
+              - prefix: postgres_
+                secretRef:
+                  name: postgres-app
             probes:
               liveness: &probes
                 enabled: true
