@@ -29,7 +29,8 @@ spec:
             envFrom:
               - secretRef:
                   name: authelia-env # overriden by kustomizeconfig
-              - secretRef:
+              - prefix: postgres_
+                secretRef:
                   name: postgres-app
             env:
               AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:8000

@@ -21,19 +21,20 @@ spec:
       envFrom:
         - secretRef:
             name: authentik-secret # overriden by kustomizeconfig
-        - secretRef:
+        - prefix: postgres_
+          secretRef:
             name: postgres-app
       env:
         - name: AUTHENTIK_POSTGRESQL__NAME
-          value: $(dbname)
+          value: $(postgres_dbname)
         - name: AUTHENTIK_POSTGRESQL__HOST
-          value: $(host)
+          value: $(postgres_host)
         - name: AUTHENTIK_POSTGRESQL__PORT
-          value: $(port)
+          value: $(postgres_port)
         - name: AUTHENTIK_POSTGRESQL__USER
-          value: $(user)
+          value: $(postgres_user)
         - name: AUTHENTIK_POSTGRESQL__PASSWORD
-          value: $(password)
+          value: $(postgres_password)
         - name: AUTHENTIK_REDIS__HOST
           value: redis-sentinel-proxy
         - name: AUTHENTIK_DISABLE_STARTUP_ANALYTICS

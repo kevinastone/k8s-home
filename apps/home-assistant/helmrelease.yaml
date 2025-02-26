@@ -28,7 +28,8 @@ spec:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2025.2.5@sha256:a81e875974c909957da5407a85d42409581a1f3c1ae202642519430389baf1ad
             envFrom:
-              - secretRef:
+              - prefix: postgres_
+                secretRef:
                   name: postgres2-app
             ports:
               - containerPort: 8123
