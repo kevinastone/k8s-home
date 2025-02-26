@@ -11,5 +11,6 @@ resources:
   - httpbox
   - isponsorblocktv
   - kubernetes-dashboard
+  - media
   - super-sudoku
   - zigbee2mqtt
