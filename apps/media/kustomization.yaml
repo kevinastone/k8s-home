@@ -6,4 +6,5 @@ namespace: media
 resources:
   - namespace.yaml
   - postgres
+  - qbittorrent
   - sonarr
