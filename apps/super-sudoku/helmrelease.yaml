@@ -6,15 +6,10 @@ metadata:
   name: super-sudoku
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   values:
     controllers:
       main:
@@ -24,8 +19,8 @@ spec:
               repository: ghcr.io/kevinastone/super-sudoku
               tag: master@sha256:0cf6890db8b06236d5778d191449002261345a2f6fff382d4b382bb0491bfb70
             ports:
-            - containerPort: 80
-              name: http
+              - containerPort: 80
+                name: http
             probes:
               liveness: &probes
                 enabled: true

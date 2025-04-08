@@ -6,15 +6,10 @@ metadata:
   name: network-ups-tools
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   install:
     timeout: 1m
   upgrade:
@@ -66,29 +61,29 @@ spec:
         enabled: true
         serviceName: network-ups-tools
         endpoints:
-        - path: /ups_metrics
-          interval: 30s
-          scrapeTimeout: 10s
-          port: metrics
-          params:
-            ups: [ups]
-          relabelings:
-          - targetLabel: ups
-            sourceLabels: [__param_ups]            
-          metricRelabelings:
-            # Remove noise from changing pod ids and addresses
-          - targetLabel: instance
-            replacement: ""
-          - targetLabel: pod
-            replacement: ""
-          - targetLabel: endpoint
-            replacement: ""
-          - targetLabel: job
-            replacement: ""
-          - targetLabel: namespace
-            replacement: ""
-          - targetLabel: service
-            replacement: ""
+          - path: /ups_metrics
+            interval: 30s
+            scrapeTimeout: 10s
+            port: metrics
+            params:
+              ups: [ups]
+            relabelings:
+              - targetLabel: ups
+                sourceLabels: [__param_ups]
+            metricRelabelings:
+              # Remove noise from changing pod ids and addresses
+              - targetLabel: instance
+                replacement: ""
+              - targetLabel: pod
+                replacement: ""
+              - targetLabel: endpoint
+                replacement: ""
+              - targetLabel: job
+                replacement: ""
+              - targetLabel: namespace
+                replacement: ""
+              - targetLabel: service
+                replacement: ""
     persistence:
       config:
         type: configMap
@@ -97,4 +92,3 @@ spec:
         globalMounts:
           - path: /etc/nut
             readOnly: true
-
