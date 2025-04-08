@@ -42,14 +42,6 @@
       "enabled": false
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": [
-        "!docker.io/envoyproxy/gateway-helm",
-        "!ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator"
-      ],
-      "pinDigests": true
-    },
-    {
       "description": ["CalVer for Cloudflared"],
       "matchDatasources": ["docker"],
       "matchPackageNames": ["cloudflare/cloudflared"],
