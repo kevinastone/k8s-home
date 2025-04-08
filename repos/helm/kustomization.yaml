@@ -21,4 +21,4 @@ resources:
   - metrics-server.yaml
   - node-feature-discovery.yaml
   - openebs.yaml
-  - redis-operator.yam
+  - redis-operator.yaml
