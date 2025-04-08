@@ -12,7 +12,6 @@ resources:
   - grafana.yaml
   - influxdata.yaml
   - intel.yaml
-  - jetstack.yaml
   - k8tz.yaml
   - kubernetes-dashboard.yaml
   - longhorn.yaml
