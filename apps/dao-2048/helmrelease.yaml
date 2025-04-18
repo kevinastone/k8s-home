@@ -15,5 +15,3 @@ spec:
         name: dao-2048
         namespace: flux-system
       interval: 5m
-  install:
-    createNamespace: true
