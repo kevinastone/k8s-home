@@ -14,6 +14,19 @@ spec:
     - matches:
         - path:
             type: PathPrefix
+            value: /static/
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: homepage-static
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
             value: /
       backendRefs:
         - name: homepage

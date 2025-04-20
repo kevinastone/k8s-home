@@ -7,6 +7,7 @@ resources:
   - namespace.yaml
   - rbac.yaml
   - helmrelease.yaml
+  - helmrelease-static.yaml
   - http-route.yaml
 configMapGenerator:
   - name: homepage-config

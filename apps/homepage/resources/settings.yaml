@@ -5,6 +5,7 @@ color: slate
 headerStyle: clean
 iconStyle: theme
 target: _self
+statusStyle: "dot"
 layout:
   Metrics:
     style: columns
