@@ -29,8 +29,9 @@ quicklaunch:
   hideInternetSearch: true
   hideVisitURL: true
 disableUpdateCheck: true
-# providers:
-#   longhorn:
-#     # username: "longhorn-username" # optional
-#     # password: "very-secret-longhorn-password" # optional
-#     url: http://longhorn-frontend.longhorn
+
+providers:
+  longhorn:
+    # username: "longhorn-username" # optional
+    # password: "very-secret-longhorn-password" # optional
+    url: http://longhorn-frontend.longhorn-system.svc

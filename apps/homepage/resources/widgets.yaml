@@ -21,6 +21,16 @@
 #     units: metric
 #     cache: 10
 
+- longhorn:
+    # Show the expanded
+    expanded: true
+    # Shows a node representing the aggregate values
+    total: false
+    # Shows the node names as labels
+    labels: true
+    # Show the nodes
+    nodes: true
+
 - datetime:
     text_size: xs
     locale: en-US
@@ -28,13 +38,3 @@
       dateStyle: short
       timeStyle: short
       hour12: true
-      # timeZone: America/Los_Angeles
-# - longhorn:
-#     # Show the expanded
-#     expanded: true
-#     # Shows a node representing the aggregate values
-#     total: true
-#     # Shows the node names as labels
-#     labels: true
-#     # Show the nodes
-#     nodes: true
