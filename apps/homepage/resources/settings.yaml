@@ -1,0 +1,35 @@
+---
+title: Home Dashboard
+theme: dark
+color: slate
+headerStyle: clean
+iconStyle: theme
+target: _self
+layout:
+  Metrics:
+    style: columns
+    columns: 1
+    icon: mdi-chart-line
+  Servers:
+    style: columns
+    columns: 1
+    icon: mdi-server
+  Media:
+    style: columns
+    columns: 1
+    icon: mdi-multimedia
+  Games:
+    style: columns
+    columns: 1
+    icon: mdi-gamepad-variant
+
+quicklaunch:
+  searchDescription: true
+  hideInternetSearch: true
+  hideVisitURL: true
+disableUpdateCheck: true
+# providers:
+#   longhorn:
+#     # username: "longhorn-username" # optional
+#     # password: "very-secret-longhorn-password" # optional
+#     url: http://longhorn-frontend.longhorn
