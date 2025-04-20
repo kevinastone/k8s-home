@@ -1,4 +1,7 @@
 ---
+- logo:
+    icon: /static/theme/assets/logos/dark_circle.png
+
 - kubernetes:
     cluster:
       show: false
