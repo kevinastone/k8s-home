@@ -20,8 +20,17 @@
               prometheus
           )
         widget:
-          type: prometheus
+          type: prometheusmetric
           url: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
+          refreshInterval: 10000 # optional - in milliseconds, defaults to 10s
+          metrics:
+            - label: Firing Alerts
+              query: alertmanager_alerts{state="active"}
+              format:
+                type: number
+        # widget:
+        #   type: prometheus
+        #   url: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
     - Chronograf:
         icon: influxdb.svg
         href: https://chronograf.k8s.kevinastone.com
