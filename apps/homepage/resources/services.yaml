@@ -19,9 +19,9 @@
           app.kubernetes.io/instance in (
               prometheus
           )
-        # widget:
-        #   type: prometheus
-        #   url: https://prometheus.k8s.kevinastone.com
+        widget:
+          type: prometheus
+          url: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
     - Chronograf:
         icon: influxdb.svg
         href: https://chronograf.k8s.kevinastone.com
