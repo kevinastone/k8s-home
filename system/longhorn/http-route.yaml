@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/group: Metrics
     gethomepage.dev/icon: /static/icons/svg/longhorn.svg
     gethomepage.dev/name: Longhorn
+    gethomepage.dev/pod-selector: "app=longhorn-ui"
 spec:
   parentRefs:
     - name: auth-gateway
