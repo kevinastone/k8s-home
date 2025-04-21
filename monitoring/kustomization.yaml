@@ -8,6 +8,7 @@ resources:
   - loki
   - metrics-server
   - network-ups-tools
+  - peanut
   - prometheus
   # Disabled due to preventing hdd hibernation
   # - synology
