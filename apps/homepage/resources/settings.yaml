@@ -18,7 +18,7 @@ layout:
   Media:
     style: columns
     columns: 1
-    icon: mdi-multimedia
+    icon: mdi-television-play
   Games:
     style: columns
     columns: 1
