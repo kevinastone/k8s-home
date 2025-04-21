@@ -8,20 +8,20 @@ target: _self
 statusStyle: "dot"
 layout:
   Metrics:
-    style: columns
-    columns: 1
+    style: row
+    columns: 3
     icon: mdi-chart-line
   Servers:
-    style: columns
-    columns: 1
+    style: row
+    columns: 3
     icon: mdi-server
   Media:
-    style: columns
-    columns: 1
+    style: row
+    columns: 3
     icon: mdi-television-play
   Games:
-    style: columns
-    columns: 1
+    style: row
+    columns: 3
     icon: mdi-gamepad-variant
 
 quicklaunch:
