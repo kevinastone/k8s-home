@@ -3,6 +3,11 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: goldilocks
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Metrics
+    gethomepage.dev/icon: /static/custom/goldilocks.svg
+    gethomepage.dev/name: Goldilocks
 spec:
   parentRefs:
     - name: auth-gateway
