@@ -1,0 +1,3 @@
+NUT_SERVERS:
+  - HOST: network-ups-tools.network-ups-toosl.svc
+    PORT: 3493
