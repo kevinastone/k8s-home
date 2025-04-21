@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - envoy-gateway
   - goldilocks
+  - grafana
   - loki
   - metrics-server
   - network-ups-tools
