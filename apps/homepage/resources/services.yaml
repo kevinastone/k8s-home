@@ -1,17 +1,17 @@
 ---
 - Metrics:
     - Grafana:
-        icon: grafana.svg
+        icon: /static/icons/svg/grafana.svg
         href: https://grafana.k8s.kevinastone.com
         app: grafana
         namespace: grafana
     - Kubernetes Dashboard:
-        icon: kubernetes.svg
+        icon: /static/icons/svg/kubernetes.svg
         href: https://dashboard.k8s.kevinastone.com
         app: kubernetes-dashboard
         namespace: kubernetes-dashboard
     - Prometheus:
-        icon: prometheus.svg
+        icon: /static/icons/svg/prometheus.svg
         href: https://prometheus.k8s.kevinastone.com/alerts?state=firing&state=pending&showEmptyGroups=0
         app: kube-prometheus-stack-prometheus
         namespace: prometheus
@@ -32,12 +32,12 @@
         #   type: prometheus
         #   url: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
     - Chronograf:
-        icon: influxdb.svg
+        icon: /static/icons/svg/influxdb.svg
         href: https://chronograf.k8s.kevinastone.com
         app: chronograf
         namespace: influxdb
     - Longhorn:
-        icon: longhorn.svg
+        icon: /static/icons/svg/longhorn.svg
         href: https://longhorn.k8s.kevinastone.com
         app: longhorn
         namespace: longhorn-system
@@ -49,22 +49,22 @@
 
 - Servers:
     - Home Assistant:
-        icon: home-assistant.svg
+        icon: /static/icons/svg/home-assistant.svg
         href: https://automation.k8s.kevinastone.com
         app: home-assistant
         namespace: home-assistant
     - Zigbee2MQTT:
-        icon: zigbee2mqtt.svg
+        icon: /static/icons/svg/zigbee2mqtt.svg
         href: https://zigbee2mqtt.k8s.kevinastone.com/
         app: zigbee2mqtt
         namespace: zigbee2mqtt
     - MinIO:
-        icon: minio.svg
+        icon: /static/icons/svg/minio.svg
         href: https://minio.k8s.kevinastone.com/
         app: minio
         namespace: minio
     - Authelia:
-        icon: authelia.svg
+        icon: /static/icons/svg/authelia.svg
         href: https://auth.k8s.kevinastone.com/
         app: authelia
         namespace: authelia
@@ -73,12 +73,12 @@
         app: lldap
         namespace: ldap
     - Change Detection:
-        icon: changedetection.svg
+        icon: /static/icons/svg/changedetection.svg
         href: https://changedetection.k8s.kevinastone.com/
         app: changedetection
         namespace: changedetection
     - EMQX:
-        icon: emqx.svg
+        icon: /static/icons/svg/emqx.svg
         href: https://emqx.k8s.kevinastone.com/
         app: emqx
         namespace: mqtt
@@ -89,7 +89,7 @@
 
 - Media:
     - Sonarr:
-        icon: sonarr.svg
+        icon: /static/icons/svg/sonarr.svg
         href: https://sonarr.k8s.kevinastone.com
         app: sonarr
         namespace: media
