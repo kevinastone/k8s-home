@@ -32,7 +32,7 @@
     nodes: true
 
 - datetime:
-    text_size: xs
+    text_size: md
     locale: en-US
     format:
       dateStyle: short
