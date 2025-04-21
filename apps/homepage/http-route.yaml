@@ -9,6 +9,7 @@ spec:
       namespace: envoy
       sectionName: https
   hostnames:
+    - home.k8s.kevinastone.com
     - homepage.k8s.kevinastone.com
   rules:
     - matches:
