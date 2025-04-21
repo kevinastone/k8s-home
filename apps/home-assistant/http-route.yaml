@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/group: Servers
     gethomepage.dev/icon: /static/icons/svg/home-assistant.svg
     gethomepage.dev/name: Home Assitant
+    gethomepage.dev/weight: -10
 spec:
   parentRefs:
     - name: public-gateway

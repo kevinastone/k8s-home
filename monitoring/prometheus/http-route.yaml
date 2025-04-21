@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/group: Metrics
     gethomepage.dev/icon: /static/icons/svg/prometheus.svg
     gethomepage.dev/name: Prometheus
+    gethomepage.dev/weight: 8
     gethomepage.dev/widget.type: prometheusmetric
     gethomepage.dev/widget.url: http://prometheus-kube-prometheus-prometheus.prometheus.svc:9090
     gethomepage.dev/widget.metrics.0.label: Firing Alerts
