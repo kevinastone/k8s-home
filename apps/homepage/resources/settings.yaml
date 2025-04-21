@@ -2,7 +2,7 @@
 title: Dashboard
 theme: dark
 color: slate
-headerStyle: clean
+headerStyle: underlined
 iconStyle: theme
 target: _self
 statusStyle: "dot"
