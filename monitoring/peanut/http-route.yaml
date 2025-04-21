@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/group: Metrics
     gethomepage.dev/icon: /static/icons/svg/peanut.svg
     gethomepage.dev/name: PeaNUT
+    gethomepage.dev/href: https://peanut.k8s.kevinastone.com/device/ups
     gethomepage.dev/weight: -6
     gethomepage.dev/widget.type: peanut
     gethomepage.dev/widget.url: http://peanut.peanut.svc
