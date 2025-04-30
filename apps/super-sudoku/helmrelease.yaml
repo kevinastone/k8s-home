@@ -17,7 +17,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/super-sudoku
-              tag: master@sha256:0cf6890db8b06236d5778d191449002261345a2f6fff382d4b382bb0491bfb70
+              tag: master@sha256:f622d79c436f3b018a937d497837f4aebf6090ece5ceb8abb5bdafd99b233522
             ports:
               - containerPort: 80
                 name: http
