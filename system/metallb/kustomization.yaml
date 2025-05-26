@@ -6,4 +6,6 @@ namespace: metallb-system
 resources:
   - metal-primary-pool.yaml
   - metal-static-pool.yaml
-  - metal-l2-advertisement.yaml
+  - l2-advertisement.yaml
+  - bgp-advertisement.yaml
+  - bgp-peer.yaml

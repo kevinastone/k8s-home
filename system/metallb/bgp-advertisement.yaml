@@ -1,0 +1,6 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: primary-advertisement
+  namespace: metallb-system
