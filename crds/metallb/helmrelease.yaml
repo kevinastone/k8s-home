@@ -22,9 +22,9 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    podMonitor:
-      enabled: true
-    serviceMonitor:
-      enabled: true
-    prometheusRule:
-      enabled: true
+    prometheus:
+      rbacPrometheus: false
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
