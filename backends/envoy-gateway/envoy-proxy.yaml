@@ -6,8 +6,12 @@ metadata:
   namespace: envoy
 spec:
   telemetry:
-      metrics:
-        prometheus: {}
+    metrics:
+      prometheus: {}
   provider:
     type: Kubernetes
-    kubernetes: {}
+    kubernetes:
+      envoyDeployment:
+        replicas: 2
+      envoyService:
+        externalTrafficPolicy: Local
