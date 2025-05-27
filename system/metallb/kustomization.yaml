@@ -8,3 +8,10 @@ resources:
   - metal-static-pool.yaml
   - bgp-advertisement.yaml
   - bgp-peer.yaml
+configMapGenerator:
+  - name: metallb-dashboard
+    options:
+      labels:
+        grafana_dashboard: "true"
+    files:
+      - dashboards/metallb.json
