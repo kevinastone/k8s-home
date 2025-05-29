@@ -18,6 +18,9 @@ spec:
             image:
               repository: ghcr.io/netbymatt/ws4kp
               tag: main@sha256:9401464c9191ec54220c19c316bb7fd19eb1ef3a7b671a7ef765ddf9d5e5eb0e
+            envFrom:
+              - secretRef:
+                  name: ws4kp-secrets # overriden by kustomizeconfig
             ports:
               - containerPort: 8080
                 name: http
