@@ -13,4 +13,5 @@ resources:
   - kubernetes-dashboard
   - media
   - super-sudoku
+  - ws4kp
   - zigbee2mqtt
