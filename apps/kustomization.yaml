@@ -7,7 +7,6 @@ resources:
   - dao-2048
   - home-assistant
   - homepage
-  - homer
   - httpbox
   - isponsorblocktv
   - kubernetes-dashboard
