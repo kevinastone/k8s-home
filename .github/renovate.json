@@ -38,6 +38,10 @@
       "allowedVersions": "!/6.16.0/"
     },
     {
+      "matchPackageNames": ["isponsorblocktv"],
+      "allowedVersions": "!/v2.5.2/"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
