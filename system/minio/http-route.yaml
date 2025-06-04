@@ -18,8 +18,8 @@ spec:
     - minio.k8s.kevinastone.com
   rules:
     - backendRefs:
-        - name: minio
-          port: 9001
+        - name: minio-console
+          port: 9090
       matches:
         - path:
             type: PathPrefix
