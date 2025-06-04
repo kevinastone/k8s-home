@@ -68,20 +68,20 @@ spec:
       networkPolicy:
         enabled: false
     console:
-      enabled: true
-      extraEnvVars:
-        - name: MINIO_IDENTITY_OPENID_CONFIG_URL
-          value: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
-        - name: MINIO_IDENTITY_OPENID_CLIENT_ID
-          value: minio
-        - name: MINIO_IDENTITY_OPENID_ROLE_POLICY
-          value: consoleAdmin
-        - name: MINIO_IDENTITY_OPENID_CLAIM_PREFIX
-          value: authelia
-        - name: MINIO_IDENTITY_OPENID_DISPLAY_NAME
-          value: Authelia
-        - name: MINIO_IDENTITY_OPENID_SCOPES
-          value: openid,profile,email
-        - name: MINIO_BROWSER_REDIRECT_URL
-          value: https://minio.k8s.kevinastone.com
-      extraEnvVarsSecret: minio-secret
+      enabled: false
+      # extraEnvVars:
+      #   - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+      #     value: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
+      #   - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+      #     value: minio
+      #   - name: MINIO_IDENTITY_OPENID_ROLE_POLICY
+      #     value: consoleAdmin
+      #   - name: MINIO_IDENTITY_OPENID_CLAIM_PREFIX
+      #     value: authelia
+      #   - name: MINIO_IDENTITY_OPENID_DISPLAY_NAME
+      #     value: Authelia
+      #   - name: MINIO_IDENTITY_OPENID_SCOPES
+      #     value: openid,profile,email
+      #   - name: MINIO_BROWSER_REDIRECT_URL
+      #     value: https://minio.k8s.kevinastone.com
+      # extraEnvVarsSecret: minio-secret
