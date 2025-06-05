@@ -42,6 +42,10 @@
       "allowedVersions": "!/v2.5.2/"
     },
     {
+      "matchPackageNames": ["docker.io/bitnamicharts/minio"],
+      "allowedVersions": "<17"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
