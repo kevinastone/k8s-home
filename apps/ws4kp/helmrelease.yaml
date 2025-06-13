@@ -17,7 +17,7 @@ spec:
           main:
             image:
               repository: ghcr.io/netbymatt/ws4kp
-              tag: main@sha256:24be1fc6b7806ce25ff342205f0b399be6379a790710ae1cb4d7ba9135894d05
+              tag: main@sha256:9ae38758181fc148d26e4e3ed0ea7408588d91958ba51ea45080e7b998f3bae7
             envFrom:
               - secretRef:
                   name: ws4kp-secrets # overriden by kustomizeconfig
