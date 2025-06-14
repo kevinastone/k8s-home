@@ -28,6 +28,8 @@ spec:
       auth:
         oauth_auto_login: true
         oauth_allow_insecure_email_lookup: true
+        check_for_updates: false
+        check_for_plugin_updates: false
       auth.generic_oauth:
         enabled: true
         name: Authelia
