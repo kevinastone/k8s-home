@@ -15,7 +15,6 @@ resources:
   - k8tz.yaml
   - kubernetes-dashboard.yaml
   - longhorn.yaml
-  - metallb.yaml
   - metrics-server.yaml
   - node-feature-discovery.yaml
   - openebs.yaml
