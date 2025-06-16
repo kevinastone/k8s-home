@@ -10,3 +10,4 @@ resources:
   - postgres
   - prometheus
   - redis-operator
+  - rook-operator
