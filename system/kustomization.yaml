@@ -17,5 +17,5 @@ resources:
   - minio
   - node-feature-discovery
   - openebs
-  - rook-cluster
+  # - rook-cluster
   - vertical-pod-autoscaler

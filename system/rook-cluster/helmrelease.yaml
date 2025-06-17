@@ -72,6 +72,8 @@ spec:
             enabled: true
           - name: progress
             enabled: true
+      mon:
+        count: 3
       # mgr:
       #   count: 2
       #   allowMultiplePerNode: false
@@ -113,6 +115,3 @@ spec:
         useAllDevices: false
         config:
           osdsPerDevice: "1"
-        # Important: Directories should only be used in pre-production environments
-        directories:
-          - path: /var/lib/rook
