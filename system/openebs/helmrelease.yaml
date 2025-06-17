@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: openebs
+      chart: localpv-provisioner
       version: 4.3.0
       sourceRef:
         kind: HelmRepository
@@ -22,18 +22,3 @@ spec:
     remediation:
       retries: 3
   values:
-    engines:
-      local:
-        lvm:
-          enabled: false
-        zfs:
-          enabled: false
-      replicated:
-        mayastor:
-          enabled: false
-    loki:
-      enabled: false
-    minio:
-      enabled: false
-    alloy:
-      enabled: false
