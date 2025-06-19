@@ -159,7 +159,7 @@ spec:
                       url: [spec, url]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
-                  version: v1beta2
+                  version: v1
                   kind: Bucket
                 metricNamePrefix: gotk
                 metrics:
@@ -179,7 +179,7 @@ spec:
                       bucket_name: [spec, bucketName]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
-                  version: v1beta2
+                  version: v1
                   kind: HelmRepository
                 metricNamePrefix: gotk
                 metrics:
@@ -198,7 +198,7 @@ spec:
                       url: [spec, url]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
-                  version: v1beta2
+                  version: v1
                   kind: HelmChart
                 metricNamePrefix: gotk
                 metrics:
@@ -323,7 +323,7 @@ spec:
                       source_name: [spec, imageRepositoryRef, name]
               - groupVersionKind:
                   group: image.toolkit.fluxcd.io
-                  version: v1beta1
+                  version: v1
                   kind: ImageUpdateAutomation
                 metricNamePrefix: gotk
                 metrics:
