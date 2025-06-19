@@ -32,6 +32,12 @@ spec:
         enabled: false
       labels:
         grafana_dashboard: "true"
+
+    defaultRules:
+      rules:
+        # We run Cilium which replaces kube-proxy
+        kubeProxy: false
+
     # Dependent charts
     grafana:
       enabled: false
@@ -55,8 +61,17 @@ spec:
             requests:
               storage: 60Gi
 
-    kubeProxy:
-      enabled: false
+        # The DiskIO of this pod drives up the fan and heat for this node
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: NotIn
+                      values:
+                        - ser5max
 
-    prometheus-operator-crds:
+    kubeProxy:
       enabled: false

@@ -6,6 +6,7 @@ namespace: victoria-metrics
 resources:
   - namespace.yaml
   - helmrelease.yaml
+  - influx-gateway.yaml
   #   - helmrelease-blackbox-exporter.yaml
   #   - helmrelease-snmp-exporter.yaml
   #   - helmrelease-json-exporter.yaml
