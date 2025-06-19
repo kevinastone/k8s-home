@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: vm
+spec:
+  interval: 12h
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  url: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
+  ref:
+    tag: 0.52.0
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vm
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: vm
+  values:
+    defaultDashboards:
+      enabled: true
+      labels:
+        grafana_dashboard: "true"
+    grafana:
+      enabled: false
+    victoria-metrics-operator:
+      enabled: false
+    # These are currently provided by prometheus-stack
+    kube-state-metrics:
+      enabled: false
+    prometheus-node-exporter:
+      enabled: false

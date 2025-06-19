@@ -13,3 +13,4 @@ resources:
   - prometheus
   # Disabled due to preventing hdd hibernation
   # - synology
+  - victoria-metrics
