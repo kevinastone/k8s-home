@@ -6,10 +6,10 @@ namespace: victoria-metrics
 resources:
   - namespace.yaml
   - helmrelease.yaml
-#   - helmrelease-blackbox-exporter.yaml
-#   - helmrelease-snmp-exporter.yaml
-#   - helmrelease-json-exporter.yaml
-#   - http-route.yaml
+  #   - helmrelease-blackbox-exporter.yaml
+  #   - helmrelease-snmp-exporter.yaml
+  #   - helmrelease-json-exporter.yaml
+  - http-route.yaml
 # configMapGenerator:
 #   - name: prometheus-dashboards
 #     options:
