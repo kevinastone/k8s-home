@@ -10,17 +10,11 @@ resources:
   #   - helmrelease-snmp-exporter.yaml
   #   - helmrelease-json-exporter.yaml
   - http-route.yaml
-# configMapGenerator:
-#   - name: prometheus-dashboards
-#     options:
-#       labels:
-#         grafana_dashboard: "true"
-#     files:
-#       - dashboards/blackbox-exporter.json
-#   - name: prometheus-datasources
-#     options:
-#       labels:
-#         grafana_datasource: "true"
-#     files:
-#       - prometheus.yaml=datasources/prometheus.yaml
-#       - alertmanager.yaml=datasources/alertmanager.yaml
+configMapGenerator:
+  - name: vm-datasources
+    options:
+      labels:
+        grafana_datasource: "true"
+    files:
+      - victoria-metrics.yaml=datasources/victoria-metrics.yaml
+      # - alertmanager.yaml=datasources/alertmanager.yaml
