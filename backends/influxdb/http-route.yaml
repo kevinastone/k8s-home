@@ -18,3 +18,11 @@ spec:
         - path:
             type: PathPrefix
             value: /
+      filters:
+        - type: RequestMirror
+          requestMirror:
+            backendRef:
+              kind: Service
+              name: vmsingle-vm-stack
+              namespace: victoria-metrics
+              port: 8428
