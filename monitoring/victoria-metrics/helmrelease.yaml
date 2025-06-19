@@ -24,10 +24,15 @@ spec:
     kind: OCIRepository
     name: vm
   values:
+    fullnameOverride: vm-stack
     defaultDashboards:
       enabled: true
+      grafanaOperator:
+        # -- Create dashboards as CRDs (requires grafana-operator to be installed)
+        enabled: false
       labels:
         grafana_dashboard: "true"
+    # Dependent charts
     grafana:
       enabled: false
     victoria-metrics-operator:
@@ -36,4 +41,22 @@ spec:
     kube-state-metrics:
       enabled: false
     prometheus-node-exporter:
+      enabled: false
+
+    vmsingle:
+      enabled: true
+      spec:
+        retentionPeriod: 7d
+        replicaCount: 1
+        storage:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 60Gi
+
+    kubeProxy:
+      enabled: false
+
+    prometheus-operator-crds:
       enabled: false
