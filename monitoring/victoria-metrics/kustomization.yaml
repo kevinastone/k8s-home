@@ -19,3 +19,9 @@ configMapGenerator:
     files:
       - victoria-metrics.yaml=datasources/victoria-metrics.yaml
       # - alertmanager.yaml=datasources/alertmanager.yaml
+  - name: vm-dashboards
+    options:
+      labels:
+        grafana_dashboard: "true"
+    files:
+      - dashboards/system-health.json
