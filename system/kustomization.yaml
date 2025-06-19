@@ -15,7 +15,7 @@ resources:
   - longhorn
   - metallb
   - minio
-  - node-feature-discovery
+  # - node-feature-discovery
   - openebs
   # - rook-cluster
   - vertical-pod-autoscaler
