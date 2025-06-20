@@ -92,6 +92,21 @@ spec:
     kubeProxy:
       enabled: false
 
+    kubeApiServer:
+      enabled: true
+
+    kubeControllerManager:
+      enabled: false
+
+    coreDns:
+      enabled: true
+
+    kubeEtcd:
+      enabled: false
+
+    kubeScheduler:
+      enabled: false
+
     # Dependent charts
     grafana:
       enabled: false
