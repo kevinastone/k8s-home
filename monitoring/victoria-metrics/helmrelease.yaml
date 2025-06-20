@@ -91,23 +91,43 @@ spec:
         extraArgs:
           external.url: "https://vmalert.k8s.kevinastone.com"
 
+    # Cilium replaces kube-proxy
     kubeProxy:
       enabled: false
 
-    kubeApiServer:
-      enabled: true
+    kubeScheduler:
+      vmScrape: &https-scrape
+        spec:
+          endpoints:
+            - bearerTokenFile: &token-file /var/run/secrets/kubernetes.io/serviceaccount/token
+              port: &metrics-port http-metrics
+              scheme: https
+              tlsConfig: &tls-config
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecureSkipVerify: true
 
-    kubeControllerManager:
-      enabled: false
+    kubeControllerManager: *https-scrape
+
+    kubeApiServer:
+      vmScrape:
+        spec:
+          endpoints:
+            - bearerTokenFile: &token-file
+              port: https
+              scheme: https
+              tlsConfig: &tls-config
+                serverName: kubernetes
+
+    kubeEtcd:
+      vmScrape:
+        spec:
+          endpoints:
+            - bearerTokenFile: *token-file
+              port: *metrics-port
+              scheme: http
 
     coreDns:
       enabled: true
-
-    kubeEtcd:
-      enabled: false
-
-    kubeScheduler:
-      enabled: false
 
     # Dependent charts
     grafana:
