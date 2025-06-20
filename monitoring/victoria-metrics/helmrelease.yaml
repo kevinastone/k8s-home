@@ -34,6 +34,8 @@ spec:
         grafana_dashboard: "true"
 
     defaultRules:
+      # Set this to true once prometheus is retired (it duplicates these rules)
+      create: false
       rules:
         # We run Cilium which replaces kube-proxy
         kubeProxy: false
