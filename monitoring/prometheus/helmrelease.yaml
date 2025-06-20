@@ -70,6 +70,18 @@ spec:
     kubeProxy:
       enabled: false
 
+    kubeApiServer:
+      tlsConfig:
+        insecureSkipVerify: true
+
+    kubeControllerManager:
+      serviceMonitor:
+        insecureSkipVerify: true
+
+    kubeScheduler:
+      serviceMonitor:
+        insecureSkipVerify: true
+
     kube-state-metrics:
       rbac:
         extraRules:

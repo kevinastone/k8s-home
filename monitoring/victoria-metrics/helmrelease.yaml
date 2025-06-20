@@ -73,7 +73,7 @@ spec:
     prometheus-node-exporter:
       enabled: false
     kube-state-metrics:
-      enabled: true
+      enabled: false
       rbac:
         extraRules:
           - apiGroups:
