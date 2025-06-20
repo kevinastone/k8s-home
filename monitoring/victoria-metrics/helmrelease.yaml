@@ -43,11 +43,10 @@ spec:
       enabled: false
     victoria-metrics-operator:
       enabled: false
-    # These are currently provided by prometheus-stack
     kube-state-metrics:
-      enabled: false
+      enabled: true
     prometheus-node-exporter:
-      enabled: false
+      enabled: true
 
     vmsingle:
       enabled: true
