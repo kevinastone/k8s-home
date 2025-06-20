@@ -27,3 +27,7 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+  values:
+    operator:
+      enable_converter_ownership: true
+      useCustomConfigReloader: true
