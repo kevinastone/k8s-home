@@ -52,7 +52,7 @@ spec:
     vmsingle:
       enabled: true
       spec:
-        retentionPeriod: 7d
+        retentionPeriod: 30d
         replicaCount: 1
         storage:
           accessModes:
