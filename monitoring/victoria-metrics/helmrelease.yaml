@@ -78,6 +78,17 @@ spec:
             cpu: 500m
             memory: 100Mi
 
+    # alertmanager:
+    #   enabled: true
+    #   spec:
+    #     externalURL: "https://vmalert.k8s.kevinastone.com"
+
+    vmalert:
+      enabled: true
+      spec:
+        extraArgs:
+          external.url: "https://vmalert.k8s.kevinastone.com"
+
     kubeProxy:
       enabled: false
 

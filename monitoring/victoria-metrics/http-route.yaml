@@ -36,6 +36,26 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  name: vmalert
+spec:
+  parentRefs:
+    - name: auth-gateway
+      namespace: envoy
+      sectionName: https
+  hostnames:
+    - vmalert.k8s.kevinastone.com
+  rules:
+    - backendRefs:
+        - name: vmalert-vm-stack
+          port: 8080
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
   name: vm-influx
 spec:
   parentRefs:
