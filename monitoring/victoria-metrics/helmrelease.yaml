@@ -34,8 +34,7 @@ spec:
         grafana_dashboard: "true"
 
     defaultRules:
-      # Set this to true once prometheus is retired (it duplicates these rules)
-      create: false
+      create: true
       rules:
         # We run Cilium which replaces kube-proxy
         kubeProxy: false
@@ -144,10 +143,11 @@ spec:
       enabled: false
     victoria-metrics-operator:
       enabled: false
+
     prometheus-node-exporter:
-      enabled: false
+      enabled: true
     kube-state-metrics:
-      enabled: false
+      enabled: true
       rbac:
         extraRules:
           - apiGroups:

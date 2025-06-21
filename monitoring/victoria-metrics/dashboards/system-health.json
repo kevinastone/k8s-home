@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 71,
+  "id": 33,
   "links": [],
   "panels": [
     {
@@ -37,7 +37,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "vm"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -141,7 +141,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "vm"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -224,7 +224,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "vm"
+            "uid": "${ds}"
           },
           "disableTextWrap": false,
           "editorMode": "builder",
@@ -244,7 +244,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "vm"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -326,7 +326,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "vm"
+            "uid": "${ds}"
           },
           "disableTextWrap": false,
           "editorMode": "builder",
@@ -346,7 +346,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "vm"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -428,11 +428,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "vm"
+            "uid": "${ds}"
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg by(host, ) (system_load5{db=\"telegraf\"})",
+          "expr": "avg by(host) (system_load5{db=\"telegraf\"})",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -448,7 +448,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "vm"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -497,7 +497,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "vm"
+            "uid": "${ds}"
           },
           "disableTextWrap": false,
           "editorMode": "builder",
@@ -521,7 +521,21 @@
   "schemaVersion": 41,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": "VictoriaMetrics",
+          "value": "prometheus"
+        },
+        "label": "Data Source",
+        "name": "ds",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -531,5 +545,5 @@
   "timezone": "",
   "title": "System Health2",
   "uid": "e49ed4ce-ee1b-4291-9883-116f5c9a8b15",
-  "version": 3
+  "version": 4
 }

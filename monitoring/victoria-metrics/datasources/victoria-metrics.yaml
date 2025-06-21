@@ -3,7 +3,7 @@ datasources:
   - name: VictoriaMetrics
     type: prometheus
     access: proxy
-    uid: vm
+    uid: prometheus
     url: http://vmsingle-vm-stack.victoria-metrics:8429
     editable: false
     jsonData:
