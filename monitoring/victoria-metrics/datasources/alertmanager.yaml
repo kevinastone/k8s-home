@@ -4,7 +4,7 @@ datasources:
     type: alertmanager
     access: proxy
     uid: alertmanager
-    url: http://vmalert-manager-vm-stack.victoria-metrics:9090
+    url: http://vmalertmanager-vm-stack.victoria-metrics:9093
     editable: false
     jsonData:
       implementation: "prometheus"
