@@ -31,3 +31,5 @@ spec:
     operator:
       enable_converter_ownership: true
       useCustomConfigReloader: true
+    serviceMonitor:
+      enabled: true
