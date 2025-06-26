@@ -78,6 +78,15 @@ spec:
           requests:
             cpu: 500m
             memory: 100Mi
+        inlineRelabelConfig:
+          # Convert influx metrics to "$db_$name"
+          - if: '{db=~".+"}'
+            source_labels: [db, __name__]
+            target_label: __name__
+            separator: "_"
+          - if: '{db=~".+"}'
+            action: labeldrop
+            regex: "db"
 
     # alertmanager:
     #   enabled: true
