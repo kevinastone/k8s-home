@@ -67,8 +67,8 @@ spec:
     - vm-influx.k8s.kevinastone.com
   rules:
     - backendRefs:
-        - name: vmsingle-vm-stack
-          port: 8428
+        - name: vmagent-vm-stack
+          port: 8429
       matches:
         - path:
             type: PathPrefix

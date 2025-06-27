@@ -23,6 +23,6 @@ spec:
           requestMirror:
             backendRef:
               kind: Service
-              name: vmsingle-vm-stack
+              name: vmagent-vm-stack
               namespace: victoria-metrics
-              port: 8428
+              port: 8429
