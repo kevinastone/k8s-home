@@ -97,7 +97,7 @@ spec:
       enabled: true
       spec:
         extraArgs:
-          external.url: "https://vmalert.k8s.kevinastone.com"
+          external.url: "https://vm.k8s.kevinastone.com"
 
     # Cilium replaces kube-proxy
     kubeProxy:
