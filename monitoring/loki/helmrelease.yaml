@@ -77,6 +77,8 @@ spec:
       writebackSizeLimit: 10MB
       allocatedMemory: 512
     monitoring:
+      serviceMonitor:
+        enabled: true
       dashboards:
         enabled: true
         annotations:
