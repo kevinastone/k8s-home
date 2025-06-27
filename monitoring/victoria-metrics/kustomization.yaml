@@ -24,4 +24,4 @@ configMapGenerator:
       labels:
         grafana_dashboard: "true"
     files:
-      - system-health2.json=dashboards/system-health.json
+      - system-health.json=dashboards/system-health.json
