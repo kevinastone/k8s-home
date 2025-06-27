@@ -6,5 +6,12 @@ namespace: loki
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - helmrelease-promtail.yaml
+  - helmrelease-alloy.yaml
+  # - helmrelease-promtail.yaml
   - grafana-datasources.yaml
+configurations:
+  - kustomizeconfig.yaml
+configMapGenerator:
+  - name: alloy-config
+    files:
+      - resources/config.alloy
