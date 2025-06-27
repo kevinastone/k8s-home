@@ -7,8 +7,6 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - helmrelease-chronograf.yaml
-  - influxdb-gateway.yaml
-  - http-route.yaml
   - http-route-chronograf.yaml
   - grafana-datasources.yaml
   - alerts.yaml
