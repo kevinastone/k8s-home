@@ -26,6 +26,13 @@ spec:
     - vm.k8s.kevinastone.com
   rules:
     - backendRefs:
+        - name: vmagent-vm-stack
+          port: 8429
+      matches:
+        - path:
+            type: PathPrefix
+            value: /targets
+    - backendRefs:
         - name: vmsingle-vm-stack
           port: 8429
       matches:
@@ -70,4 +77,7 @@ spec:
       matches:
         - path:
             type: PathPrefix
-            value: /
+            value: /write
+        - path:
+            type: PathPrefix
+            value: /query
