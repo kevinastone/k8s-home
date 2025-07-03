@@ -46,6 +46,10 @@
       "allowedVersions": "<17"
     },
     {
+      "matchPackageNames": ["ghcr.io/netbymatt/ws4kp"],
+      "allowedVersions": "<5.25.2"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
