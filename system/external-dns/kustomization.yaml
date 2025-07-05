@@ -5,14 +5,10 @@ kind: Kustomization
 namespace: external-dns
 resources:
   - namespace.yaml
-  - rbac.yaml
-  - deployment.yaml
+  - helmrelease.yaml
 secretGenerator:
   - name: external-dns-secret
     files:
       - CF_API_TOKEN=secrets/cloudflare.token.encrypted
-configMapGenerator:
-  - name: external-dns-config
-    literals:
-      - OWNER_ID=k8s-home
-      - DOMAIN_NAME=kevinastone.com
+configurations:
+  - kustomizeconfig.yaml
