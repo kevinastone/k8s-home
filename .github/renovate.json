@@ -50,6 +50,10 @@
       "allowedVersions": "<5.25.2"
     },
     {
+      "matchPackageNames": ["registry.k8s.io/external-dns/external-dns"],
+      "allowedVersions": "!v0.18.0"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
