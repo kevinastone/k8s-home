@@ -39,19 +39,8 @@ spec:
       wal_keep_size: 32MB
       max_wal_size: 64MB
       min_wal_size: 32MB
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://postgres/media
-      endpointURL: https://s3.k8s.kevinastone.com
-      s3Credentials:
-        accessKeyId:
-          name: s3-creds
-          key: ACCESS_KEY
-        secretAccessKey:
-          name: s3-creds
-          key: SECRET_KEY
-      wal:
-        compression: &compression bzip2
-      data:
-        compression: *compression
-    retentionPolicy: "7d"
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: postgres
