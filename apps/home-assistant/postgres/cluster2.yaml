@@ -37,19 +37,8 @@ spec:
       wal_keep_size: 32MB
       max_wal_size: 256MB
       min_wal_size: 32MB
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://postgres/home-assistant
-      endpointURL: http://minio.minio:9000
-      s3Credentials:
-        accessKeyId:
-          name: s3-creds
-          key: ACCESS_KEY
-        secretAccessKey:
-          name: s3-creds
-          key: SECRET_KEY
-      wal:
-        compression: &compression bzip2
-      data:
-        compression: *compression
-    retentionPolicy: "7d"
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: postgres2

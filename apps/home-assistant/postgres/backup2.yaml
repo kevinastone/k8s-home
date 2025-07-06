@@ -7,7 +7,9 @@ metadata:
 spec:
   schedule: "0 30 4 * * *"
   backupOwnerReference: self
-  method: barmanObjectStore
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
   cluster:
     name: postgres2
   immediate: true
