@@ -6,7 +6,7 @@ metadata:
   name: postgres2
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.2-3
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5-10
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   affinity:
