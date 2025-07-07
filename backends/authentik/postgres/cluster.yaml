@@ -17,6 +17,7 @@ spec:
   bootstrap:
     initdb:
       database: authentik
+      owner: app
   resources:
     requests:
       cpu: 200m

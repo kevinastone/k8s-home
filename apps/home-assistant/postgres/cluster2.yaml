@@ -17,6 +17,7 @@ spec:
   bootstrap:
     initdb:
       database: home-assistant
+      owner: app
   resources:
     requests:
       cpu: 200m
