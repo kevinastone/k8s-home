@@ -34,6 +34,9 @@ spec:
         labels:
           release: prometheus
 
-      targets: []
+      targets:
+        - name: max
+          url: https://max.home.kevinastone.com
+          interval: 5m
       # - name: octopi
       #   url: https://octopi.home.kevinastone.com
