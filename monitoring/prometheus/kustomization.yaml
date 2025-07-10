@@ -5,11 +5,9 @@ kind: Kustomization
 namespace: prometheus
 resources:
   - namespace.yaml
-  # - helmrelease.yaml
   - helmrelease-blackbox-exporter.yaml
   - helmrelease-snmp-exporter.yaml
   - helmrelease-json-exporter.yaml
-  # - http-route.yaml
 configMapGenerator:
   - name: prometheus-dashboards
     options:
@@ -17,10 +15,3 @@ configMapGenerator:
         grafana_dashboard: "true"
     files:
       - dashboards/blackbox-exporter.json
-  # - name: prometheus-datasources
-  #   options:
-  #     labels:
-  #       grafana_datasource: "true"
-  #   files:
-  #     - prometheus.yaml=datasources/prometheus.yaml
-  #     - alertmanager.yaml=datasources/alertmanager.yaml
