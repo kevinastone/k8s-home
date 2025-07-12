@@ -33,6 +33,8 @@ spec:
       enabled: true
   postgresql:
     parameters:
+      shared_buffers: 256MB
+      max_connections: "20"
       max_slot_wal_keep_size: 256MB
       hot_standby_feedback: "on"
       wal_keep_size: 32MB
