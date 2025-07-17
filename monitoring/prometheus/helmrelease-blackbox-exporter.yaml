@@ -38,5 +38,15 @@ spec:
         - name: max
           url: https://max.home.kevinastone.com
           interval: 5m
-      # - name: octopi
-      #   url: https://octopi.home.kevinastone.com
+
+    prometheusRule:
+      enabled: true
+      rules:
+        - alert: SSLExpiryWarning
+          expr: min by (instance) (probe_ssl_earliest_cert_expiry - time()) < 14 * 24 * 3600
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Certificate for {{ $labels.instance }} will expire in {{ $value | humanizeDuration }}"
+            description: "The certificate for {{ $labels.instance }} is about to expire in less than 14 days."
