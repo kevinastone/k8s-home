@@ -17,7 +17,7 @@ spec:
           main:
             image:
               repository: brandawg93/peanut
-              tag: 5.9.3
+              tag: 5.9.4
             ports:
               - containerPort: 8080
                 name: http
