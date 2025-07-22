@@ -6,9 +6,11 @@ namespace: one-password
 resources:
   - namespace.yaml
   - helmrelease.yaml
+  - cluster-secret-store.yaml
 configurations:
   - kustomizeconfig.yaml
 secretGenerator:
   - name: one-password-secret
     files:
       - 1password-credentials.json=secrets/1password-credentials.json.encrypted
+      - token=secrets/token.encrypted

@@ -4,3 +4,5 @@ nameReference:
     fieldSpecs:
       - path: spec/values/persistence/secrets/name
         kind: HelmRelease
+      - path: spec/provider/onepassword/auth/secretRef/connectTokenSecretRef/name
+        kind: ClusterSecretStore
