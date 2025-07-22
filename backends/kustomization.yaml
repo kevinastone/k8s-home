@@ -9,4 +9,5 @@ resources:
   # - influxdb
   - ldap
   - mqtt
+  - one-password
   - postgres
