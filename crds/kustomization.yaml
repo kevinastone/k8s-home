@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - cert-manager
   # - dragonfly-operator
+  - external-secrets
   - gateway-api
   - metallb
   - postgres
