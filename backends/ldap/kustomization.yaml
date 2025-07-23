@@ -7,16 +7,5 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - http-route.yaml
-  - lldap-user-secret.yaml
+  - lldap-secret.yaml
   - postgres
-secretGenerator:
-  - name: lldap-secret
-    # literals:
-    #   - LLDAP_LDAP_BASE_DN=dc=home,dc=kevinastone,dc=com
-    #   - LLDAP_LDAP_USER_DN=admin
-    files:
-      - LLDAP_KEY_SEED=secrets/lldap-key-seed.txt.encrypted
-      - LLDAP_JWT_SECRET=secrets/lldap-jwt.txt.encrypted
-      # - LLDAP_LDAP_USER_PASS=secrets/lldap-user.password.encrypted
-configurations:
-  - kustomizeconfig.yaml
