@@ -10,6 +10,7 @@ resources:
   - helmrelease.yaml
   - http-route.yaml
   - reference-grant.yaml
+  - ldap-secret.yaml
 configurations:
   - kustomizeconfig.yaml
 configMapGenerator:
@@ -32,6 +33,5 @@ secretGenerator:
       - jwt.token=secrets/jwt.token.encrypted
       - session.token=secrets/session.token.encrypted
       - storage-encryption.key=secrets/storage-encryption.key.encrypted
-      - ldap-user.password=../ldap/secrets/lldap-user.password.encrypted
       - oidc-hmac.secret=secrets/oidc-hmac.secret.encrypted
       - oidc-issuer.key=secrets/oidc-issuer.key.encrypted

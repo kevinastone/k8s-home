@@ -37,7 +37,7 @@ spec:
 
               AUTHELIA_SESSION_SECRET_FILE: /secrets/session.token
               AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /secrets/storage-encryption.key
-              AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /secrets/ldap-user.password
+              AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /ldap/ldap-user.password
 
               AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /secrets/jwt.token
               AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /secrets/oidc-hmac.secret
@@ -102,4 +102,10 @@ spec:
         name: authelia-secret # overriden by kustomizeconfig
         globalMounts:
           - path: /secrets
+            readOnly: true
+      ldap:
+        type: secret
+        name: ldap-secret
+        globalMounts:
+          - path: /ldap
             readOnly: true
