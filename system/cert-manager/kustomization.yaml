@@ -8,16 +8,11 @@ resources:
   - helmrelease.yaml
   - cluster-issuer.yaml
   - prometheus-rule.yaml
-configurations:
-  - kustomizeconfig.yaml
-secretGenerator:
-  - name: cloudflare-api-token-secret
-    files:
-    - api-token=secrets/cloudflare.token.encrypted
+  - cloudflare-api-token-secret.yaml
 configMapGenerator:
   - name: cert-manager-dashboard
     options:
       labels:
-        grafana_dashboard: 'true'
+        grafana_dashboard: "true"
     files:
       - dashboards/cert-manager.json
