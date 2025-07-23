@@ -24,6 +24,8 @@ spec:
             envFrom:
               - secretRef:
                   name: lldap-secret # overriden by kustomizeconfig
+              - secretRef:
+                  name: lldap-user-secret
               - prefix: postgres_
                 secretRef:
                   name: postgres-app
