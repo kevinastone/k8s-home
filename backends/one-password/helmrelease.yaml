@@ -113,3 +113,4 @@ spec:
         globalMounts:
           - path: *session
             subPath: 1password-credentials.json
+            readOnly: true
