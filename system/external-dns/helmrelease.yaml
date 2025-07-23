@@ -24,8 +24,8 @@ spec:
       - name: CF_API_TOKEN
         valueFrom:
           secretKeyRef:
-            name: external-dns-secret
-            key: CF_API_TOKEN
+            name: cloudflare-api-token-secret
+            key: api-token
     domainFilters:
       - k8s.kevinastone.com
     sources:
