@@ -17,7 +17,7 @@ spec:
   bootstrap:
     initdb:
       database: lldap
-      owner: app
+      owner: lldap
   resources:
     requests:
       cpu: 200m

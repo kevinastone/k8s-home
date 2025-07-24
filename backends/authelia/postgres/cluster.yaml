@@ -17,7 +17,7 @@ spec:
   bootstrap:
     initdb:
       database: authelia
-      owner: app
+      owner: authelia
   resources:
     requests:
       cpu: 200m
