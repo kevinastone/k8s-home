@@ -16,6 +16,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    deploymentAnnotations:
+      secret.reloader.stakater.com/auto: "true"
     provider:
       name: cloudflare
     extraArgs:
