@@ -19,10 +19,3 @@ spec:
     data:
       compression: *compression
   retentionPolicy: "7d"
-  instanceSidecarConfiguration:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        memory: 256Mi
