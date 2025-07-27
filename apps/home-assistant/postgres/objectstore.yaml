@@ -23,6 +23,3 @@ spec:
     env:
       - name: GOMEMLIMIT
         value: 100MiB
-    resources:
-      limits:
-        memory: 128MiB

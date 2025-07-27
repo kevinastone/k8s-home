@@ -27,6 +27,8 @@ spec:
     mode: enabled
   values:
     global:
+      deploymentAnnotations:
+        reloader.stakater.com/auto: "true"
       envFrom:
         - secretRef:
             name: authentik-secret # overriden by kustomizeconfig
