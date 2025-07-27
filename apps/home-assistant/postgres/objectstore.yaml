@@ -20,6 +20,9 @@ spec:
       compression: *compression
   retentionPolicy: "7d"
   instanceSidecarConfiguration:
-    env:
-      - name: GOMEMLIMIT
-        value: 100MiB
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 256Mi
