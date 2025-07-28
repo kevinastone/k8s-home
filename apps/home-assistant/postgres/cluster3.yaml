@@ -19,7 +19,7 @@ spec:
       database: home-assistant
       owner: app
       backup:
-        name: postgres2-20250728043000
+        name: postgres2-20250728115517
   resources:
     requests:
       cpu: 200m
