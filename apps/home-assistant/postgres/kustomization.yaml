@@ -6,7 +6,6 @@ resources:
   - cluster2.yaml
   - backup2.yaml
   - objectstore.yaml
-  - immediate-backup.yaml
 configurations:
   - kustomizeconfig.yaml
 secretGenerator:

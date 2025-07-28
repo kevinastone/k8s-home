@@ -15,6 +15,7 @@ spec:
         name: s3-creds
         key: SECRET_KEY
     wal:
+      maxParallel: 8
       compression: &compression bzip2
     data:
       compression: *compression
