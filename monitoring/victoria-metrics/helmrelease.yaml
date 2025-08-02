@@ -99,6 +99,10 @@ spec:
         extraArgs:
           external.url: "https://vm.k8s.kevinastone.com"
 
+    external:
+      grafana:
+        host: "https://grafana.k8s.kevinastone.com"
+
     # Cilium replaces kube-proxy
     kubeProxy:
       enabled: false
