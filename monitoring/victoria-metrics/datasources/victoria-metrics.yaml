@@ -4,7 +4,7 @@ datasources:
     type: prometheus
     access: proxy
     uid: prometheus
-    url: http://vmsingle-vm-stack.victoria-metrics:8429
+    url: http://vmsingle-vm-stack.victoria-metrics:8428
     editable: false
     jsonData:
       # httpMethod: POST
