@@ -95,14 +95,10 @@ spec:
 
     vmalert:
       enabled: true
-      spec:
-        extraArgs:
-          external.alert.source: "vmui/#/?g0.expr={{.Expr|queryEscape}}"
-          external.url: "https://vm.k8s.kevinastone.com"
 
     external:
       grafana:
-        host: "https://grafana.k8s.kevinastone.com"
+        host: "grafana.k8s.kevinastone.com"
 
     # Cilium replaces kube-proxy
     kubeProxy:
