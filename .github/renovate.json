@@ -42,6 +42,10 @@
       "allowedVersions": "!/v2.5.2/"
     },
     {
+      "matchPackageNames": ["ghcr.io/grafana/helm-charts/grafana"],
+      "allowedVersions": "!/v9.3.1/"
+    },
+    {
       "matchPackageNames": ["docker.io/bitnamicharts/minio"],
       "allowedVersions": "<17"
     },
