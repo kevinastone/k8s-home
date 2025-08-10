@@ -15,9 +15,12 @@ spec:
         name: descheduler
         namespace: flux-system
       interval: 5m
-  install:
-    createNamespace: true
   values:
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+    kind: Deployment
+    service:
+      enabled: true
     serviceMonitor:
       enabled: true
     deschedulerPolicy:
