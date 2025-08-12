@@ -19,17 +19,44 @@ spec:
     podAnnotations:
       reloader.stakater.com/auto: "true"
     kind: Deployment
+    leaderElection:
+      enabled: true
     service:
       enabled: true
     serviceMonitor:
       enabled: true
     deschedulerPolicy:
-      strategies:
-        RemovePodsViolatingNodeAffinity:
-          params:
-            nodeAffinityType:
-              - requiredDuringSchedulingIgnoredDuringExecution
-              - preferredDuringSchedulingIgnoredDuringExecution
+      profiles:
+        - name: Default
+          pluginConfig:
+            - name: DefaultEvictor
+              args:
+                evictFailedBarePods: true
+                evictLocalStoragePods: true
+                nodeFit: true
+            - name: RemoveDuplicates
+            - name: RemovePodsHavingTooManyRestarts
+              args:
+                podRestartThreshold: 100
+                includingInitContainers: true
+            - name: RemovePodsViolatingNodeAffinity
+              args:
+                nodeAffinityType:
+                  - requiredDuringSchedulingIgnoredDuringExecution
+                  - preferredDuringSchedulingIgnoredDuringExecution
+            - name: RemovePodsViolatingNodeTaints
+            - name: RemovePodsViolatingInterPodAntiAffinity
+            - name: RemovePodsViolatingTopologySpreadConstraint
+            - name: LowNodeUtilization
+              args:
+                thresholds:
+                  cpu: 20
+                  memory: 20
+                  pods: 20
+                targetThresholds:
+                  cpu: 50
+                  memory: 50
+                  pods: 50
   postRenderers:
     - kustomize:
         patches:
