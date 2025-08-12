@@ -57,6 +57,22 @@ spec:
                   cpu: 50
                   memory: 50
                   pods: 50
+            - name: PodLifeTime
+              args:
+                maxPodLifeTimeSeconds: 86400
+      plugins:
+        balance:
+          enabled:
+            - RemoveDuplicates
+            - RemovePodsViolatingTopologySpreadConstraint
+            - LowNodeUtilization
+        deschedule:
+          enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingNodeTaints
+            - RemovePodsViolatingNodeAffinity
+            - RemovePodsViolatingInterPodAntiAffinity
+            - PodLifeTime
   postRenderers:
     - kustomize:
         patches:
