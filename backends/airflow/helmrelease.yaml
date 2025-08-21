@@ -35,10 +35,6 @@ spec:
         value: "True"
       - name: AIRFLOW__CORE__HIDE_SENSITIVE_VAR_CONN_FIELDS
         value: "False"
-      - name: AIRFLOW__WEBSERVER__DEFAULT_WRAP
-        value: "True"
-      - name: AIRFLOW__WEBSERVER__EXPOSE_CONFIG
-        value: "True"
 
     kerberos:
       enabled: false
@@ -58,9 +54,6 @@ spec:
       enabled: true
       persistence:
         enabled: false
-
-    dagProcessor:
-      enabled: false
 
     flower:
       enabled: false
@@ -91,6 +84,7 @@ spec:
 
     config:
       core:
+        auth_manager: "airflow.api_fastapi.auth.managers.simple.simple_auth_manager.SimpleAuthManager"
         simple_auth_manager_all_admins: "True"
       logging:
         colored_console_log: "True"
