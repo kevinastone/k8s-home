@@ -1,2 +1,2 @@
 [apache-airflow]
-url = "https://github.com/noseka1/monitoring-apache-airflow-using-prometheus/raw/refs/heads/master/airflow_grafana_dashboard.json"
+# url = "https://github.com/noseka1/monitoring-apache-airflow-using-prometheus/raw/refs/heads/master/airflow_grafana_dashboard.json"
