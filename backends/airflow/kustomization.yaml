@@ -9,10 +9,10 @@ resources:
   - postgres
   - http-route.yaml
   - service-monitor.yaml
-configMapGenerator:
-  - name: airflow-dashboard
-    options:
-      labels:
-        grafana_dashboard: "true"
-    files:
-      - dashboards/apache-airflow.json
+# configMapGenerator:
+#   - name: airflow-dashboard
+#     options:
+#       labels:
+#         grafana_dashboard: "true"
+#     files:
+#       - dashboards/apache-airflow.json
