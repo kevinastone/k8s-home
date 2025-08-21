@@ -128,6 +128,7 @@ spec:
       airflow:
         repository: ghcr.io/kevinastone/airflow-pipelines
         tag: main
+        digest: sha256:48c6c57ae60e60ee569d6d0cf5e96110dbf65482ef22dec2fe4ae86b909ca0ec
         # Specifying digest takes precedence over tag.
       # To avoid images with user code, you can turn this to 'true' and
       # all the 'run-airflow-migrations' and 'wait-for-airflow-migrations' containers/jobs
