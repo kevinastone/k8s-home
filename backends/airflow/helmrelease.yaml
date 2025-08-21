@@ -28,7 +28,8 @@ spec:
     airflowPodAnnotations:
       reloader.stakater.com/auto: "true"
 
-    executor: KubernetesExecutor
+    # executor: KubernetesExecutor
+    executor: LocalExecutor
 
     env:
       - name: AIRFLOW__CORE__HIDE_SENSITIVE_VAR_CONN_FIELDS
