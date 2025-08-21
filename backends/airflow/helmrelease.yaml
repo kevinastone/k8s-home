@@ -33,12 +33,9 @@ spec:
     env:
       - name: AIRFLOW__CORE__HIDE_SENSITIVE_VAR_CONN_FIELDS
         value: "False"
-      - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
-        value: "$(postgres_uri)"
       - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
-        value: "$(postgres_uri)"
-      - name: AIRFLOW_CONN_AIRFLOW_DB
-        value: "$(postgres_uri)"
+        # value: "$(postgres_uri)"
+        value: "postgresql://$(postgres_user):$(postgres_password)@pooler.airflow/$(postgres_dbname)"
 
     enableBuiltInSecretEnvVars:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: false

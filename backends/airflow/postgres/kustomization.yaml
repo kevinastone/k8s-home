@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - cluster.yaml
   - backup.yaml
+  - pooler.yaml
   - objectstore.yaml
 configurations:
   - kustomizeconfig.yaml
