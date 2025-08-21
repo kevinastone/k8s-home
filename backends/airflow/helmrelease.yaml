@@ -107,10 +107,13 @@ spec:
       persistence:
         enabled: false
 
-      # gitSync:
-      #   enabled: true
-      #   repo: git@github.com:kevinastone/airflow-pipelines.git
-      #   branch: "main"
-      #   ref: "main"
-      #   subPath: ""
-      #   sshKeySecret: repo-ssh-secret
+      gitSync:
+        enabled: true
+        repo: git@github.com:kevinastone/airflow-pipelines.git
+        branch: "main"
+        ref: "main"
+        subPath: "dags/"
+        sshKeySecret: repo-ssh-secret
+        knownHosts: |
+          ssh.knownHosts: ""
+          ssh.strictHostKeyChecking: false
