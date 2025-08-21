@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: airflow
+spec:
+  endpoints:
+    - path: /metrics
+      port: statsd-scrape
+      scheme: http
+  jobLabel: airflow
+  namespaceSelector:
+    matchNames:
+      - airflow
+  selector:
+    matchLabels:
+      component: statsd
+      release: airflow

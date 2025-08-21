@@ -8,3 +8,4 @@ resources:
   - helmrelease.yaml
   - postgres
   - http-route.yaml
+  - service-monitor.yaml
