@@ -82,7 +82,7 @@ spec:
       enabled: false
 
     cleanup:
-      enabled: true
+      enabled: false
 
     webserver:
       enabled: false
