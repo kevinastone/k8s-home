@@ -31,10 +31,24 @@ spec:
     executor: KubernetesExecutor
 
     env:
-      - name: AIRFLOW__CORE__LOAD_EXAMPLES
-        value: "True"
       - name: AIRFLOW__CORE__HIDE_SENSITIVE_VAR_CONN_FIELDS
         value: "False"
+      - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+        value: "$(postgres_uri)"
+      - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+        value: "$(postgres_uri)"
+      - name: AIRFLOW_CONN_AIRFLOW_DB
+        value: "$(postgres_uri)"
+
+    enableBuiltInSecretEnvVars:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: false
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: false
+      AIRFLOW_CONN_AIRFLOW_DB: false
+
+    extraEnvFrom: |
+      - prefix: postgres_
+        secretRef:
+          name: 'postgres-app'
 
     kerberos:
       enabled: false
@@ -45,10 +59,8 @@ spec:
     # Needed for FluxCD
     createUserJob:
       useHelmHooks: false
-      applyCustomEnv: false
     migrateDatabaseJob:
       useHelmHooks: false
-      applyCustomEnv: false
 
     triggerer:
       enabled: true
@@ -78,9 +90,13 @@ spec:
       defaultUser:
         enabled: false
 
+    apiServer:
+      waitForMigrations:
+        # Whether to create init container to wait for db migrations
+        enabled: false
+
     postgresql:
-      # Temp until we spin up our own postgres cluster
-      enabled: true
+      enabled: false
 
     config:
       core:

@@ -6,4 +6,5 @@ namespace: airflow
 resources:
   - namespace.yaml
   - helmrelease.yaml
+  - postgres
   - http-route.yaml
