@@ -18,7 +18,7 @@ spec:
           main:
             image:
               repository: patrickdk/redis-sentinel-proxy
-              tag: v1.2@sha256:04370217a3ef286d3c9e5af057a6fc94b0bcc018be97b8aab091b18b02fd225b
+              tag: v1.2@sha256:ed589e5fad5b862c3674019fd35121d45809fe92fb0b41e77a224f4b59cd88b2
               pullPolicy: IfNotPresent
             env:
               - name: SENTINEL
