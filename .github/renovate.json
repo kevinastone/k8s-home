@@ -10,59 +10,95 @@
     ":automergeMinor",
     ":automergeDigest"
   ],
-  "ignorePaths": ["**/resources/**"],
+  "ignorePaths": [
+    "**/resources/**"
+  ],
   "flux": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": [
+      "/\\.yaml$/"
+    ]
   },
   "helm-values": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": [
+      "/\\.yaml$/"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": [
+      "/\\.yaml$/"
+    ]
   },
   "packageRules": [
     {
-      "matchPackageNames": ["redis-operator"],
+      "matchPackageNames": [
+        "redis-operator"
+      ],
       "allowedVersions": "!/3.3.0/"
     },
     {
-      "matchPackageNames": ["kubernetes-dashboard"],
+      "matchPackageNames": [
+        "kubernetes-dashboard"
+      ],
       "allowedVersions": "<7"
     },
     {
-      "matchPackageNames": ["csi-driver-smb"],
+      "matchPackageNames": [
+        "csi-driver-smb"
+      ],
       "allowedVersions": "!/v1.15.0/"
     },
     {
-      "matchPackageNames": ["promtail"],
+      "matchPackageNames": [
+        "promtail"
+      ],
       "allowedVersions": "!/6.16.0/"
     },
     {
-      "matchPackageNames": ["ghcr.io/dmunozv04/isponsorblocktv"],
+      "matchPackageNames": [
+        "ghcr.io/dmunozv04/isponsorblocktv"
+      ],
       "allowedVersions": "!/v2.5.2/"
     },
     {
-      "matchPackageNames": ["docker.io/bitnamicharts/minio"],
+      "matchPackageNames": [
+        "docker.io/bitnamicharts/minio"
+      ],
       "allowedVersions": "<17"
     },
     {
-      "matchPackageNames": ["ghcr.io/netbymatt/ws4kp"],
+      "matchPackageNames": [
+        "ghcr.io/netbymatt/ws4kp"
+      ],
       "allowedVersions": "<5.25.2"
     },
     {
-      "matchDatasources": ["kubernetes-api"],
+      "matchDatasources": [
+        "kubernetes-api"
+      ],
       "enabled": false
     },
     {
-      "description": ["CalVer for Cloudflared"],
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["cloudflare/cloudflared"],
+      "description": [
+        "CalVer for Cloudflared"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "cloudflare/cloudflared"
+      ],
       "automerge": true
     },
     {
-      "description": ["CalVer for Home-Assistant"],
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/home-assistant/home-assistant"],
+      "description": [
+        "CalVer for Home-Assistant"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/home-assistant/home-assistant"
+      ],
       "automerge": true
     }
   ]
