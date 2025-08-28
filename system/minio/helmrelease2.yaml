@@ -163,9 +163,10 @@ spec:
                 mc alias set minio http://minio2:9000 $(<$MINIO_ROOT_USER_FILE) $(<$MINIO_ROOT_PASSWORD_FILE)
 
                 # Provision Users
-                while read -d '' configFile; do
+                for f in /users/*; do
+                  configFile=$(<$f);
                   addUsersFromFile "${configFile}";
-                done < <(find "/users/" -type l -not -name '..data' -print0);
+                done
 
                 # Provision Buckets
                 mc mb minio/postgres --ignore-existing
