@@ -15,6 +15,7 @@ spec:
   values:
     controllers:
       main:
+        nameOverride: *app
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -65,6 +66,10 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 500m
@@ -75,14 +80,20 @@ spec:
                 memory: 1Gi
                 ephemeral-storage: 2Gi
       provisioning:
-        # TODO: Flip when ready to test
-        enabled: false
         type: job
+        initContainers:
+          wait-for-minio:
+            image:
+              repository: ghcr.io/groundnuty/k8s-wait-for
+              tag: v1.6
+            args:
+              - service
+              - *app
         containers:
           main:
             image:
               repository: quay.io/minio/mc
-              tag: RELEASE.2025-07-23T15-54-02Z
+              tag: RELEASE.2025-07-21T05-28-08Z
             env:
               MINIO_SCHEME: http
               MINIO_ROOT_USER_FILE: /secrets/root-user
@@ -90,14 +101,75 @@ spec:
             envFrom:
               - secretRef:
                   name: minio-secret
-            args:
-              - admin
-              - user
-              - add
-              - minio
-              - minio123
-              - --access
-              - readwrite
+            command:
+              - /bin/bash
+              - -c
+              - |-
+                set -e;
+
+                function attachPolicy() {
+                  local tmp=$(mc admin $1 info minio $2 | sed -n -e 's/^Policy.*: \(.*\)$/\1/p');
+                  IFS=',' read -r -a CURRENT_POLICIES <<< "$tmp";
+                  if [[ ! "${CURRENT_POLICIES[*]}" =~ "$3" ]]; then
+                    mc admin policy attach minio $3 --$1=$2;
+                  fi;
+                };
+
+                function detachDanglingPolicies() {
+                  local tmp=$(mc admin $1 info minio $2 | sed -n -e 's/^Policy.*: \(.*\)$/\1/p');
+                  IFS=',' read -r -a CURRENT_POLICIES <<< "$tmp";
+                  IFS=',' read -r -a DESIRED_POLICIES <<< "$3";
+                  for current in "${CURRENT_POLICIES[@]}"; do
+                    if [[ ! "${DESIRED_POLICIES[*]}" =~ "${current}" ]]; then
+                      mc admin policy detach minio $current --$1=$2;
+                    fi;
+                  done;
+                }
+
+                function addUsersFromFile() {
+                  local username=$(grep -oP '^username=\K.+' $1);
+                  local password=$(grep -oP '^password=\K.+' $1);
+                  local disabled=$(grep -oP '^disabled=\K.+' $1);
+                  local policies_list=$(grep -oP '^policies=\K.+' $1);
+                  local set_policies=$(grep -oP '^setPolicies=\K.+' $1);
+
+                  mc admin user add minio "${username}" "${password}";
+
+                  IFS=',' read -r -a POLICIES <<< "${policies_list}";
+                  for policy in "${POLICIES[@]}"; do
+                    attachPolicy user "${username}" "${policy}";
+                  done;
+                  if [ "${set_policies}" == "true" ]; then
+                    detachDanglingPolicies user "${username}" "${policies_list}";
+                  fi;
+
+                  local user_status="enable";
+                  if [[ "${disabled}" != "" && "${disabled,,}" == "true" ]]; then
+                    user_status="disable";
+                  fi;
+
+                  mc admin user "${user_status}" minio "${username}";
+                };
+
+                echo "Start Minio provisioning";
+
+                mc alias set minio http://minio2:9000 $(<$MINIO_ROOT_USER_FILE) $(<$MINIO_ROOT_PASSWORD_FILE)
+
+                # Provision Users
+                while read -d '' configFile; do
+                  addUsersFromFile "${configFile}";
+                done < <(find "/users/" -type l -not -name '..data' -print0);
+
+                # Provision Buckets
+                mc mb minio/postgres --ignore-existing
+                mc version suspend minio/postgres
+
+                echo "End Minio provisioning";
+
+            securityContext:
+              runAsNonRoot: false
+              runAsUser: 0
+              runAsGroup: 0
 
     defaultPodOptions:
       securityContext:
@@ -126,6 +198,38 @@ spec:
           - port: api
             path: /minio/v2/metrics/node
             interval: 30s
+    serviceAccount:
+      create: true
+      name: *app
+    rbac:
+      create: true
+      roles:
+        service-reader:
+          forceRename: service-reader
+          type: Role
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - pods
+                - services
+                - jobs
+              verbs:
+                - get
+                - list
+                - watch
+      bindings:
+        service-reader:
+          forceRename: service-reader
+          type: RoleBinding
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: Role
+            name: service-reader
+          subjects:
+            - kind: ServiceAccount
+              name: *app
+              namespace: "{{ .Release.Namespace }}"
     persistence:
       data:
         type: persistentVolumeClaim
@@ -133,13 +237,22 @@ spec:
         retain: true
         size: 100Gi
         storageClass: longhorn
-        globalMounts:
-          - path: /data
+        advancedMounts:
+          main:
+            main:
+              - path: /data
       secrets:
         type: secret
         name: minio-root-secret # overriden by kustomizeconfig
         globalMounts:
           - path: /secrets
+      users:
+        type: secret
+        name: minio-users # overriden by kustomizeconfig
+        advancedMounts:
+          provisioning:
+            main:
+              - path: /users
 
     # metrics:
     #   serviceMonitor:
