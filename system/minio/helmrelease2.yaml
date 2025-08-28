@@ -41,9 +41,12 @@ spec:
               MINIO_BROWSER_REDIRECT_URL: https://minio.k8s.kevinastone.com
               MINIO_PROMETHEUS_AUTH_TYPE: public
               MINIO_UPDATE: "off"
+              MC_HOST_minio: "http://$(root-user):$(root-password)@localhost:9000"
             envFrom:
               - secretRef:
-                  name: minio-secret
+                  name: minio-secret # overriden by kustomizeconfig
+              - secretRef:
+                  name: minio-root-secret # overriden by kustomizeconfig
             args:
               - server
               - /data
@@ -99,6 +102,7 @@ spec:
               tag: RELEASE.2025-07-21T05-28-08Z
             env:
               MINIO_SCHEME: http
+              MC_CONFIG_DIR: /home
               MINIO_ROOT_USER_FILE: /secrets/root-user
               MINIO_ROOT_PASSWORD_FILE: /secrets/root-password
             envFrom:
