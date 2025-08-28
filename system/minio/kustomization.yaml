@@ -17,6 +17,9 @@ secretGenerator:
   - name: minio-users
     files:
       - postgres=secrets/postgres.txt.encrypted
+  - name: minio-users2
+    files:
+      - postgres=secrets/postgres.password.encrypted
   - name: minio-secret
     files:
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=secrets/client.secret.encrypted

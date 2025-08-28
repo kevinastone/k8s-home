@@ -114,58 +114,14 @@ spec:
               - |-
                 set -e;
 
-                function attachPolicy() {
-                  local tmp=$(mc admin $1 info minio $2 | sed -n -e 's/^Policy.*: \(.*\)$/\1/p');
-                  IFS=',' read -r -a CURRENT_POLICIES <<< "$tmp";
-                  if [[ ! "${CURRENT_POLICIES[*]}" =~ "$3" ]]; then
-                    mc admin policy attach minio $3 --$1=$2;
-                  fi;
-                };
-
-                function detachDanglingPolicies() {
-                  local tmp=$(mc admin $1 info minio $2 | sed -n -e 's/^Policy.*: \(.*\)$/\1/p');
-                  IFS=',' read -r -a CURRENT_POLICIES <<< "$tmp";
-                  IFS=',' read -r -a DESIRED_POLICIES <<< "$3";
-                  for current in "${CURRENT_POLICIES[@]}"; do
-                    if [[ ! "${DESIRED_POLICIES[*]}" =~ "${current}" ]]; then
-                      mc admin policy detach minio $current --$1=$2;
-                    fi;
-                  done;
-                }
-
-                function addUsersFromFile() {
-                  local username=$(grep -oP '^username=\K.+' $1);
-                  local password=$(grep -oP '^password=\K.+' $1);
-                  local disabled=$(grep -oP '^disabled=\K.+' $1);
-                  local policies_list=$(grep -oP '^policies=\K.+' $1);
-                  local set_policies=$(grep -oP '^setPolicies=\K.+' $1);
-
-                  mc admin user add minio "${username}" "${password}";
-
-                  IFS=',' read -r -a POLICIES <<< "${policies_list}";
-                  for policy in "${POLICIES[@]}"; do
-                    attachPolicy user "${username}" "${policy}";
-                  done;
-                  if [ "${set_policies}" == "true" ]; then
-                    detachDanglingPolicies user "${username}" "${policies_list}";
-                  fi;
-
-                  local user_status="enable";
-                  if [[ "${disabled}" != "" && "${disabled,,}" == "true" ]]; then
-                    user_status="disable";
-                  fi;
-
-                  mc admin user "${user_status}" minio "${username}";
-                };
-
                 echo "Start Minio provisioning";
 
                 mc alias set minio http://minio2:9000 $(<$MINIO_ROOT_USER_FILE) $(<$MINIO_ROOT_PASSWORD_FILE)
 
                 # Provision Users
                 for f in /users/*; do
-                  configFile=$(<$f);
-                  addUsersFromFile "${configFile}";
+                  mc admin user add minio "$(basename $f)" "$(<$f)";
+                  mc admin policy attach minio readwrite --user="$(basename $f)";
                 done
 
                 # Provision Buckets
@@ -258,7 +214,7 @@ spec:
           - path: /secrets
       users:
         type: secret
-        name: minio-users # overriden by kustomizeconfig
+        name: minio-users2 # overriden by kustomizeconfig
         advancedMounts:
           provisioning:
             main:
