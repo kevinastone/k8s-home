@@ -29,6 +29,7 @@ spec:
               # NOTE: users who have limited memory can set CI=true to reduce pre-allocated memory from 1GiB/2GiB to 256MiB.
               CI: "true"
               HOME: /home
+              MC_CONFIG_DIR: /home
               MINIO_ROOT_USER_FILE: /secrets/root-user
               MINIO_ROOT_PASSWORD_FILE: /secrets/root-password
               MINIO_IDENTITY_OPENID_CONFIG_URL: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
