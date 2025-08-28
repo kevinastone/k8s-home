@@ -6,6 +6,7 @@ namespace: minio
 resources:
   - namespace.yaml
   - helmrelease.yaml
+  - helmrelease2.yaml
   - http-route.yaml
 secretGenerator:
   - name: minio-root-secret
@@ -23,7 +24,7 @@ configMapGenerator:
   - name: minio-dashboard
     options:
       labels:
-        grafana_dashboard: 'true'
+        grafana_dashboard: "true"
     files:
       - dashboards/minio.json
 configurations:
