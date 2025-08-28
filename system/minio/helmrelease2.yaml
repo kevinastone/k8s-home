@@ -28,6 +28,7 @@ spec:
               GOGC: "20"
               # NOTE: users who have limited memory can set CI=true to reduce pre-allocated memory from 1GiB/2GiB to 256MiB.
               CI: "true"
+              HOME: /home
               MINIO_ROOT_USER_FILE: /secrets/root-user
               MINIO_ROOT_PASSWORD_FILE: /secrets/root-password
               MINIO_IDENTITY_OPENID_CONFIG_URL: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
@@ -232,6 +233,8 @@ spec:
               name: *app
               namespace: "{{ .Release.Namespace }}"
     persistence:
+      home:
+        type: emptyDir
       data:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
@@ -254,21 +257,3 @@ spec:
           provisioning:
             main:
               - path: /users
-
-    # metrics:
-    #   serviceMonitor:
-    #     enabled: true
-    # auth:
-    #   existingSecret: minio-root-secret # overriden by kustomizeconfig
-    # volumePermissions:
-    #   enabled: false
-    # provisioning:
-    #   enabled: true
-    #   usersExistingSecrets:
-    #     - minio-users # overriden by kustomizeconfig
-    #   buckets:
-    #     - name: postgres
-    #   networkPolicy:
-    #     enabled: false
-    # console:
-    #   enabled: false
