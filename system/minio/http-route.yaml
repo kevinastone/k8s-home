@@ -38,7 +38,7 @@ spec:
     - s3.k8s.kevinastone.com
   rules:
     - backendRefs:
-        - name: minio
+        - name: minio2
           port: 9000
       matches:
         - path:
