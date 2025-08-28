@@ -37,6 +37,7 @@ spec:
               MINIO_IDENTITY_OPENID_DISPLAY_NAME: Authelia
               MINIO_IDENTITY_OPENID_SCOPES: openid,profile,email
               MINIO_BROWSER_REDIRECT_URL: https://minio.k8s.kevinastone.com
+              MINIO_PROMETHEUS_AUTH_TYPE: public
               MINIO_UPDATE: "off"
             envFrom:
               - secretRef:
