@@ -60,18 +60,16 @@ spec:
             probes:
               liveness: &probes
                 enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /minio/health/live
-                    port: api
-                  initialDelaySeconds: 10
-                  periodSeconds: 30
-                  timeoutSeconds: 10
-                  failureThreshold: 6
+                type: HTTP
+                path: /minio/health/live
+                port: api
               readiness: *probes
               startup:
-                enabled: false
+                <<: *probes
+                spec:
+                  initialDelaySeconds: 2
+                  periodSeconds: 2
+                  failureThreshold: 30
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
