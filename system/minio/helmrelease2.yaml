@@ -91,7 +91,7 @@ spec:
           wait-for-minio:
             image:
               repository: ghcr.io/groundnuty/k8s-wait-for
-              tag: v1.6
+              tag: v1.7
             args:
               - service
               - *app
