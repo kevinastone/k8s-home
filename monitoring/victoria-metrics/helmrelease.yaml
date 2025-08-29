@@ -109,11 +109,12 @@ spec:
       vmScrape: &https-scrape
         spec:
           endpoints:
-            - bearerTokenFile: &token-file /var/run/secrets/kubernetes.io/serviceaccount/token
-              port: &metrics-port http-metrics
-              scheme: https
+            - <<: &endpoint
+                bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                port: http-metrics
+                scheme: https
               tlsConfig: &tls-config
-                caFile: &ca-file /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
                 insecureSkipVerify: true
 
     kubeControllerManager:
@@ -125,12 +126,10 @@ spec:
       vmScrape:
         spec:
           endpoints:
-            - bearerTokenFile: *token-file
+            - <<: *endpoint
               port: https
-              scheme: https
               tlsConfig:
-                caFile: *ca-file
-                insecureSkipVerify: true
+                <<: *tls-config
                 serverName: kubernetes
 
     kubeEtcd:
@@ -141,8 +140,7 @@ spec:
       vmScrape: &http-scrape
         spec:
           endpoints:
-            - bearerTokenFile: *token-file
-              port: http-metrics
+            - <<: *endpoint
               scheme: http
 
     coreDns:
