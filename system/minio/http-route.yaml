@@ -8,7 +8,7 @@ metadata:
     gethomepage.dev/group: Servers
     gethomepage.dev/icon: /static/icons/svg/minio.svg
     gethomepage.dev/name: MinIO
-    gethomepage.dev/pod-selector: "app.kubernetes.io/name=minio2"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=minio"
 spec:
   parentRefs:
     - name: public-gateway
@@ -18,7 +18,7 @@ spec:
     - minio.k8s.kevinastone.com
   rules:
     - backendRefs:
-        - name: minio2
+        - name: minio
           port: 9001
       matches:
         - path:
@@ -38,7 +38,7 @@ spec:
     - s3.k8s.kevinastone.com
   rules:
     - backendRefs:
-        - name: minio2
+        - name: minio
           port: 9000
       matches:
         - path:

@@ -6,7 +6,6 @@ namespace: minio
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - helmrelease2.yaml
   - http-route.yaml
 secretGenerator:
   - name: minio-root-secret
@@ -15,9 +14,6 @@ secretGenerator:
     files:
       - root-password=secrets/password.txt.encrypted
   - name: minio-users
-    files:
-      - postgres=secrets/postgres.txt.encrypted
-  - name: minio-users2
     files:
       - postgres=secrets/postgres.password.encrypted
   - name: minio-secret
