@@ -18,5 +18,5 @@ resources:
   # - node-feature-discovery
   - openebs
   - reloader
-  # - rook-cluster
+  - rook-cluster
   - vertical-pod-autoscaler
