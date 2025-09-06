@@ -35,3 +35,5 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    monitoring:
+      enabled: true
