@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app karma
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/prymitive/karma
+              tag: v0.121@sha256:9f0ad820df1b1d0af562de3b3c545a52ddfce8d7492f434a2276e45f3a1f7e28
+            env:
+              ALERTMANAGER_URI: http://vmalertmanager-vm-stack.victoria-metrics.svc.cluster.local:9093
+              LISTEN_PORT: &port 80
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+                path: /healthz
+              readiness: *probes
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: *port
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http
