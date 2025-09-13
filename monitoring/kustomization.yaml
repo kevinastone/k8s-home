@@ -6,6 +6,7 @@ resources:
   - envoy-gateway
   - goldilocks
   - grafana
+  - karma
   - loki
   - metrics-server
   - network-ups-tools
