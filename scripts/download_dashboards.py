@@ -3,9 +3,10 @@ import io
 import pathlib
 import re
 import sys
-import urllib.request
-from dataclasses import dataclass, field, InitVar
 import typing as t
+import urllib.request
+from dataclasses import InitVar, dataclass
+
 import tomllib
 
 
@@ -27,11 +28,13 @@ class Dashboard:
 
 def fetch(url: str, destination: pathlib.Path, datasource: t.Optional[dict | str] = None):
     print(f"Downloading {destination} from {url}")
-    with io.open(destination, "w", encoding='utf-8') as output, urllib.request.urlopen(url) as request:
+    with (
+        io.open(destination, "w", encoding="utf-8") as output,
+        urllib.request.urlopen(url) as request,
+    ):
         charset = request.info().get_content_charset()
         data = request.read().decode(charset)
         if isinstance(datasource, str):
-
             data = re.sub(r'"datasource":.*,', rf'"datasource": "{datasource}",', data)
         elif isinstance(datasource, dict):
             for key, val in datasource.items():
@@ -59,5 +62,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

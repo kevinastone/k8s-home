@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grafana Dashboards Configuration",
+  "description": "A JSON schema for a TOML configuration file for downloading Grafana dashboards.",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9._-]+$": {
+      "$ref": "#/definitions/dashboard"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "dashboard": {
+      "type": "object",
+      "properties": {
+        "datasource": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z0-9_]+$": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "Datasource override for the dashboard. Can be a string (for a single datasource) or a map of template variable names to datasource names."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "description": "Direct URL to the dashboard JSON. 'url' and 'id' are mutually exclusive."
+        },
+        "id": {
+          "type": "integer",
+          "description": "Grafana.com dashboard ID. Used to construct the URL if 'url' is not provided. 'url' and 'id' are mutually exclusive."
+        },
+        "revision": {
+          "type": "integer",
+          "default": 1,
+          "description": "Dashboard revision number. Used with 'id' to construct the URL."
+        }
+      },
+      "oneOf": [
+        {
+          "required": ["url"]
+        },
+        {
+          "required": ["id"]
+        }
+      ],
+      "additionalProperties": false,
+      "description": "Configuration for a single Grafana dashboard."
+    }
+  }
+}
