@@ -19,7 +19,7 @@ spec:
               repository: ghcr.io/prymitive/karma
               tag: v0.121@sha256:9f0ad820df1b1d0af562de3b3c545a52ddfce8d7492f434a2276e45f3a1f7e28
             env:
-              ALERTMANAGER_URI: http://vmalertmanager-vm-stack.victoria-metrics.svc.cluster.local:9093
+              CONFIG_FILE: &config /config/config.yaml
               LISTEN_PORT: &port 80
             # probes:
             #   liveness: &probes
@@ -39,3 +39,13 @@ spec:
         serviceName: *app
         endpoints:
           - port: http
+    persistence:
+      config:
+        type: emptyDir
+      config-file:
+        type: configMap
+        name: karma-config
+        globalMounts:
+          - path: *config
+            subPath: config.yaml
+            readOnly: true
