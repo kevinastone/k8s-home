@@ -21,12 +21,12 @@ spec:
             env:
               CONFIG_FILE: &config /config/config.yaml
               LISTEN_PORT: &port 80
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     type: HTTP
-            #     path: /healthz
-            #   readiness: *probes
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+                path: /health
+              readiness: *probes
 
     service:
       main:
