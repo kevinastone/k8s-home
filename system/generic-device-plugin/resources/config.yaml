@@ -1,4 +1,5 @@
 ---
+domain: device
 devices:
   - name: zigbee
     groups:
