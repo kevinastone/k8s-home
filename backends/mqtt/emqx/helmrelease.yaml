@@ -30,6 +30,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
+      storageClass: openebs-hostpath
     service:
       annotations:
         coredns.io/hostname: "mqtt.k8s.kevinastone.com"
