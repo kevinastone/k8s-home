@@ -18,6 +18,9 @@ spec:
   install:
     createNamespace: true
   values:
+    global:
+      imageRegistry: docker.io
+
     longhornUI:
       replicas: 1
 
