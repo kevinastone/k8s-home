@@ -11,6 +11,12 @@ configMapGenerator:
   - name: garage-config
     files:
       - resources/garage.toml
+  - name: garage-dashboard
+    options:
+      labels:
+        grafana_dashboard: "true"
+    files:
+      - dashboards/garage.json
 secretGenerator:
   - name: garage-secret
     literals:
