@@ -7,6 +7,7 @@ resources:
   - authelia
   - dns
   - envoy-gateway
+  - garage
   - ldap
   - mqtt
   - one-password
