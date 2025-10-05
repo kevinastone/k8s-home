@@ -35,5 +35,5 @@ spec:
       defaultDataLocality: best-effort
 
     defaultSettings:
-      defaultReplicaCount: 2
+      defaultReplicaCount: "2"
       replicaAutoBalance: best-effort
