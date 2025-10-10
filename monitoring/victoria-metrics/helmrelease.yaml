@@ -35,9 +35,10 @@ spec:
 
     defaultRules:
       create: true
-      rules:
-        # We run Cilium which replaces kube-proxy
-        kubeProxy: false
+      groups:
+        # These metrics don't seem to work
+        kubeScheduler:
+          create: false
 
     vmsingle:
       enabled: true
