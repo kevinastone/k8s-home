@@ -62,6 +62,8 @@ spec:
         globalMounts:
           - path: /config-data/configuration.yaml
             subPath: configuration.yaml
+          - path: /config-data/devices.yaml
+            subPath: devices.yaml
       secrets:
         enabled: true
         type: secret
