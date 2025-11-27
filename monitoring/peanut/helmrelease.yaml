@@ -17,7 +17,7 @@ spec:
           main:
             image:
               repository: brandawg93/peanut
-              tag: 5.17.0
+              tag: 5.18.0
             env:
               DISABLE_CONFIG_FILE: "true"
               DISABLE_VERSION_CHECK: "true"
