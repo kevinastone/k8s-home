@@ -26,7 +26,7 @@ spec:
               - debug
               - run
             ports:
-              - containerPort: 2000
+              - containerPort: &metrics-port 2000
                 name: metrics
             probes:
               liveness: &probes
@@ -42,11 +42,16 @@ spec:
     service:
       main:
         controller: main
-        type: ExternalName
-        externalName: 7830819a-c96e-4ac6-a997-9bffa30a57fc.cfargotunnel.com
+        clusterIP: None
+        # type: ExternalName
+        # externalName: 7830819a-c96e-4ac6-a997-9bffa30a57fc.cfargotunnel.com
         annotations:
           external-dns.alpha.kubernetes.io/hostname: fluxcd.kevinastone.com
+          external-dns.alpha.kubernetes.io/target: 7830819a-c96e-4ac6-a997-9bffa30a57fc.cfargotunnel.com
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+        ports:
+          metrics:
+            port: *metrics-port
     serviceMonitor:
       main:
         serviceName: cloudflared
