@@ -8,5 +8,5 @@
 
 ### Get Screen ID
 ```
-curl "https://www.youtube.com/api/lounge/pairing/get_screen?pairing_code=039192115506" | jq .
+curl "https://www.youtube.com/api/lounge/pairing/get_screen?pairing_code=<code>" | jq .screen.screenId
 ```
