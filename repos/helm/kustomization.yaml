@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - airflow.yaml
   - bjw-s.yaml
+  - bjw-s-labs.yaml
   - csi-driver-smb.yaml
   - dao-2048.yaml
   - descheduler.yaml
