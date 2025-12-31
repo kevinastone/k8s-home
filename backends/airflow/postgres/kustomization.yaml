@@ -7,11 +7,5 @@ resources:
   - backup.yaml
   - pooler.yaml
   - objectstore.yaml
-configurations:
-  - kustomizeconfig.yaml
-secretGenerator:
-  - name: s3-creds
-    literals:
-      - ACCESS_KEY=postgres
-    files:
-      - SECRET_KEY=../../../crds/postgres/secrets/s3-secret.key.encrypted
+components:
+  - ../../../crds/postgres/component
