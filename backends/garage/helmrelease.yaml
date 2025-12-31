@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chartRef:
     kind: OCIRepository
-    name: app-template
+    name: app-template4
     namespace: flux-system
   driftDetection:
     mode: enabled
@@ -103,10 +103,8 @@ spec:
             path: /metrics
             interval: 30s
     serviceAccount:
-      create: true
-      name: *app
+      garage: {}
     rbac:
-      create: true
       roles:
         manage-crds:
           forceRename: manage-crds-garage
@@ -135,7 +133,7 @@ spec:
             name: manage-crds-garage
           subjects:
             - kind: ServiceAccount
-              name: *app
+              name: garage
               namespace: "{{ .Release.Namespace }}"
     persistence:
       config:
