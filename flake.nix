@@ -8,6 +8,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       utils,
       treefmt-nix,
@@ -21,11 +22,14 @@
       in
       {
         formatter = treefmtConfig.config.build.wrapper;
+        checks = {
+          formatting = treefmtConfig.config.build.check self;
+        };
         devShells.default =
           with pkgs;
           mkShell {
             nativeBuildInputs = [ treefmtConfig.config.build.wrapper ];
-            packages = with pkgs; [
+            packages = [
               # keep-sorted start
               age
               kubectl
