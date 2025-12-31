@@ -1,6 +1,6 @@
 ---
-# mode: cluster
-mode: default
+mode: cluster
+# mode: default
 ingress: false
 gateway: true
 # route: gateway
