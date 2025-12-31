@@ -7,11 +7,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Magic Nix Cache (Faster Builds)
-        uses: DeterminateSystems/magic-nix-cache-action@v13
-      - name: Run All Flake Checks
-        run: nix flake check -L
+    - uses: actions/checkout@v6
+    - uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Magic Nix Cache (Faster Builds)
+      uses: DeterminateSystems/magic-nix-cache-action@v13
+    - name: Run All Flake Checks
+      run: nix flake check -L
+
+  fix-format:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && failure()
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        ref: ${{ github.head_ref }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Magic Nix Cache (Faster Builds)
+      uses: DeterminateSystems/magic-nix-cache-action@v13
+    - name: Auto-format
+      run: |
+        nix fmt
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "style: auto-format manifests" || echo "No changes to commit"
+        git push
