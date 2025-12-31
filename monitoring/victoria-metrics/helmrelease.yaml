@@ -30,8 +30,8 @@ spec:
       grafanaOperator:
         # -- Create dashboards as CRDs (requires grafana-operator to be installed)
         enabled: false
-      labels:
-        grafana_dashboard: "true"
+      # labels:
+      #   grafana_dashboard: "true"
 
     defaultRules:
       create: true
