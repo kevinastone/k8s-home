@@ -2,14 +2,6 @@ nameReference:
   - kind: Secret
     version: v1
     fieldSpecs:
-      - path: spec/values/auth/existingSecret
-        kind: HelmRelease
-      - path: spec/values/extraEnvVarsSecret
-        kind: HelmRelease
-      - path: spec/values/console/extraEnvVarsSecret
-        kind: HelmRelease
-      - path: spec/values/provisioning/usersExistingSecrets
-        kind: HelmRelease
       - path: spec/values/controllers/main/containers/main/envFrom/secretRef/name
         kind: HelmRelease
       - path: spec/values/controllers/provisioning/containers/main/envFrom/secretRef/name
