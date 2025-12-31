@@ -22,16 +22,22 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: 63555
+              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "[221, 13, 221, 221, 221, 221, 221, 221]"
               ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx.mqtt
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/zigbee
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+              ZIGBEE2MQTT_CONFIG_FRONTEND_ENABLED: "true"
+              ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 80
+              ZIGBEE2MQTT_CONFIG_FRONTEND_HOST: 0.0.0.0
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: "true"
             resources:
               limits:
                 device/zigbee: 1
             ports:
-              - containerPort: 80
+              - containerPort: *port
                 name: http
             probes:
               liveness: &probes
@@ -54,7 +60,7 @@ spec:
         type: ClusterIP
         ports:
           http:
-            port: 80
+            port: *port
 
     persistence:
       data:

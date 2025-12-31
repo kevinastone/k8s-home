@@ -1,27 +1,6 @@
 version: 4
 
-# Enable the Zigbee2MQTT frontend
-frontend:
-  enabled: true
-  port: 80
-  host: 0.0.0.0
-
 advanced:
-  ext_pan_id:
-    - 221
-    - 13
-    - 221
-    - 221
-    - 221
-    - 221
-    - 221
-    - 221
   network_key: "!secret network_key"
-
-homeassistant:
-  enabled: true
-
-device_options:
-  retain: true
 
 devices: devices.yaml
