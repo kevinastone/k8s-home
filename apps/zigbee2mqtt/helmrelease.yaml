@@ -19,6 +19,7 @@ spec:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.7.1@sha256:163e7351430a95d550d5b1bb958527edc1eff115eb013ca627f3545a192e853f
             env:
+              ZIGBEE2MQTT_DATA: /data
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: 63555
@@ -64,11 +65,11 @@ spec:
         size: 1Gi
         accessMode: ReadWriteOnce
         globalMounts:
-          - path: /app/data
+          - path: /data
       config:
         enabled: true
         type: configMap
         name: zigbee2mqtt-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /app/data/devices.yaml
+          - path: /data/devices.yaml
             subPath: devices.yaml
