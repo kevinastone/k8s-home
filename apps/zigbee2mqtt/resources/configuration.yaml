@@ -1,16 +1,5 @@
 version: 4
 
-mqtt:
-  base_topic: zigbee2mqtt
-  server: mqtt://emqx.mqtt
-  version: 5
-
-# Zigbee Adapter path
-serial:
-  # port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_72af82d8e612ec11b59620c7bd930c07-if00-port0
-  port: /dev/zigbee
-  adapter: zstack # Needed in v2
-
 # Enable the Zigbee2MQTT frontend
 frontend:
   enabled: true
@@ -18,11 +7,6 @@ frontend:
   host: 0.0.0.0
 
 advanced:
-  log_level: info
-  log_output:
-    - console
-
-  pan_id: 63555
   ext_pan_id:
     - 221
     - 13
