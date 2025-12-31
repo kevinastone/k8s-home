@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
@@ -25,11 +24,11 @@ spec:
     name: k8s-gateway
   values:
     watchedResources:
-      - HTTPRoute
-      - TLSRoute
-      - GRPCRoute
-      - Ingress
-      - Service
+    - HTTPRoute
+    - TLSRoute
+    - GRPCRoute
+    - Ingress
+    - Service
 
     domain: k8s.kevinastone.com
 

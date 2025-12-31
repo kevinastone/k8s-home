@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -22,39 +21,39 @@ spec:
               tag: v0.26@sha256:b259ada3f943e73283f1fc5e84ac39a791afec7de86515d1aeccc03d2c39e595
               pullPolicy: IfNotPresent
             env:
-              - name: TZ
-                value: UTC
+            - name: TZ
+              value: UTC
             ports:
-              - containerPort: 53
-                name: dns-udp
-                protocol: UDP
-              - containerPort: 53
-                name: dns-tcp
-                protocol: TCP
-              - containerPort: 4000
-                name: http
+            - containerPort: 53
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 53
+              name: dns-tcp
+              protocol: TCP
+            - containerPort: 4000
+              name: http
             probes:
               liveness:
                 custom: true
                 spec:
                   exec:
                     command:
-                      - /app/blocky
-                      - healthcheck
+                    - /app/blocky
+                    - healthcheck
               readiness:
                 custom: true
                 spec:
                   exec:
                     command:
-                      - /app/blocky
-                      - healthcheck
+                    - /app/blocky
+                    - healthcheck
               startup:
                 custom: true
                 spec:
                   exec:
                     command:
-                      - /app/blocky
-                      - healthcheck
+                    - /app/blocky
+                    - healthcheck
 
     service:
       main:
@@ -83,9 +82,9 @@ spec:
       main:
         serviceName: blocky
         endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
+        - port: http
+          scheme: http
+          path: /metrics
 
     persistence:
       config:
@@ -93,10 +92,10 @@ spec:
         type: configMap
         name: blocky-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /app/config.yml
-            subPath: config.yml
+        - path: /app/config.yml
+          subPath: config.yml
       lists:
         type: configMap
         name: blocky-lists # overriden by kustomizeconfig
         globalMounts:
-          - readOnly: true
+        - readOnly: true

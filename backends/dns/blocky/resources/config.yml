@@ -1,13 +1,13 @@
 # yaml-language-server: $schema=https://0xerr0r.github.io/blocky/v0.23/config.yml
 bootstrapDns:
-  - upstream: 1.1.1.1
-  - upstream: 8.8.8.8
+- upstream: 1.1.1.1
+- upstream: 8.8.8.8
 upstreams:
   groups:
     default:
-      - https://dns.nextdns.io/97b17e
-      # - 45.90.28.70
-      # - 45.90.30.70
+    - https://dns.nextdns.io/97b17e
+    # - 45.90.28.70
+    # - 45.90.30.70
 conditional:
   mapping:
     k8s.kevinastone.com: 192.168.120.54:53
@@ -18,18 +18,18 @@ blocking:
   # From https://github.com/nextdns/blocklists/blob/main/blocklists/nextdns-recommended.json
   blackLists:
     ads:
-      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-      - https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts
-      - https://raw.githubusercontent.com/tiuxo/hosts/master/ads
+    - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+    - https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts
+    - https://raw.githubusercontent.com/tiuxo/hosts/master/ads
   whiteLists:
     ads:
-      - /lists/whitelist.txt
-      # Custom Entries
-      - /lists/custom.txt
+    - /lists/whitelist.txt
+    # Custom Entries
+    - /lists/custom.txt
 
   clientGroupsBlock:
     default:
-      - ads
+    - ads
 ports:
   dns: 53
   http: 4000

@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -38,7 +37,7 @@ spec:
       main:
         serviceName: *app
         endpoints:
-          - port: http
+        - port: http
     persistence:
       config:
         type: emptyDir
@@ -46,6 +45,6 @@ spec:
         type: configMap
         name: karma-config
         globalMounts:
-          - path: *config
-            subPath: config.yaml
-            readOnly: true
+        - path: *config
+          subPath: config.yaml
+          readOnly: true

@@ -43,9 +43,9 @@ webhook:
 http:
   use_x_forwarded_for: yes
   trusted_proxies:
-    - 172.16.0.0/12
-    - 10.0.0.0/8
-    - 192.168.0.0/16
+  - 172.16.0.0/12
+  - 10.0.0.0/8
+  - 192.168.0.0/16
 
 # Enables the frontend
 frontend:
@@ -72,9 +72,9 @@ script: !include script.yaml
 zone: !include zone.yaml
 
 template:
-  - binary_sensor:
-      - name: "washing_machine"
-        state: >
-          {{ states('sensor.laundry_power_power')|float(0) > 10 }}
-        delay_on: "00:00:10"
-        delay_off: "00:02:00"
+- binary_sensor:
+  - name: "washing_machine"
+    state: >
+      {{ states('sensor.laundry_power_power')|float(0) > 10 }}
+    delay_on: "00:00:10"
+    delay_off: "00:02:00"

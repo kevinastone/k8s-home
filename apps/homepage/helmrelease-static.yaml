@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -21,8 +20,8 @@ spec:
               tag: "main@sha256:74baf56a4e8e2f5d26b2cfeee686214cd2e8bf90d366df7eb6d5aa69171bc2b7"
               pullPolicy: IfNotPresent
             ports:
-              - containerPort: 8080
-                name: http
+            - containerPort: 8080
+              name: http
             probes:
               liveness: &probes
                 enabled: true

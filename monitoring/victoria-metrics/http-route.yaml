@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -19,27 +18,27 @@ metadata:
     gethomepage.dev/widget.metrics.0.format.type: number
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - vm.k8s.kevinastone.com
+  - vm.k8s.kevinastone.com
   rules:
-    - matches:
-        - path: { value: /config }
-        - path: { value: /targets }
-        - path: { value: /service-discovery }
-      backendRefs:
-        - name: vmagent-vm-stack
-          port: 8429
-    - matches:
-        - path: { value: /vmalert }
-      backendRefs:
-        - name: vmalert-vm-stack
-          port: 8080
-    - backendRefs:
-        - name: vmsingle-vm-stack
-          port: 8428
+  - matches:
+    - path: {value: /config}
+    - path: {value: /targets}
+    - path: {value: /service-discovery}
+    backendRefs:
+    - name: vmagent-vm-stack
+      port: 8429
+  - matches:
+    - path: {value: /vmalert}
+    backendRefs:
+    - name: vmalert-vm-stack
+      port: 8080
+  - backendRefs:
+    - name: vmsingle-vm-stack
+      port: 8428
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -47,14 +46,14 @@ metadata:
   name: influxdb
 spec:
   parentRefs:
-    - name: vm-influx-gateway
-      sectionName: http
+  - name: vm-influx-gateway
+    sectionName: http
   hostnames:
-    - influxdb.k8s.kevinastone.com
+  - influxdb.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: vmagent-vm-stack
-          port: 8429
-      matches:
-        - path: { value: /write }
-        - path: { value: /query }
+  - backendRefs:
+    - name: vmagent-vm-stack
+      port: 8429
+    matches:
+    - path: {value: /write}
+    - path: {value: /query}

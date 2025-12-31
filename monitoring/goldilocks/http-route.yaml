@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,16 +9,16 @@ metadata:
     gethomepage.dev/name: Goldilocks
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - goldilocks.k8s.kevinastone.com
+  - goldilocks.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: goldilocks-dashboard
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: goldilocks-dashboard
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

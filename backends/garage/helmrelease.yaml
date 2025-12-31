@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -21,43 +20,43 @@ spec:
           reloader.stakater.com/auto: "true"
         statefulset:
           volumeClaimTemplates:
-            - name: data
-              accessMode: ReadWriteOnce
-              size: 100Gi
-              storageClass: openebs-hostpath
-              globalMounts:
-                - path: /data
-            - name: meta
-              accessMode: ReadWriteOnce
-              size: 5Gi
-              storageClass: openebs-hostpath
-              globalMounts:
-                - path: /meta
+          - name: data
+            accessMode: ReadWriteOnce
+            size: 100Gi
+            storageClass: openebs-hostpath
+            globalMounts:
+            - path: /data
+          - name: meta
+            accessMode: ReadWriteOnce
+            size: 5Gi
+            storageClass: openebs-hostpath
+            globalMounts:
+            - path: /meta
         pod:
           affinity:
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values: [*app]
-                  topologyKey: kubernetes.io/hostname
+              - labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values: [*app]
+                topologyKey: kubernetes.io/hostname
         containers:
           main:
             image:
               repository: docker.io/dxflrs/garage
               tag: v2.1.0@sha256:4c9b34c113e61358466e83fd6e7d66e6d18657ede14b776eb78a93ee8da7cf6a
             envFrom:
-              - secretRef:
-                  name: garage-secret # overriden by kustomizeconfig
+            - secretRef:
+                name: garage-secret # overriden by kustomizeconfig
             ports:
-              - containerPort: 3900
-                name: http
-              - containerPort: 3902
-                name: web
-              - containerPort: 3903
-                name: admin
+            - containerPort: 3900
+              name: http
+            - containerPort: 3902
+              name: web
+            - containerPort: 3903
+              name: admin
             # probes:
             #   readiness: &probes
             #     enabled: true
@@ -73,7 +72,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -82,7 +81,7 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [10000]
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     service:
       main:
         controller: main
@@ -99,9 +98,9 @@ spec:
         enabled: true
         serviceName: *app
         endpoints:
-          - port: admin
-            path: /metrics
-            interval: 30s
+        - port: admin
+          path: /metrics
+          interval: 30s
     serviceAccount:
       garage: {}
     rbac:
@@ -110,19 +109,19 @@ spec:
           forceRename: manage-crds-garage
           type: ClusterRole
           rules:
-            - apiGroups: ["apiextensions.k8s.io"]
-              resources: ["customresourcedefinitions"]
-              verbs: ["get", "list", "watch", "create", "patch"]
-            - apiGroups: ["deuxfleurs.fr"]
-              resources: ["garagenodes"]
-              verbs:
-                - get
-                - list
-                - watch
-                - create
-                - update
-                - patch
-                - delete
+          - apiGroups: ["apiextensions.k8s.io"]
+            resources: ["customresourcedefinitions"]
+            verbs: ["get", "list", "watch", "create", "patch"]
+          - apiGroups: ["deuxfleurs.fr"]
+            resources: ["garagenodes"]
+            verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
       bindings:
         manage-crds:
           forceRename: manage-crds-garage
@@ -132,20 +131,20 @@ spec:
             kind: ClusterRole
             name: manage-crds-garage
           subjects:
-            - kind: ServiceAccount
-              name: garage
-              namespace: "{{ .Release.Namespace }}"
+          - kind: ServiceAccount
+            name: garage
+            namespace: "{{ .Release.Namespace }}"
     persistence:
       config:
         enabled: true
         type: configMap
         name: garage-config
         globalMounts:
-          - path: /etc/garage.toml
-            subPath: garage.toml
+        - path: /etc/garage.toml
+          subPath: garage.toml
       secrets:
         enabled: true
         type: secret
         name: garage-secret # overriden by kustomizeconfig
         globalMounts:
-          - path: /secrets
+        - path: /secrets

@@ -1,16 +1,15 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - pod-monitor.yaml
-  - prometheus-rule.yaml
+- pod-monitor.yaml
+- prometheus-rule.yaml
 configMapGenerator:
-  - name: fluxcd-dashboards
-    options:
-      labels:
-        grafana_dashboard: 'true'
-    files:
-      - dashboards/fluxcd-cluster.json
-      - dashboards/fluxcd-control-plane.json
-      - dashboards/fluxcd-logs.json
+- name: fluxcd-dashboards
+  options:
+    labels:
+      grafana_dashboard: 'true'
+  files:
+  - dashboards/fluxcd-cluster.json
+  - dashboards/fluxcd-control-plane.json
+  - dashboards/fluxcd-logs.json

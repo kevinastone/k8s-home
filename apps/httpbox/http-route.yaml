@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -9,16 +8,16 @@ metadata:
     gethomepage.dev/name: httpbox
 spec:
   parentRefs:
-    - name: public-gateway
-      namespace: envoy
-      sectionName: https
+  - name: public-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - httpbox.k8s.kevinastone.com
+  - httpbox.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: httpbox
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: httpbox
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

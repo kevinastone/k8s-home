@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,16 +9,16 @@ metadata:
     gethomepage.dev/name: Authelia
 spec:
   parentRefs:
-    - name: public-gateway
-      namespace: envoy
-      sectionName: https
+  - name: public-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - auth.k8s.kevinastone.com
+  - auth.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: authelia
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: authelia
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

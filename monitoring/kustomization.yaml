@@ -1,17 +1,16 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - envoy-gateway
-  - goldilocks
-  - grafana
-  - karma
-  - loki
-  - metrics-server
-  - network-ups-tools
-  - peanut
-  - prometheus
-  # Disabled due to preventing hdd hibernation
-  # - synology
-  - victoria-metrics
+- envoy-gateway
+- goldilocks
+- grafana
+- karma
+- loki
+- metrics-server
+- network-ups-tools
+- peanut
+- prometheus
+# Disabled due to preventing hdd hibernation
+# - synology
+- victoria-metrics

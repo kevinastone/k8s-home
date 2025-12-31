@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -11,19 +10,19 @@ metadata:
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=garage"
 spec:
   parentRefs:
-    - name: public-gateway
-      namespace: envoy
-      sectionName: https
+  - name: public-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - garage.k8s.kevinastone.com
+  - garage.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: garage
-          port: 3903
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: garage
+      port: 3903
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
 # ---
 # apiVersion: gateway.networking.k8s.io/v1
 # kind: HTTPRoute

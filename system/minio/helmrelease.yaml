@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -43,20 +42,20 @@ spec:
               MINIO_UPDATE: "off"
               MC_HOST_minio: "http://$(root-user):$(root-password)@localhost:9000"
             envFrom:
-              - secretRef:
-                  name: minio-secret # overriden by kustomizeconfig
-              - secretRef:
-                  name: minio-root-secret # overriden by kustomizeconfig
+            - secretRef:
+                name: minio-secret # overriden by kustomizeconfig
+            - secretRef:
+                name: minio-root-secret # overriden by kustomizeconfig
             args:
-              - server
-              - /data
-              - --console-address
-              - :9001
+            - server
+            - /data
+            - --console-address
+            - :9001
             ports:
-              - containerPort: 9000
-                name: api
-              - containerPort: 9001
-                name: http
+            - containerPort: 9000
+              name: api
+            - containerPort: 9001
+              name: http
             probes:
               liveness: &probes
                 enabled: true
@@ -65,7 +64,7 @@ spec:
                 port: api
               readiness: *probes
               startup:
-                <<: *probes
+                !!merge <<: *probes
                 spec:
                   initialDelaySeconds: 2
                   periodSeconds: 2
@@ -73,7 +72,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 500m
@@ -91,8 +90,8 @@ spec:
               repository: ghcr.io/groundnuty/k8s-wait-for
               tag: v2.0
             args:
-              - service
-              - *app
+            - service
+            - *app
         containers:
           main:
             image:
@@ -104,29 +103,29 @@ spec:
               MINIO_ROOT_USER_FILE: /secrets/root-user
               MINIO_ROOT_PASSWORD_FILE: /secrets/root-password
             envFrom:
-              - secretRef:
-                  name: minio-secret
+            - secretRef:
+                name: minio-secret
             command:
-              - /bin/bash
-              - -c
-              - |-
-                set -e;
+            - /bin/bash
+            - -c
+            - |-
+              set -e;
 
-                echo "Start Minio provisioning";
+              echo "Start Minio provisioning";
 
-                mc alias set minio http://minio:9000 $(<$MINIO_ROOT_USER_FILE) $(<$MINIO_ROOT_PASSWORD_FILE)
+              mc alias set minio http://minio:9000 $(<$MINIO_ROOT_USER_FILE) $(<$MINIO_ROOT_PASSWORD_FILE)
 
-                # Provision Users
-                for f in /users/*; do
-                  mc admin user add minio "$(basename $f)" "$(<$f)";
-                  mc admin policy attach minio readwrite --user="$(basename $f)";
-                done
+              # Provision Users
+              for f in /users/*; do
+                mc admin user add minio "$(basename $f)" "$(<$f)";
+                mc admin policy attach minio readwrite --user="$(basename $f)";
+              done
 
-                # Provision Buckets
-                mc mb minio/postgres --ignore-existing
-                mc version suspend minio/postgres
+              # Provision Buckets
+              mc mb minio/postgres --ignore-existing
+              mc version suspend minio/postgres
 
-                echo "End Minio provisioning";
+              echo "End Minio provisioning";
 
             securityContext:
               runAsNonRoot: false
@@ -154,12 +153,12 @@ spec:
         enabled: true
         serviceName: *app
         endpoints:
-          - port: api
-            path: /minio/v2/metrics/cluster
-            interval: 30s
-          - port: api
-            path: /minio/v2/metrics/node
-            interval: 30s
+        - port: api
+          path: /minio/v2/metrics/cluster
+          interval: 30s
+        - port: api
+          path: /minio/v2/metrics/node
+          interval: 30s
     serviceAccount:
       minio: {}
     rbac:
@@ -168,16 +167,16 @@ spec:
           forceRename: service-reader
           type: Role
           rules:
-            - apiGroups:
-                - ""
-              resources:
-                - pods
-                - services
-                - jobs
-              verbs:
-                - get
-                - list
-                - watch
+          - apiGroups:
+            - ""
+            resources:
+            - pods
+            - services
+            - jobs
+            verbs:
+            - get
+            - list
+            - watch
       bindings:
         service-reader:
           forceRename: service-reader
@@ -187,9 +186,9 @@ spec:
             kind: Role
             name: service-reader
           subjects:
-            - kind: ServiceAccount
-              name: *app
-              namespace: "{{ .Release.Namespace }}"
+          - kind: ServiceAccount
+            name: *app
+            namespace: "{{ .Release.Namespace }}"
     persistence:
       home:
         type: emptyDir
@@ -202,16 +201,16 @@ spec:
         advancedMounts:
           main:
             main:
-              - path: /data
+            - path: /data
       secrets:
         type: secret
         name: minio-root-secret # overriden by kustomizeconfig
         globalMounts:
-          - path: /secrets
+        - path: /secrets
       users:
         type: secret
         name: minio-users # overriden by kustomizeconfig
         advancedMounts:
           provisioning:
             main:
-              - path: /users
+            - path: /users

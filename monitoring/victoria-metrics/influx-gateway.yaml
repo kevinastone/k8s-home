@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -6,11 +5,11 @@ metadata:
 spec:
   gatewayClassName: envoy-gateway-class
   listeners:
-    - name: http
-      protocol: HTTP
-      port: 8086
-      allowedRoutes:
-        kinds:
-          - kind: HTTPRoute
-        namespaces:
-          from: Same
+  - name: http
+    protocol: HTTP
+    port: 8086
+    allowedRoutes:
+      kinds:
+      - kind: HTTPRoute
+      namespaces:
+        from: Same

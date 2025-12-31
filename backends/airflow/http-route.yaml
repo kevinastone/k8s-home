@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -11,16 +10,16 @@ metadata:
     gethomepage.dev/pod-selector: "component=api-server,release=airflow"
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - airflow.k8s.kevinastone.com
+  - airflow.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: airflow-api-server
-          port: 8080
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: airflow-api-server
+      port: 8080
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

@@ -1,16 +1,15 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - changedetection
-  - dao-2048
-  - home-assistant
-  - homepage
-  - httpbox
-  - isponsorblocktv
-  - kubernetes-dashboard
-  - media
-  - super-sudoku
-  - ws4kp
-  - zigbee2mqtt
+- changedetection
+- dao-2048
+- home-assistant
+- homepage
+- httpbox
+- isponsorblocktv
+- kubernetes-dashboard
+- media
+- super-sudoku
+- ws4kp
+- zigbee2mqtt

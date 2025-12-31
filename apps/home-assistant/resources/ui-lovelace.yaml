@@ -1,72 +1,72 @@
 title: Home
 views:
-  - cards:
-      - type: vertical-stack
-        cards:
-          - type: entities
-            entities:
-              - entity: sensor.bedroom_temperature_temperature
-                name: Temperature
-              - entity: sensor.bedroom_temperature_humidity
-                name: Humidity
-              - entity: sensor.bedroom_temperature_pressure
-                name: Pressure
-            title: Bedroom Temperature
-          - type: entities
-            entities:
-              - entity: sensor.office_temperature_temperature
-                name: Temperature
-              - entity: sensor.office_temperature_humidity
-                name: Humidity
-              - entity: sensor.office_temperature_pressure
-                name: Pressure
-            title: Office Temperature
-          - type: entities
-            entities:
-              - entity: sensor.living_room_temperature_temperature
-                name: Temperature
-              - entity: sensor.living_room_temperature_humidity
-                name: Humidity
-              - entity: sensor.living_room_temperature_pressure
-                name: Pressure
-            title: Living Room Temperature
-      - type: vertical-stack
-        cards:
-          - type: entities
-            entities:
-              - entity: sensor.rack_power_power
-                name: Energy
-              - entity: sensor.rack_power_energy
-                name: Usage
-            title: Rack Power
-          - type: entities
-            entities:
-              - entity: sensor.media_power_power
-                name: Energy
-              - entity: sensor.media_power_energy
-                name: Usage
-            title: Media Power
-          - type: entities
-            entities:
-              - entity: sensor.desk_power_power
-                name: Energy
-              - entity: sensor.desk_power_energy
-                name: Usage
-            title: Desk Power
-          - type: entities
-            entities:
-              - entity: binary_sensor.washing_machine
-                name: Washing Machine
-              - entity: sensor.laundry_power_power
-                name: Energy
-              - entity: sensor.laundry_power_energy
-                name: Usage
-            title: Laundry Power
-    badges:
-      - sensor.bedroom_temperature_temperature
-      - sensor.office_temperature_temperature
-      - sensor.living_room_temperature_temperature
-      - sun.sun
-    path: default_view
-    title: Home
-    panel: false
+- cards:
+  - type: vertical-stack
+    cards:
+    - type: entities
+      entities:
+      - entity: sensor.bedroom_temperature_temperature
+        name: Temperature
+      - entity: sensor.bedroom_temperature_humidity
+        name: Humidity
+      - entity: sensor.bedroom_temperature_pressure
+        name: Pressure
+      title: Bedroom Temperature
+    - type: entities
+      entities:
+      - entity: sensor.office_temperature_temperature
+        name: Temperature
+      - entity: sensor.office_temperature_humidity
+        name: Humidity
+      - entity: sensor.office_temperature_pressure
+        name: Pressure
+      title: Office Temperature
+    - type: entities
+      entities:
+      - entity: sensor.living_room_temperature_temperature
+        name: Temperature
+      - entity: sensor.living_room_temperature_humidity
+        name: Humidity
+      - entity: sensor.living_room_temperature_pressure
+        name: Pressure
+      title: Living Room Temperature
+  - type: vertical-stack
+    cards:
+    - type: entities
+      entities:
+      - entity: sensor.rack_power_power
+        name: Energy
+      - entity: sensor.rack_power_energy
+        name: Usage
+      title: Rack Power
+    - type: entities
+      entities:
+      - entity: sensor.media_power_power
+        name: Energy
+      - entity: sensor.media_power_energy
+        name: Usage
+      title: Media Power
+    - type: entities
+      entities:
+      - entity: sensor.desk_power_power
+        name: Energy
+      - entity: sensor.desk_power_energy
+        name: Usage
+      title: Desk Power
+    - type: entities
+      entities:
+      - entity: binary_sensor.washing_machine
+        name: Washing Machine
+      - entity: sensor.laundry_power_power
+        name: Energy
+      - entity: sensor.laundry_power_energy
+        name: Usage
+      title: Laundry Power
+  badges:
+  - sensor.bedroom_temperature_temperature
+  - sensor.office_temperature_temperature
+  - sensor.living_room_temperature_temperature
+  - sun.sun
+  path: default_view
+  title: Home
+  panel: false

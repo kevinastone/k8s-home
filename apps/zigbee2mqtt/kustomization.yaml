@@ -1,19 +1,18 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: zigbee2mqtt
 resources:
-  - namespace.yaml
-  - helmrelease.yaml
-  - http-route.yaml
+- namespace.yaml
+- helmrelease.yaml
+- http-route.yaml
 configMapGenerator:
-  - name: zigbee2mqtt-config
-    files:
-      - resources/devices.yaml
+- name: zigbee2mqtt-config
+  files:
+  - resources/devices.yaml
 configurations:
-  - kustomizeconfig.yaml
+- kustomizeconfig.yaml
 secretGenerator:
-  - name: zigbee2mqtt-secret
-    files:
-      - ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY=secrets/network.key.encrypted
+- name: zigbee2mqtt-secret
+  files:
+  - ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY=secrets/network.key.encrypted

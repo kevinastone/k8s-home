@@ -1,22 +1,21 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - airflow.yaml
-  - bjw-s-labs.yaml
-  - csi-driver-smb.yaml
-  - dao-2048.yaml
-  - descheduler.yaml
-  - emqx.yaml
-  - external-dns.yaml
-  - fairwinds.yaml
-  - grafana.yaml
-  - influxdata.yaml
-  - intel.yaml
-  - k8tz.yaml
-  - kubernetes-dashboard.yaml
-  - longhorn.yaml
-  - metrics-server.yaml
-  - openebs.yaml
-  - redis-operator.yaml
+- airflow.yaml
+- bjw-s-labs.yaml
+- csi-driver-smb.yaml
+- dao-2048.yaml
+- descheduler.yaml
+- emqx.yaml
+- external-dns.yaml
+- fairwinds.yaml
+- grafana.yaml
+- influxdata.yaml
+- intel.yaml
+- k8tz.yaml
+- kubernetes-dashboard.yaml
+- longhorn.yaml
+- metrics-server.yaml
+- openebs.yaml
+- redis-operator.yaml

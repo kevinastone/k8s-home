@@ -1,4 +1,3 @@
----
 mode: cluster
 # mode: default
 ingress: false

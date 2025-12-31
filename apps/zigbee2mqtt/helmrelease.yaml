@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.js
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -36,14 +35,14 @@ spec:
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: "true"
               ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
             envFrom:
-              - secretRef:
-                  name: zigbee2mqtt-secret # overriden by kustomizeconfig
+            - secretRef:
+                name: zigbee2mqtt-secret # overriden by kustomizeconfig
             resources:
               limits:
                 device/zigbee: 1
             ports:
-              - containerPort: *port
-                name: http
+            - containerPort: *port
+              name: http
             probes:
               liveness: &probes
                 enabled: true
@@ -65,11 +64,11 @@ spec:
         size: 1Gi
         accessMode: ReadWriteOnce
         globalMounts:
-          - path: /data
+        - path: /data
       config:
         enabled: true
         type: configMap
         name: zigbee2mqtt-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /data/devices.yaml
-            subPath: devices.yaml
+        - path: /data/devices.yaml
+          subPath: devices.yaml

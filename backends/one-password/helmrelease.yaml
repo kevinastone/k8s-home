@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -51,7 +50,7 @@ spec:
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources: &resources
               requests:
                 cpu: 10m
@@ -106,11 +105,11 @@ spec:
       config:
         type: emptyDir
         globalMounts:
-          - path: *configDir
+        - path: *configDir
       secrets:
         type: secret
         name: one-password-secret # overriden by kustomizeconfig
         globalMounts:
-          - path: *session
-            subPath: 1password-credentials.json
-            readOnly: true
+        - path: *session
+          subPath: 1password-credentials.json
+          readOnly: true

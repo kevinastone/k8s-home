@@ -5,17 +5,17 @@ metadata:
   namespace: envoy
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: http
-    - name: public-gateway
-      namespace: envoy
-      sectionName: http
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: http
+  - name: public-gateway
+    namespace: envoy
+    sectionName: http
   hostnames:
-    - "*.k8s.kevinastone.com"
+  - "*.k8s.kevinastone.com"
   rules:
-    - filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301

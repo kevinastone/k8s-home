@@ -1,27 +1,26 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: home-assistant
 resources:
-  - namespace.yaml
-  - postgres
-  - helmrelease.yaml
-  - http-route.yaml
+- namespace.yaml
+- postgres
+- helmrelease.yaml
+- http-route.yaml
 configMapGenerator:
-  - name: home-assistant-config
-    files:
-      - resources/automation.yaml
-      - resources/configuration.yaml
-      - resources/customize.yaml
-      - resources/group.yaml
-      - resources/script.yaml
-      - resources/secrets.example.yaml
-      - resources/ui-lovelace.yaml
-      - resources/zone.yaml
+- name: home-assistant-config
+  files:
+  - resources/automation.yaml
+  - resources/configuration.yaml
+  - resources/customize.yaml
+  - resources/group.yaml
+  - resources/script.yaml
+  - resources/secrets.example.yaml
+  - resources/ui-lovelace.yaml
+  - resources/zone.yaml
 configurations:
-  - kustomizeconfig.yaml
+- kustomizeconfig.yaml
 secretGenerator:
-  - name: home-assistant-secret
-    files:
-    - secrets.yaml=secrets/secrets.yaml.encrypted
+- name: home-assistant-secret
+  files:
+  - secrets.yaml=secrets/secrets.yaml.encrypted

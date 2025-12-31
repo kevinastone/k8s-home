@@ -1,11 +1,10 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - repos.yaml
-  - crds.yaml
-  - system.yaml
-  - monitoring.yaml
-  - backends.yaml
-  - apps.yaml
+- repos.yaml
+- crds.yaml
+- system.yaml
+- monitoring.yaml
+- backends.yaml
+- apps.yaml

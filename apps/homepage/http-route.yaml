@@ -1,34 +1,33 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: homepage
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - home.k8s.kevinastone.com
-    - homepage.k8s.kevinastone.com
+  - home.k8s.kevinastone.com
+  - homepage.k8s.kevinastone.com
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /static/
-      filters:
-        - type: URLRewrite
-          urlRewrite:
-            path:
-              type: ReplacePrefixMatch
-              replacePrefixMatch: /
-      backendRefs:
-        - name: homepage-static
-          port: 80
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
-        - name: homepage
-          port: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /static/
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+    backendRefs:
+    - name: homepage-static
+      port: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: homepage
+      port: 80

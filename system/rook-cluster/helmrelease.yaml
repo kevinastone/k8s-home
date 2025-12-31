@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
@@ -55,10 +54,10 @@ spec:
         count: 2
         allowMultiplePerNode: false
         modules:
-          - name: rook
-            enabled: true
-          - name: "pg_autoscaler"
-            enabled: true
+        - name: rook
+          enabled: true
+        - name: "pg_autoscaler"
+          enabled: true
           # - name: "diskprediction_local"
           #   enabled: true
           # - name: prometheus
@@ -128,21 +127,21 @@ spec:
         # The `nodes` array allows you to define specific node configurations.
         # We can use this to select which nodes will run the Ceph daemons.
         nodes:
-          - name: "" # Leave this empty to apply to all nodes selected by `useAllNodes`.
-            # The `directories` section is where we specify the host paths for storage.
-            directories:
-              - path: /var/lib/rook-ceph/osds # This is where OSD data will be stored.
-                # We can also specify the device class if we want to.
-                # deviceClass: hdd
+        - name: "" # Leave this empty to apply to all nodes selected by `useAllNodes`.
+          # The `directories` section is where we specify the host paths for storage.
+          directories:
+          - path: /var/lib/rook-ceph/osds # This is where OSD data will be stored.
+            # We can also specify the device class if we want to.
+            # deviceClass: hdd
     # The `cephBlockPools` section defines the RBD block pool.
     cephBlockPools:
-      - name: replicapool
-        spec:
-          replicated:
-            # The number of replicas for data objects.
-            size: 3
-        storageClass:
-          enabled: true
-          name: rook-ceph-block
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
+    - name: replicapool
+      spec:
+        replicated:
+          # The number of replicas for data objects.
+          size: 3
+      storageClass:
+        enabled: true
+        name: rook-ceph-block
+        reclaimPolicy: Delete
+        allowVolumeExpansion: true

@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -39,7 +38,7 @@ spec:
               repository: ghcr.io/druggeri/nut_exporter
               tag: 3.2.3@sha256:a9e6c0100ebc0e8ec2c7a46de8af1366df8abd5d794f175b8ee6b2361819ee6e
             args:
-              - --nut.vars_enable=
+            - --nut.vars_enable=
     service:
       app:
         controller: main
@@ -61,34 +60,34 @@ spec:
         enabled: true
         serviceName: network-ups-tools
         endpoints:
-          - path: /ups_metrics
-            interval: 30s
-            scrapeTimeout: 10s
-            port: metrics
-            params:
-              ups: [ups]
-            relabelings:
-              - targetLabel: ups
-                sourceLabels: [__param_ups]
-            metricRelabelings:
-              # Remove noise from changing pod ids and addresses
-              - targetLabel: instance
-                replacement: ""
-              - targetLabel: pod
-                replacement: ""
-              - targetLabel: endpoint
-                replacement: ""
-              - targetLabel: job
-                replacement: ""
-              - targetLabel: namespace
-                replacement: ""
-              - targetLabel: service
-                replacement: ""
+        - path: /ups_metrics
+          interval: 30s
+          scrapeTimeout: 10s
+          port: metrics
+          params:
+            ups: [ups]
+          relabelings:
+          - targetLabel: ups
+            sourceLabels: [__param_ups]
+          metricRelabelings:
+          # Remove noise from changing pod ids and addresses
+          - targetLabel: instance
+            replacement: ""
+          - targetLabel: pod
+            replacement: ""
+          - targetLabel: endpoint
+            replacement: ""
+          - targetLabel: job
+            replacement: ""
+          - targetLabel: namespace
+            replacement: ""
+          - targetLabel: service
+            replacement: ""
     persistence:
       config:
         type: configMap
         name: network-ups-tools-config # overriden by kustomizeconfig
         defaultMode: 0640
         globalMounts:
-          - path: /etc/nut
-            readOnly: true
+        - path: /etc/nut
+          readOnly: true

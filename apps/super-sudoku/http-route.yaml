@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,16 +9,16 @@ metadata:
     gethomepage.dev/name: Sudoku
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - sudoku.k8s.kevinastone.com
+  - sudoku.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: super-sudoku
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: super-sudoku
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

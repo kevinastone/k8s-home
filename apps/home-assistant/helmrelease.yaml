@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -24,12 +23,12 @@ spec:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2025.12.5@sha256:9a5a3eb4a213dfb25932dee9dc6815c9305f78cecb5afa716fa2483163d8fb5b
             envFrom:
-              - prefix: postgres_
-                secretRef:
-                  name: postgres2-app
+            - prefix: postgres_
+              secretRef:
+                name: postgres2-app
             ports:
-              - containerPort: 8123
-                name: http
+            - containerPort: 8123
+              name: http
             probes:
               liveness: &probes
                 enabled: true
@@ -50,31 +49,31 @@ spec:
         storageClass: longhorn
         accessMode: ReadWriteMany
         globalMounts:
-          - path: /config
+        - path: /config
       config-data:
         enabled: true
         type: configMap
         name: home-assistant-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /config/automation.yaml
-            subPath: automation.yaml
-          - path: /config/configuration.yaml
-            subPath: configuration.yaml
-          - path: /config/customize.yaml
-            subPath: customize.yaml
-          - path: /config/group.yaml
-            subPath: group.yaml
-          - path: /config/script.yaml
-            subPath: script.yaml
-          - path: /config/secrets.example.yaml
-            subPath: secrets.example.yaml
-          - path: /config/ui-lovelace.yaml
-            subPath: ui-lovelace.yaml
-          - path: /config/zone.yaml
-            subPath: zone.yaml
+        - path: /config/automation.yaml
+          subPath: automation.yaml
+        - path: /config/configuration.yaml
+          subPath: configuration.yaml
+        - path: /config/customize.yaml
+          subPath: customize.yaml
+        - path: /config/group.yaml
+          subPath: group.yaml
+        - path: /config/script.yaml
+          subPath: script.yaml
+        - path: /config/secrets.example.yaml
+          subPath: secrets.example.yaml
+        - path: /config/ui-lovelace.yaml
+          subPath: ui-lovelace.yaml
+        - path: /config/zone.yaml
+          subPath: zone.yaml
       secrets:
         type: secret
         name: home-assistant-secret # overriden by kustomizeconfig
         globalMounts:
-          - path: /config/secrets.yaml
-            subPath: secrets.yaml
+        - path: /config/secrets.yaml
+          subPath: secrets.yaml

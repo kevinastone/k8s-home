@@ -1,24 +1,23 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: cloudflared
 resources:
-  - namespace.yaml
-  - helmrelease.yaml
+- namespace.yaml
+- helmrelease.yaml
 configurations:
-  - kustomizeconfig.yaml
+- kustomizeconfig.yaml
 configMapGenerator:
-  - name: cloudflared-config
-    files:
-      - resources/config.yaml
-  - name: cloudflared-dashboard
-    options:
-      labels:
-        grafana_dashboard: "true"
-    files:
-      - dashboards/cloudflared.json
+- name: cloudflared-config
+  files:
+  - resources/config.yaml
+- name: cloudflared-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/cloudflared.json
 secretGenerator:
-  - name: cloudflared-tunnel-creds
-    files:
-      - credentials.json=secrets/credentials.encrypted.json
+- name: cloudflared-tunnel-creds
+  files:
+  - credentials.json=secrets/credentials.encrypted.json

@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -23,15 +22,15 @@ spec:
     extraArgs:
       "cloudflare-dns-records-per-page": 5000
     env:
-      - name: CF_API_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: cloudflare-api-token-secret
-            key: api-token
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: cloudflare-api-token-secret
+          key: api-token
     domainFilters:
-      - k8s.kevinastone.com
+    - k8s.kevinastone.com
     sources:
-      - service
+    - service
     txtOwnerId: k8s-home
     serviceMonitor:
       enabled: true

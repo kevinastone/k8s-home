@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -25,20 +24,20 @@ spec:
               repository: ghcr.io/lldap/lldap
               tag: v0.6.2@sha256:9e605a66c02514bfcffd1b67cafb1e98d50992216bb2871d7ae44622047dd09d
             envFrom:
-              - secretRef:
-                  name: lldap-secret
-              - prefix: postgres_
-                secretRef:
-                  name: postgres-app
+            - secretRef:
+                name: lldap-secret
+            - prefix: postgres_
+              secretRef:
+                name: postgres-app
             env:
               LLDAP_DATABASE_URL: $(postgres_uri)
             ports:
-              - containerPort: 17170
-                name: http
-                protocol: TCP
-              - containerPort: 3890
-                name: ldap
-                protocol: TCP
+            - containerPort: 17170
+              name: http
+              protocol: TCP
+            - containerPort: 3890
+              name: ldap
+              protocol: TCP
             probes:
               liveness: &probes
                 enabled: true
@@ -46,8 +45,8 @@ spec:
                 spec:
                   exec:
                     command:
-                      - /app/lldap
-                      - healthcheck
+                    - /app/lldap
+                    - healthcheck
               readiness: *probes
 
     service:
@@ -66,4 +65,4 @@ spec:
       data:
         type: emptyDir
         globalMounts:
-          - path: /data
+        - path: /data

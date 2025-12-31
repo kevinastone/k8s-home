@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,16 +9,16 @@ metadata:
     gethomepage.dev/name: EMQX
 spec:
   parentRefs:
-    - name: public-gateway
-      namespace: envoy
-      sectionName: https
+  - name: public-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - emqx.k8s.kevinastone.com
+  - emqx.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: emqx
-          port: 18083
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: emqx
+      port: 18083
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -22,8 +21,8 @@ spec:
               DISABLE_CONFIG_FILE: "true"
               DISABLE_VERSION_CHECK: "true"
             ports:
-              - containerPort: 8080
-                name: http
+            - containerPort: 8080
+              name: http
             probes:
               liveness: &probes
                 enabled: true
@@ -43,5 +42,5 @@ spec:
         type: configMap
         name: peanut-config # overriden by kustomizeconfig
         globalMounts:
-          - path: /config/settings.yml
-            subPath: settings.yml
+        - path: /config/settings.yml
+          subPath: settings.yml

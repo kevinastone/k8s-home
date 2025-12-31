@@ -1,15 +1,14 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cert-manager
-  # - dragonfly-operator
-  - external-secrets
-  - gateway-api
-  - metallb
-  - postgres
-  - prometheus
-  - redis-operator
-  # - rook-operator
-  - victoria-metrics-operator
+- cert-manager
+# - dragonfly-operator
+- external-secrets
+- gateway-api
+- metallb
+- postgres
+- prometheus
+- redis-operator
+# - rook-operator
+- victoria-metrics-operator

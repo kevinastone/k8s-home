@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -27,57 +26,57 @@ spec:
       enabled: true
     deschedulerPolicy:
       profiles:
-        - name: Default
-          pluginConfig:
-            - name: DefaultEvictor
-              args:
-                evictFailedBarePods: true
-                evictLocalStoragePods: true
-                nodeFit: true
-            - name: RemoveDuplicates
-            - name: RemovePodsHavingTooManyRestarts
-              args:
-                podRestartThreshold: 100
-                includingInitContainers: true
-            - name: RemovePodsViolatingNodeAffinity
-              args:
-                nodeAffinityType:
-                  - requiredDuringSchedulingIgnoredDuringExecution
-                  - preferredDuringSchedulingIgnoredDuringExecution
-            - name: RemovePodsViolatingNodeTaints
-            - name: RemovePodsViolatingInterPodAntiAffinity
-            - name: RemovePodsViolatingTopologySpreadConstraint
-            - name: LowNodeUtilization
-              args:
-                thresholds:
-                  cpu: 20
-                  memory: 20
-                  pods: 20
-                targetThresholds:
-                  cpu: 50
-                  memory: 50
-                  pods: 50
+      - name: Default
+        pluginConfig:
+        - name: DefaultEvictor
+          args:
+            evictFailedBarePods: true
+            evictLocalStoragePods: true
+            nodeFit: true
+        - name: RemoveDuplicates
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            podRestartThreshold: 100
+            includingInitContainers: true
+        - name: RemovePodsViolatingNodeAffinity
+          args:
+            nodeAffinityType:
+            - requiredDuringSchedulingIgnoredDuringExecution
+            - preferredDuringSchedulingIgnoredDuringExecution
+        - name: RemovePodsViolatingNodeTaints
+        - name: RemovePodsViolatingInterPodAntiAffinity
+        - name: RemovePodsViolatingTopologySpreadConstraint
+        - name: LowNodeUtilization
+          args:
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50
       plugins:
         balance:
           enabled:
-            - RemoveDuplicates
-            - RemovePodsViolatingTopologySpreadConstraint
-            - LowNodeUtilization
+          - RemoveDuplicates
+          - RemovePodsViolatingTopologySpreadConstraint
+          - LowNodeUtilization
         deschedule:
           enabled:
-            - RemovePodsHavingTooManyRestarts
-            - RemovePodsViolatingNodeTaints
-            - RemovePodsViolatingNodeAffinity
-            - RemovePodsViolatingInterPodAntiAffinity
+          - RemovePodsHavingTooManyRestarts
+          - RemovePodsViolatingNodeTaints
+          - RemovePodsViolatingNodeAffinity
+          - RemovePodsViolatingInterPodAntiAffinity
   postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: ClusterRole
-            patch: |
-              - op: add
-                path: /rules/-
-                value:
-                  verbs: ["get", "watch", "list"]
-                  apiGroups: ["policy"]
-                  resources: ["poddisruptionbudgets"]
+  - kustomize:
+      patches:
+      - target:
+          kind: ClusterRole
+        patch: |
+          - op: add
+            path: /rules/-
+            value:
+              verbs: ["get", "watch", "list"]
+              apiGroups: ["policy"]
+              resources: ["poddisruptionbudgets"]

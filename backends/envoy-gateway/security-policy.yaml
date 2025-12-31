@@ -1,32 +1,31 @@
----
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: auth-gateway-policy
 spec:
   targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: auth-gateway
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: auth-gateway
   cors:
     allowOrigins:
-      - "*"
+    - "*"
     allowCredentials: true
   extAuth:
     failOpen: false
     headersToExtAuth:
-      - X-Forwarded-Proto
-      - authorization
-      - proxy-authorization
-      - accept
-      - cookie
+    - X-Forwarded-Proto
+    - authorization
+    - proxy-authorization
+    - accept
+    - cookie
     http:
       backendRefs:
-        - group: ""
-          kind: Service
-          name: authelia
-          namespace: authelia
-          port: 80
+      - group: ""
+        kind: Service
+        name: authelia
+        namespace: authelia
+        port: 80
       path: /api/authz/ext-authz/
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -35,12 +34,12 @@ metadata:
   name: public-gateway-policy
 spec:
   targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: public-gateway
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: public-gateway
   cors:
     allowOrigins:
-      - "*"
+    - "*"
     allowCredentials: true
 ---
 # Overwrite the gateway policy for https-redirect routes
@@ -50,6 +49,6 @@ metadata:
   name: redirect-policy
 spec:
   targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: https-redirect
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: https-redirect

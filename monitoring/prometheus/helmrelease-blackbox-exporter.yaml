@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
@@ -35,18 +34,18 @@ spec:
           release: prometheus
 
       targets:
-        - name: max
-          url: https://max.home.kevinastone.com
-          interval: 5m
+      - name: max
+        url: https://max.home.kevinastone.com
+        interval: 5m
 
     prometheusRule:
       enabled: true
       rules:
-        - alert: SSLExpiryWarning
-          expr: min by (instance) (probe_ssl_earliest_cert_expiry - time()) < 14 * 24 * 3600
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: "Certificate for {{ $labels.instance }} will expire in {{ $value | humanizeDuration }}"
-            description: "The certificate for {{ $labels.instance }} is about to expire in less than 14 days."
+      - alert: SSLExpiryWarning
+        expr: min by (instance) (probe_ssl_earliest_cert_expiry - time()) < 14 * 24 * 3600
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Certificate for {{ $labels.instance }} will expire in {{ $value | humanizeDuration }}"
+          description: "The certificate for {{ $labels.instance }} is about to expire in less than 14 days."

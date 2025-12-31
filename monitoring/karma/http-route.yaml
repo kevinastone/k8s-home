@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,12 +9,12 @@ metadata:
     gethomepage.dev/icon: mdi-alert
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - karma.k8s.kevinastone.com
+  - karma.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: karma
-          port: 80
+  - backendRefs:
+    - name: karma
+      port: 80

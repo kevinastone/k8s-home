@@ -1,31 +1,30 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: authelia
 resources:
-  - namespace.yaml
-  - postgres
-  - redis.yaml
-  - helmrelease.yaml
-  - http-route.yaml
-  - reference-grant.yaml
-  - authelia-secret.yaml
-  - ldap-secret.yaml
+- namespace.yaml
+- postgres
+- redis.yaml
+- helmrelease.yaml
+- http-route.yaml
+- reference-grant.yaml
+- authelia-secret.yaml
+- ldap-secret.yaml
 configurations:
-  - kustomizeconfig.yaml
+- kustomizeconfig.yaml
 configMapGenerator:
-  - name: authelia-config
-    files:
-      - resources/configuration.yaml
-  - name: authelia-dashboard
-    options:
-      labels:
-        grafana_dashboard: "true"
-    files:
-      - dashboards/authelia.json
+- name: authelia-config
+  files:
+  - resources/configuration.yaml
+- name: authelia-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/authelia.json
 secretGenerator:
-  - name: authelia-env
-    files:
-      - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
-      - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
+- name: authelia-env
+  files:
+  - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
+  - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted

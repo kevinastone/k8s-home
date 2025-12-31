@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -11,16 +10,16 @@ metadata:
     gethomepage.dev/pod-selector: "app=rook-ceph-mgr"
 spec:
   parentRefs:
-    - name: auth-gateway
-      namespace: envoy
-      sectionName: https
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - rook.k8s.kevinastone.com
+  - rook.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: rook-ceph-mgr-dashboard
-          port: 7000
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: rook-ceph-mgr-dashboard
+      port: 7000
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

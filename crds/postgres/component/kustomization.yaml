@@ -1,21 +1,20 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 replacements:
-  - source:
-      kind: Secret
-      name: s3-creds
-      version: v1
-    targets:
-      - fieldPaths:
-          - spec.configuration.s3Credentials.accessKeyId.name
-          - spec.configuration.s3Credentials.secretAccessKey.name
-        select:
-          kind: ObjectStore
+- source:
+    kind: Secret
+    name: s3-creds
+    version: v1
+  targets:
+  - fieldPaths:
+    - spec.configuration.s3Credentials.accessKeyId.name
+    - spec.configuration.s3Credentials.secretAccessKey.name
+    select:
+      kind: ObjectStore
 secretGenerator:
-  - name: s3-creds
-    literals:
-      - ACCESS_KEY=postgres
-    files:
-      - SECRET_KEY=../secrets/s3-secret.key.encrypted
+- name: s3-creds
+  literals:
+  - ACCESS_KEY=postgres
+  files:
+  - SECRET_KEY=../secrets/s3-secret.key.encrypted

@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,11 +31,11 @@ spec:
     executor: LocalExecutor
 
     env:
-      - name: AIRFLOW__CORE__HIDE_SENSITIVE_VAR_CONN_FIELDS
-        value: "False"
-      - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
-        # value: "$(postgres_uri)"
-        value: "postgresql://$(postgres_user):$(postgres_password)@pooler.airflow/$(postgres_dbname)"
+    - name: AIRFLOW__CORE__HIDE_SENSITIVE_VAR_CONN_FIELDS
+      value: "False"
+    - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+      # value: "$(postgres_uri)"
+      value: "postgresql://$(postgres_user):$(postgres_password)@pooler.airflow/$(postgres_dbname)"
 
     enableBuiltInSecretEnvVars:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: false

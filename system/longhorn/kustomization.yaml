@@ -1,15 +1,14 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: longhorn-system
 resources:
-  - helmrelease.yaml
-  - http-route.yaml
+- helmrelease.yaml
+- http-route.yaml
 configMapGenerator:
-  - name: longhorn-dashboard
-    options:
-      labels:
-        grafana_dashboard: 'true'
-    files:
-      - dashboards/longhorn.json
+- name: longhorn-dashboard
+  options:
+    labels:
+      grafana_dashboard: 'true'
+  files:
+  - dashboards/longhorn.json

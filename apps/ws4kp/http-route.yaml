@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -10,16 +9,16 @@ metadata:
     gethomepage.dev/name: "WeatherStar 4000+"
 spec:
   parentRefs:
-    - name: public-gateway
-      namespace: envoy
-      sectionName: https
+  - name: public-gateway
+    namespace: envoy
+    sectionName: https
   hostnames:
-    - weather.k8s.kevinastone.com
+  - weather.k8s.kevinastone.com
   rules:
-    - backendRefs:
-        - name: ws4kp
-          port: 8080
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: ws4kp
+      port: 8080
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

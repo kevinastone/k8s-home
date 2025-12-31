@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -21,11 +20,11 @@ spec:
               tag: v1.2@sha256:02ee365b50f7de1fc19c94ca994fb84fdce5cac27733cd14a7f907d691690c85
               pullPolicy: IfNotPresent
             env:
-              - name: SENTINEL
-                value: rfs-redis:26379
+            - name: SENTINEL
+              value: rfs-redis:26379
             ports:
-              - containerPort: 9999
-                name: redis
+            - containerPort: 9999
+              name: redis
             probes:
               liveness: &probes
                 enabled: true

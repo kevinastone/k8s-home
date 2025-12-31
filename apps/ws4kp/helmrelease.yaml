@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -19,11 +18,11 @@ spec:
               repository: ghcr.io/netbymatt/ws4kp
               tag: 5.24.1@sha256:5cf005c14d2a48e45524cb8c070e136d9c7fb3d5b930202253422f51eb0e53ed
             envFrom:
-              - secretRef:
-                  name: ws4kp-secrets # overriden by kustomizeconfig
+            - secretRef:
+                name: ws4kp-secrets # overriden by kustomizeconfig
             ports:
-              - containerPort: 8080
-                name: http
+            - containerPort: 8080
+              name: http
             probes:
               liveness: &probes
                 enabled: true

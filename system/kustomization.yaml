@@ -1,22 +1,21 @@
----
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cert-manager
-  - cloudflared
-  - descheduler
-  - envoy-gateway
-  - external-dns
-  - fluxcd
-  - generic-device-plugin
-  # - intel-gpu-plugin
-  - k8tz
-  - longhorn
-  - metallb
-  - minio
-  # - node-feature-discovery
-  - openebs
-  - reloader
-  # - rook-cluster
-  - vertical-pod-autoscaler
+- cert-manager
+- cloudflared
+- descheduler
+- envoy-gateway
+- external-dns
+- fluxcd
+- generic-device-plugin
+# - intel-gpu-plugin
+- k8tz
+- longhorn
+- metallb
+- minio
+# - node-feature-discovery
+- openebs
+- reloader
+# - rook-cluster
+- vertical-pod-autoscaler
