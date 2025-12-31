@@ -33,6 +33,9 @@ spec:
               ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 80
               ZIGBEE2MQTT_CONFIG_FRONTEND_HOST: 0.0.0.0
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: "true"
+            envFrom:
+              - secretRef:
+                  name: zigbee2mqtt-secret # overriden by kustomizeconfig
             resources:
               limits:
                 device/zigbee: 1
@@ -79,10 +82,3 @@ spec:
             subPath: configuration.yaml
           - path: /config-data/devices.yaml
             subPath: devices.yaml
-      secrets:
-        enabled: true
-        type: secret
-        name: zigbee2mqtt-secret # overriden by kustomizeconfig
-        globalMounts:
-          - path: /app/data/secret.yaml
-            subPath: secret.yaml

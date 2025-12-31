@@ -17,4 +17,4 @@ configurations:
 secretGenerator:
   - name: zigbee2mqtt-secret
     files:
-      - secret.yaml=secrets/secret.yaml.encrypted
+      - ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY=secrets/network.key.encrypted
