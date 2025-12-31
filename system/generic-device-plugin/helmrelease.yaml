@@ -7,7 +7,7 @@ spec:
   interval: 5m
   chartRef:
     kind: OCIRepository
-    name: app-template
+    name: app-template4
     namespace: flux-system
   driftDetection:
     mode: enabled
