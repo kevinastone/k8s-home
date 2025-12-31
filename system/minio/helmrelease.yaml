@@ -8,14 +8,14 @@ spec:
   interval: 5m
   chartRef:
     kind: OCIRepository
-    name: app-template
+    name: app-template4
     namespace: flux-system
   driftDetection:
     mode: enabled
   values:
     controllers:
       main:
-        nameOverride: *app
+        # nameOverride: *app
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -161,10 +161,8 @@ spec:
             path: /minio/v2/metrics/node
             interval: 30s
     serviceAccount:
-      create: true
-      name: *app
+      minio: {}
     rbac:
-      create: true
       roles:
         service-reader:
           forceRename: service-reader
