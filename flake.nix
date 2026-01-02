@@ -36,6 +36,7 @@
               kubectl-cnpg
               kubectl-rook-ceph
               kustomize
+              python3
               sops
               # keep-sorted end
             ];
