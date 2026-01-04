@@ -20,6 +20,9 @@
   "kubernetes": {
     "managerFilePatterns": ["/\\.yaml$/"]
   },
+  "nix": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchPackageNames": ["redis-operator"],
