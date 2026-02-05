@@ -45,27 +45,40 @@ views:
   - type: vertical-stack
     cards:
     - type: entities
+      title: Rack Power
       entities:
       - entity: sensor.rack_power_power
         name: Energy
       - entity: sensor.rack_power_energy
         name: Usage
-      title: Rack Power
+      footer:
+        type: graph
+        entity: sensor.rack_power_power
+        detail: 2
     - type: entities
+      title: Media Power
       entities:
       - entity: sensor.media_power_power
         name: Energy
       - entity: sensor.media_power_energy
         name: Usage
-      title: Media Power
+      footer:
+        type: graph
+        entity: sensor.media_power_power
+        detail: 2
     - type: entities
+      title: Desk Power
       entities:
       - entity: sensor.desk_power_power
         name: Energy
       - entity: sensor.desk_power_energy
         name: Usage
-      title: Desk Power
+      footer:
+        type: graph
+        entity: sensor.desk_power_power
+        detail: 2
     - type: entities
+      title: Laundry Power
       entities:
       - entity: binary_sensor.washing_machine
         name: Washing Machine
@@ -73,7 +86,10 @@ views:
         name: Energy
       - entity: sensor.laundry_power_energy
         name: Usage
-      title: Laundry Power
+      footer:
+        type: graph
+        entity: sensor.laundry_power_power
+        detail: 2
   badges:
   - sensor.bedroom_temperature_temperature
   - sensor.office_temperature_temperature
