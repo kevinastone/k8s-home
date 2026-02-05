@@ -65,18 +65,9 @@ views:
       features:
       - type: trend-graph
       features_position: inline
-    - type: tile
-      entity: sensor.laundry_power_power
-      name:
-        type: device
-      features:
-      - type: trend-graph
-      features_position: inline
-  badges:
-  - sensor.bedroom_temperature_temperature
-  - sensor.office_temperature_temperature
-  - sensor.living_room_temperature_temperature
-  - sun.sun
+    - type: history-graph
+      entities:
+      - entity: binary_sensor.washing_machine
   path: default_view
   title: Home
   panel: false
