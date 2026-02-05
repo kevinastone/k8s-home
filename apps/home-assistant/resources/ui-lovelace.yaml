@@ -4,6 +4,7 @@ views:
   - type: vertical-stack
     cards:
     - type: entities
+      title: Bedroom
       entities:
       - entity: sensor.bedroom_temperature_temperature
         name: Temperature
@@ -11,8 +12,12 @@ views:
         name: Humidity
       - entity: sensor.bedroom_temperature_pressure
         name: Pressure
-      title: Bedroom Temperature
+      footer:
+        type: graph
+        entity: sensor.bedroom_temperature_temperature
+        detail: 2
     - type: entities
+      title: Office
       entities:
       - entity: sensor.office_temperature_temperature
         name: Temperature
@@ -20,8 +25,12 @@ views:
         name: Humidity
       - entity: sensor.office_temperature_pressure
         name: Pressure
-      title: Office Temperature
+      footer:
+        type: graph
+        entity: sensor.office_temperature_temperature
+        detail: 2
     - type: entities
+      title: Living Room
       entities:
       - entity: sensor.living_room_temperature_temperature
         name: Temperature
@@ -29,7 +38,10 @@ views:
         name: Humidity
       - entity: sensor.living_room_temperature_pressure
         name: Pressure
-      title: Living Room Temperature
+      footer:
+        type: graph
+        entity: sensor.living_room_temperature_temperature
+        detail: 2
   - type: vertical-stack
     cards:
     - type: entities
