@@ -44,52 +44,34 @@ views:
         detail: 2
   - type: vertical-stack
     cards:
-    - type: entities
-      title: Rack Power
-      entities:
-      - entity: sensor.rack_power_power
-        name: Energy
-      - entity: sensor.rack_power_energy
-        name: Usage
-      footer:
-        type: graph
-        entity: sensor.rack_power_power
-        detail: 2
-    - type: entities
-      title: Media Power
-      entities:
-      - entity: sensor.media_power_power
-        name: Energy
-      - entity: sensor.media_power_energy
-        name: Usage
-      footer:
-        type: graph
-        entity: sensor.media_power_power
-        detail: 2
-    - type: entities
-      title: Desk Power
-      entities:
-      - entity: sensor.desk_power_power
-        name: Energy
-      - entity: sensor.desk_power_energy
-        name: Usage
-      footer:
-        type: graph
-        entity: sensor.desk_power_power
-        detail: 2
-    - type: entities
-      title: Laundry Power
-      entities:
-      - entity: binary_sensor.washing_machine
-        name: Washing Machine
-      - entity: sensor.laundry_power_power
-        name: Energy
-      - entity: sensor.laundry_power_energy
-        name: Usage
-      footer:
-        type: graph
-        entity: sensor.laundry_power_power
-        detail: 2
+    - type: tile
+      entity: sensor.rack_power_power
+      name:
+        type: device
+      features:
+      - type: trend-graph
+      features_position: inline
+    - type: tile
+      entity: sensor.media_power_power
+      name:
+        type: device
+      features:
+      - type: trend-graph
+      features_position: inline
+    - type: tile
+      entity: sensor.desk_power_power
+      name:
+        type: device
+      features:
+      - type: trend-graph
+      features_position: inline
+    - type: tile
+      entity: sensor.laundry_power_power
+      name:
+        type: device
+      features:
+      - type: trend-graph
+      features_position: inline
   badges:
   - sensor.bedroom_temperature_temperature
   - sensor.office_temperature_temperature
