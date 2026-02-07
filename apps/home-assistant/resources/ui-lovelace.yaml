@@ -67,6 +67,5 @@ views:
       features:
       - type: trend-graph
       features_position: inline
-    - type: history-graph
-      entities:
-      - entity: binary_sensor.washing_machine
+    - type: tile
+      entity: binary_sensor.washing_machine
