@@ -1,6 +1,10 @@
 title: Home
 views:
-- cards:
+- type: masonry
+  path: default_view
+  title: Home
+  panel: false
+  cards:
   - type: entities
     title: Bedroom
     entities:
@@ -66,6 +70,3 @@ views:
     - type: history-graph
       entities:
       - entity: binary_sensor.washing_machine
-  path: default_view
-  title: Home
-  panel: false
