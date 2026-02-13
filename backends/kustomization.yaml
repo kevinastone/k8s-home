@@ -11,3 +11,4 @@ resources:
 - mqtt
 - one-password
 - postgres
+- rustfs
