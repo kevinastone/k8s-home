@@ -25,5 +25,10 @@ secretGenerator:
 #       grafana_dashboard: "true"
 #   files:
 #   - dashboards/minio.json
+configMapGenerator:
+- name: otel-config
+  files:
+  - resources/config.yaml
+
 configurations:
 - kustomizeconfig.yaml
