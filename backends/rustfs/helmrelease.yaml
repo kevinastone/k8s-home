@@ -25,6 +25,7 @@ spec:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_CONSOLE_ENABLE: "true"
+              RUSTFS_OBS_ENDPOINT: "http://otel-collector:4317"
             envFrom:
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
@@ -110,7 +111,17 @@ spec:
                 #         runAsNonRoot: false
                 #         runAsUser: 0
                 #         runAsGroup: 0
-
+          otel-collector:
+            image:
+              repository: otel/opentelemetry-collector-contrib
+              tag: 0.145.0
+            args:
+            - "--config=/etc/otel/config.yaml"
+            ports:
+            - containerPort: &metricsPort 8889
+              name: metrics
+            - containerPort: 4317
+              name: otlp-grpc
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -130,6 +141,9 @@ spec:
           http:
             port: *httpPort
             targetPort: http
+          metrics:
+            port: *metricsPort
+            targetPort: metrics
     persistence:
       data:
         type: persistentVolumeClaim
@@ -141,6 +155,13 @@ spec:
           main:
             main:
             - path: /data
+      otel-config:
+        type: configMap
+        name: otel-config # overriden by kustomizeconfig
+        advancedMounts:
+          main:
+            otel-collector:
+            - path: /etc/otel
       # users:
       #   type: secret
       #   name: minio-users # overriden by kustomizeconfig
