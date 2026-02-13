@@ -8,7 +8,6 @@ resources:
 - homepage
 - httpbox
 - isponsorblocktv
-- kubernetes-dashboard
 - media
 - super-sudoku
 - ws4kp
