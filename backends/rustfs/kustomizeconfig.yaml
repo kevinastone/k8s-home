@@ -10,3 +10,8 @@ nameReference:
     kind: HelmRelease
   - path: spec/values/persistence/users/name
     kind: HelmRelease
+- kind: ConfigMap
+  version: v1
+  fieldSpecs:
+  - path: spec/values/persistence/otel-config/name
+    kind: HelmRelease
