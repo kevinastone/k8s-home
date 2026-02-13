@@ -26,6 +26,10 @@ spec:
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_CONSOLE_ENABLE: "true"
               RUSTFS_OBS_ENDPOINT: "http://localhost:4317"
+              RUSTFS_OBS_ENABLED: "true"
+              OTEL_EXPORTER_OTLP_ENDPOINT: "http://localhost:4317"
+              OTEL_SERVICE_NAME: "rustfs"
+              OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
             envFrom:
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
