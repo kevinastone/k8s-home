@@ -25,7 +25,7 @@ spec:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_CONSOLE_ENABLE: "true"
-              RUSTFS_OBS_ENDPOINT: "http://otel-collector:4317"
+              RUSTFS_OBS_ENDPOINT: "http://localhost:4317"
             envFrom:
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
