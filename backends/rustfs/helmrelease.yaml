@@ -108,7 +108,7 @@ spec:
 
               # # Provision Users
               for f in /users/*; do
-                rc admin user add rustfs "$(basename $f)" "$(<$f)";
+                rc admin user add rustfs "$(basename $f)" "$(cat $f)";
                 rc admin policy attach rustfs readwrite --user="$(basename $f)";
               done
 
