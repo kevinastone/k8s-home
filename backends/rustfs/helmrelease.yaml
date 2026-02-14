@@ -76,6 +76,16 @@ spec:
               name: otlp-grpc
             - containerPort: 4318
               name: otlp-http
+            - containerPort: 13133
+              name: healthcheck
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+                path: /health
+                port: healthcheck
+              readiness: *probes
+              startup: *probes
       provisioning:
         type: job
         annotations:

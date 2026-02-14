@@ -9,41 +9,48 @@ receivers:
 processors:
   # batch: efficient processing
   batch:
-
-  # # k8sattributes: automatically add k8s metadata
-  # k8sattributes:
-  #   auth_type: "serviceAccount"
-  #   passthrough: true
-  #   extract:
-  #     metadata:
-  #     - k8s.pod.name
-  #     - k8s.pod.uid
-  #     - k8s.deployment.name
-  #     - k8s.namespace.name
-  #     - k8s.node.name
-  #   # Associate the incoming IP with the Pod
-  #   pod_association:
-  #   - sources:
-  #     - from: resource_attribute
-  #       name: k8s.pod.ip
-  #   - sources:
-  #     - from: resource_attribute
-  #       name: k8s.pod.uid
-  #   - sources:
-  #     - from: connection
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+  k8sattributes:
+    auth_type: "serviceAccount"
+    passthrough: true
+    extract:
+      metadata:
+      - k8s.pod.name
+      - k8s.pod.uid
+      - k8s.deployment.name
+      - k8s.namespace.name
+      - k8s.node.name
+    # Associate the incoming IP with the Pod
+    pod_association:
+    - sources:
+      - from: resource_attribute
+        name: k8s.pod.ip
+    - sources:
+      - from: resource_attribute
+        name: k8s.pod.uid
+    - sources:
+      - from: connection
 
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
-    namespace: "rustfs"
+    send_timestamps: true
+    metric_expiration: 5m
     resource_to_telemetry_conversion:
       enabled: true
 
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:13133"
+    path: "/health"
+
 service:
+  extensions: [health_check]
   pipelines:
     metrics:
       receivers: [otlp]
       # ORDER MATTERS: k8sattributes first, then batch
-      # processors: [k8sattributes, batch]
-      processors: [batch]
+      processors: [k8sattributes, memory_limiter, batch]
       exporters: [prometheus]
