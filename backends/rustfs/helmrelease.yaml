@@ -87,8 +87,8 @@ spec:
         containers:
           main:
             image:
-              repository: quay.io/minio/mc
-              tag: RELEASE.2025-07-21T05-28-08Z
+              repository: rustfs/rc
+              tag: v0.1.3
             env:
               MINIO_SCHEME: http
               MC_CONFIG_DIR: /home
@@ -96,24 +96,23 @@ spec:
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
             command:
-            - /bin/bash
+            - /bin/sh
             - -c
             - |-
-              set -e;
-
               echo "Start RustFS provisioning";
 
-              mc alias set rustfs http://rustfs:9000 "${RUSTFS_ACCESS_KEY}" "${RUSTFS_SECRET_KEY}"
+              rc alias set rustfs http://rustfs:9000 "${RUSTFS_ACCESS_KEY}" "${RUSTFS_SECRET_KEY}"
 
               # # Provision Users
-              # for f in /users/*; do
-              #   mc admin user add rustfs "$(basename $f)" "$(<$f)";
-              #   mc admin policy attach rustfs readwrite --user="$(basename $f)";
-              # done
+              for f in /users/*; do
+                rc admin user add rustfs "$(basename $f)" "$(<$f)";
+                rc admin policy attach rustfs readwrite --user="$(basename $f)";
+              done
 
               # Provision Buckets
-              mc mb rustfs/postgres --ignore-existing
-              mc version suspend rustfs/postgres
+              # TODO: Use this once --ignore-existing is supported
+              # rc mb rustfs/postgres --ignore-existing
+              rc ls rustfs/postgres 2>/dev/null || rc mb rustfs/postgres
 
               echo "End RustFS provisioning";
 
