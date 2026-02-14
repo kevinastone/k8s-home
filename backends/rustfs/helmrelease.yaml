@@ -147,6 +147,13 @@ spec:
           metrics:
             port: *metricsPort
             targetPort: metrics
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: *app
+        endpoints:
+        - port: metrics
+          interval: 30s
     serviceAccount:
       rustfs: {}
     rbac:
