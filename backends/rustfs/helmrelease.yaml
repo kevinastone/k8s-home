@@ -76,6 +76,9 @@ spec:
               name: otlp-grpc
       provisioning:
         type: job
+        annotations:
+          "helm.sh/hook": post-install,post-upgrade
+          "helm.sh/hook-delete-policy": before-hook-creation
         initContainers:
           wait-for-minio:
             image:
