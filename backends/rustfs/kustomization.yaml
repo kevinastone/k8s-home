@@ -12,23 +12,12 @@ secretGenerator:
   - RUSTFS_ACCESS_KEY=root
   files:
   - RUSTFS_SECRET_KEY=secrets/password.txt.encrypted
-# - name: minio-users
-#   files:
-#   - postgres=secrets/postgres.password.encrypted
-# - name: minio-secret
-#   files:
-#   - MINIO_IDENTITY_OPENID_CLIENT_SECRET=secrets/client.secret.encrypted
-# configMapGenerator:
-# - name: minio-dashboard
-#   options:
-#     labels:
-#       grafana_dashboard: "true"
-#   files:
-#   - dashboards/minio.json
+- name: rustfs-users
+  files:
+  - postgres=secrets/postgres.password.encrypted
 configMapGenerator:
 - name: otel-config
   files:
   - resources/config.yaml
-
 configurations:
 - kustomizeconfig.yaml

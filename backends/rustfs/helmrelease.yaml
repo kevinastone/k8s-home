@@ -26,10 +26,7 @@ spec:
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_CONSOLE_ENABLE: "true"
               RUSTFS_OBS_ENDPOINT: "http://localhost:4317"
-              RUSTFS_OBS_ENABLED: "true"
-              OTEL_EXPORTER_OTLP_ENDPOINT: "http://localhost:4317"
-              OTEL_SERVICE_NAME: "rustfs"
-              OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
+              RUSTFS_OBS_LOGGER_LEVEL: "debug"
             envFrom:
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
@@ -66,55 +63,6 @@ spec:
                 cpu: 750m
                 memory: 1Gi
                 ephemeral-storage: 2Gi
-                # provisioning:
-                #   type: job
-                #   initContainers:
-                #     wait-for-minio:
-                #       image:
-                #         repository: ghcr.io/groundnuty/k8s-wait-for
-                #         tag: v2.0
-                #       args:
-                #       - service
-                #       - *app
-                #   containers:
-                #     main:
-                #       image:
-                #         repository: quay.io/minio/mc
-                #         tag: RELEASE.2025-07-21T05-28-08Z
-                #       env:
-                #         MINIO_SCHEME: http
-                #         MC_CONFIG_DIR: /home
-                #         MINIO_ROOT_USER_FILE: /secrets/root-user
-                #         MINIO_ROOT_PASSWORD_FILE: /secrets/root-password
-                #       envFrom:
-                #       - secretRef:
-                #           name: minio-secret
-                #       command:
-                #       - /bin/bash
-                #       - -c
-                #       - |-
-                #         set -e;
-
-                #         echo "Start Minio provisioning";
-
-                #         mc alias set minio http://minio:9000 $(<$MINIO_ROOT_USER_FILE) $(<$MINIO_ROOT_PASSWORD_FILE)
-
-                #         # Provision Users
-                #         for f in /users/*; do
-                #           mc admin user add minio "$(basename $f)" "$(<$f)";
-                #           mc admin policy attach minio readwrite --user="$(basename $f)";
-                #         done
-
-                #         # Provision Buckets
-                #         mc mb minio/postgres --ignore-existing
-                #         mc version suspend minio/postgres
-
-                #         echo "End Minio provisioning";
-
-                #       securityContext:
-                #         runAsNonRoot: false
-                #         runAsUser: 0
-                #         runAsGroup: 0
           otel-collector:
             image:
               repository: otel/opentelemetry-collector-contrib
@@ -126,6 +74,53 @@ spec:
               name: metrics
             - containerPort: 4317
               name: otlp-grpc
+      provisioning:
+        type: job
+        initContainers:
+          wait-for-minio:
+            image:
+              repository: ghcr.io/groundnuty/k8s-wait-for
+              tag: v2.0
+            args:
+            - service
+            - *app
+        containers:
+          main:
+            image:
+              repository: quay.io/minio/mc
+              tag: RELEASE.2025-07-21T05-28-08Z
+            env:
+              MINIO_SCHEME: http
+              MC_CONFIG_DIR: /home
+            envFrom:
+            - secretRef:
+                name: rustfs-root-secret # overriden by kustomizeconfig
+            command:
+            - /bin/bash
+            - -c
+            - |-
+              set -e;
+
+              echo "Start RustFS provisioning";
+
+              mc alias set rustfs http://rustfs:9000 "${RUSTFS_ACCESS_KEY}" "${RUSTFS_SECRET_KEY}"
+
+              # # Provision Users
+              # for f in /users/*; do
+              #   mc admin user add rustfs "$(basename $f)" "$(<$f)";
+              #   mc admin policy attach rustfs readwrite --user="$(basename $f)";
+              # done
+
+              # Provision Buckets
+              mc mb rustfs/postgres --ignore-existing
+              mc version suspend rustfs/postgres
+
+              echo "End RustFS provisioning";
+
+            securityContext:
+              runAsNonRoot: false
+              runAsUser: 0
+              runAsGroup: 0
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -148,7 +143,39 @@ spec:
           metrics:
             port: *metricsPort
             targetPort: metrics
+    serviceAccount:
+      rustfs: {}
+    rbac:
+      roles:
+        service-reader:
+          forceRename: service-reader
+          type: Role
+          rules:
+          - apiGroups:
+            - ""
+            resources:
+            - pods
+            - services
+            - jobs
+            verbs:
+            - get
+            - list
+            - watch
+      bindings:
+        service-reader:
+          forceRename: service-reader
+          type: RoleBinding
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: Role
+            name: service-reader
+          subjects:
+          - kind: ServiceAccount
+            name: *app
+            namespace: "{{ .Release.Namespace }}"
     persistence:
+      home:
+        type: emptyDir
       data:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
@@ -166,10 +193,15 @@ spec:
           main:
             otel-collector:
             - path: /etc/otel
-      # users:
-      #   type: secret
-      #   name: minio-users # overriden by kustomizeconfig
-      #   advancedMounts:
-      #     provisioning:
-      #       main:
-      #       - path: /users
+      secrets:
+        type: secret
+        name: rustfs-root-secret # overriden by kustomizeconfig
+        globalMounts:
+        - path: /secrets
+      users:
+        type: secret
+        name: rustfs-users # overriden by kustomizeconfig
+        advancedMounts:
+          provisioning:
+            main:
+            - path: /users
