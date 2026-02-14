@@ -19,5 +19,11 @@ configMapGenerator:
 - name: otel-config
   files:
   - resources/config.yaml
+- name: rustfs-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/rustfs.json
 configurations:
 - kustomizeconfig.yaml

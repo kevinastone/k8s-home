@@ -1,0 +1,4 @@
+#:schema ../../../scripts/dashboard-schema.json
+
+[rustfs]
+url = "https://github.com/rustfs/rustfs/raw/refs/heads/main/.docker/observability/grafana/dashboards/rustfs.yaml"
