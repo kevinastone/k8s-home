@@ -33,8 +33,6 @@ processors:
   #     - from: connection
 
 exporters:
-  debug:
-    verbosity: detailed # Prints every metric to logs
   prometheus:
     endpoint: "0.0.0.0:8889"
     namespace: "rustfs"
@@ -48,4 +46,4 @@ service:
       # ORDER MATTERS: k8sattributes first, then batch
       # processors: [k8sattributes, batch]
       processors: [batch]
-      exporters: [debug, prometheus]
+      exporters: [prometheus]
