@@ -25,7 +25,7 @@ spec:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_CONSOLE_ENABLE: "true"
-              RUSTFS_OBS_ENDPOINT: "http://localhost:4317"
+              RUSTFS_OBS_ENDPOINT: "http://localhost:4318"
               RUSTFS_OBS_LOGGER_LEVEL: "debug"
             envFrom:
             - secretRef:
@@ -74,6 +74,8 @@ spec:
               name: metrics
             - containerPort: 4317
               name: otlp-grpc
+            - containerPort: 4318
+              name: otlp-http
       provisioning:
         type: job
         annotations:
