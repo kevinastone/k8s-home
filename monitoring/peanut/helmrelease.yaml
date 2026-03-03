@@ -15,7 +15,7 @@ spec:
         containers:
           main:
             image:
-              repository: brandawg93/peanut
+              repository: docker.io/brandawg93/peanut
               tag: 5.22.0
             env:
               DISABLE_CONFIG_FILE: "true"
