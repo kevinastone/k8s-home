@@ -12,9 +12,5 @@ spec:
     kubernetes:
       envoyDeployment:
         replicas: 2
-        container:
-          # Pin to v1.36 until auth redirect headers are fixed
-          # https://github.com/envoyproxy/gateway/issues/8202
-          image: envoyproxy/envoy:distroless-v1.36.4
       envoyService:
         externalTrafficPolicy: Local
