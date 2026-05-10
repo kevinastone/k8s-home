@@ -20,6 +20,8 @@ spec:
               repository: ghcr.io/haveagitgat/tdarr
               tag: 2.72.01
             env:
+              PUID: "1000"
+              PGID: "100"
               TZ: America/Los_Angeles
               serverIP: 0.0.0.0
               serverPort: &serverPort 8266
@@ -47,9 +49,6 @@ spec:
                 memory: 4Gi
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 100
         fsGroup: 100
         fsGroupChangePolicy: OnRootMismatch
     service:
@@ -62,8 +61,10 @@ spec:
             port: *serverPort
     persistence:
       server:
+        type: persistentVolumeClaim
         size: 1Gi
         accessMode: ReadWriteOnce
+        storageClass: longhorn
         globalMounts:
         - path: /app/server
       configs:
