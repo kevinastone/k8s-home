@@ -16,7 +16,7 @@ spec:
           main:
             image:
               repository: docker.io/brandawg93/peanut
-              tag: 5.22.0
+              tag: 6.0.0
             env:
               DISABLE_CONFIG_FILE: "true"
               DISABLE_VERSION_CHECK: "true"
