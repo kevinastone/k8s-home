@@ -60,6 +60,10 @@ spec:
               TZ: America/Los_Angeles
               serverIP: tdarr.media.svc.cluster.local
               serverPort: "8266"
+              transcodecpuWorkers: "2"
+              transcodegpuWorkers: "0"
+              healthcheckcpuWorkers: "1"
+              healthcheckgpuWorkers: "0"
             resources:
               requests:
                 cpu: 100m
