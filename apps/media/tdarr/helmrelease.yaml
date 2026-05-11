@@ -47,6 +47,24 @@ spec:
                 cpu: 100m
               limits:
                 memory: 4Gi
+      node:
+        type: daemonset
+        containers:
+          app:
+            image:
+              repository: ghcr.io/haveagitgat/tdarr_node
+              tag: 2.72.01
+            env:
+              PUID: "1000"
+              PGID: "1000"
+              TZ: America/Los_Angeles
+              serverIP: tdarr.media.svc.cluster.local
+              serverPort: "8266"
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 4Gi
     defaultPodOptions:
       securityContext:
         fsGroup: 100
@@ -65,8 +83,10 @@ spec:
         size: 1Gi
         accessMode: ReadWriteOnce
         storageClass: longhorn
-        globalMounts:
-        - path: /app/server
+        advancedMounts:
+          main:
+            app:
+            - path: /app/server
       configs:
         type: emptyDir
         globalMounts:
@@ -76,9 +96,13 @@ spec:
         globalMounts:
         - path: /temp
       media:
-        type: persistentVolumeClaim
-        storageClass: storage-incoming
-        size: 100Gi
-        accessMode: ReadWriteOnce
+        type: custom
+        volumeSpec:
+          csi:
+            driver: smb.csi.k8s.io
+            volumeAttributes:
+              source: "//storage.home.kevinastone.com/Incoming"
+              secretName: storage-cifs-secret
+              mountOptions: "dir_mode=0777,file_mode=0777,cache=strict,actimeo=30,nosharesock,vers=3.0"
         globalMounts:
         - path: /media

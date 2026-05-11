@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: media
 resources:
 - namespace.yaml
+- ../../system/csi-driver-smb/external-secret.yaml
 - postgres
 - qbittorrent
 # - sonarr
