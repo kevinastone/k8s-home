@@ -61,9 +61,9 @@ spec:
               serverIP: tdarr.media.svc.cluster.local
               serverPort: "8266"
               transcodecpuWorkers: "2"
-              transcodegpuWorkers: "0"
+              transcodegpuWorkers: "2"
               healthcheckcpuWorkers: "1"
-              healthcheckgpuWorkers: "0"
+              healthcheckgpuWorkers: "1"
               nodeID:
                 valueFrom:
                   fieldRef:
