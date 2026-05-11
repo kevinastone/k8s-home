@@ -20,6 +20,8 @@ spec:
             env:
               DISABLE_CONFIG_FILE: "true"
               DISABLE_VERSION_CHECK: "true"
+              # We do auth at the gateway, so we don't need auth here
+              AUTH_DISABLED: "true"
             ports:
             - containerPort: 8080
               name: http
