@@ -52,8 +52,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/denix811/tdarr-denix
-              tag: 1.4.7
+              repository: ghcr.io/haveagitgat/tdarr_node
+              tag: 2.73.01
             env:
               PUID: "1000"
               PGID: "1000"
