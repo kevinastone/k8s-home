@@ -10,3 +10,8 @@ devices:
   - usb:
     - vendor: 0x0764
       product: 0x0601
+- name: vaapi
+  groups:
+  - paths:
+    - path: /dev/dri/renderD128
+      mountPath: /dev/dri/renderD128
