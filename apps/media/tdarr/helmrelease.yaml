@@ -48,18 +48,21 @@ spec:
               limits:
                 memory: 4Gi
       node:
-        type: daemonset
+        replicas: 3
         containers:
           app:
             image:
-              repository: ghcr.io/haveagitgat/tdarr_node
-              tag: 2.73.01
+              repository: docker.io/denix811/tdarr-denix
+              tag: 1.4.7
             env:
               PUID: "1000"
               PGID: "1000"
               TZ: America/Los_Angeles
               serverIP: tdarr.media.svc.cluster.local
               serverPort: "8266"
+              TDARR_MODE: "node"
+              GPU_VENDOR: "amd"
+              ENABLE_TDARR_EXPORTER: "true"
               transcodecpuWorkers: "2"
               transcodegpuWorkers: "2"
               healthcheckcpuWorkers: "1"
@@ -74,6 +77,10 @@ spec:
               limits:
                 memory: 4Gi
                 device/vaapi: 1
+    topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
     defaultPodOptions:
       securityContext:
         fsGroup: 100
@@ -104,6 +111,13 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /temp
+      cache:
+        type: persistentVolumeClaim
+        size: 50Gi
+        accessMode: ReadWriteMany
+        storageClass: longhorn
+        globalMounts:
+        - path: /cache
       media:
         type: custom
         volumeSpec:

@@ -8,4 +8,4 @@ resources:
 - postgres
 - qbittorrent
 # - sonarr
-# - tdarr
+- tdarr
