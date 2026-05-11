@@ -69,6 +69,7 @@ spec:
                 cpu: 100m
               limits:
                 memory: 4Gi
+                device/vaapi: 1
     defaultPodOptions:
       securityContext:
         fsGroup: 100
