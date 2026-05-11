@@ -6,11 +6,4 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - storage-class.yaml
-secretGenerator:
-- name: storage-cifs-secret
-  options:
-    disableNameSuffixHash: true
-  literals:
-  - username=longhorn
-  files:
-  - password=secrets/password.txt.encrypted
+- external-secret.yaml

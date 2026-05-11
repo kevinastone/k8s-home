@@ -21,7 +21,7 @@ spec:
               tag: 2.72.01
             env:
               PUID: "1000"
-              PGID: "100"
+              PGID: "1000"
               TZ: America/Los_Angeles
               serverIP: 0.0.0.0
               serverPort: &serverPort 8266
@@ -75,9 +75,10 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /temp
-      # media:
-      #   type: nfs
-      #   server: voyager.internal
-      #   path: ${SECRET_NFS_DATA}
-      #   globalMounts:
-      #   - path: /media
+      media:
+        type: persistentVolumeClaim
+        storageClass: storage-incoming
+        size: 100Gi
+        accessMode: ReadWriteOnce
+        globalMounts:
+        - path: /media
