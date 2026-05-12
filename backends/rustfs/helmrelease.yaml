@@ -136,6 +136,7 @@ spec:
               runAsUser: 0
               runAsGroup: 0
     defaultPodOptions:
+      automountServiceAccountToken: true
       securityContext:
         runAsNonRoot: true
         # rustfs requires the user to be in the group 10001
