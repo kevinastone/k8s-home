@@ -20,6 +20,8 @@ spec:
     inputs:
       parameters:
       - name: filepath
+      - name: output_filepath
+        default: ""
 
     outputs:
       parameters:
@@ -51,6 +53,7 @@ spec:
 
         # The filepath parameter is passed dynamically from the MQTT payload
         FILEPATH="{{inputs.parameters.filepath}}"
+        OUTPUT_FILEPATH="{{inputs.parameters.output_filepath}}"
 
         if [ -z "$FILEPATH" ]; then
           echo "Error: No filepath provided."
@@ -65,8 +68,11 @@ spec:
           exit 1
         fi
 
-        BASENAME="${INPUT_FILE%.*}"
-        OUTPUT_FILE="${BASENAME}-transcoded.mp4"
+        if [ -z "$OUTPUT_FILEPATH" ]; then
+          OUTPUT_FILE="$INPUT_FILE"
+        else
+          OUTPUT_FILE="/media/$OUTPUT_FILEPATH"
+        fi
         TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 
         echo "Available DRI devices:"
