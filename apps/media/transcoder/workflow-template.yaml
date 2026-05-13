@@ -62,7 +62,13 @@ spec:
         fi
 
         echo "Received transcoding request for: $FILEPATH"
-        INPUT_FILE="/media/$FILEPATH"
+
+        # Handle both relative paths (MQTT) and absolute paths (File Watcher)
+        if [[ "$FILEPATH" == /media/* ]]; then
+          INPUT_FILE="$FILEPATH"
+        else
+          INPUT_FILE="/media/$FILEPATH"
+        fi
 
         if [ ! -f "$INPUT_FILE" ]; then
           echo "Error: File $INPUT_FILE not found on PVC."
@@ -72,7 +78,20 @@ spec:
         if [ -z "$OUTPUT_FILEPATH" ]; then
           OUTPUT_FILE="$INPUT_FILE"
         else
-          OUTPUT_FILE="/media/$OUTPUT_FILEPATH"
+          if [[ "$OUTPUT_FILEPATH" == /media/* ]]; then
+            OUTPUT_FILE="$OUTPUT_FILEPATH"
+          else
+            OUTPUT_FILE="/media/$OUTPUT_FILEPATH"
+          fi
+
+          # Ensure output directory exists
+          mkdir -p "$(dirname "$OUTPUT_FILE")"
+
+          # If output path is a directory (ends in / or exists as dir), append filename
+          if [[ "$OUTPUT_FILE" == */ ]] || [ -d "$OUTPUT_FILE" ]; then
+            mkdir -p "$OUTPUT_FILE"
+            OUTPUT_FILE="${OUTPUT_FILE%/}/$(basename "$INPUT_FILE")"
+          fi
         fi
         TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 
