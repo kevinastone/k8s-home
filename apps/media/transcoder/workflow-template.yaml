@@ -67,6 +67,7 @@ spec:
 
         BASENAME="${INPUT_FILE%.*}"
         OUTPUT_FILE="${BASENAME}-transcoded.mp4"
+        TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 
         echo "Available DRI devices:"
         ls -la /dev/dri || true
@@ -80,11 +81,12 @@ spec:
 
         echo "Selected render device: $RENDER_DEVICE"
 
-        echo "Starting ffmpeg transcode: $INPUT_FILE -> $OUTPUT_FILE"
-        ffmpeg -hide_banner -y -hwaccel vaapi -hwaccel_device "$RENDER_DEVICE" -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE" 2>&1 | tr '\r' '\n'
+        echo "Starting ffmpeg transcode: $INPUT_FILE -> $TEMP_OUTPUT_FILE (temp)"
+        ffmpeg -hide_banner -y -hwaccel vaapi -hwaccel_device "$RENDER_DEVICE" -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$TEMP_OUTPUT_FILE" 2>&1 | tr '\r' '\n'
 
         if [ $? -eq 0 ]; then
-          echo "Transcode completed successfully!"
+          echo "Transcode completed successfully! Moving file to destination..."
+          mv "$TEMP_OUTPUT_FILE" "$OUTPUT_FILE"
           echo "$OUTPUT_FILE" > /tmp/transcoded_filepath.txt
         else
           echo "Transcode failed."
@@ -104,6 +106,8 @@ spec:
         mountPath: /media
       - name: dri
         mountPath: /dev/dri
+      - name: temp
+        mountPath: /temp
 
   volumes:
   - name: media
@@ -113,3 +117,5 @@ spec:
     hostPath:
       path: /dev/dri
       type: Directory
+  - name: temp
+    emptyDir: {}
