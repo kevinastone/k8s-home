@@ -41,6 +41,8 @@ spec:
       - /bin/bash
       - -c
       - |
+        set -o pipefail
+        
         # The filepath parameter is passed dynamically from the MQTT payload
         FILEPATH="{{inputs.parameters.filepath}}"
 
@@ -73,7 +75,7 @@ spec:
         echo "Selected render device: $RENDER_DEVICE"
 
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $OUTPUT_FILE"
-        ffmpeg -y -hwaccel vaapi -hwaccel_device "$RENDER_DEVICE" -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE"
+        ffmpeg -hide_banner -y -hwaccel vaapi -hwaccel_device "$RENDER_DEVICE" -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE" 2>&1 | tr '\r' '\n'
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully!"
