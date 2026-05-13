@@ -5,3 +5,4 @@ namespace: argo
 resources:
 - namespace.yaml
 - helmrelease.yaml
+- http-route.yaml
