@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - helmrelease.yaml
 - http-route.yaml
+- certificate.yaml
 
 configMapGenerator:
 - name: emqx-dashboard
