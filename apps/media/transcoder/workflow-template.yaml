@@ -80,7 +80,15 @@ spec:
           RENDER_DEVICE="/dev/dri/renderD128"
         fi
 
+        DURATION=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$INPUT_FILE" 2>/dev/null)
+        if [ -n "$DURATION" ] && [ "$DURATION" != "N/A" ]; then
+          TOTAL_DUR_US=$(awk "BEGIN {print int($DURATION * 1000000)}")
+        else
+          TOTAL_DUR_US=0
+        fi
+
         echo "Selected render device: $RENDER_DEVICE"
+        echo "Total duration (us): $TOTAL_DUR_US"
 
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $TEMP_OUTPUT_FILE (temp)"
         ffmpeg -hide_banner -y \
@@ -93,7 +101,15 @@ spec:
           -c:a copy \
           -progress /dev/stdout \
           -nostats \
-          "$TEMP_OUTPUT_FILE"
+          "$TEMP_OUTPUT_FILE" 2>&1 | while read -r line; do
+            echo "$line"
+            if [[ "$line" == out_time_us=* ]]; then
+              OUT_TIME_US="${line#out_time_us=}"
+              if [ -n "$ARGO_PROGRESS_FILE" ] && [ "$TOTAL_DUR_US" -gt 0 ]; then
+                echo "$OUT_TIME_US/$TOTAL_DUR_US" > "$ARGO_PROGRESS_FILE"
+              fi
+            fi
+          done
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully! Moving file to destination..."
