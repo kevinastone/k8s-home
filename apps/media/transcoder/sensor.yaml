@@ -5,7 +5,7 @@ metadata:
   namespace: media
 spec:
   template:
-    serviceAccountName: default # Ensure this SA has permissions to create Workflows
+    serviceAccountName: transcoder-sa # Ensure this SA has permissions to create Workflows
   dependencies:
   - name: transcode-dep
     eventSourceName: transcoder-mqtt

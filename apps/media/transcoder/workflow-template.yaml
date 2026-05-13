@@ -4,6 +4,7 @@ metadata:
   name: transcoder-workflow
   namespace: media
 spec:
+  serviceAccountName: transcoder-sa
   entrypoint: transcode-media
   # Retry strategy handles transient failures, ensuring jobs aren't lost
   retryStrategy:
