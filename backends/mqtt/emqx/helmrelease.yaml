@@ -18,9 +18,6 @@ spec:
     emqxConfig:
       EMQX_AUTHORIZATION__NO_MATCH: allow
       EMQX_LOG__CONSOLE_HANDLER__LEVEL: info
-      EMQX_LISTENERS__SSL__DEFAULT__BIND: "0.0.0.0:8883"
-      EMQX_LISTENERS__SSL__DEFAULT__SSL_OPTIONS__CERTFILE: "/opt/emqx/etc/certs/tls.crt"
-      EMQX_LISTENERS__SSL__DEFAULT__SSL_OPTIONS__KEYFILE: "/opt/emqx/etc/certs/tls.key"
 
     emqxAclConfig: >
       {allow, {user, "dashboard"}, subscribe, ["$SYS/#"]}. {allow, {ipaddr, "127.0.0.1"}, pubsub, ["$SYS/#", "#"]}. {allow, all, subscribe, ["$SYS/#", {eq, "#"}]}. {allow, all}.
@@ -30,6 +27,13 @@ spec:
     - name: emqx-tls
       secret:
         secretName: emqx-tls
+        items:
+        - key: tls.crt
+          path: cert.pem
+        - key: tls.key
+          path: key.pem
+        - key: tls.crt
+          path: cacert.pem
     extraVolumeMounts:
     - name: emqx-tls
       mountPath: /opt/emqx/etc/certs
