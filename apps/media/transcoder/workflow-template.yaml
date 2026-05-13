@@ -34,7 +34,7 @@ spec:
             topologyKey: kubernetes.io/hostname
 
     container:
-      image: jrottenberg/ffmpeg:8-vaapi
+      image: lscr.io/linuxserver/ffmpeg:latest
       securityContext:
         privileged: true
       command:
