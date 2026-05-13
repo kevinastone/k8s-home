@@ -60,8 +60,20 @@ spec:
         BASENAME="${INPUT_FILE%.*}"
         OUTPUT_FILE="${BASENAME}-transcoded.mp4"
 
+        echo "Available DRI devices:"
+        ls -la /dev/dri || true
+        
+        # Pick the highest render device available (e.g., renderD129 over renderD128)
+        # This commonly bypasses ASPEED BMC display adapters in homelab servers.
+        RENDER_DEVICE=$(ls /dev/dri/renderD* 2>/dev/null | sort -r | head -n 1)
+        if [ -z "$RENDER_DEVICE" ]; then
+          RENDER_DEVICE="/dev/dri/renderD128"
+        fi
+        
+        echo "Selected render device: $RENDER_DEVICE"
+
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $OUTPUT_FILE"
-        ffmpeg -y -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE"
+        ffmpeg -y -hwaccel vaapi -hwaccel_device "$RENDER_DEVICE" -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE"
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully!"
