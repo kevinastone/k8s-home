@@ -33,7 +33,7 @@ spec:
             topologyKey: kubernetes.io/hostname
 
     container:
-      image: jrottenberg/ffmpeg:vaapi
+      image: jrottenberg/ffmpeg:8-vaapi
       command:
       - /bin/bash
       - -c
