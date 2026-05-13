@@ -59,7 +59,7 @@ spec:
         OUTPUT_FILE="${BASENAME}-transcoded.mp4"
 
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $OUTPUT_FILE"
-        ffmpeg -y -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE"
+        ffmpeg -y -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE"
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully!"
