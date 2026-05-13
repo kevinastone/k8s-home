@@ -4,3 +4,10 @@ kind: Kustomization
 namespace: argo
 resources:
 - http-route.yaml
+configMapGenerator:
+- name: argo-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/argo-workflows.json
