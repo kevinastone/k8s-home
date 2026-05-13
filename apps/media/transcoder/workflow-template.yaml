@@ -120,9 +120,10 @@ spec:
           -q:v "$QUALITY" \
           -c:a copy \
           -progress /dev/stdout \
+          -stats_period 5 \
           -nostats \
           "$TEMP_OUTPUT_FILE" 2>&1 | while read -r line; do
-            echo "$line"
+            # echo "$line"
             if [[ "$line" == frame=* ]]; then
               FRAME="${line#frame=}"
               FRAME="${FRAME// /}"
@@ -134,6 +135,7 @@ spec:
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully! Moving file to destination..."
+          mkdir -p $(dirname "$OUTPUT_FILE")
           mv "$TEMP_OUTPUT_FILE" "$OUTPUT_FILE"
           echo "$OUTPUT_FILE" > /tmp/transcoded_filepath.txt
         else
