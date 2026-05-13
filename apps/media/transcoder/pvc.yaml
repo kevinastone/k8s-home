@@ -4,6 +4,7 @@ metadata:
   name: media-incoming-pvc
   namespace: media
 spec:
+  storageClassName: ""
   accessModes:
   - ReadWriteMany
   volumeName: media-incoming
