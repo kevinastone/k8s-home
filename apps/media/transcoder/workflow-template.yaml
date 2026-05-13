@@ -21,6 +21,12 @@ spec:
       parameters:
       - name: filepath
 
+    outputs:
+      parameters:
+      - name: transcoded_filepath
+        valueFrom:
+          path: /tmp/transcoded_filepath.txt
+
     # Pod anti-affinity to spread Argo jobs across hosts
     affinity:
       podAntiAffinity:
@@ -34,7 +40,7 @@ spec:
             topologyKey: kubernetes.io/hostname
 
     container:
-      image: lscr.io/linuxserver/ffmpeg:latest
+      image: lscr.io/linuxserver/ffmpeg:version-8.1-cli
       securityContext:
         privileged: true
       command:
@@ -42,7 +48,7 @@ spec:
       - -c
       - |
         set -o pipefail
-        
+
         # The filepath parameter is passed dynamically from the MQTT payload
         FILEPATH="{{inputs.parameters.filepath}}"
 
@@ -64,14 +70,14 @@ spec:
 
         echo "Available DRI devices:"
         ls -la /dev/dri || true
-        
+
         # Pick the highest render device available (e.g., renderD129 over renderD128)
         # This commonly bypasses ASPEED BMC display adapters in homelab servers.
         RENDER_DEVICE=$(ls /dev/dri/renderD* 2>/dev/null | sort -r | head -n 1)
         if [ -z "$RENDER_DEVICE" ]; then
           RENDER_DEVICE="/dev/dri/renderD128"
         fi
-        
+
         echo "Selected render device: $RENDER_DEVICE"
 
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $OUTPUT_FILE"
@@ -79,6 +85,7 @@ spec:
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully!"
+          echo "$OUTPUT_FILE" > /tmp/transcoded_filepath.txt
         else
           echo "Transcode failed."
           exit 1
