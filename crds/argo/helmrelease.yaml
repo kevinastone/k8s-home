@@ -40,3 +40,5 @@ spec:
     server:
       # If you want to access the UI to watch transcoding progress
       enabled: true
+      authModes:
+      - server
