@@ -35,6 +35,8 @@ spec:
 
     container:
       image: jrottenberg/ffmpeg:8-vaapi
+      securityContext:
+        privileged: true
       command:
       - /bin/bash
       - -c
