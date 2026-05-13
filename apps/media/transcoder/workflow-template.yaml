@@ -83,7 +83,17 @@ spec:
         echo "Selected render device: $RENDER_DEVICE"
 
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $TEMP_OUTPUT_FILE (temp)"
-        ffmpeg -hide_banner -y -hwaccel vaapi -hwaccel_device "$RENDER_DEVICE" -hwaccel_output_format vaapi -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$TEMP_OUTPUT_FILE" 2>&1 | tr '\r' '\n'
+        ffmpeg -hide_banner -y \
+          -hwaccel vaapi \
+          -hwaccel_device "$RENDER_DEVICE" \
+          -hwaccel_output_format vaapi \
+          -i "$INPUT_FILE" \
+          -c:v hevc_vaapi \
+          -q:v 24 \
+          -c:a copy \
+          -progress /dev/stdout \
+          -nostats \
+          "$TEMP_OUTPUT_FILE"
 
         if [ $? -eq 0 ]; then
           echo "Transcode completed successfully! Moving file to destination..."
