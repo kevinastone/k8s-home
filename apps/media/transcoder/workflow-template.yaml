@@ -1,0 +1,85 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: transcoder-workflow
+  namespace: media
+spec:
+  entrypoint: transcode-media
+  # Retry strategy handles transient failures, ensuring jobs aren't lost
+  retryStrategy:
+    limit: "3"
+    retryPolicy: "Always"
+    backoff:
+      duration: "1m"
+      factor: "2"
+      maxDuration: "10m"
+
+  templates:
+  - name: transcode-media
+    inputs:
+      parameters:
+      - name: filepath
+
+    # Pod anti-affinity to spread Argo jobs across hosts
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: workflows.argoproj.io/workflow
+                operator: Exists
+            topologyKey: kubernetes.io/hostname
+
+    container:
+      image: jrottenberg/ffmpeg:vaapi
+      command:
+      - /bin/bash
+      - -c
+      - |
+        # The filepath parameter is passed dynamically from the MQTT payload
+        FILEPATH="{{inputs.parameters.filepath}}"
+
+        if [ -z "$FILEPATH" ]; then
+          echo "Error: No filepath provided."
+          exit 1
+        fi
+
+        echo "Received transcoding request for: $FILEPATH"
+        INPUT_FILE="/media/$FILEPATH"
+
+        if [ ! -f "$INPUT_FILE" ]; then
+          echo "Error: File $INPUT_FILE not found on PVC."
+          exit 1
+        fi
+
+        BASENAME="${INPUT_FILE%.*}"
+        OUTPUT_FILE="${BASENAME}-transcoded.mp4"
+
+        echo "Starting ffmpeg transcode: $INPUT_FILE -> $OUTPUT_FILE"
+        ffmpeg -y -i "$INPUT_FILE" -c:v hevc_vaapi -q:v 24 -c:a copy "$OUTPUT_FILE"
+
+        if [ $? -eq 0 ]; then
+          echo "Transcode completed successfully!"
+        else
+          echo "Transcode failed."
+          exit 1
+        fi
+
+      resources:
+        requests:
+          cpu: 1000m
+          memory: 512Mi
+        limits:
+          cpu: 4000m
+          memory: 4Gi
+          device/vaapi: 1
+      volumeMounts:
+      - name: media
+        mountPath: /media
+
+  volumes:
+  - name: media
+    persistentVolumeClaim:
+      claimName: media-incoming-pvc

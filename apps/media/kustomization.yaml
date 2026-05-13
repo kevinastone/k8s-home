@@ -9,3 +9,4 @@ resources:
 - qbittorrent
 # - sonarr
 # - tdarr
+- transcoder

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: transcoder-mqtt
+  namespace: media
+spec:
+  mqtt:
+    # Key name will be used as the eventName in the Sensor
+    transcode-requests:
+      url: tcp://emqx.mqtt.svc.cluster.local:1883
+      topic: $share/media/transcode/queue
+      clientId: argo-events-transcoder
+      connectionBackoff:
+        duration: 10s
+        steps: 5
+        factor: 2
+        jitter: 0.2
+      # Assuming payload is just a raw string like "movies/movie.mp4"
+      jsonBody: false

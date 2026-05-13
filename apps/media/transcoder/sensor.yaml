@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: transcoder
+  namespace: media
+spec:
+  template:
+    serviceAccountName: default # Ensure this SA has permissions to create Workflows
+  dependencies:
+  - name: transcode-dep
+    eventSourceName: transcoder-mqtt
+    eventName: transcode-requests
+  triggers:
+  - template:
+      name: transcode-trigger
+      k8s:
+        operation: create
+        source:
+          resource:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:
+              generateName: transcode-job-
+              namespace: media
+            spec:
+              workflowTemplateRef:
+                name: transcoder-workflow
+              arguments:
+                parameters:
+                # Argo Events puts raw body inside the `body` field of the event payload
+                # We extract it and pass it to the workflow parameter `filepath`
+                - name: filepath
+        parameters:
+        - src:
+            dependencyName: transcode-dep
+            dataKey: body
+          dest: spec.arguments.parameters.0.value
