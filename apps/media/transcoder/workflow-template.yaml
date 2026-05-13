@@ -22,6 +22,8 @@ spec:
       - name: filepath
       - name: output_filepath
         default: ""
+      - name: quality
+        default: "24"
 
     outputs:
       parameters:
@@ -52,6 +54,7 @@ spec:
         # The filepath parameter is passed dynamically from the MQTT payload
         FILEPATH="{{inputs.parameters.filepath}}"
         OUTPUT_FILEPATH="{{inputs.parameters.output_filepath}}"
+        QUALITY="{{inputs.parameters.quality}}"
 
         if [ -z "$FILEPATH" ]; then
           echo "Error: No filepath provided."
@@ -95,7 +98,7 @@ spec:
           -hwaccel_output_format vaapi \
           -i "$INPUT_FILE" \
           -c:v hevc_vaapi \
-          -q:v 24 \
+          -q:v "$QUALITY" \
           -c:a copy \
           -progress /dev/stdout \
           -nostats \
