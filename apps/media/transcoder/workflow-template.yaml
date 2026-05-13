@@ -43,8 +43,6 @@ spec:
 
     container:
       image: lscr.io/linuxserver/ffmpeg:version-8.1-cli
-      securityContext:
-        privileged: true
       command:
       - /bin/bash
       - -c
@@ -74,9 +72,6 @@ spec:
           OUTPUT_FILE="/media/$OUTPUT_FILEPATH"
         fi
         TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
-
-        echo "Available DRI devices:"
-        ls -la /dev/dri || true
 
         # Pick the highest render device available (e.g., renderD129 over renderD128)
         # This commonly bypasses ASPEED BMC display adapters in homelab servers.
@@ -110,8 +105,6 @@ spec:
       volumeMounts:
       - name: media
         mountPath: /media
-      - name: dri
-        mountPath: /dev/dri
       - name: temp
         mountPath: /temp
 
@@ -119,9 +112,5 @@ spec:
   - name: media
     persistentVolumeClaim:
       claimName: media-incoming-pvc
-  - name: dri
-    hostPath:
-      path: /dev/dri
-      type: Directory
   - name: temp
     emptyDir: {}
