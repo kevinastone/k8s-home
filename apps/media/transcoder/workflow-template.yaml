@@ -23,7 +23,6 @@ spec:
       - name: output_filepath
         default: ""
       - name: quality
-        default: "24"
 
     outputs:
       parameters:
@@ -111,7 +110,10 @@ spec:
         echo "Total frames: $TOTAL_FRAMES"
 
         echo "Starting ffmpeg transcode: $INPUT_FILE -> $TEMP_OUTPUT_FILE (temp)"
-        ffmpeg -hide_banner -y \
+        ffmpeg \
+          -hide_banner \
+          -nostdin \
+          -y \
           -hwaccel vaapi \
           -hwaccel_device "$RENDER_DEVICE" \
           -hwaccel_output_format vaapi \
@@ -123,7 +125,7 @@ spec:
           -stats_period 5 \
           -nostats \
           "$TEMP_OUTPUT_FILE" 2>&1 | while read -r line; do
-            # echo "$line"
+            echo "$line"
             if [[ "$line" == frame=* ]]; then
               FRAME="${line#frame=}"
               FRAME="${FRAME// /}"
