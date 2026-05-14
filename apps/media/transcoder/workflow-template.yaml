@@ -34,6 +34,7 @@ spec:
       factor: "2"
       maxDuration: "10m"
 
+
   templates:
   - name: transcode-media
     inputs:
@@ -52,6 +53,15 @@ spec:
       - name: transcoded_filepath
         valueFrom:
           path: /tmp/transcoded_filepath.txt
+
+    # Limit concurrent transcoding templates to prevent resource saturation.
+    # The semaphore value is defined in the transcoder-semaphore ConfigMap.
+    # Excess templates queue in Pending state until a slot opens.
+    synchronization:
+      semaphore:
+        configMapKeyRef:
+          name: transcoder-semaphore
+          key: max-concurrent
 
     # Pod anti-affinity to spread Argo jobs across hosts
     affinity:
