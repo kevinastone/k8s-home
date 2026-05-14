@@ -34,9 +34,37 @@ spec:
       factor: "2"
       maxDuration: "10m"
 
+  volumes:
+  - name: media
+    persistentVolumeClaim:
+      claimName: media-incoming-pvc
+  - name: temp
+    emptyDir: {}
+  - name: scripts
+    configMap:
+      name: transcoder-scripts # replaced by kustomizeconfig
+      defaultMode: 0755
 
   templates:
+  # DAG orchestrator: transcode first, then optionally delete the original
   - name: transcode-media
+    dag:
+      tasks:
+      - name: transcode
+        template: transcode
+      - name: delete-original
+        template: delete-original
+        when: "{{workflow.parameters.delete_original}} == true"
+        dependencies: [transcode]
+        arguments:
+          parameters:
+          - name: input_filepath
+            value: "{{workflow.parameters.filepath}}"
+          - name: output_filepath
+            value: "{{tasks.transcode.outputs.parameters.transcoded_filepath}}"
+
+  # Transcode step: runs ffmpeg via the external script
+  - name: transcode
     inputs:
       parameters:
       - name: filepath
@@ -45,8 +73,6 @@ spec:
         value: "{{workflow.parameters.output_filepath}}"
       - name: quality
         value: "{{workflow.parameters.quality}}"
-      - name: delete_original
-        value: "{{workflow.parameters.delete_original}}"
 
     outputs:
       parameters:
@@ -85,8 +111,6 @@ spec:
         value: "{{inputs.parameters.output_filepath}}"
       - name: QUALITY
         value: "{{inputs.parameters.quality}}"
-      - name: DELETE_ORIGINAL
-        value: "{{inputs.parameters.delete_original}}"
       resources:
         requests:
           cpu: 1000m
@@ -103,13 +127,28 @@ spec:
       - name: scripts
         mountPath: /scripts
 
-  volumes:
-  - name: media
-    persistentVolumeClaim:
-      claimName: media-incoming-pvc
-  - name: temp
-    emptyDir: {}
-  - name: scripts
-    configMap:
-      name: transcoder-scripts # replaced by kustomizeconfig
-      defaultMode: 0755
+  # Delete step: removes the original input file if it differs from the output
+  - name: delete-original
+    inputs:
+      parameters:
+      - name: input_filepath
+      - name: output_filepath
+    script:
+      image: alpine:3
+      command: [sh]
+      source: |
+        INPUT="{{inputs.parameters.input_filepath}}"
+        OUTPUT="{{inputs.parameters.output_filepath}}"
+
+        REAL_INPUT=$(realpath "$INPUT" 2>/dev/null || echo "$INPUT")
+        REAL_OUTPUT=$(realpath "$OUTPUT" 2>/dev/null || echo "$OUTPUT")
+
+        if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
+          echo "Deleting original input file: $INPUT"
+          rm -f "$INPUT"
+        else
+          echo "Skipping deletion: output overwrote the original file."
+        fi
+      volumeMounts:
+      - name: media
+        mountPath: /media
