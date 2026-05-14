@@ -39,6 +39,8 @@ spec:
                 parameters:
                 - name: filepath
                 - name: output_filepath
+                - name: delete_original
+                  value: "true"
         parameters:
         - src:
             dependencyName: file-dep
