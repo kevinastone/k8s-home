@@ -4,6 +4,19 @@ metadata:
   name: transcoder-workflow
   namespace: media
 spec:
+  workflowMetadata:
+    annotations:
+      workflows.argoproj.io/title: 'Transcode: {{workflow.parameters.filepath}}'
+      workflows.argoproj.io/description: 'Processing {{workflow.parameters.filepath}} to {{workflow.parameters.output_filepath}}'
+
+  arguments:
+    parameters:
+    - name: filepath
+    - name: output_filepath
+      value: ""
+    - name: quality
+      value: "24"
+
   serviceAccountName: transcoder-sa
   entrypoint: transcode-media
   # Retry strategy handles transient failures, ensuring jobs aren't lost
@@ -20,9 +33,11 @@ spec:
     inputs:
       parameters:
       - name: filepath
+        value: "{{workflow.parameters.filepath}}"
       - name: output_filepath
-        default: ""
+        value: "{{workflow.parameters.output_filepath}}"
       - name: quality
+        value: "{{workflow.parameters.quality}}"
 
     outputs:
       parameters:
@@ -76,5 +91,5 @@ spec:
     emptyDir: {}
   - name: scripts
     configMap:
-      name: transcoder-scripts
+      name: transcoder-scripts # replaced by kustomizeconfig
       defaultMode: 0755
