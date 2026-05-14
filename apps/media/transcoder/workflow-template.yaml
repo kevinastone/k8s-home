@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/argoproj.io/workflowtemplate_v1alpha1.json
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
@@ -16,6 +17,11 @@ spec:
       value: ""
     - name: quality
       value: "24"
+    - name: delete_original
+      value: "false"
+      enum:
+      - "true"
+      - "false"
 
   serviceAccountName: transcoder-sa
   entrypoint: transcode-media
@@ -38,6 +44,8 @@ spec:
         value: "{{workflow.parameters.output_filepath}}"
       - name: quality
         value: "{{workflow.parameters.quality}}"
+      - name: delete_original
+        value: "{{workflow.parameters.delete_original}}"
 
     outputs:
       parameters:
@@ -67,6 +75,8 @@ spec:
         value: "{{inputs.parameters.output_filepath}}"
       - name: QUALITY
         value: "{{inputs.parameters.quality}}"
+      - name: DELETE_ORIGINAL
+        value: "{{inputs.parameters.delete_original}}"
       resources:
         requests:
           cpu: 1000m

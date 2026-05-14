@@ -5,6 +5,7 @@ set -o pipefail
 # FILEPATH
 # OUTPUT_FILEPATH
 # QUALITY
+# DELETE_ORIGINAL
 
 if [ -z "$FILEPATH" ]; then
   echo "Error: No filepath provided."
@@ -91,6 +92,19 @@ if [ $? -eq 0 ]; then
   mkdir -p $(dirname "$OUTPUT_FILE")
   mv "$TEMP_OUTPUT_FILE" "$OUTPUT_FILE"
   echo "$OUTPUT_FILE" > /tmp/transcoded_filepath.txt
+
+  # Optionally delete the original input file
+  if [ "$DELETE_ORIGINAL" = "true" ]; then
+    # Resolve to absolute paths to avoid deleting the output we just wrote
+    REAL_INPUT=$(realpath "$INPUT_FILE" 2>/dev/null || echo "$INPUT_FILE")
+    REAL_OUTPUT=$(realpath "$OUTPUT_FILE" 2>/dev/null || echo "$OUTPUT_FILE")
+    if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
+      echo "Deleting original input file: $INPUT_FILE"
+      rm -f "$INPUT_FILE"
+    else
+      echo "Skipping deletion: output overwrote the original file."
+    fi
+  fi
 else
   echo "Transcode failed."
   exit 1

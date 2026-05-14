@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/argoproj.io/eventsource_v1alpha1.json
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
@@ -22,6 +23,7 @@ spec:
       persistentVolumeClaim:
         claimName: media-incoming-pvc
 ---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/argoproj.io/eventsource_v1alpha1.json
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
