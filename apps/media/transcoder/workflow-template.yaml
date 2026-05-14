@@ -137,15 +137,28 @@ spec:
       image: alpine:3
       command: [sh]
       source: |
+        set -eu
+
         INPUT="{{inputs.parameters.input_filepath}}"
         OUTPUT="{{inputs.parameters.output_filepath}}"
 
-        REAL_INPUT=$(realpath "$INPUT" 2>/dev/null || echo "$INPUT")
+        # Guard: ensure input path is non-empty and scoped to /media/
+        case "$INPUT" in
+          /media/*) ;;
+          *) echo "ERROR: input path is not under /media/: $INPUT"; exit 1 ;;
+        esac
+
+        # Guard: must be a regular file, not a directory or symlink to one
+        if [ ! -f "$INPUT" ]; then
+          echo "ERROR: input path is not a regular file: $INPUT"; exit 1
+        fi
+
+        REAL_INPUT=$(realpath "$INPUT")
         REAL_OUTPUT=$(realpath "$OUTPUT" 2>/dev/null || echo "$OUTPUT")
 
         if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
           echo "Deleting original input file: $INPUT"
-          rm -f "$INPUT"
+          rm "$INPUT"
         else
           echo "Skipping deletion: output overwrote the original file."
         fi
