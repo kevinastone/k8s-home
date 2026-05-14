@@ -38,6 +38,8 @@ spec:
                 parameters:
                 - name: filepath
                 - name: output_filepath
+                - name: quality
+                  value: "25"
         parameters:
         - src:
             dependencyName: file-dep
