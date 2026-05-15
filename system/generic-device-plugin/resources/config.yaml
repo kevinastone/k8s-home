@@ -12,6 +12,7 @@ devices:
       product: 0x0601
 - name: vaapi
   groups:
-  - paths:
+  - count: 2
+    paths:
     - path: /dev/dri/renderD128
       mountPath: /dev/dri/renderD128
