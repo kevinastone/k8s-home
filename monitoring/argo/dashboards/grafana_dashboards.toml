@@ -1,4 +1,4 @@
 #:schema ../../../scripts/dashboard-schema.json
 
 [argo-workflows]
-url = "https://github.com/argoproj/argo-workflows/raw/refs/heads/main/examples/grafana-dashboard.json"
+id = 21393
