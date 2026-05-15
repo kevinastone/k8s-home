@@ -132,14 +132,8 @@ spec:
       source: |
         set -eu
 
-        INPUT="{{inputs.parameters.input_filepath}}"
-        OUTPUT="{{inputs.parameters.output_filepath}}"
-
-        # Guard: ensure input path is non-empty and scoped to /media/
-        case "$INPUT" in
-          /media/*) ;;
-          *) echo "ERROR: input path is not under /media/: $INPUT"; exit 1 ;;
-        esac
+        INPUT="/media/{{inputs.parameters.input_filepath}}"
+        OUTPUT="/media/{{inputs.parameters.output_filepath}}"
 
         # Guard: must be a regular file, not a directory or symlink to one
         if [ ! -f "$INPUT" ]; then
