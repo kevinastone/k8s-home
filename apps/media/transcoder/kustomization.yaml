@@ -8,7 +8,6 @@ resources:
 - eventsource.yaml
 - sensor.yaml
 - eventbus.yaml
-- semaphore-config.yaml
 configurations:
 - kustomizeconfig.yaml
 configMapGenerator:
