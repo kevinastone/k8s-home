@@ -14,4 +14,5 @@ configurations:
 configMapGenerator:
 - name: transcoder-scripts
   files:
-  - transcode.sh
+  - scripts/transcode.sh
+  - scripts/argo-ffmpeg-progress.sh

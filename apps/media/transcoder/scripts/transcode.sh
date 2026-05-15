@@ -52,6 +52,7 @@ if [ -z "$RENDER_DEVICE" ]; then
   RENDER_DEVICE="/dev/dri/renderD128"
 fi
 
+
 TOTAL_FRAMES=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
 if [ -z "$TOTAL_FRAMES" ] || [ "$TOTAL_FRAMES" == "N/A" ]; then
   TOTAL_FRAMES=0
@@ -72,19 +73,10 @@ ffmpeg \
   -c:v hevc_vaapi \
   -q:v "$QUALITY" \
   -c:a copy \
-  -progress /dev/stdout \
+  -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_FRAMES" "$ARGO_PROGRESS_FILE") \
   -stats_period 5 \
   -nostats \
-  "$TEMP_OUTPUT_FILE" 2>&1 | while read -r line; do
-    echo "$line"
-    if [[ "$line" == frame=* ]]; then
-      FRAME="${line#frame=}"
-      FRAME="${FRAME// /}"
-      if [ -n "$ARGO_PROGRESS_FILE" ] && [ "$TOTAL_FRAMES" -gt 0 ]; then
-        echo "$FRAME/$TOTAL_FRAMES" > "$ARGO_PROGRESS_FILE"
-      fi
-    fi
-  done
+  "$TEMP_OUTPUT_FILE"
 
 if [ $? -eq 0 ]; then
   echo "Transcode completed successfully! Moving file to destination..."
