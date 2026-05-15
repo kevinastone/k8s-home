@@ -137,7 +137,7 @@ spec:
 
         # Guard: must be a regular file, not a directory or symlink to one
         if [ ! -f "$INPUT" ]; then
-          echo "ERROR: input path is not a regular file: $INPUT"; exit 1
+          echo "Skipping: input path is not a regular file: $INPUT"; exit 0
         fi
 
         REAL_INPUT=$(realpath "$INPUT")
@@ -145,7 +145,7 @@ spec:
 
         if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
           echo "Deleting original input file: $INPUT"
-          rm "$INPUT"
+          rm -f "$INPUT"
         else
           echo "Skipping deletion: output overwrote the original file."
         fi
