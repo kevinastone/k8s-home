@@ -75,8 +75,7 @@ ffmpeg \
   -c:a copy \
   -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_FRAMES" "$ARGO_PROGRESS_FILE") \
   -stats_period 5 \
-  -nostats \
-  "$TEMP_OUTPUT_FILE"
+  "$TEMP_OUTPUT_FILE" 2>&1 | tr '\r' '\n'
 
 if [ $? -eq 0 ]; then
   echo "Transcode completed successfully! Moving file to destination..."
