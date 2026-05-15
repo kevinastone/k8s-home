@@ -24,6 +24,7 @@ spec:
       - "false"
 
   serviceAccountName: transcoder-sa
+  activeDeadlineSeconds: 86400 # 24 hours — transcodes can queue and run for a long time
   entrypoint: transcode-media
   # Retry strategy handles transient failures, ensuring jobs aren't lost
   retryStrategy:
@@ -32,7 +33,7 @@ spec:
     backoff:
       duration: "1m"
       factor: "2"
-      maxDuration: "10m"
+      maxDuration: "48h"
 
   volumes:
   - name: media
