@@ -48,6 +48,8 @@ spec:
     namespace: prometheus
   values:
     controller:
+      deploymentAnnotations:
+        reloader.stakater.com/auto: "true"
       metricsConfig:
         enabled: true
       serviceMonitor:
