@@ -18,10 +18,11 @@ spec:
   - name: prometheus-crds
     namespace: prometheus
   values:
-    metrics:
-      enabled: true
-      serviceMonitor:
+    controller:
+      metrics:
         enabled: true
+        serviceMonitor:
+          enabled: true
     eventBus:
       nats:
         native: {}
@@ -46,11 +47,12 @@ spec:
   - name: prometheus-crds
     namespace: prometheus
   values:
+    controller:
+      metricsConfig:
+        enabled: true
+      serviceMonitor:
+        enabled: true
     server:
       enabled: true
       authModes:
       - server
-    metricsConfig:
-      enabled: true
-    serviceMonitor:
-      enabled: true
