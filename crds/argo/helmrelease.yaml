@@ -14,8 +14,14 @@ spec:
         name: argo
         namespace: flux-system
   interval: 5m
+  dependsOn:
+  - name: prometheus-crds
+    namespace: prometheus
   values:
-    # Optional: Configure the event bus (NATS) if you want persistence
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
     eventBus:
       nats:
         native: {}
@@ -36,9 +42,15 @@ spec:
         name: argo
         namespace: flux-system
   interval: 5m
+  dependsOn:
+  - name: prometheus-crds
+    namespace: prometheus
   values:
     server:
-      # If you want to access the UI to watch transcoding progress
       enabled: true
       authModes:
       - server
+    metricsConfig:
+      enabled: true
+    serviceMonitor:
+      enabled: true
