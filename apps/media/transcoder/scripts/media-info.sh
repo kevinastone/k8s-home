@@ -27,14 +27,13 @@ ffprobe -v quiet -print_format json -show_format -show_streams "$FILE" | jq -r '
   | $v.height as $h
   | $v.codec_name as $codec
   | ($v.r_frame_rate | calc_fps) as $fps
-  | (if ($v.bit_rate != null and $v.bit_rate != "N/A")
-     then $v.bit_rate
-     else .format.bit_rate end | tonumber) as $br
-
+  | (([$v.bit_rate, .format.bit_rate] | map(select(. != null and . != "N/A" and (tonumber > 1))) | first) // 0 | tonumber) as $br
+  | .format.size | tonumber as $size
   | ($br / ($w * $h * $fps)) as $bpp
   | {
       width: $w,
       height: $h,
+      size: $size,
       fps: $fps,
       bitrate: $br,
       bpp: $bpp,
