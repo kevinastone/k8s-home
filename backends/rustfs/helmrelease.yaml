@@ -103,7 +103,7 @@ spec:
           main:
             image:
               repository: docker.io/rustfs/rc
-              tag: v0.1.15
+              tag: v0.1.16
             env:
               MINIO_SCHEME: http
               MC_CONFIG_DIR: /home
