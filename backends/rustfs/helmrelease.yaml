@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: docker.io/rustfs/rustfs
-              tag: 1.0.0-alpha.85
+              tag: 1.0.0-beta.3
             env:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
