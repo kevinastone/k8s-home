@@ -38,7 +38,7 @@ spec:
   volumes:
   - name: media
     persistentVolumeClaim:
-      claimName: media-incoming-pvc
+      claimName: media-incoming
   - name: temp
     emptyDir: {}
   - name: scripts

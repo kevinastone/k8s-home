@@ -27,3 +27,18 @@ spec:
     nodeStageSecretRef:
       name: storage-cifs-secret
       namespace: smb
+---
+# yaml-language-server: $schema=https://kubernetesjsonschema.dev/v1/persistentvolumeclaim-v1.json
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-incoming
+  namespace: media
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteMany
+  volumeName: media-incoming
+  resources:
+    requests:
+      storage: 100Gi
