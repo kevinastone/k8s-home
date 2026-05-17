@@ -15,4 +15,8 @@ devices:
   - count: 2
     paths:
     - path: /dev/dri/renderD128
-      mountPath: /dev/dri/renderD128
+- name: tun
+  groups:
+  - count: 100
+    paths:
+    - path: /dev/net/tun

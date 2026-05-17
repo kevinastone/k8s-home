@@ -14,6 +14,12 @@ spec:
   values:
     controllers:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
@@ -22,6 +28,8 @@ spec:
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              QBT_SAVE_PATH: /downloads
+              QBT_SKIP_DIALOG: true
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
                 172.16.0.0/12, 10.0.0.0/8, 192.168.0.0/16
@@ -34,8 +42,6 @@ spec:
               QBT_BitTorrent__Session__QueueingSystemEnabled: false
               QBT_BitTorrent__Session__ShareLimitAction: Stop
               QBT_BitTorrent__Session__GlobalMaxRatio: 0
-              # QBT_BitTorrent__Session__TempPath: /incomplete
-              # QBT_BitTorrent__Session__TempPathEnabled: true
             probes:
               liveness:
                 enabled: true
@@ -46,6 +52,33 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 568
+              runAsGroup: 568
+        initContainers:
+          vpn:
+            restartPolicy: Always
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
+            env:
+              VPN_TYPE: wireguard
+              # Allow local traffic without the VPN
+              FIREWALL_OUTBOUND_SUBNETS: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+              # Don't tunnel the webui port
+              FIREWALL_INPUT_PORTS: *port
+              SERVER_COUNTRIES: "United States"
+            envFrom:
+            - secretRef:
+                name: vpn-secret
+            resources:
+              limits:
+                device/tun: 1
+            securityContext:
+              capabilities:
+                add:
+                - "NET_ADMIN"
 
           # port-forward:
           #   image:
@@ -74,13 +107,6 @@ spec:
           #       drop:
           #         - ALL
 
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
@@ -94,10 +120,15 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 1Gi
+        advancedMounts:
+          main:
+            app:
+            - path: /config
+
       downloads:
         type: persistentVolumeClaim
         existingClaim: media-incoming
-      incomplete:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 100Gi
+        advancedMounts:
+          main:
+            app:
+            - path: /downloads
