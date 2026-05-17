@@ -79,3 +79,6 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /config
+      downloads:
+        type: persistentVolumeClaim
+        existingClaim: media-incoming
