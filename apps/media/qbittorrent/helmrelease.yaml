@@ -28,9 +28,14 @@ spec:
               QBT_Preferences__WebUI__LocalHostAuth: false
               QBT_Preferences__WebUI__UseUPNP: false
               QBT_Preferences__WebUI__AlternativeUIEnabled: false
+              QBT_Preferences__Advanced__confirmTorrentDeletion: false
+              QBT_Preferences__General__StatusbarExternalIPDisplayed: true
               QBT_BitTorrent__Session__DefaultSavePath: /downloads
+              QBT_BitTorrent__Session__QueueingSystemEnabled: false
+              QBT_BitTorrent__Session__ShareLimitAction: Stop
+              QBT_BitTorrent__Session__GlobalMaxRatio: 0
               # QBT_BitTorrent__Session__TempPath: /incomplete
-              # QBT_BitTorrent__Session__TempPathEnabled: "true"
+              # QBT_BitTorrent__Session__TempPathEnabled: true
             probes:
               liveness:
                 enabled: true
