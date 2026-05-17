@@ -47,16 +47,20 @@ spec:
       defaultMode: 0755
 
   templates:
-  # DAG orchestrator: transcode first, then optionally delete the original
+  # DAG orchestrator: probe first, then transcode if eligible, then optionally delete the original
   - name: transcode-media
     dag:
       tasks:
+      - name: probe-file
+        template: probe-file
       - name: transcode
         template: transcode
+        depends: "probe-file.Succeeded"
+        when: "{{tasks.probe-file.outputs.parameters.should_transcode}} == true"
       - name: delete-original
         template: delete-original
         when: "{{workflow.parameters.delete_original}} == true"
-        dependencies: [transcode]
+        depends: "transcode.Succeeded"
         arguments:
           parameters:
           - name: input_filepath
@@ -152,3 +156,83 @@ spec:
       volumeMounts:
       - name: media
         mountPath: /media
+
+  # Probe step: checks input codec and resolution to see if transcoding is needed
+  - name: probe-file
+    inputs:
+      parameters:
+      - name: filepath
+        value: "{{workflow.parameters.filepath}}"
+    outputs:
+      parameters:
+      - name: should_transcode
+        valueFrom:
+          path: /tmp/should_transcode.txt
+      - name: reason
+        valueFrom:
+          path: /tmp/reason.txt
+          default: ""
+    container:
+      image: lscr.io/linuxserver/ffmpeg:version-8.1-cli
+      command: [/bin/bash, -c]
+      args:
+      - |
+        set -euo pipefail
+
+        FILEPATH="{{inputs.parameters.filepath}}"
+        if [[ "$FILEPATH" == /media/* ]]; then
+          INPUT_FILE="$FILEPATH"
+        else
+          INPUT_FILE="/media/$FILEPATH"
+        fi
+
+        if [ ! -f "$INPUT_FILE" ]; then
+          echo "Error: File $INPUT_FILE not found on PVC." >&2
+          echo "false" > /tmp/should_transcode.txt
+          echo "File not found on PVC: $INPUT_FILE" > /tmp/reason.txt
+          exit 1
+        fi
+
+        echo "Probing file: $INPUT_FILE"
+        INFO=$(/scripts/media-info.sh "$INPUT_FILE")
+        echo "Media Info JSON: $INFO"
+
+        CODEC=$(echo "$INFO" | jq -r '.codec // empty')
+        WIDTH=$(echo "$INFO" | jq -r '.width // empty')
+        HEIGHT=$(echo "$INFO" | jq -r '.height // empty')
+        BPP=$(echo "$INFO" | jq -r '.bpp // empty')
+
+        if [ -z "$CODEC" ] || [ "$CODEC" = "null" ]; then CODEC="unknown"; fi
+        if [ -z "$WIDTH" ] || [ "$WIDTH" = "null" ]; then WIDTH=0; fi
+        if [ -z "$HEIGHT" ] || [ "$HEIGHT" = "null" ]; then HEIGHT=0; fi
+        if [ -z "$BPP" ] || [ "$BPP" = "null" ]; then BPP=0; fi
+
+        echo "Detected codec: $CODEC, resolution: ${WIDTH}x${HEIGHT}, BPP: $BPP"
+
+        CODEC_LOWER=$(echo "$CODEC" | tr '[:upper:]' '[:lower:]')
+        IS_BPP_LOW=$(echo "$BPP" | jq -r '. < 0.05')
+
+        REASON=""
+        if [ "$CODEC_LOWER" != "h264" ]; then
+          REASON="Codec is not H264 (detected: $CODEC)"
+        elif [ "$HEIGHT" -lt 1080 ]; then
+          REASON="Resolution is below 1080p (detected height: ${HEIGHT}px)"
+        elif [ "$IS_BPP_LOW" = "true" ]; then
+          REASON="BPP is too low (detected: $BPP, minimum: 0.05)"
+        fi
+
+        # Proceed if input codec is h264, resolution is 1080p or higher, and BPP is >= 0.05
+        if [ "$CODEC_LOWER" = "h264" ] && [ "$HEIGHT" -ge 1080 ] && [ "$IS_BPP_LOW" != "true" ]; then
+          echo "File is eligible for transcoding (H264, >= 1080p, BPP >= 0.05)."
+          echo "true" > /tmp/should_transcode.txt
+          echo "Eligible" > /tmp/reason.txt
+        else
+          echo "File is NOT eligible for transcoding: $REASON"
+          echo "false" > /tmp/should_transcode.txt
+          echo "$REASON" > /tmp/reason.txt
+        fi
+      volumeMounts:
+      - name: media
+        mountPath: /media
+      - name: scripts
+        mountPath: /scripts
