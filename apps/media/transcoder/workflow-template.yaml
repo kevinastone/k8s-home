@@ -9,6 +9,8 @@ spec:
     annotations:
       workflows.argoproj.io/title: 'Transcode: {{workflow.parameters.filepath}}'
       workflows.argoproj.io/description: 'Processing {{workflow.parameters.filepath}} to {{workflow.parameters.output_filepath}}'
+  ttlStrategy:
+    secondsAfterCompletion: 86400 # 24 hours
 
   arguments:
     parameters:

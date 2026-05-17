@@ -9,17 +9,28 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  driftDetection:
+    mode: enabled
   values:
     controllers:
       main:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/qbittorrent-beta
-              tag: 5.0.3@sha256:4b9de3356475bd97fda3fb4d98f213e8d139aef15e7bd20dab72973e661901dd
+              repository: ghcr.io/home-operations/qbittorrent
+              tag: 5.2.0@sha256:788796013c3da75f2dba568c5319975a5c41f555586dfd13987be4631181e00e
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
+              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
+                172.16.0.0/12, 10.0.0.0/8, 192.168.0.0/16
+              QBT_Preferences__WebUI__LocalHostAuth: false
+              QBT_Preferences__WebUI__UseUPNP: false
+              QBT_Preferences__WebUI__AlternativeUIEnabled: false
+              QBT_BitTorrent__Session__DefaultSavePath: /downloads
+              # QBT_BitTorrent__Session__TempPath: /incomplete
+              # QBT_BitTorrent__Session__TempPathEnabled: "true"
             probes:
               liveness:
                 enabled: true
@@ -30,15 +41,6 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-            securityContext:
-              runAsUser: 2000
-              runAsGroup: 2000
-              runAsNonRoot: true
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                - ALL
 
           # port-forward:
           #   image:
@@ -67,6 +69,14 @@ spec:
           #       drop:
           #         - ALL
 
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         controller: main
@@ -76,9 +86,13 @@ spec:
 
     persistence:
       config:
-        type: emptyDir
-        globalMounts:
-        - path: /config
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
       downloads:
         type: persistentVolumeClaim
         existingClaim: media-incoming
+      incomplete:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 100Gi
