@@ -7,6 +7,10 @@ metadata:
     gethomepage.dev/group: Media
     gethomepage.dev/icon: /static/icons/svg/qbittorrent.svg
     gethomepage.dev/name: qBittorrent
+    gethomepage.dev/widget.type: qbittorrent
+    gethomepage.dev/widget.url: http://qbittorrent.media.svc
+    gethomepage.dev/widget.username: admin
+    gethomepage.dev/widget.password: admin
 spec:
   parentRefs:
   - name: auth-gateway
