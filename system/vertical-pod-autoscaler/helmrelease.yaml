@@ -17,7 +17,7 @@ spec:
   values:
     recommender:
       extraArgs:
-        prometheus-address: http://prometheus-kube-prometheus-prometheus.prometheus:9090
+        prometheus-address: http://vmsingle-vm-stack.victoria-metrics.svc:8428
         storage: prometheus
     updater:
       enabled: false
