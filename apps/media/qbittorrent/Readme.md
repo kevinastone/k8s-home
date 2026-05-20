@@ -9,8 +9,8 @@ There's a number of manual settings that need to be configured for optimal use
   - [Check] Auto hide zero status filters
   - [Check] Show external IP in status bar
 - Downloads
-  - Default Save Path: `/downloads`
-  - Monitored Folder: `/downloads`
+  - Default Save Path: `/incoming`
+  - Monitored Folder: `/incoming`
 - Connection
   - Listening Port: `[port from VPN]`
 - BitTorrent

@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: media
 resources:
 - namespace.yaml
-- persistent-volume.yaml
+- volume-donwloads.yaml
+- volume-incoming.yaml
 - postgres
 - qbittorrent
 # - sonarr
