@@ -135,9 +135,7 @@ spec:
               done
 
               # Provision Buckets
-              # TODO: Use this once --ignore-existing is supported
-              # rc mb rustfs/postgres --ignore-existing
-              rc ls rustfs/postgres 2>/dev/null || rc mb rustfs/postgres
+              rc mb rustfs/postgres --ignore-existing
 
               echo "End RustFS provisioning";
 
