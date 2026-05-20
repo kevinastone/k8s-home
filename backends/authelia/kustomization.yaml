@@ -28,3 +28,4 @@ secretGenerator:
   files:
   - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
   - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
+  - RUSTFS_CLIENT_SECRET=secrets/rustfs.secret.encrypted

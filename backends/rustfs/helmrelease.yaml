@@ -27,7 +27,17 @@ spec:
               RUSTFS_CONSOLE_ENABLE: "true"
               RUSTFS_OBS_ENDPOINT: "http://localhost:4318"
               RUSTFS_OBS_LOGGER_LEVEL: "debug"
+              RUSTFS_IDENTITY_OPENID_ENABLE: "true"
+              RUSTFS_IDENTITY_OPENID_CONFIG_URL: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
+              RUSTFS_IDENTITY_OPENID_CLIENT_ID: rustfs
+              RUSTFS_IDENTITY_OPENID_ROLE_POLICY: consoleAdmin
+              RUSTFS_IDENTITY_OPENID_CLAIM_PREFIX: authelia
+              RUSTFS_IDENTITY_OPENID_DISPLAY_NAME: Authelia
+              RUSTFS_IDENTITY_OPENID_SCOPES: openid,profile,email
+              RUSTFS_BROWSER_REDIRECT_URL: https://rustfs.k8s.kevinastone.com
             envFrom:
+            - secretRef:
+                name: rustfs-secret # overriden by kustomizeconfig
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
             args:

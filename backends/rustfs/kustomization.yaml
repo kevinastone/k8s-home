@@ -15,6 +15,9 @@ secretGenerator:
 - name: rustfs-users
   files:
   - postgres=secrets/postgres.password.encrypted
+- name: rustfs-secret
+  files:
+  - RUSTFS_IDENTITY_OPENID_CLIENT_SECRET=secrets/client.secret.encrypted
 configMapGenerator:
 - name: otel-config
   files:
