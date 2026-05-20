@@ -28,7 +28,7 @@ spec:
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
-              QBT_SAVE_PATH: /downloads
+              QBT_SAVE_PATH: /incoming
               QBT_SKIP_DIALOG: true
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
@@ -38,7 +38,7 @@ spec:
               QBT_Preferences__WebUI__AlternativeUIEnabled: false
               QBT_Preferences__Advanced__confirmTorrentDeletion: false
               QBT_Preferences__General__StatusbarExternalIPDisplayed: true
-              QBT_BitTorrent__Session__DefaultSavePath: /downloads
+              QBT_BitTorrent__Session__DefaultSavePath: /incoming
               QBT_BitTorrent__Session__QueueingSystemEnabled: false
               QBT_BitTorrent__Session__ShareLimitAction: Stop
               QBT_BitTorrent__Session__GlobalMaxRatio: 0
@@ -96,10 +96,16 @@ spec:
           main:
             app:
             - path: /config
-
-      downloads:
+      incoming:
         type: persistentVolumeClaim
         existingClaim: media-incoming
+        advancedMounts:
+          main:
+            app:
+            - path: /incoming
+      downloads:
+        type: persistentVolumeClaim
+        existingClaim: media-downloads
         advancedMounts:
           main:
             app:
