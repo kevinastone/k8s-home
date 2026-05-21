@@ -10,6 +10,8 @@ nameReference:
     kind: HelmRelease
   - path: spec/values/persistence/users/name
     kind: HelmRelease
+  - path: spec/varsFrom/name
+    kind: Terraform
 - kind: ConfigMap
   version: v1
   fieldSpecs:
