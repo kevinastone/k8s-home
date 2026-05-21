@@ -27,9 +27,10 @@ resource "minio_iam_user" "user" {
 }
 
 resource "minio_accesskey" "key" {
-  access_key = var.name
-  secret_key = var.secret
-  user       = minio_iam_user.user.name
+  access_key         = var.name
+  secret_key         = var.secret
+  secret_key_version = 1
+  user               = minio_iam_user.user.name
   policy     = jsonencode({
     Version = "2012-10-17"
     Statement = [
