@@ -26,25 +26,25 @@ resource "minio_iam_user" "user" {
   secret = var.secret
 }
 
-resource "minio_accesskey" "access-key" {
-  # user               = minio_iam_user.user.name
-  access_key         = var.name
-  secret_key         = var.secret
-  secret_key_version = sha256(var.secret)
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = ["s3:*"]
-        Resource = [
-          "arn:aws:s3:::${var.name}",
-          "arn:aws:s3:::${var.name}/*"
-        ]
-      }
-    ]
-  })
-}
+# resource "minio_accesskey" "access-key" {
+#   # user               = minio_iam_user.user.name
+#   access_key         = var.name
+#   secret_key         = var.secret
+#   secret_key_version = sha256(var.secret)
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = ["s3:*"]
+#         Resource = [
+#           "arn:aws:s3:::${var.name}",
+#           "arn:aws:s3:::${var.name}/*"
+#         ]
+#       }
+#     ]
+#   })
+# }
 
 resource "minio_s3_bucket_policy" "policy" {
   bucket = minio_s3_bucket.bucket.bucket
