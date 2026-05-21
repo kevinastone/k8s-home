@@ -3,7 +3,6 @@ apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata:
   name: rustfs
-  namespace: rustfs
 spec:
   interval: 10m
   approvePlan: auto
@@ -22,3 +21,8 @@ spec:
     name: rustfs-users
     varsKeys:
     - postgres
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tf-runner
