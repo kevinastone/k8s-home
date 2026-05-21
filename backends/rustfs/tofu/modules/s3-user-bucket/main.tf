@@ -34,7 +34,7 @@ resource "minio_s3_bucket_policy" "policy" {
       {
         Effect   = "Allow"
         Principal = {
-          AWS = ["arn:aws:iam:::user/${var.name}"]
+          AWS = ["arn:aws:iam::admin:user/${var.name}"]
         }
         Action   = ["s3:*"]
         Resource = [
