@@ -23,27 +23,27 @@ resource "minio_s3_bucket" "bucket" {
 
 resource "minio_iam_user" "user" {
   name   = "${var.name}_user"
-  secret = "${var.secret}"
+  secret = var.secret
 }
 
 resource "minio_accesskey" "access-key" {
-  user               = minio_iam_user.user.name
+  # user               = minio_iam_user.user.name
   access_key         = var.name
   secret_key         = var.secret
   secret_key_version = sha256(var.secret)
-  # policy = jsonencode({
-  #   Version = "2012-10-17"
-  #   Statement = [
-  #     {
-  #       Effect = "Allow"
-  #       Action = ["s3:*"]
-  #       Resource = [
-  #         "arn:aws:s3:::${var.name}",
-  #         "arn:aws:s3:::${var.name}/*"
-  #       ]
-  #     }
-  #   ]
-  # })
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = ["s3:*"]
+        Resource = [
+          "arn:aws:s3:::${var.name}",
+          "arn:aws:s3:::${var.name}/*"
+        ]
+      }
+    ]
+  })
 }
 
 resource "minio_s3_bucket_policy" "policy" {
@@ -52,11 +52,11 @@ resource "minio_s3_bucket_policy" "policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
+        Effect = "Allow"
         Principal = {
-          AWS = ["arn:aws:iam:::user/${var.name}"]
+          AWS = ["arn:aws:iam:::user/${minio_iam_user.user.name}"]
         }
-        Action   = ["s3:*"]
+        Action = ["s3:*"]
         Resource = [
           "arn:aws:s3:::${var.name}",
           "arn:aws:s3:::${var.name}/*"

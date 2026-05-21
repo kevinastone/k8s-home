@@ -24,6 +24,8 @@ spec:
             env:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
+              RUSTFS_OBS_LOG_STDOUT_ENABLED: "true"
+              RUST_LOG: "debug"
               RUSTFS_CONSOLE_ENABLE: "true"
               RUSTFS_OBS_ENDPOINT: "http://localhost:4318"
               RUSTFS_OBS_LOGGER_LEVEL: "debug"
