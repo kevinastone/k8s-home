@@ -26,16 +26,16 @@ resource "minio_iam_user" "user" {
   secret = var.secret
 }
 
-resource "minio_accesskey" "key" {
-  access_key         = var.name
-  secret_key         = var.secret
-  secret_key_version = 1
-  user               = minio_iam_user.user.name
-  policy     = jsonencode({
+resource "minio_s3_bucket_policy" "policy" {
+  bucket = minio_s3_bucket.bucket.bucket
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
         Effect   = "Allow"
+        Principal = {
+          AWS = ["arn:aws:iam:::user/${var.name}"]
+        }
         Action   = ["s3:*"]
         Resource = [
           "arn:aws:s3:::${var.name}",
