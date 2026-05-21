@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    minio = {
+      source = "aminueza/minio"
+    }
+  }
+}
+
 variable "name" {
   type        = string
   description = "The name of the S3 bucket and IAM user"
