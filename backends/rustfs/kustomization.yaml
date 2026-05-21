@@ -6,6 +6,7 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - http-route.yaml
+- terraform.yaml
 secretGenerator:
 - name: rustfs-root-secret
   literals:

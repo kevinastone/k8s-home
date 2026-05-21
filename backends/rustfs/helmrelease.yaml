@@ -96,53 +96,6 @@ spec:
                 port: healthcheck
               readiness: *probes
               startup: *probes
-      provisioning:
-        type: job
-        annotations:
-          "helm.sh/hook": post-install,post-upgrade
-          "helm.sh/hook-delete-policy": before-hook-creation
-        initContainers:
-          wait-for-minio:
-            image:
-              repository: ghcr.io/groundnuty/k8s-wait-for
-              tag: v2.0
-            args:
-            - service
-            - *app
-        containers:
-          main:
-            image:
-              repository: docker.io/rustfs/rc
-              tag: v0.1.16
-            env:
-              MINIO_SCHEME: http
-              MC_CONFIG_DIR: /home
-            envFrom:
-            - secretRef:
-                name: rustfs-root-secret # overriden by kustomizeconfig
-            command:
-            - /bin/sh
-            - -c
-            - |-
-              echo "Start RustFS provisioning";
-
-              rc alias set rustfs http://rustfs:9000 "${RUSTFS_ACCESS_KEY}" "${RUSTFS_SECRET_KEY}"
-
-              # # Provision Users
-              for f in /users/*; do
-                rc admin user add rustfs "$(basename $f)" "$(cat $f)";
-                rc admin policy attach rustfs readwrite --user="$(basename $f)";
-              done
-
-              # Provision Buckets
-              rc mb rustfs/postgres --ignore-existing
-
-              echo "End RustFS provisioning";
-
-            securityContext:
-              runAsNonRoot: false
-              runAsUser: 0
-              runAsGroup: 0
     defaultPodOptions:
       automountServiceAccountToken: true
       securityContext:
@@ -228,10 +181,3 @@ spec:
         name: rustfs-root-secret # overriden by kustomizeconfig
         globalMounts:
         - path: /secrets
-      users:
-        type: secret
-        name: rustfs-users # overriden by kustomizeconfig
-        advancedMounts:
-          provisioning:
-            main:
-            - path: /users
