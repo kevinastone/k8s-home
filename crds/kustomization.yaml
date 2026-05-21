@@ -13,4 +13,5 @@ resources:
 - prometheus
 - redis-operator
 # - rook-operator
+- tofu-controller
 - victoria-metrics-operator
