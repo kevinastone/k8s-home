@@ -4,6 +4,7 @@ kind: Terraform
 metadata:
   name: rustfs
 spec:
+  serviceAccountName: tf-runner
   interval: 10m
   approvePlan: auto
   path: ./backends/rustfs/tofu
