@@ -22,6 +22,9 @@ _: {
   # toml formatter
   programs.taplo.enable = true;
 
+  # Terraform/tofu formatter
+  programs.terraform.enable = true;
+
   programs.mdformat.enable = true;
 
   programs.keep-sorted.enable = true;
