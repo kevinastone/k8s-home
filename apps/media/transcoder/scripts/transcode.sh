@@ -97,7 +97,7 @@ fi
 EXT="${OUTPUT_FILE##*.}"
 EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
 if [ "$EXT_LOWER" != "mp4" ] && [ "$EXT_LOWER" != "mkv" ]; then
-  OUTPUT_FILE="${OUTPUT_FILE%.*}.mkv"
+  OUTPUT_FILE="${OUTPUT_FILE%.*}.mp4"
 fi
 
 TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
@@ -105,6 +105,21 @@ TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 TOTAL_FRAMES=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
 if [ -z "$TOTAL_FRAMES" ] || [ "$TOTAL_FRAMES" == "N/A" ]; then
   TOTAL_FRAMES=0
+fi
+
+# Query the audio codec of the first audio stream to ensure compatibility with MP4
+AUDIO_CODEC=$(ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null | head -n 1)
+
+if [ -z "$AUDIO_CODEC" ]; then
+  # No audio stream present
+  AUDIO_ARGS=()
+elif [[ "$AUDIO_CODEC" == "aac" || "$AUDIO_CODEC" == "ac3" || "$AUDIO_CODEC" == "eac3" || "$AUDIO_CODEC" == "mp3" ]]; then
+  # Natively supported and highly compatible MP4 audio codecs - safe to copy
+  AUDIO_ARGS=(-c:a copy)
+else
+  # Legacy, high-definition, or incompatible audio codecs (wmav2, pcm, flac, vorbis, dts, truehd, etc.) - transcode to AAC
+  echo "Audio codec '$AUDIO_CODEC' is not natively compatible/optimal for MP4. Transcoding to AAC..."
+  AUDIO_ARGS=(-c:a aac -b:a 192k)
 fi
 
 echo "Total frames: $TOTAL_FRAMES"
@@ -143,7 +158,7 @@ ffmpeg \
   "${PRE_INPUT_ARGS[@]}" \
   -i "$INPUT_FILE" \
   "${VIDEO_ARGS[@]}" \
-  -c:a copy \
+  "${AUDIO_ARGS[@]}" \
   -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_FRAMES" "$ARGO_PROGRESS_FILE") \
   -stats_period 5 \
   "$TEMP_OUTPUT_FILE" 2>&1 | tr '\r' '\n'
