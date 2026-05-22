@@ -116,19 +116,15 @@ if [ -z "$TOTAL_FRAMES" ] || [ "$TOTAL_FRAMES" == "N/A" ]; then
   TOTAL_FRAMES=0
 fi
 
-# Query the audio codec of the first audio stream to ensure compatibility with MP4
-AUDIO_CODEC=$(ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null | head -n 1)
+# Determine audio settings directly from OPA policy arguments
+AUDIO_ARGS=()
 
-if [ -z "$AUDIO_CODEC" ]; then
-  # No audio stream present
-  AUDIO_ARGS=()
-elif [[ "$AUDIO_CODEC" == "aac" || "$AUDIO_CODEC" == "ac3" || "$AUDIO_CODEC" == "eac3" || "$AUDIO_CODEC" == "mp3" ]]; then
-  # Natively supported and highly compatible MP4 audio codecs - safe to copy
-  AUDIO_ARGS=(-c:a copy)
+if [ -n "${TRANSCODE_PARAMS:-}" ] && echo "$TRANSCODE_PARAMS" | jq empty 2>/dev/null; then
+  # Load the audio arguments array directly from OPA policy output
+  readarray -t AUDIO_ARGS < <(echo "$TRANSCODE_PARAMS" | jq -r '.audio_args[] // empty')
 else
-  # Legacy, high-definition, or incompatible audio codecs (wmav2, pcm, flac, vorbis, dts, truehd, etc.) - transcode to AAC
-  echo "Audio codec '$AUDIO_CODEC' is not natively compatible/optimal for MP4. Transcoding to AAC..."
-  AUDIO_ARGS=(-c:a aac -b:a 192k)
+  # Default to copy if TRANSCODE_PARAMS is missing or invalid
+  AUDIO_ARGS=(-c:a copy)
 fi
 
 echo "Total frames: $TOTAL_FRAMES"

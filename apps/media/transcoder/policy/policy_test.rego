@@ -389,5 +389,33 @@ test_raw_input_bitrate_fallback_to_format if {
 # -------------------------------------------------------------
 
 test_transcode_params_default if {
-	policy.transcode_params == {"quality": 24}
+	policy.transcode_params == {
+		"quality": 24,
+		"audio_args": [],
+	}
+}
+
+test_transcode_params_audio_copy if {
+	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as {"streams": [
+		{"codec_type": "video", "codec_name": "h264"},
+		{"codec_type": "audio", "codec_name": "aac"},
+	]}
+}
+
+test_transcode_params_audio_transcode if {
+	policy.transcode_params.audio_args == ["-c:a", "aac", "-b:a", "192k"] with input as {"streams": [
+		{"codec_type": "video", "codec_name": "h264"},
+		{"codec_type": "audio", "codec_name": "flac"},
+	]}
+}
+
+test_transcode_params_audio_no_audio if {
+	policy.transcode_params.audio_args == [] with input as {"streams": [{
+		"codec_type": "video",
+		"codec_name": "h264",
+	}]}
+}
+
+test_transcode_params_audio_fallback if {
+	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as {"audio_codec": "mp3"}
 }

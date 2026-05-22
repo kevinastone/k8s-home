@@ -50,7 +50,39 @@ should_transcode if {
 	allow
 }
 
-default transcode_params := {"quality": 24}
+compatible_audio_codecs := {"aac", "ac3", "eac3", "mp3"}
+
+default audio_codec := "none"
+
+audio_codec := codec if {
+	input.streams
+	audio_streams := [s | some s in input.streams; s.codec_type == "audio"]
+	count(audio_streams) > 0
+	codec := audio_streams[0].codec_name
+} else := input.audio_codec if {
+	input.audio_codec
+}
+
+default audio_args := ["-c:a", "copy"]
+
+audio_args := [] if {
+	audio_codec == "none"
+}
+
+audio_args := ["-c:a", "aac", "-b:a", "192k"] if {
+	audio_codec != "none"
+	not audio_codec in compatible_audio_codecs
+}
+
+default transcode_params := {
+	"quality": 24,
+	"audio_args": ["-c:a", "copy"],
+}
+
+transcode_params := {
+	"quality": 24,
+	"audio_args": audio_args,
+}
 
 reasons := error | skip
 reason := concat("\n", reasons)
