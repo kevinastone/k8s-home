@@ -18,6 +18,7 @@ spec:
   - nosharesock
   - vers=3.0
   - noserverino # required to prevent data corruption
+  - nobrl
   csi:
     driver: smb.csi.k8s.io
     volumeHandle: media-downloads
