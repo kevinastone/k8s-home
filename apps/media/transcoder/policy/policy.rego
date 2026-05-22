@@ -2,7 +2,6 @@ package policy
 
 import rego.v1
 
-default error := []
 error contains "No valid video stream found" if {
 	is_invalid_stream
 }
@@ -12,7 +11,6 @@ allow if {
 	is_resolution_eligible
 }
 
-default skip := []
 skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }
@@ -34,8 +32,8 @@ should_transcode if {
 	allow
 }
 
-reasons := array.concat(error, skip)
-reason := strings.concat("\n", reasons)
+reasons := error | skip
+reason := concat("\n", reasons)
 
 
 # -------------------------------------------------------------
