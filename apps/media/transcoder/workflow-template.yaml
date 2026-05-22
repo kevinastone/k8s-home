@@ -243,8 +243,8 @@ spec:
         echo '{{inputs.parameters.media-info}}' > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
-        /opa eval --format=values --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
-        /opa eval --format=values --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.reason" | tr -d '"' > /tmp/reason.txt
+        /opa eval --format=raw --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
+        /opa eval --format=raw --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
