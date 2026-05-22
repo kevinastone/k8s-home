@@ -55,6 +55,9 @@ spec:
     configMap:
       name: transcoder-scripts # replaced by kustomizeconfig
       defaultMode: 0755
+  - name: policy
+    configMap:
+      name: transcoder-policy # replaced by kustomizeconfig
 
   templates:
   # DAG orchestrator: probe first, then evaluate, then transcode if eligible, then optionally delete the original
@@ -362,10 +365,10 @@ spec:
            /tmp/input-base.json > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
-        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
-        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
-        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
-        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.final_output_filepath" > /tmp/output_filepath.txt
+        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
+        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
+        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
+        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.final_output_filepath" > /tmp/output_filepath.txt
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
@@ -373,5 +376,5 @@ spec:
         echo "  transcode_params: $(cat /tmp/transcode_params.json)"
         echo "  output_filepath: $(cat /tmp/output_filepath.txt)"
       volumeMounts:
-      - name: scripts
-        mountPath: /scripts
+      - name: policy
+        mountPath: /policy

@@ -193,6 +193,8 @@ dir_resolved_output := concat("", [initial_output, basename(input.filepath)]) if
 	endswith(initial_output, "/")
 } else := initial_output
 
+default final_output_filepath := ""
+
 final_output_filepath := resolved_output_path if {
 	input.filepath
 }
