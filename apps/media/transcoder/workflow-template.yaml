@@ -362,11 +362,11 @@ spec:
           "output_filepath", inputs.parameters["output_filepath"]
         ))}}' > /tmp/input.json
 
-        # Evaluate Rego policy and extract outputs from combined decision object
-        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
-        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
-        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
-        /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.final_output_filepath" > /tmp/output_filepath.txt
+        # Evaluate Rego policy using the Kubernetes-native ..data symlink directory to recursively load modular packages while avoiding symlink duplicate traversal
+        /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
+        /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
+        /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
+        /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.final_output_filepath" > /tmp/output_filepath.txt
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
