@@ -17,7 +17,7 @@ skip contains "already efficiently encoded" if {
 skip contains $"{format_bytes(input.size)} is smaller than {format_bytes(minimum_size)}" if {
 	input.size < minimum_size
 }
-skip contains sprintf("bitrate %v is below threshold %v and BPP %.5f is below threshold %.5f for resolution tier %s", [input.bitrate, t.bitrate, input.bpp, t.bpp, matching_tier]) if {
+skip contains $"bitrate {input.bitrate} is below threshold {t.bitrate} and BPP {input.bpp} is below threshold {t.bpp} for resolution tier {matching_tier}" if {
 	not is_resolution_eligible
 	t := thresholds[matching_tier]
 }
@@ -95,12 +95,12 @@ matching_tier := "SD" if {
 }
 
 # Check eligibility
-resolution_eligible contains sprintf("BPP %.5f >= threshold %.5f", [input.bpp, t.bpp]) if {
+resolution_eligible contains $"BPP {input.bpp} >= threshold {t.bpp}" if {
 	t := thresholds[matching_tier]
 	input.bpp >= t.bpp
 }
 
-resolution_eligible contains sprintf("bitrate %v >= threshold %v", [input.bitrate, t.bitrate]) if {
+resolution_eligible contains $"bitrate {input.bitrate} >= threshold {t.bitrate}" if {
 	t := thresholds[matching_tier]
 	input.bitrate >= t.bitrate
 }

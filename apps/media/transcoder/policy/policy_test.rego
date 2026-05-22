@@ -240,7 +240,7 @@ test_skip_on_low_bitrate_and_bpp if {
 		"codec": "vc1",
 		"force_transcode": false,
 	}
-	policy.skip["bitrate 128018 is below threshold 4000000 and BPP 0.00103 is below threshold 0.04000 for resolution tier 1080P"] with input as {
+	policy.skip["bitrate 128018 is below threshold 4000000 and BPP 0.001029980211548354 is below threshold 0.04 for resolution tier 1080P"] with input as {
 		"width": 1920,
 		"height": 1080,
 		"size": 67108864,
