@@ -110,19 +110,19 @@ resolution_ineligible contains $"bitrate {input.bitrate} < threshold {t.bitrate}
 }
 
 is_resolution_eligible if {
-	count(resolution_ineligible) > 0
+	count(resolution_ineligible) < 2
 }
 
 format_bytes(bytes) := msg if {
 	bytes >= 1073741824 # 1 GB
-	gb := bytes / 1073741824
+	gb := bytes / 1073741824.0
 	msg := sprintf("%.2f GB", [gb])
 } else := msg if {
 	bytes >= 1048576 # 1 MB
-	mb := bytes / 1048576
+	mb := bytes / 1048576.0
 	msg := sprintf("%.2f MB", [mb])
 } else := msg if {
 	bytes >= 1024 # 1 KB
-	kb := bytes / 1024
+	kb := bytes / 1024.0
 	msg := sprintf("%.2f KB", [kb])
 } else := sprintf("%d Bytes", [bytes])
