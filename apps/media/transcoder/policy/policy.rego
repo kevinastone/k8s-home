@@ -2,9 +2,7 @@ package policy
 
 import rego.v1
 
-import data.policy.media_info
-
-media := media_info.info
+import data.policy.media_info as media
 
 error contains "No valid video stream found" if {
 	is_invalid_stream

@@ -6,7 +6,7 @@ import rego.v1
 import data.policy.media_info
 
 test_media_info_standard if {
-	info := media_info.info with input as {
+	info := media_info with input as {
 		"streams": [{
 			"codec_type": "video",
 			"codec_name": "h264",
@@ -31,7 +31,7 @@ test_media_info_standard if {
 }
 
 test_fps_fraction_calculation if {
-	info := media_info.info with input as {
+	info := media_info with input as {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "30000/1001",
@@ -44,7 +44,7 @@ test_fps_fraction_calculation if {
 }
 
 test_fps_zero_denominator if {
-	info := media_info.info with input as {
+	info := media_info with input as {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "0/0",
@@ -56,7 +56,7 @@ test_fps_zero_denominator if {
 }
 
 test_bitrate_fallback_to_format if {
-	info := media_info.info with input as {
+	info := media_info with input as {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "24/1",
@@ -71,7 +71,7 @@ test_bitrate_fallback_to_format if {
 }
 
 test_bitrate_invalid_fallbacks if {
-	info := media_info.info with input as {
+	info := media_info with input as {
 		"streams": [{
 			"codec_type": "video",
 			"bit_rate": "N/A",
@@ -86,7 +86,7 @@ test_bitrate_invalid_fallbacks if {
 }
 
 test_fallback_defaults_when_empty if {
-	info := media_info.info with input as {
+	info := media_info with input as {
 		"streams": [],
 		"format": {"size": "0"},
 	}

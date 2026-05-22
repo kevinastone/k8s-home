@@ -56,14 +56,3 @@ bpp := val if {
 	fps != 0
 	val := bitrate / ((width * height) * fps)
 }
-
-# Combine them into a single info object
-info := {
-	"width": width,
-	"height": height,
-	"size": size,
-	"fps": fps,
-	"bitrate": bitrate,
-	"bpp": bpp,
-	"codec": codec,
-}
