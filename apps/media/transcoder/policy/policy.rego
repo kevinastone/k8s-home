@@ -17,9 +17,9 @@ skip contains "already efficiently encoded" if {
 skip contains $"{format_bytes(input.size)} is smaller than {format_bytes(minimum_size)}" if {
 	input.size < minimum_size
 }
-skip contains $"bitrate {input.bitrate} is below threshold {t.bitrate} and BPP {input.bpp} is below threshold {t.bpp} for resolution tier {matching_tier}" if {
+skip contains $"resolution tier {matching_tier} requirement failed: {msg}" if {
 	not is_resolution_eligible
-	t := thresholds[matching_tier]
+	msg := resolution_ineligible[_]
 }
 
 default deny := false
@@ -107,6 +107,17 @@ resolution_eligible contains $"bitrate {input.bitrate} >= threshold {t.bitrate}"
 
 is_resolution_eligible if {
 	count(resolution_eligible) > 0
+}
+
+# Failed requirements
+resolution_ineligible contains $"BPP {input.bpp} < threshold {t.bpp}" if {
+	t := thresholds[matching_tier]
+	input.bpp < t.bpp
+}
+
+resolution_ineligible contains $"bitrate {input.bitrate} < threshold {t.bitrate}" if {
+	t := thresholds[matching_tier]
+	input.bitrate < t.bitrate
 }
 
 format_bytes(bytes) := msg if {
