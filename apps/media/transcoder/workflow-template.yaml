@@ -20,7 +20,7 @@ spec:
     - name: quality
       value: "24"
     - name: encoder
-      value: "hardware"
+      value: "software"
       enum:
       - "hardware"
       - "software"
