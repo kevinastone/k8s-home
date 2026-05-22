@@ -15,3 +15,4 @@ configMapGenerator:
   - scripts/transcode.sh
   - scripts/argo-ffmpeg-progress.sh
   - scripts/media-info.sh
+  - policy/policy.rego

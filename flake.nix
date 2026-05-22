@@ -37,6 +37,7 @@
               kubectl-rook-ceph
               kustomize
               python3
+              regal
               sops
               # keep-sorted end
             ];

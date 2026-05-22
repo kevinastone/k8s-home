@@ -24,6 +24,11 @@ spec:
       enum:
       - "true"
       - "false"
+    - name: force_transcode
+      value: "false"
+      enum:
+      - "true"
+      - "false"
 
   serviceAccountName: transcoder-sa
   activeDeadlineSeconds: 86400 # 24 hours — transcodes can queue and run for a long time
@@ -49,16 +54,23 @@ spec:
       defaultMode: 0755
 
   templates:
-  # DAG orchestrator: probe first, then transcode if eligible, then optionally delete the original
+  # DAG orchestrator: probe first, then evaluate, then transcode if eligible, then optionally delete the original
   - name: transcode-media
     dag:
       tasks:
       - name: probe-file
         template: probe-file
+      - name: evaluate-rules
+        template: evaluate-rules
+        depends: "probe-file.Succeeded"
+        arguments:
+          parameters:
+          - name: media-info
+            value: "{{tasks.probe-file.outputs.parameters.media-info}}"
       - name: transcode
         template: transcode
-        depends: "probe-file.Succeeded"
-        when: "{{tasks.probe-file.outputs.parameters.should_transcode}} == true"
+        depends: "evaluate-rules.Succeeded"
+        when: "{{tasks.evaluate-rules.outputs.parameters.should_transcode}} == true"
       - name: delete-original
         template: delete-original
         when: "{{workflow.parameters.delete_original}} == true"
@@ -165,15 +177,13 @@ spec:
       parameters:
       - name: filepath
         value: "{{workflow.parameters.filepath}}"
+      - name: force_transcode
+        value: "{{workflow.parameters.force_transcode}}"
     outputs:
       parameters:
-      - name: should_transcode
+      - name: media-info
         valueFrom:
-          path: /tmp/should_transcode.txt
-      - name: reason
-        valueFrom:
-          path: /tmp/reason.txt
-          default: ""
+          path: /tmp/media-info.json
     container:
       image: lscr.io/linuxserver/ffmpeg:version-8.1-cli
       command: [/bin/bash, -c]
@@ -190,51 +200,55 @@ spec:
 
         if [ ! -f "$INPUT_FILE" ]; then
           echo "Error: File $INPUT_FILE not found on PVC." >&2
-          echo "false" > /tmp/should_transcode.txt
-          echo "File not found on PVC: $INPUT_FILE" > /tmp/reason.txt
-          exit 1
-        fi
-
-        echo "Probing file: $INPUT_FILE"
-        INFO=$(/scripts/media-info.sh "$INPUT_FILE")
-        echo "Media Info JSON: $INFO"
-
-        CODEC=$(echo "$INFO" | jq -r '.codec // empty')
-        WIDTH=$(echo "$INFO" | jq -r '.width // empty')
-        HEIGHT=$(echo "$INFO" | jq -r '.height // empty')
-        BPP=$(echo "$INFO" | jq -r '.bpp // empty')
-
-        if [ -z "$CODEC" ] || [ "$CODEC" = "null" ]; then CODEC="unknown"; fi
-        if [ -z "$WIDTH" ] || [ "$WIDTH" = "null" ]; then WIDTH=0; fi
-        if [ -z "$HEIGHT" ] || [ "$HEIGHT" = "null" ]; then HEIGHT=0; fi
-        if [ -z "$BPP" ] || [ "$BPP" = "null" ]; then BPP=0; fi
-
-        echo "Detected codec: $CODEC, resolution: ${WIDTH}x${HEIGHT}, BPP: $BPP"
-
-        CODEC_LOWER=$(echo "$CODEC" | tr '[:upper:]' '[:lower:]')
-        IS_BPP_LOW=$(echo "$BPP" | jq -r '. < 0.05')
-
-        REASON=""
-        if [ "$CODEC_LOWER" != "h264" ]; then
-          REASON="Codec is not H264 (detected: $CODEC)"
-        elif [ "$HEIGHT" -lt 1080 ]; then
-          REASON="Resolution is below 1080p (detected height: ${HEIGHT}px)"
-        elif [ "$IS_BPP_LOW" = "true" ]; then
-          REASON="BPP is too low (detected: $BPP, minimum: 0.05)"
-        fi
-
-        # Proceed if input codec is h264, resolution is 1080p or higher, and BPP is >= 0.05
-        if [ "$CODEC_LOWER" = "h264" ] && [ "$HEIGHT" -ge 1080 ] && [ "$IS_BPP_LOW" != "true" ]; then
-          echo "File is eligible for transcoding (H264, >= 1080p, BPP >= 0.05)."
-          echo "true" > /tmp/should_transcode.txt
-          echo "Eligible" > /tmp/reason.txt
+          jq -n '{codec: "unknown", width: 0, height: 0, bpp: 0, bitrate: 0, size: 0, fps: 0}' > /tmp/media-info-raw.json
         else
-          echo "File is NOT eligible for transcoding: $REASON"
-          echo "false" > /tmp/should_transcode.txt
-          echo "$REASON" > /tmp/reason.txt
+          echo "Probing file: $INPUT_FILE"
+          if ! /scripts/media-info.sh "$INPUT_FILE" > /tmp/media-info-raw.json; then
+            echo "Warning: media-info.sh failed. Writing fallback JSON." >&2
+            jq -n '{codec: "unknown", width: 0, height: 0, bpp: 0, bitrate: 0, size: 0, fps: 0}' > /tmp/media-info-raw.json
+          fi
         fi
+
+        # Merge force_transcode as a boolean into media-info for OPA engine
+        jq --arg force "{{inputs.parameters.force_transcode}}" '. + {force_transcode: ($force == "true")}' /tmp/media-info-raw.json > /tmp/media-info.json
+        cat /tmp/media-info.json
       volumeMounts:
       - name: media
         mountPath: /media
+      - name: scripts
+        mountPath: /scripts
+
+  # Rule evaluation step: evaluates transcoding rules via Open Policy Agent (OPA) using Rego policy
+  - name: evaluate-rules
+    inputs:
+      parameters:
+      - name: media-info
+    outputs:
+      parameters:
+      - name: should_transcode
+        valueFrom:
+          path: /tmp/should_transcode.txt
+      - name: reason
+        valueFrom:
+          path: /tmp/reason.txt
+          default: ""
+    container:
+      image: openpolicyagent/opa:1.16.2
+      command: [/bin/sh, -c]
+      args:
+      - |
+        set -eu
+
+        # Write media-info JSON parameter directly to input.json for OPA
+        echo '{{inputs.parameters.media-info}}' > /tmp/input.json
+
+        # Evaluate Rego policy and extract outputs from combined decision object
+        /opa eval --format=values --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
+        /opa eval --format=values --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.reason" | tr -d '"' > /tmp/reason.txt
+
+        echo "OPA evaluation complete:"
+        echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
+        # echo "  reason: $(cat /tmp/reason.txt)"
+      volumeMounts:
       - name: scripts
         mountPath: /scripts
