@@ -4,6 +4,10 @@ import rego.v1
 
 import data.policy.media_info as media
 
+input_media_info := val if {
+	val := input.media_info
+} else := input
+
 error contains "No valid video stream found" if {
 	is_invalid_stream
 }
@@ -45,7 +49,7 @@ default should_transcode := false
 
 should_transcode if {
 	count(error) == 0
-	input.force_transcode
+	input_media_info.force_transcode
 }
 
 should_transcode if {
@@ -60,7 +64,7 @@ compatible_audio_codecs := {"aac", "ac3", "eac3", "mp3"}
 default audio_codec := "none"
 
 audio_codec := codec if {
-	audio_streams := [s | some s in input.streams; s.codec_type == "audio"]
+	audio_streams := [s | some s in input_media_info.streams; s.codec_type == "audio"]
 	count(audio_streams) > 0
 	codec := audio_streams[0].codec_name
 }

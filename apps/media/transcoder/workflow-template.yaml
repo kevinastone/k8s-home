@@ -356,7 +356,7 @@ spec:
         set -eu
 
         # Generate input.json using native Argo JSON expressions and sprig template functions
-        echo '{{=toJson(sprig.merge(sprig.mustFromJson(inputs.parameters["media-info"]), sprig.dict("filepath", inputs.parameters["filepath"], "output_filepath", inputs.parameters["output_filepath"])))}}' > /tmp/input.json
+        echo '{{=toJson(sprig.dict("media_info", sprig.mustFromJson(inputs.parameters["media-info"]), "filepath", inputs.parameters["filepath"], "output_filepath", inputs.parameters["output_filepath"]))}}' > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
         /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
