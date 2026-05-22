@@ -306,8 +306,8 @@ spec:
           jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info-raw.json
         else
           echo "Probing file: $INPUT_FILE"
-          if ! /scripts/media-info.sh "$INPUT_FILE" > /tmp/media-info-raw.json; then
-            echo "Warning: media-info.sh failed. Writing fallback JSON." >&2
+          if ! ffprobe -v quiet -print_format json -show_format -show_streams "$INPUT_FILE" > /tmp/media-info-raw.json; then
+            echo "Warning: ffprobe failed. Writing fallback JSON." >&2
             jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info-raw.json
           fi
         fi

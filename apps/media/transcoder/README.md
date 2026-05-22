@@ -23,7 +23,7 @@ graph TD
 ### Workflow Steps:
 
 1. **`wait-for-file`**: Enforces a 30-second stabilization window (checking file size across 3 consecutive 10-second intervals) and forces NFS/SMB client metadata cache invalidation (`touch -c`) to ensure the file copy is completely finished.
-1. **`probe-file`**: Runs `ffprobe` (via `scripts/media-info.sh`) on the input media to output structural JSON metadata containing codec, size, height, width, bitrate, and BPP (Bits Per Pixel).
+1. **`probe-file`**: Runs `ffprobe` on the input media to output structural JSON metadata containing codec, size, height, width, bitrate, and BPP (Bits Per Pixel).
 1. **`evaluate-rules`**: Invokes the **Open Policy Agent (OPA)** engine (using `policy/policy.rego`) to make a declarative decision on whether the file needs transcoding.
 1. **`transcode`**: Runs **FFmpeg** (using VAAPI hardware acceleration) to convert the video to highly-compatible formats at the desired quality tier if the policy dictates it.
 1. **`delete-original`**: Safely cleans up the input file after ensuring the output is valid and not overwriting itself.
@@ -80,5 +80,4 @@ ______________________________________________________________________
   - `policy.rego` — OPA decision rules.
   - `policy_test.rego` — Declarative regression tests.
 - `scripts/` — Helper scripts running inside the pipeline.
-  - `media-info.sh` — Media probing.
   - `transcode.sh` — FFmpeg transcoding logic.
