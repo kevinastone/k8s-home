@@ -199,10 +199,6 @@ final_output_filepath := resolved_output_path if {
 	input.filepath
 }
 
-final_output_filepath := "" if {
-	not input.filepath
-}
-
 resolved_output_path := dir_resolved_output if {
 	extension(dir_resolved_output) in {"mp4", "mkv"}
 } else := regex.replace(dir_resolved_output, `\.[^.]+$`, ".mp4") if {

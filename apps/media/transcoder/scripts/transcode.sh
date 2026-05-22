@@ -91,9 +91,9 @@ mkdir -p "$(dirname "$OUTPUT_FILE")"
 
 TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 
-TOTAL_FRAMES=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
-if [ -z "$TOTAL_FRAMES" ] || [ "$TOTAL_FRAMES" == "N/A" ]; then
-  TOTAL_FRAMES=0
+TOTAL_DURATION=$(ffprobe -v error -show_entries format=duration -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
+if [ -z "$TOTAL_DURATION" ] || [ "$TOTAL_DURATION" = "N/A" ]; then
+  TOTAL_DURATION=0
 fi
 
 # Determine audio settings directly from OPA policy arguments
@@ -107,7 +107,7 @@ else
   AUDIO_ARGS=(-c:a copy)
 fi
 
-echo "Total frames: $TOTAL_FRAMES"
+echo "Total duration (s): $TOTAL_DURATION"
 echo "Starting ffmpeg transcode: $INPUT_FILE -> $TEMP_OUTPUT_FILE (temp)"
 
 if [ "$ENCODER_TYPE" = "hardware" ]; then
@@ -144,7 +144,7 @@ ffmpeg \
   -i "$INPUT_FILE" \
   "${VIDEO_ARGS[@]}" \
   "${AUDIO_ARGS[@]}" \
-  -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_FRAMES" "$ARGO_PROGRESS_FILE") \
+  -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_DURATION" "$ARGO_PROGRESS_FILE") \
   -stats_period 5 \
   "$TEMP_OUTPUT_FILE" 2>&1 | tr '\r' '\n'
 
