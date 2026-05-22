@@ -175,7 +175,22 @@ spec:
 
         if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
           echo "Deleting original input file: $INPUT"
-          rm -f "$INPUT"
+          DELETED=false
+          for i in 1 2 3; do
+            echo "Deletion attempt $i of 3..."
+            rm -f "$INPUT"
+            sync
+            if [ ! -f "$INPUT" ]; then
+              echo "Successfully verified original file deletion."
+              DELETED=true
+              break
+            fi
+            echo "Warning: File still detected after attempt $i. Retrying after delay..." >&2
+            sleep 10
+          done
+          if [ "$DELETED" = "false" ]; then
+            echo "Error: Failed to delete original file after 3 attempts." >&2
+          fi
         else
           echo "Skipping deletion: output overwrote the original file."
         fi
