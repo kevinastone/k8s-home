@@ -213,6 +213,20 @@ test_error_on_missing_codec if {
 	policy.error with input as inp
 }
 
+test_error_on_missing_input_extension if {
+	policy.error["No file extension found in input filepath"] with input as {
+		"filepath": "movie",
+		"output_filepath": "",
+	}
+}
+
+test_error_on_missing_output_extension if {
+	policy.error["No file extension found in resolved output filepath: custom/path"] with input as {
+		"filepath": "movie.mkv",
+		"output_filepath": "custom/path",
+	}
+}
+
 # -------------------------------------------------------------
 # 5. Raw ffprobe Input Parsing Tests
 # -------------------------------------------------------------
@@ -330,4 +344,57 @@ test_transcode_params_audio_no_audio if {
 
 test_transcode_params_audio_fallback if {
 	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as raw_audio("mp3")
+}
+
+# -------------------------------------------------------------
+# 7. Output Filepath Resolution Tests
+# -------------------------------------------------------------
+
+test_final_output_filepath_default if {
+	policy.final_output_filepath == "incoming/movie.mkv" with input as {
+		"filepath": "incoming/movie.mkv",
+		"output_filepath": "",
+	}
+}
+
+test_final_output_filepath_directory if {
+	policy.final_output_filepath == "Output/movie.mkv" with input as {
+		"filepath": "incoming/movie.mkv",
+		"output_filepath": "Output/",
+	}
+}
+
+test_final_output_filepath_incompatible_container if {
+	policy.final_output_filepath == "incoming/movie.mp4" with input as {
+		"filepath": "incoming/movie.avi",
+		"output_filepath": "",
+	}
+}
+
+test_final_output_filepath_directory_incompatible_container if {
+	policy.final_output_filepath == "Output/movie.mp4" with input as {
+		"filepath": "incoming/movie.avi",
+		"output_filepath": "Output/",
+	}
+}
+
+test_final_output_filepath_custom_compatible if {
+	policy.final_output_filepath == "custom/path.mp4" with input as {
+		"filepath": "incoming/movie.mkv",
+		"output_filepath": "custom/path.mp4",
+	}
+}
+
+test_final_output_filepath_custom_incompatible if {
+	policy.final_output_filepath == "custom/path.mp4" with input as {
+		"filepath": "incoming/movie.mkv",
+		"output_filepath": "custom/path.wmv",
+	}
+}
+
+test_final_output_filepath_no_extension if {
+	policy.final_output_filepath == "" with input as {
+		"filepath": "incoming/movie.mkv",
+		"output_filepath": "custom/path",
+	}
 }

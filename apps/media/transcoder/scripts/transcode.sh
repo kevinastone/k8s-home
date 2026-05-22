@@ -80,18 +80,8 @@ if [ ! -f "$INPUT_FILE" ]; then
 fi
 
 if [ -z "$OUTPUT_FILEPATH" ]; then
-  OUTPUT_FILEPATH="${FILEPATH}"
-fi
-# if output is a directory (ends with /), append filename
-if [[ "$OUTPUT_FILEPATH" == */ ]]; then
-  OUTPUT_FILEPATH+="$(basename "$FILEPATH")"
-fi
-
-# Ensure the output file uses a compatible container (e.g., .mp4) if it currently uses an incompatible one
-EXT="${OUTPUT_FILEPATH##*.}"
-EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
-if [ "$EXT_LOWER" != "mp4" ] && [ "$EXT_LOWER" != "mkv" ]; then
-  OUTPUT_FILEPATH="${OUTPUT_FILEPATH%.*}.mp4"
+  echo "Error: OUTPUT_FILEPATH is not resolved."
+  exit 1
 fi
 
 OUTPUT_FILE="/media/${OUTPUT_FILEPATH#/}"

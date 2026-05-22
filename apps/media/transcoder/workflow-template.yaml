@@ -73,6 +73,10 @@ spec:
           parameters:
           - name: media-info
             value: "{{tasks.probe-file.outputs.parameters.media-info}}"
+          - name: filepath
+            value: "{{workflow.parameters.filepath}}"
+          - name: output_filepath
+            value: "{{workflow.parameters.output_filepath}}"
       - name: transcode
         template: transcode
         depends: "evaluate-rules.Succeeded"
@@ -81,6 +85,8 @@ spec:
           parameters:
           - name: transcode_params
             value: "{{tasks.evaluate-rules.outputs.parameters.transcode_params}}"
+          - name: output_filepath
+            value: "{{tasks.evaluate-rules.outputs.parameters.output_filepath}}"
       - name: delete-original
         template: delete-original
         when: "{{workflow.parameters.delete_original}} == true"
@@ -99,7 +105,6 @@ spec:
       - name: filepath
         value: "{{workflow.parameters.filepath}}"
       - name: output_filepath
-        value: "{{workflow.parameters.output_filepath}}"
       - name: transcode_params
       - name: encoder
         value: "{{workflow.parameters.encoder}}"
@@ -321,6 +326,8 @@ spec:
     inputs:
       parameters:
       - name: media-info
+      - name: filepath
+      - name: output_filepath
     outputs:
       parameters:
       - name: should_transcode
@@ -334,6 +341,10 @@ spec:
         valueFrom:
           path: /tmp/transcode_params.json
           default: "{}"
+      - name: output_filepath
+        valueFrom:
+          path: /tmp/output_filepath.txt
+          default: ""
     container:
       image: openpolicyagent/opa:1.16.2-debug
       command: [/bin/sh, -c]
@@ -341,18 +352,26 @@ spec:
       - |
         set -eu
 
-        # Write media-info JSON parameter directly to input.json for OPA
-        echo '{{inputs.parameters.media-info}}' > /tmp/input.json
+        # Write media-info JSON parameter directly to input-base.json for OPA
+        echo '{{inputs.parameters.media-info}}' > /tmp/input-base.json
+
+        # Merge filepath and output_filepath into input.json
+        jq --arg filepath "{{inputs.parameters.filepath}}" \
+           --arg output_filepath "{{inputs.parameters.output_filepath}}" \
+           '. + {filepath: $filepath, output_filepath: $output_filepath}' \
+           /tmp/input-base.json > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
         /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
         /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
         /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
+        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.final_output_filepath" > /tmp/output_filepath.txt
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
         # echo "  reason: $(cat /tmp/reason.txt)"
         echo "  transcode_params: $(cat /tmp/transcode_params.json)"
+        echo "  output_filepath: $(cat /tmp/output_filepath.txt)"
       volumeMounts:
       - name: scripts
         mountPath: /scripts
