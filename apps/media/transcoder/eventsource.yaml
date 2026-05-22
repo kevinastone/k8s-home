@@ -10,7 +10,7 @@ spec:
       eventType: CREATE
       watchPathConfig:
         directory: /media/Transcode
-        pathRegexp: ".*\\.(mp4|mkv|avi|wmv|mov)$"
+        pathRegexp: ".*\\.(mp4|mkv|avi|wmv|mov|m4v|f4v)$"
       # Enable polling for network-attached storage (SMB/NFS)
       polling: true
   template:
