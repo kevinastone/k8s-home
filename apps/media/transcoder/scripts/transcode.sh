@@ -97,7 +97,7 @@ fi
 EXT="${OUTPUT_FILE##*.}"
 EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
 if [ "$EXT_LOWER" != "mp4" ] && [ "$EXT_LOWER" != "mkv" ]; then
-  OUTPUT_FILE="${OUTPUT_FILE%.*}.mp4"
+  OUTPUT_FILE="${OUTPUT_FILE%.*}.mkv"
 fi
 
 TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
