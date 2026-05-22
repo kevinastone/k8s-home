@@ -92,6 +92,14 @@ else
     OUTPUT_FILE="${OUTPUT_FILE%/}/$(basename "$INPUT_FILE")"
   fi
 fi
+
+# Ensure the output file uses a compatible container (e.g., .mp4) if it currently uses an incompatible one
+EXT="${OUTPUT_FILE##*.}"
+EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
+if [ "$EXT_LOWER" != "mp4" ] && [ "$EXT_LOWER" != "mkv" ]; then
+  OUTPUT_FILE="${OUTPUT_FILE%.*}.mp4"
+fi
+
 TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 
 TOTAL_FRAMES=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
