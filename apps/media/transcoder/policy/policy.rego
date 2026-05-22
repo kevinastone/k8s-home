@@ -7,6 +7,7 @@ error contains "No valid video stream found" if {
 }
 
 default allow := false
+
 allow if {
 	is_resolution_eligible
 }
@@ -14,21 +15,25 @@ allow if {
 skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }
+
 skip contains $"{format_bytes(input.size)} is smaller than {format_bytes(minimum_size)}" if {
 	input.size < minimum_size
 }
+
 skip contains $"resolution tier {matching_tier} requirement failed: {msg}" if {
 	not is_resolution_eligible
-	msg := resolution_ineligible[_]
+	some msg in resolution_ineligible
 }
 
 default deny := false
 
 default should_transcode := false
+
 should_transcode if {
 	count(error) == 0
 	input.force_transcode
 }
+
 should_transcode if {
 	count(error) == 0
 	count(skip) == 0
@@ -38,7 +43,6 @@ should_transcode if {
 
 reasons := error | skip
 reason := concat("\n", reasons)
-
 
 # -------------------------------------------------------------
 # Helper Rules & Definitions
@@ -94,21 +98,6 @@ matching_tier := "SD" if {
 	input.height < thresholds["720P"].min_height
 }
 
-# Check eligibility
-resolution_eligible contains $"BPP {input.bpp} >= threshold {t.bpp}" if {
-	t := thresholds[matching_tier]
-	input.bpp >= t.bpp
-}
-
-resolution_eligible contains $"bitrate {input.bitrate} >= threshold {t.bitrate}" if {
-	t := thresholds[matching_tier]
-	input.bitrate >= t.bitrate
-}
-
-is_resolution_eligible if {
-	count(resolution_eligible) > 0
-}
-
 # Failed requirements
 resolution_ineligible contains $"BPP {input.bpp} < threshold {t.bpp}" if {
 	t := thresholds[matching_tier]
@@ -120,16 +109,20 @@ resolution_ineligible contains $"bitrate {input.bitrate} < threshold {t.bitrate}
 	input.bitrate < t.bitrate
 }
 
+is_resolution_eligible if {
+	count(resolution_ineligible) > 0
+}
+
 format_bytes(bytes) := msg if {
-    bytes >= 1073741824 # 1 GB
-    gb := bytes / 1073741824
-    msg := sprintf("%.2f GB", [gb])
+	bytes >= 1073741824 # 1 GB
+	gb := bytes / 1073741824
+	msg := sprintf("%.2f GB", [gb])
 } else := msg if {
-    bytes >= 1048576 # 1 MB
-    mb := bytes / 1048576
-    msg := sprintf("%.2f MB", [mb])
+	bytes >= 1048576 # 1 MB
+	mb := bytes / 1048576
+	msg := sprintf("%.2f MB", [mb])
 } else := msg if {
-    bytes >= 1024 # 1 KB
-    kb := bytes / 1024
-    msg := sprintf("%.2f KB", [kb])
+	bytes >= 1024 # 1 KB
+	kb := bytes / 1024
+	msg := sprintf("%.2f KB", [kb])
 } else := sprintf("%d Bytes", [bytes])

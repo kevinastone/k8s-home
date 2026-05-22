@@ -281,9 +281,7 @@ test_error_on_negative_height if {
 }
 
 test_error_on_missing_height if {
-	policy.error with input as {
-		"codec": "h264",
-	}
+	policy.error with input as {"codec": "h264"}
 }
 
 test_error_on_unknown_codec if {
@@ -301,7 +299,5 @@ test_error_on_unknown_codec_case_insensitive if {
 }
 
 test_error_on_missing_codec if {
-	policy.error with input as {
-		"height": 1080,
-	}
+	policy.error with input as {"height": 1080}
 }
