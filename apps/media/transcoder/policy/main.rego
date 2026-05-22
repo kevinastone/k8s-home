@@ -2,20 +2,16 @@ package policy
 
 import rego.v1
 
+import data.policy.audio
+import data.policy.filepath
 import data.policy.media_info as media
 
 error contains "No valid video stream found" if {
-	is_invalid_stream
+	media.is_invalid_stream
 }
 
-error contains "No file extension found in input filepath" if {
-	input.filepath != ""
-	not contains(basename(input.filepath), ".")
-}
-
-error contains $"No file extension found in resolved output filepath: {dir_resolved_output}" if {
-	input.filepath != ""
-	not contains(basename(dir_resolved_output), ".")
+error contains msg if {
+	some msg in filepath.error
 }
 
 default allow := false
@@ -32,7 +28,7 @@ skip contains $"{format_bytes(media.size)} is smaller than {format_bytes(minimum
 	media.size < minimum_size
 }
 
-skip contains $"resolution tier {matching_tier} requirement failed: {msg}" if {
+skip contains $"resolution tier {media.matching_tier} requirement failed: {msg}" if {
 	not is_resolution_eligible
 	some msg in resolution_ineligible
 }
@@ -55,59 +51,21 @@ should_transcode if {
 	allow
 }
 
-compatible_audio_codecs := {"aac", "ac3", "eac3", "mp3"}
-
-default audio_codec := "none"
-
-audio_codec := codec if {
-	audio_streams := [s | some s in input.media_info.streams; s.codec_type == "audio"]
-	count(audio_streams) > 0
-	codec := audio_streams[0].codec_name
-}
-
-default audio_args := ["-c:a", "copy"]
-
-audio_args := [] if {
-	audio_codec == "none"
-}
-
-audio_args := ["-c:a", "aac", "-b:a", "192k"] if {
-	audio_codec != "none"
-	not audio_codec in compatible_audio_codecs
-}
-
-default transcode_params := {
-	"quality": 24,
-	"audio_args": ["-c:a", "copy"],
-}
-
 transcode_params := {
 	"quality": 24,
-	"audio_args": audio_args,
+	"audio_args": audio.args,
 }
 
 reasons := error | skip
 reason := concat("\n", reasons)
 
+default final_output_filepath := ""
+
+final_output_filepath := filepath.final_output_filepath
+
 # -------------------------------------------------------------
 # Helper Rules & Definitions
 # -------------------------------------------------------------
-
-is_invalid_stream if {
-	not media.height
-}
-
-is_invalid_stream if {
-	media.height <= 0
-}
-
-is_invalid_stream if {
-	not media.codec
-}
-
-is_invalid_stream if {
-	lower(media.codec) == "unknown"
-}
 
 efficient_codecs := {"hevc", "h265", "av1", "vp9"}
 minimum_size := 52428800
@@ -116,41 +74,22 @@ is_efficient_codec if {
 	lower(media.codec) in efficient_codecs
 }
 
-# Threshold definitions
+# Acceptance thresholds for each tier
 thresholds := {
-	"4K": {"min_height": 2000, "bpp": 0.03, "bitrate": 10000000},
-	"1080P": {"min_height": 1000, "bpp": 0.04, "bitrate": 4000000},
-	"720P": {"min_height": 700, "bpp": 0.05, "bitrate": 2000000},
-	"SD": {"min_height": 0, "bpp": 0.08, "bitrate": 1500000},
-}
-
-# Match the resolution tier (the highest tier where media.height >= min_height)
-matching_tier := "4K" if {
-	media.height >= thresholds["4K"].min_height
-}
-
-matching_tier := "1080P" if {
-	media.height < thresholds["4K"].min_height
-	media.height >= thresholds["1080P"].min_height
-}
-
-matching_tier := "720P" if {
-	media.height < thresholds["1080P"].min_height
-	media.height >= thresholds["720P"].min_height
-}
-
-matching_tier := "SD" if {
-	media.height < thresholds["720P"].min_height
+	"4K": {"bpp": 0.03, "bitrate": 10000000},
+	"1080P": {"bpp": 0.04, "bitrate": 4000000},
+	"720P": {"bpp": 0.05, "bitrate": 2000000},
+	"SD": {"bpp": 0.08, "bitrate": 1500000},
 }
 
 # Failed requirements
 resolution_ineligible contains $"BPP {media.bpp} < threshold {t.bpp}" if {
-	t := thresholds[matching_tier]
+	t := thresholds[media.matching_tier]
 	media.bpp < t.bpp
 }
 
 resolution_ineligible contains $"bitrate {media.bitrate} < threshold {t.bitrate}" if {
-	t := thresholds[matching_tier]
+	t := thresholds[media.matching_tier]
 	media.bitrate < t.bitrate
 }
 
@@ -171,36 +110,3 @@ format_bytes(bytes) := msg if {
 	kb := bytes / 1024.0
 	msg := sprintf("%.2f KB", [kb])
 } else := sprintf("%d Bytes", [bytes])
-
-# --- Path resolution logic for final_output_filepath ---
-
-basename(path) := parts[count(parts) - 1] if {
-	parts := split(path, "/")
-}
-
-extension(path) := ext if {
-	name := basename(path)
-	contains(name, ".")
-	parts := split(name, ".")
-	ext := lower(parts[count(parts) - 1])
-}
-
-initial_output := input.output_filepath if {
-	input.output_filepath != ""
-} else := input.filepath
-
-dir_resolved_output := concat("", [initial_output, basename(input.filepath)]) if {
-	endswith(initial_output, "/")
-} else := initial_output
-
-default final_output_filepath := ""
-
-final_output_filepath := resolved_output_path if {
-	input.filepath
-}
-
-resolved_output_path := dir_resolved_output if {
-	extension(dir_resolved_output) in {"mp4", "mkv"}
-} else := regex.replace(dir_resolved_output, `\.[^.]+$`, ".mp4") if {
-	contains(basename(dir_resolved_output), ".")
-}

@@ -27,25 +27,6 @@ raw_video_force(codec, width, height, rate, size, bitrate, force) := object.unio
 	{"force_transcode": force},
 )
 
-# Helper to construct video + audio stream input
-raw_audio(audio_codec) := {"media_info": {
-	"streams": [
-		{
-			"codec_type": "video",
-			"codec_name": "h264",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "24/1",
-			"bit_rate": "6000000",
-		},
-		{
-			"codec_type": "audio",
-			"codec_name": audio_codec,
-		},
-	],
-	"format": {"size": "100000000"},
-}}
-
 # -------------------------------------------------------------
 # 1. Forced Transcoding Tests
 # -------------------------------------------------------------
@@ -216,20 +197,6 @@ test_error_on_missing_codec if {
 	policy.error with input as inp
 }
 
-test_error_on_missing_input_extension if {
-	policy.error["No file extension found in input filepath"] with input as {
-		"filepath": "movie",
-		"output_filepath": "",
-	}
-}
-
-test_error_on_missing_output_extension if {
-	policy.error["No file extension found in resolved output filepath: custom/path"] with input as {
-		"filepath": "movie.mkv",
-		"output_filepath": "custom/path",
-	}
-}
-
 # -------------------------------------------------------------
 # 5. Raw ffprobe Input Parsing Tests
 # -------------------------------------------------------------
@@ -317,95 +284,5 @@ test_raw_input_bitrate_fallback_to_format if {
 				"bit_rate": "6000000",
 			},
 		},
-	}
-}
-
-# -------------------------------------------------------------
-# 6. Transcoding Parameter Tests
-# -------------------------------------------------------------
-
-test_transcode_params_default if {
-	policy.transcode_params == {
-		"quality": 24,
-		"audio_args": [],
-	}
-}
-
-test_transcode_params_audio_copy if {
-	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as raw_audio("aac")
-}
-
-test_transcode_params_audio_transcode if {
-	policy.transcode_params.audio_args == ["-c:a", "aac", "-b:a", "192k"] with input as raw_audio("flac")
-}
-
-test_transcode_params_audio_no_audio if {
-	policy.transcode_params.audio_args == [] with input as {"media_info": {
-		"streams": [{
-			"codec_type": "video",
-			"codec_name": "h264",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "24/1",
-			"bit_rate": "6000000",
-		}],
-		"format": {"size": "100000000"},
-	}}
-}
-
-test_transcode_params_audio_fallback if {
-	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as raw_audio("mp3")
-}
-
-# -------------------------------------------------------------
-# 7. Output Filepath Resolution Tests
-# -------------------------------------------------------------
-
-test_final_output_filepath_default if {
-	policy.final_output_filepath == "incoming/movie.mkv" with input as {
-		"filepath": "incoming/movie.mkv",
-		"output_filepath": "",
-	}
-}
-
-test_final_output_filepath_directory if {
-	policy.final_output_filepath == "Output/movie.mkv" with input as {
-		"filepath": "incoming/movie.mkv",
-		"output_filepath": "Output/",
-	}
-}
-
-test_final_output_filepath_incompatible_container if {
-	policy.final_output_filepath == "incoming/movie.mp4" with input as {
-		"filepath": "incoming/movie.avi",
-		"output_filepath": "",
-	}
-}
-
-test_final_output_filepath_directory_incompatible_container if {
-	policy.final_output_filepath == "Output/movie.mp4" with input as {
-		"filepath": "incoming/movie.avi",
-		"output_filepath": "Output/",
-	}
-}
-
-test_final_output_filepath_custom_compatible if {
-	policy.final_output_filepath == "custom/path.mp4" with input as {
-		"filepath": "incoming/movie.mkv",
-		"output_filepath": "custom/path.mp4",
-	}
-}
-
-test_final_output_filepath_custom_incompatible if {
-	policy.final_output_filepath == "custom/path.mp4" with input as {
-		"filepath": "incoming/movie.mkv",
-		"output_filepath": "custom/path.wmv",
-	}
-}
-
-test_final_output_filepath_no_extension if {
-	policy.final_output_filepath == "" with input as {
-		"filepath": "incoming/movie.mkv",
-		"output_filepath": "custom/path",
 	}
 }

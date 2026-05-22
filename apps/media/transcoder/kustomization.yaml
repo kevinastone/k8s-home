@@ -18,4 +18,6 @@ configMapGenerator:
   files:
   - policy/main.rego
   - policy/media-info.rego
+  - policy/audio.rego
+  - policy/filepath.rego
 

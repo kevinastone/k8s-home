@@ -99,3 +99,67 @@ test_fallback_defaults_when_empty if {
 	info.bpp == 0
 	info.size == 0
 }
+
+test_is_invalid_stream if {
+	# Zero height
+	media_info.is_invalid_stream with input as {"media_info": {
+		"streams": [{"codec_type": "video", "codec_name": "h264", "height": 0}],
+		"format": {"size": "0"},
+	}}
+
+	# Negative height
+	media_info.is_invalid_stream with input as {"media_info": {
+		"streams": [{"codec_type": "video", "codec_name": "h264", "height": -10}],
+		"format": {"size": "0"},
+	}}
+
+	# Missing height
+	media_info.is_invalid_stream with input as {"media_info": {
+		"streams": [{"codec_type": "video", "codec_name": "h264"}],
+		"format": {"size": "0"},
+	}}
+
+	# Unknown codec
+	media_info.is_invalid_stream with input as {"media_info": {
+		"streams": [{"codec_type": "video", "codec_name": "unknown", "height": 1080}],
+		"format": {"size": "0"},
+	}}
+
+	# Missing codec
+	media_info.is_invalid_stream with input as {"media_info": {
+		"streams": [{"codec_type": "video", "height": 1080}],
+		"format": {"size": "0"},
+	}}
+
+	# Valid stream should NOT be invalid
+	not media_info.is_invalid_stream with input as {"media_info": {
+		"streams": [{"codec_type": "video", "codec_name": "h264", "height": 1080}],
+		"format": {"size": "0"},
+	}}
+}
+
+test_matching_tier if {
+	# 4K tier
+	media_info.matching_tier == "4K" with input as {"media_info": {
+		"streams": [{"codec_type": "video", "height": 2160}],
+		"format": {"size": "0"},
+	}}
+
+	# 1080P tier
+	media_info.matching_tier == "1080P" with input as {"media_info": {
+		"streams": [{"codec_type": "video", "height": 1080}],
+		"format": {"size": "0"},
+	}}
+
+	# 720P tier
+	media_info.matching_tier == "720P" with input as {"media_info": {
+		"streams": [{"codec_type": "video", "height": 720}],
+		"format": {"size": "0"},
+	}}
+
+	# SD tier
+	media_info.matching_tier == "SD" with input as {"media_info": {
+		"streams": [{"codec_type": "video", "height": 480}],
+		"format": {"size": "0"},
+	}}
+}
