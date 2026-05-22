@@ -5,13 +5,62 @@ set -o pipefail
 # FILEPATH
 # OUTPUT_FILEPATH
 # QUALITY
+# ENCODER (optional: 'hardware' or 'software')
 
 if [ -z "$FILEPATH" ]; then
   echo "Error: No filepath provided."
   exit 1
 fi
 
+# Default values
+ENCODER_TYPE="hardware"
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -e|--encoder)
+      if [[ -n "$2" && "$2" != -* ]]; then
+        ENCODER_TYPE="$2"
+        shift 2
+      else
+        echo "Error: Argument for $1 is missing." >&2
+        exit 1
+      fi
+      ;;
+    --encoder=*)
+      ENCODER_TYPE="${1#*=}"
+      shift
+      ;;
+    -s|--software)
+      ENCODER_TYPE="software"
+      shift
+      ;;
+    -h|--hardware)
+      ENCODER_TYPE="hardware"
+      shift
+      ;;
+    *)
+      # Positional arguments or unknown flags are ignored
+      shift
+      ;;
+  esac
+done
+
+# If ENCODER env var is set, use it (acts as a default or override depending on usage)
+if [ -n "$ENCODER" ]; then
+  ENCODER_TYPE="$ENCODER"
+fi
+
+# Normalize ENCODER_TYPE to lowercase
+ENCODER_TYPE=$(echo "$ENCODER_TYPE" | tr '[:upper:]' '[:lower:]')
+
+if [ "$ENCODER_TYPE" != "hardware" ] && [ "$ENCODER_TYPE" != "software" ]; then
+  echo "Error: Invalid encoder type '$ENCODER_TYPE'. Must be 'hardware' or 'software'." >&2
+  exit 1
+fi
+
 echo "Received transcoding request for: $FILEPATH"
+echo "Encoder type: $ENCODER_TYPE"
 
 # Handle both relative paths (MQTT) and absolute paths (File Watcher)
 if [[ "$FILEPATH" == /media/* ]]; then
@@ -45,37 +94,52 @@ else
 fi
 TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 
-# Pick the highest render device available (e.g., renderD129 over renderD128)
-# This commonly bypasses ASPEED BMC display adapters in homelab servers.
-RENDER_DEVICE=$(ls /dev/dri/renderD* 2>/dev/null | sort -r | head -n 1)
-if [ -z "$RENDER_DEVICE" ]; then
-  RENDER_DEVICE="/dev/dri/renderD128"
-fi
-
-
 TOTAL_FRAMES=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
 if [ -z "$TOTAL_FRAMES" ] || [ "$TOTAL_FRAMES" == "N/A" ]; then
   TOTAL_FRAMES=0
 fi
 
-echo "Selected render device: $RENDER_DEVICE"
 echo "Total frames: $TOTAL_FRAMES"
-
 echo "Starting ffmpeg transcode: $INPUT_FILE -> $TEMP_OUTPUT_FILE (temp)"
+
+if [ "$ENCODER_TYPE" = "hardware" ]; then
+  # Pick the highest render device available (e.g., renderD129 over renderD128)
+  # This commonly bypasses ASPEED BMC display adapters in homelab servers.
+  RENDER_DEVICE=$(ls /dev/dri/renderD* 2>/dev/null | sort -r | head -n 1)
+  if [ -z "$RENDER_DEVICE" ]; then
+    RENDER_DEVICE="/dev/dri/renderD128"
+  fi
+  echo "Selected render device: $RENDER_DEVICE"
+
+  PRE_INPUT_ARGS=(
+    -hwaccel vaapi
+    -hwaccel_device "$RENDER_DEVICE"
+    -hwaccel_output_format vaapi
+  )
+  VIDEO_ARGS=(
+    -c:v hevc_vaapi
+    -q:v "$QUALITY"
+  )
+else
+  PRE_INPUT_ARGS=()
+  VIDEO_ARGS=(
+    -c:v libx265
+    -crf "$QUALITY"
+  )
+fi
+
 ffmpeg \
   -hide_banner \
   -nostdin \
   -y \
-  -hwaccel vaapi \
-  -hwaccel_device "$RENDER_DEVICE" \
-  -hwaccel_output_format vaapi \
+  "${PRE_INPUT_ARGS[@]}" \
   -i "$INPUT_FILE" \
-  -c:v hevc_vaapi \
-  -q:v "$QUALITY" \
+  "${VIDEO_ARGS[@]}" \
   -c:a copy \
   -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_FRAMES" "$ARGO_PROGRESS_FILE") \
   -stats_period 5 \
   "$TEMP_OUTPUT_FILE" 2>&1 | tr '\r' '\n'
+
 
 if [ $? -eq 0 ]; then
   echo "Transcode completed successfully! Moving file to destination..."
@@ -87,3 +151,4 @@ else
   echo "Transcode failed."
   exit 1
 fi
+

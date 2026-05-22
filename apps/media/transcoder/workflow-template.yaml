@@ -19,6 +19,11 @@ spec:
       value: ""
     - name: quality
       value: "24"
+    - name: encoder
+      value: "hardware"
+      enum:
+      - "hardware"
+      - "software"
     - name: delete_original
       value: "false"
       enum:
@@ -95,6 +100,8 @@ spec:
         value: "{{workflow.parameters.output_filepath}}"
       - name: quality
         value: "{{workflow.parameters.quality}}"
+      - name: encoder
+        value: "{{workflow.parameters.encoder}}"
 
     outputs:
       parameters:
@@ -125,6 +132,8 @@ spec:
         value: "{{inputs.parameters.output_filepath}}"
       - name: QUALITY
         value: "{{inputs.parameters.quality}}"
+      - name: ENCODER
+        value: "{{inputs.parameters.encoder}}"
       resources:
         requests:
           cpu: 1000m
