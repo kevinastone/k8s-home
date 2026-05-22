@@ -355,12 +355,8 @@ spec:
       - |
         set -eu
 
-        # Write media-info JSON parameter directly to input-base.json for OPA
-        echo '{{inputs.parameters.media-info}}' > /tmp/input-base.json
-
-        # Merge separate filepath and output_filepath parameters into input.json without using jq
-        tr -d '\n\r' < /tmp/input-base.json | sed 's/[[:space:]]*}$//' > /tmp/input.json
-        echo ', "filepath": "{{inputs.parameters.filepath}}", "output_filepath": "{{inputs.parameters.output_filepath}}" }' >> /tmp/input.json
+        # Generate input.json using native Argo JSON expressions and sprig template functions
+        echo '{{=toJson(sprig.merge(sprig.mustFromJson(inputs.parameters["media-info"]), sprig.dict("filepath", inputs.parameters["filepath"], "output_filepath", inputs.parameters["output_filepath"])))}}' > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
         /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
