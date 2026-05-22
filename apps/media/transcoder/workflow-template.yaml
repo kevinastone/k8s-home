@@ -289,6 +289,8 @@ spec:
         value: "{{workflow.parameters.filepath}}"
       - name: force_transcode
         value: "{{workflow.parameters.force_transcode}}"
+      - name: output_filepath
+        value: "{{workflow.parameters.output_filepath}}"
     outputs:
       parameters:
       - name: media-info
@@ -315,8 +317,12 @@ spec:
           fi
         fi
 
-        # Merge force_transcode as a boolean into media-info for OPA engine
-        jq --arg force "{{inputs.parameters.force_transcode}}" '. + {force_transcode: ($force == "true")}' /tmp/media-info-raw.json > /tmp/media-info.json
+        # Merge force_transcode, filepath, and output_filepath into media-info for OPA engine
+        jq --arg force "{{inputs.parameters.force_transcode}}" \
+           --arg filepath "{{inputs.parameters.filepath}}" \
+           --arg output_filepath "{{inputs.parameters.output_filepath}}" \
+           '. + {force_transcode: ($force == "true"), filepath: $filepath, output_filepath: $output_filepath}' \
+           /tmp/media-info-raw.json > /tmp/media-info.json
         cat /tmp/media-info.json
       volumeMounts:
       - name: media
@@ -355,14 +361,8 @@ spec:
       - |
         set -eu
 
-        # Write media-info JSON parameter directly to input-base.json for OPA
-        echo '{{inputs.parameters.media-info}}' > /tmp/input-base.json
-
-        # Merge filepath and output_filepath into input.json
-        jq --arg filepath "{{inputs.parameters.filepath}}" \
-           --arg output_filepath "{{inputs.parameters.output_filepath}}" \
-           '. + {filepath: $filepath, output_filepath: $output_filepath}' \
-           /tmp/input-base.json > /tmp/input.json
+        # Write media-info JSON parameter (which already includes filepath and output_filepath) directly to input.json for OPA
+        echo '{{inputs.parameters.media-info}}' > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
         /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
