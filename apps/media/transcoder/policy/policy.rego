@@ -4,10 +4,7 @@ import rego.v1
 
 import data.policy.media_info
 
-# Unified media helper to support dual-mode inputs
-media := media_info.info if {
-	input.streams
-} else := input
+media := media_info.info
 
 error contains "No valid video stream found" if {
 	is_invalid_stream
@@ -55,12 +52,9 @@ compatible_audio_codecs := {"aac", "ac3", "eac3", "mp3"}
 default audio_codec := "none"
 
 audio_codec := codec if {
-	input.streams
 	audio_streams := [s | some s in input.streams; s.codec_type == "audio"]
 	count(audio_streams) > 0
 	codec := audio_streams[0].codec_name
-} else := input.audio_codec if {
-	input.audio_codec
 }
 
 default audio_args := ["-c:a", "copy"]

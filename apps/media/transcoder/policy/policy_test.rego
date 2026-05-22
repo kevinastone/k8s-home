@@ -4,52 +4,65 @@ import rego.v1
 
 import data.policy
 
+# Helper to construct a raw input with standard video settings
+raw_video(codec, width, height, rate, size, bitrate) := {
+	"streams": [{
+		"codec_type": "video",
+		"codec_name": codec,
+		"width": width,
+		"height": height,
+		"r_frame_rate": rate,
+		"bit_rate": sprintf("%d", [bitrate]),
+	}],
+	"format": {
+		"size": sprintf("%d", [size]),
+		"bit_rate": sprintf("%d", [bitrate]),
+	},
+}
+
+# Helper to construct video with a specific force_transcode flag
+raw_video_force(codec, width, height, rate, size, bitrate, force) := object.union(
+	raw_video(codec, width, height, rate, size, bitrate),
+	{"force_transcode": force},
+)
+
+# Helper to construct video + audio stream input
+raw_audio(audio_codec) := {
+	"streams": [
+		{
+			"codec_type": "video",
+			"codec_name": "h264",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "24/1",
+			"bit_rate": "6000000",
+		},
+		{
+			"codec_type": "audio",
+			"codec_name": audio_codec,
+		},
+	],
+	"format": {"size": "100000000"},
+}
+
 # -------------------------------------------------------------
 # 1. Forced Transcoding Tests
 # -------------------------------------------------------------
 
 test_force_transcode_should_transcode if {
-	policy.should_transcode with input as {
-		"force_transcode": true,
-		"height": 1080,
-		"codec": "h264",
-		"size": 100000000,
-		"bpp": 0.01,
-		"bitrate": 1000000,
-	}
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 1000000, true)
 }
 
 test_force_transcode_bypasses_small_size if {
-	policy.should_transcode with input as {
-		"force_transcode": true,
-		"height": 1080,
-		"codec": "h264",
-		"size": 10000, # < 50MB
-		"bpp": 0.01,
-		"bitrate": 1000000,
-	}
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 10000, 1000000, true)
 }
 
 test_force_transcode_bypasses_efficient_codec if {
-	policy.should_transcode with input as {
-		"force_transcode": true,
-		"height": 1080,
-		"codec": "hevc", # Efficient codec
-		"size": 100000000,
-		"bpp": 0.01,
-		"bitrate": 1000000,
-	}
+	policy.should_transcode with input as raw_video_force("hevc", 1920, 1080, "24/1", 100000000, 1000000, true)
 }
 
 test_force_transcode_fails_on_invalid_stream if {
-	not policy.should_transcode with input as {
-		"force_transcode": true,
-		"height": 0, # Invalid height
-		"codec": "h264",
-		"size": 100000000,
-		"bpp": 0.01,
-		"bitrate": 1000000,
-	}
+	not policy.should_transcode with input as raw_video_force("h264", 1920, 0, "24/1", 100000000, 1000000, true)
 }
 
 # -------------------------------------------------------------
@@ -58,138 +71,66 @@ test_force_transcode_fails_on_invalid_stream if {
 
 # --- 4K (height >= 2000) ---
 test_4k_eligible_by_bitrate if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 2160,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 10000000, # Eligible (>= 10M)
-		"bpp": 0.01,
-	}
+	policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 100000000, 10000000, false)
 }
 
 test_4k_eligible_by_bpp if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 2160,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 5000000,
-		"bpp": 0.03, # Eligible (>= 0.03)
-	}
+	# width*height*fps = 3840 * 2160 * 24 = 199065600
+	# bpp = 6000000 / 199065600 = 0.0301 (>= 0.03)
+	policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 100000000, 6000000, false)
 }
 
 test_4k_ineligible if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 2160,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 5000000,
-		"bpp": 0.02, # Ineligible
-	}
+	# bpp = 4000000 / 199065600 = 0.0201 (< 0.03)
+	not policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 100000000, 4000000, false)
 }
 
 # --- 1080P (1000 <= height < 2000) ---
 test_1080p_eligible_by_bitrate if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 1080,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 4000000, # Eligible (>= 4M)
-		"bpp": 0.01,
-	}
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 4000000, false)
 }
 
 test_1080p_eligible_by_bpp if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 1080,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 2000000,
-		"bpp": 0.04, # Eligible (>= 0.04)
-	}
+	# width*height*fps = 1920 * 1080 * 24 = 49766400
+	# bpp = 2000000 / 49766400 = 0.0402 (>= 0.04)
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 2000000, false)
 }
 
 test_1080p_ineligible if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 1080,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 2000000,
-		"bpp": 0.03, # Ineligible
-	}
+	# bpp = 1500000 / 49766400 = 0.0301 (< 0.04)
+	not policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 1500000, false)
 }
 
 # --- 720P (700 <= height < 1000) ---
 test_720p_eligible_by_bitrate if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 720,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 2000000, # Eligible (>= 2M)
-		"bpp": 0.01,
-	}
+	policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 100000000, 2000000, false)
 }
 
 test_720p_eligible_by_bpp if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 720,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 1000000,
-		"bpp": 0.05, # Eligible (>= 0.05)
-	}
+	# width*height*fps = 1280 * 720 * 24 = 22118400
+	# bpp = 1105920 / 22118400 = 0.05 (>= 0.05)
+	policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 100000000, 1105920, false)
 }
 
 test_720p_ineligible if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 720,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 1000000,
-		"bpp": 0.04, # Ineligible
-	}
+	# bpp = 884736 / 22118400 = 0.04 (< 0.05)
+	not policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 100000000, 884736, false)
 }
 
 # --- SD (height < 700) ---
 test_sd_eligible_by_bitrate if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 480,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 1500000, # Eligible (>= 1.5M)
-		"bpp": 0.01,
-	}
+	policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 100000000, 1500000, false)
 }
 
 test_sd_eligible_by_bpp if {
-	policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 480,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 1000000,
-		"bpp": 0.08, # Eligible (>= 0.08)
-	}
+	# width*height*fps = 854 * 480 * 24 = 9838080
+	# bpp = 800000 / 9838080 = 0.0813 (>= 0.08)
+	policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 100000000, 800000, false)
 }
 
 test_sd_ineligible if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 480,
-		"codec": "h264",
-		"size": 100000000,
-		"bitrate": 1000000,
-		"bpp": 0.07, # Ineligible
-	}
+	# bpp = 688665 / 9838080 = 0.07 (< 0.08)
+	not policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 100000000, 688665, false)
 }
 
 # -------------------------------------------------------------
@@ -197,69 +138,37 @@ test_sd_ineligible if {
 # -------------------------------------------------------------
 
 test_skip_on_small_size if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 1080,
-		"codec": "h264",
-		"size": 50000000, # Small size (< 50MB)
-		"bitrate": 5000000,
-		"bpp": 0.05,
-	}
+	not policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 49000000, 5000000, false)
 }
 
 test_skip_on_efficient_codec if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 1080,
-		"codec": "hevc", # Efficient codec
-		"size": 100000000,
-		"bitrate": 5000000,
-		"bpp": 0.05,
-	}
+	not policy.should_transcode with input as raw_video_force("hevc", 1920, 1080, "24/1", 100000000, 5000000, false)
 }
 
 test_skip_on_efficient_codec_case_insensitive if {
-	not policy.should_transcode with input as {
-		"force_transcode": false,
-		"height": 1080,
-		"codec": "HEVC", # Case-insensitive check
-		"size": 100000000,
-		"bitrate": 5000000,
-		"bpp": 0.05,
-	}
+	not policy.should_transcode with input as raw_video_force("HEVC", 1920, 1080, "24/1", 100000000, 5000000, false)
 }
 
 test_skip_on_low_bitrate_and_bpp if {
-	not policy.should_transcode with input as {
-		"width": 1920,
-		"height": 1080,
-		"size": 67108864,
-		"fps": 59.94005994005994,
-		"bitrate": 128018,
-		"bpp": 0.001029980211548354,
-		"codec": "vc1",
+	inp := {
 		"force_transcode": false,
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "vc1",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "60000/1001",
+			"bit_rate": "128018",
+		}],
+		"format": {
+			"size": "67108864",
+			"bit_rate": "128018",
+		},
 	}
-	policy.skip["resolution tier 1080P requirement failed: BPP 0.001029980211548354 < threshold 0.04"] with input as {
-		"width": 1920,
-		"height": 1080,
-		"size": 67108864,
-		"fps": 59.94005994005994,
-		"bitrate": 128018,
-		"bpp": 0.001029980211548354,
-		"codec": "vc1",
-		"force_transcode": false,
-	}
-	policy.skip["resolution tier 1080P requirement failed: bitrate 128018 < threshold 4000000"] with input as {
-		"width": 1920,
-		"height": 1080,
-		"size": 67108864,
-		"fps": 59.94005994005994,
-		"bitrate": 128018,
-		"bpp": 0.001029980211548354,
-		"codec": "vc1",
-		"force_transcode": false,
-	}
+	not policy.should_transcode with input as inp
+	msg := "resolution tier 1080P requirement failed: BPP 0.0010299802115483539095 < threshold 0.04"
+	policy.skip[msg] with input as inp
+	policy.skip["resolution tier 1080P requirement failed: bitrate 128018 < threshold 4000000"] with input as inp
 }
 
 # -------------------------------------------------------------
@@ -267,39 +176,41 @@ test_skip_on_low_bitrate_and_bpp if {
 # -------------------------------------------------------------
 
 test_error_on_zero_height if {
-	policy.error with input as {
-		"height": 0,
-		"codec": "h264",
-	}
+	policy.error with input as raw_video("h264", 1920, 0, "24/1", 100000000, 1000000)
 }
 
 test_error_on_negative_height if {
-	policy.error with input as {
-		"height": -10,
-		"codec": "h264",
-	}
+	policy.error with input as raw_video("h264", 1920, -10, "24/1", 100000000, 1000000)
 }
 
 test_error_on_missing_height if {
-	policy.error with input as {"codec": "h264"}
+	inp := {
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "h264",
+		}],
+		"format": {"size": "100000"},
+	}
+	policy.error with input as inp
 }
 
 test_error_on_unknown_codec if {
-	policy.error with input as {
-		"height": 1080,
-		"codec": "unknown",
-	}
+	policy.error with input as raw_video("unknown", 1920, 1080, "24/1", 100000000, 1000000)
 }
 
 test_error_on_unknown_codec_case_insensitive if {
-	policy.error with input as {
-		"height": 1080,
-		"codec": "UNKNOWN",
-	}
+	policy.error with input as raw_video("UNKNOWN", 1920, 1080, "24/1", 100000000, 1000000)
 }
 
 test_error_on_missing_codec if {
-	policy.error with input as {"height": 1080}
+	inp := {
+		"streams": [{
+			"codec_type": "video",
+			"height": 1080,
+		}],
+		"format": {"size": "100000"},
+	}
+	policy.error with input as inp
 }
 
 # -------------------------------------------------------------
@@ -396,26 +307,27 @@ test_transcode_params_default if {
 }
 
 test_transcode_params_audio_copy if {
-	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as {"streams": [
-		{"codec_type": "video", "codec_name": "h264"},
-		{"codec_type": "audio", "codec_name": "aac"},
-	]}
+	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as raw_audio("aac")
 }
 
 test_transcode_params_audio_transcode if {
-	policy.transcode_params.audio_args == ["-c:a", "aac", "-b:a", "192k"] with input as {"streams": [
-		{"codec_type": "video", "codec_name": "h264"},
-		{"codec_type": "audio", "codec_name": "flac"},
-	]}
+	policy.transcode_params.audio_args == ["-c:a", "aac", "-b:a", "192k"] with input as raw_audio("flac")
 }
 
 test_transcode_params_audio_no_audio if {
-	policy.transcode_params.audio_args == [] with input as {"streams": [{
-		"codec_type": "video",
-		"codec_name": "h264",
-	}]}
+	policy.transcode_params.audio_args == [] with input as {
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "h264",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "24/1",
+			"bit_rate": "6000000",
+		}],
+		"format": {"size": "100000000"},
+	}
 }
 
 test_transcode_params_audio_fallback if {
-	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as {"audio_codec": "mp3"}
+	policy.transcode_params.audio_args == ["-c:a", "copy"] with input as raw_audio("mp3")
 }
