@@ -229,6 +229,29 @@ test_skip_on_efficient_codec_case_insensitive if {
 	}
 }
 
+test_skip_on_low_bitrate_and_bpp if {
+	not policy.should_transcode with input as {
+		"width": 1920,
+		"height": 1080,
+		"size": 67108864,
+		"fps": 59.94005994005994,
+		"bitrate": 128018,
+		"bpp": 0.001029980211548354,
+		"codec": "vc1",
+		"force_transcode": false,
+	}
+	policy.skip["bitrate and BPP are below transcoding thresholds"] with input as {
+		"width": 1920,
+		"height": 1080,
+		"size": 67108864,
+		"fps": 59.94005994005994,
+		"bitrate": 128018,
+		"bpp": 0.001029980211548354,
+		"codec": "vc1",
+		"force_transcode": false,
+	}
+}
+
 # -------------------------------------------------------------
 # 4. Invalid Streams / Error Conditions
 # -------------------------------------------------------------

@@ -17,6 +17,9 @@ skip contains "already efficiently encoded" if {
 skip contains $"{format_bytes(input.size)} is smaller than {format_bytes(minimum_size)}" if {
 	input.size < minimum_size
 }
+skip contains "bitrate and BPP are below transcoding thresholds" if {
+	not is_resolution_eligible
+}
 
 default deny := false
 
