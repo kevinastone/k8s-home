@@ -71,12 +71,8 @@ fi
 echo "Received transcoding request for: $FILEPATH"
 echo "Encoder type: $ENCODER_TYPE"
 
-# Handle both relative paths (MQTT) and absolute paths (File Watcher)
-if [[ "$FILEPATH" == /media/* ]]; then
-  INPUT_FILE="$FILEPATH"
-else
-  INPUT_FILE="/media/$FILEPATH"
-fi
+# Normalize input filepath (always relative to /media)
+INPUT_FILE="/media/${FILEPATH#/}"
 
 if [ ! -f "$INPUT_FILE" ]; then
   echo "Error: File $INPUT_FILE not found on PVC."
@@ -84,30 +80,24 @@ if [ ! -f "$INPUT_FILE" ]; then
 fi
 
 if [ -z "$OUTPUT_FILEPATH" ]; then
-  OUTPUT_FILE="$INPUT_FILE"
-else
-  if [[ "$OUTPUT_FILEPATH" == /media/* ]]; then
-    OUTPUT_FILE="$OUTPUT_FILEPATH"
-  else
-    OUTPUT_FILE="/media/$OUTPUT_FILEPATH"
-  fi
-
-  # Ensure output directory exists
-  mkdir -p "$(dirname "$OUTPUT_FILE")"
-
-  # If output path is a directory (ends in / or exists as dir), append filename
-  if [[ "$OUTPUT_FILE" == */ ]] || [ -d "$OUTPUT_FILE" ]; then
-    mkdir -p "$OUTPUT_FILE"
-    OUTPUT_FILE="${OUTPUT_FILE%/}/$(basename "$INPUT_FILE")"
-  fi
+  OUTPUT_FILEPATH="${FILEPATH}"
+fi
+# if output is a directory (ends with /), append filename
+if [[ "$OUTPUT_FILEPATH" == */ ]]; then
+  OUTPUT_FILEPATH+="$(basename "$FILEPATH")"
 fi
 
 # Ensure the output file uses a compatible container (e.g., .mp4) if it currently uses an incompatible one
-EXT="${OUTPUT_FILE##*.}"
+EXT="${OUTPUT_FILEPATH##*.}"
 EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
 if [ "$EXT_LOWER" != "mp4" ] && [ "$EXT_LOWER" != "mkv" ]; then
-  OUTPUT_FILE="${OUTPUT_FILE%.*}.mp4"
+  OUTPUT_FILEPATH="${OUTPUT_FILEPATH%.*}.mp4"
 fi
+
+OUTPUT_FILE="/media/${OUTPUT_FILEPATH#/}"
+
+# Ensure output directory exists
+mkdir -p "$(dirname "$OUTPUT_FILE")"
 
 TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
 

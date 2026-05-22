@@ -163,8 +163,19 @@ spec:
       source: |
         set -eu
 
-        INPUT="/media/{{inputs.parameters.input_filepath}}"
-        OUTPUT="/media/{{inputs.parameters.output_filepath}}"
+        INPUT_FILE="{{inputs.parameters.input_filepath}}"
+        if [ "${INPUT_FILE#/media/}" != "$INPUT_FILE" ]; then
+          INPUT="$INPUT_FILE"
+        else
+          INPUT="/media/${INPUT_FILE#/}"
+        fi
+
+        OUTPUT_FILE="{{inputs.parameters.output_filepath}}"
+        if [ "${OUTPUT_FILE#/media/}" != "$OUTPUT_FILE" ]; then
+          OUTPUT="$OUTPUT_FILE"
+        else
+          OUTPUT="/media/${OUTPUT_FILE#/}"
+        fi
 
         # Guard: must be a regular file, not a directory or symlink to one
         if [ ! -f "$INPUT" ]; then
@@ -212,11 +223,7 @@ spec:
       - |
         set -eu
         FILEPATH="{{inputs.parameters.filepath}}"
-        if [ "${FILEPATH#/media/}" != "$FILEPATH" ]; then
-          INPUT_FILE="$FILEPATH"
-        else
-          INPUT_FILE="/media/$FILEPATH"
-        fi
+        INPUT_FILE="/media/${FILEPATH#/}"
 
         if [ ! -f "$INPUT_FILE" ]; then
           echo "Error: File $INPUT_FILE not found on PVC." >&2
@@ -287,11 +294,7 @@ spec:
         set -euo pipefail
 
         FILEPATH="{{inputs.parameters.filepath}}"
-        if [[ "$FILEPATH" == /media/* ]]; then
-          INPUT_FILE="$FILEPATH"
-        else
-          INPUT_FILE="/media/$FILEPATH"
-        fi
+        INPUT_FILE="/media/${FILEPATH#/}"
 
         if [ ! -f "$INPUT_FILE" ]; then
           echo "Error: File $INPUT_FILE not found on PVC." >&2

@@ -71,7 +71,7 @@ spec:
                 parameters:
                 - name: filepath
                 - name: output_filepath
-                  value: "/media/Output/"
+                  value: "Output/"
         parameters:
         - src:
             dependencyName: mqtt-dep
