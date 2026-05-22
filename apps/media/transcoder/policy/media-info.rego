@@ -3,12 +3,8 @@ package policy.media_info
 
 import rego.v1
 
-input_media_info := val if {
-	val := input.media_info
-} else := input
-
 # Extracts the first video stream from streams list
-video_streams := [s | some s in input_media_info.streams; s.codec_type == "video"]
+video_streams := [s | some s in input.media_info.streams; s.codec_type == "video"]
 
 first_video_stream := video_streams[0]
 
@@ -23,7 +19,7 @@ height := first_video_stream.height
 
 default size := 0
 
-size := to_number(input_media_info.format.size)
+size := to_number(input.media_info.format.size)
 
 default codec := "unknown"
 
@@ -45,7 +41,7 @@ default bitrate := 0
 bitrate := br if {
 	candidates := [
 		object.get(first_video_stream, "bit_rate", null),
-		object.get(input_media_info.format, "bit_rate", null),
+		object.get(input.media_info.format, "bit_rate", null),
 	]
 	valid_rates := [to_number(c) | some c in candidates; c != null; c != "N/A"; to_number(c) > 1]
 	count(valid_rates) > 0

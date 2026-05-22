@@ -1,3 +1,4 @@
+# regal ignore:opa-fmt
 package policy_test
 
 import rego.v1
@@ -5,7 +6,7 @@ import rego.v1
 import data.policy
 
 # Helper to construct a raw input with standard video settings
-raw_video(codec, width, height, rate, size, bitrate) := {
+raw_video(codec, width, height, rate, size, bitrate) := {"media_info": {
 	"streams": [{
 		"codec_type": "video",
 		"codec_name": codec,
@@ -18,7 +19,7 @@ raw_video(codec, width, height, rate, size, bitrate) := {
 		"size": sprintf("%d", [size]),
 		"bit_rate": sprintf("%d", [bitrate]),
 	},
-}
+}}
 
 # Helper to construct video with a specific force_transcode flag
 raw_video_force(codec, width, height, rate, size, bitrate, force) := object.union(
@@ -27,7 +28,7 @@ raw_video_force(codec, width, height, rate, size, bitrate, force) := object.unio
 )
 
 # Helper to construct video + audio stream input
-raw_audio(audio_codec) := {
+raw_audio(audio_codec) := {"media_info": {
 	"streams": [
 		{
 			"codec_type": "video",
@@ -43,7 +44,7 @@ raw_audio(audio_codec) := {
 		},
 	],
 	"format": {"size": "100000000"},
-}
+}}
 
 # -------------------------------------------------------------
 # 1. Forced Transcoding Tests
@@ -152,17 +153,19 @@ test_skip_on_efficient_codec_case_insensitive if {
 test_skip_on_low_bitrate_and_bpp if {
 	inp := {
 		"force_transcode": false,
-		"streams": [{
-			"codec_type": "video",
-			"codec_name": "vc1",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "60000/1001",
-			"bit_rate": "128018",
-		}],
-		"format": {
-			"size": "67108864",
-			"bit_rate": "128018",
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "vc1",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "60000/1001",
+				"bit_rate": "128018",
+			}],
+			"format": {
+				"size": "67108864",
+				"bit_rate": "128018",
+			},
 		},
 	}
 	not policy.should_transcode with input as inp
@@ -184,13 +187,13 @@ test_error_on_negative_height if {
 }
 
 test_error_on_missing_height if {
-	inp := {
+	inp := {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"codec_name": "h264",
 		}],
 		"format": {"size": "100000"},
-	}
+	}}
 	policy.error with input as inp
 }
 
@@ -203,13 +206,13 @@ test_error_on_unknown_codec_case_insensitive if {
 }
 
 test_error_on_missing_codec if {
-	inp := {
+	inp := {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"height": 1080,
 		}],
 		"format": {"size": "100000"},
-	}
+	}}
 	policy.error with input as inp
 }
 
@@ -234,17 +237,19 @@ test_error_on_missing_output_extension if {
 test_raw_input_eligible_h264 if {
 	policy.should_transcode with input as {
 		"force_transcode": false,
-		"streams": [{
-			"codec_type": "video",
-			"codec_name": "h264",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "24/1",
-			"bit_rate": "6000000",
-		}],
-		"format": {
-			"size": "100000000",
-			"bit_rate": "6100000",
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "h264",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "24/1",
+				"bit_rate": "6000000",
+			}],
+			"format": {
+				"size": "100000000",
+				"bit_rate": "6100000",
+			},
 		},
 	}
 }
@@ -252,35 +257,39 @@ test_raw_input_eligible_h264 if {
 test_raw_input_skip_efficient_codec if {
 	not policy.should_transcode with input as {
 		"force_transcode": false,
-		"streams": [{
-			"codec_type": "video",
-			"codec_name": "hevc",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "24/1",
-			"bit_rate": "6000000",
-		}],
-		"format": {"size": "100000000"},
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "hevc",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "24/1",
+				"bit_rate": "6000000",
+			}],
+			"format": {"size": "100000000"},
+		},
 	}
 }
 
 test_raw_input_skip_small_size if {
 	not policy.should_transcode with input as {
 		"force_transcode": false,
-		"streams": [{
-			"codec_type": "video",
-			"codec_name": "h264",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "24/1",
-			"bit_rate": "6000000",
-		}],
-		"format": {"size": "10000"}, # < 50MB
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "h264",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "24/1",
+				"bit_rate": "6000000",
+			}],
+			"format": {"size": "10000"}, # < 50MB
+		},
 	}
 }
 
 test_raw_input_error_invalid_stream if {
-	policy.error with input as {
+	policy.error with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"codec_name": "unknown",
@@ -288,23 +297,25 @@ test_raw_input_error_invalid_stream if {
 			"height": 0,
 		}],
 		"format": {"size": "100000000"},
-	}
+	}}
 }
 
 test_raw_input_bitrate_fallback_to_format if {
 	# No bit_rate on video stream, should fall back to format.bit_rate
 	policy.should_transcode with input as {
 		"force_transcode": false,
-		"streams": [{
-			"codec_type": "video",
-			"codec_name": "h264",
-			"width": 1920,
-			"height": 1080,
-			"r_frame_rate": "24/1",
-		}],
-		"format": {
-			"size": "100000000",
-			"bit_rate": "6000000",
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "h264",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "24/1",
+			}],
+			"format": {
+				"size": "100000000",
+				"bit_rate": "6000000",
+			},
 		},
 	}
 }
@@ -329,7 +340,7 @@ test_transcode_params_audio_transcode if {
 }
 
 test_transcode_params_audio_no_audio if {
-	policy.transcode_params.audio_args == [] with input as {
+	policy.transcode_params.audio_args == [] with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"codec_name": "h264",
@@ -339,7 +350,7 @@ test_transcode_params_audio_no_audio if {
 			"bit_rate": "6000000",
 		}],
 		"format": {"size": "100000000"},
-	}
+	}}
 }
 
 test_transcode_params_audio_fallback if {

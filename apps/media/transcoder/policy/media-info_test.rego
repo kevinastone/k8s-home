@@ -6,7 +6,7 @@ import rego.v1
 import data.policy.media_info
 
 test_media_info_standard if {
-	info := media_info with input as {
+	info := media_info with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"codec_name": "h264",
@@ -19,7 +19,7 @@ test_media_info_standard if {
 			"size": "100000000",
 			"bit_rate": "6100000",
 		},
-	}
+	}}
 
 	info.width == 1920
 	info.height == 1080
@@ -31,32 +31,32 @@ test_media_info_standard if {
 }
 
 test_fps_fraction_calculation if {
-	info := media_info with input as {
+	info := media_info with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "30000/1001",
 		}],
 		"format": {"size": "0"},
-	}
+	}}
 
 	info.fps > 29.97
 	info.fps < 29.98
 }
 
 test_fps_zero_denominator if {
-	info := media_info with input as {
+	info := media_info with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "0/0",
 		}],
 		"format": {"size": "0"},
-	}
+	}}
 
 	info.fps == 0
 }
 
 test_bitrate_fallback_to_format if {
-	info := media_info with input as {
+	info := media_info with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "24/1",
@@ -65,13 +65,13 @@ test_bitrate_fallback_to_format if {
 			"size": "0",
 			"bit_rate": "5000000",
 		},
-	}
+	}}
 
 	info.bitrate == 5000000
 }
 
 test_bitrate_invalid_fallbacks if {
-	info := media_info with input as {
+	info := media_info with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"bit_rate": "N/A",
@@ -80,16 +80,16 @@ test_bitrate_invalid_fallbacks if {
 			"size": "0",
 			"bit_rate": "0",
 		},
-	}
+	}}
 
 	info.bitrate == 0
 }
 
 test_fallback_defaults_when_empty if {
-	info := media_info with input as {
+	info := media_info with input as {"media_info": {
 		"streams": [],
 		"format": {"size": "0"},
-	}
+	}}
 
 	info.width == 0
 	info.height == 0

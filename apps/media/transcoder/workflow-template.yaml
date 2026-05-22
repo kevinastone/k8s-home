@@ -80,6 +80,8 @@ spec:
             value: "{{workflow.parameters.filepath}}"
           - name: output_filepath
             value: "{{workflow.parameters.output_filepath}}"
+          - name: force_transcode
+            value: "{{workflow.parameters.force_transcode}}"
       - name: transcode
         template: transcode
         depends: "evaluate-rules.Succeeded"
@@ -306,18 +308,14 @@ spec:
 
         if [ ! -f "$INPUT_FILE" ]; then
           echo "Error: File $INPUT_FILE not found on PVC." >&2
-          jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info-raw.json
+          jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info.json
         else
           echo "Probing file: $INPUT_FILE"
-          if ! ffprobe -v quiet -print_format json -show_format -show_streams "$INPUT_FILE" > /tmp/media-info-raw.json; then
+          if ! ffprobe -v quiet -print_format json -show_format -show_streams "$INPUT_FILE" > /tmp/media-info.json; then
             echo "Warning: ffprobe failed. Writing fallback JSON." >&2
-            jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info-raw.json
+            jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info.json
           fi
         fi
-
-        # Merge force_transcode as a boolean into media-info for OPA engine
-        jq --arg force "{{inputs.parameters.force_transcode}}" '. + {force_transcode: ($force == "true")}' /tmp/media-info-raw.json > /tmp/media-info.json
-        cat /tmp/media-info.json
       volumeMounts:
       - name: media
         mountPath: /media
@@ -331,6 +329,7 @@ spec:
       - name: media-info
       - name: filepath
       - name: output_filepath
+      - name: force_transcode
     outputs:
       parameters:
       - name: should_transcode
@@ -356,7 +355,12 @@ spec:
         set -eu
 
         # Generate input.json using native Argo JSON expressions and sprig template functions
-        echo '{{=toJson(sprig.dict("media_info", sprig.mustFromJson(inputs.parameters["media-info"]), "filepath", inputs.parameters["filepath"], "output_filepath", inputs.parameters["output_filepath"]))}}' > /tmp/input.json
+        echo '{{=toJson(sprig.dict(
+          "media_info", sprig.mustFromJson(inputs.parameters["media-info"]),
+          "force_transcode", inputs.parameters["force_transcode"] == "true",
+          "filepath", inputs.parameters["filepath"],
+          "output_filepath", inputs.parameters["output_filepath"]
+        ))}}' > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
         /opa eval --format=raw --data=/policy --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
