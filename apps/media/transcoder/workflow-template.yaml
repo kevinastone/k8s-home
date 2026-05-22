@@ -58,8 +58,11 @@ spec:
   - name: transcode-media
     dag:
       tasks:
+      - name: wait-for-file
+        template: wait-for-file
       - name: probe-file
         template: probe-file
+        depends: "wait-for-file.Succeeded"
       - name: evaluate-rules
         template: evaluate-rules
         depends: "probe-file.Succeeded"
@@ -167,6 +170,73 @@ spec:
         else
           echo "Skipping deletion: output overwrote the original file."
         fi
+      volumeMounts:
+      - name: media
+        mountPath: /media
+
+  # Wait for file step: loops and ensures the file isn't changing size before continuing
+  - name: wait-for-file
+    inputs:
+      parameters:
+      - name: filepath
+        value: "{{workflow.parameters.filepath}}"
+    container:
+      image: alpine:3
+      command: [sh, -c]
+      args:
+      - |
+        set -eu
+        FILEPATH="{{inputs.parameters.filepath}}"
+        if [ "${FILEPATH#/media/}" != "$FILEPATH" ]; then
+          INPUT_FILE="$FILEPATH"
+        else
+          INPUT_FILE="/media/$FILEPATH"
+        fi
+
+        if [ ! -f "$INPUT_FILE" ]; then
+          echo "Error: File $INPUT_FILE not found on PVC." >&2
+          exit 1
+        fi
+
+        echo "Waiting for file to stabilize: $INPUT_FILE"
+        prev_size=-1
+        stable_count=0
+        required_stable_checks=3
+        check_interval=10
+
+        while true; do
+          # Force NFS/SMB attribute cache invalidation by attempting a touch
+          touch -c "$INPUT_FILE" 2>/dev/null || true
+
+          curr_size=$(stat -c %s "$INPUT_FILE" 2>/dev/null || stat -f %z "$INPUT_FILE" 2>/dev/null || wc -c < "$INPUT_FILE")
+          if [ -z "$curr_size" ]; then
+            echo "Error: Could not determine size of $INPUT_FILE" >&2
+            exit 1
+          fi
+
+          if [ "$prev_size" -eq -1 ]; then
+            echo "Initial size check: $curr_size bytes"
+          else
+            echo "Current size: $curr_size bytes (previous: $prev_size bytes)"
+          fi
+
+          if [ "$curr_size" -eq "$prev_size" ] && [ "$curr_size" -gt 0 ]; then
+            stable_count=$((stable_count + 1))
+            echo "Size has been stable for $stable_count consecutive check(s)."
+            if [ "$stable_count" -ge "$required_stable_checks" ]; then
+              echo "File size stabilized at $curr_size bytes."
+              break
+            fi
+          else
+            if [ "$prev_size" -ne -1 ] && [ "$curr_size" -ne "$prev_size" ]; then
+              echo "Size changed. Resetting stability counter."
+            fi
+            stable_count=0
+          fi
+
+          prev_size=$curr_size
+          sleep $check_interval
+        done
       volumeMounts:
       - name: media
         mountPath: /media

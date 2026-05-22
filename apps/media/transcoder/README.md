@@ -10,17 +10,19 @@ The pipeline is built on **Argo Workflows** (`WorkflowTemplate`) and follows a D
 
 ```mermaid
 graph TD
-    A[Incoming Media File] --> B[probe-file]
-    B -->|Extracts metadata| C[evaluate-rules]
-    C -->|OPA Decision| D{Should Transcode?}
-    D -->|Yes| E[transcode]
-    D -->|No/Skip| G[Skip pipeline]
-    E --> F[delete-original]
-    F -->|Cleanup| H[Done]
+    A[Incoming Media File] --> B[wait-for-file]
+    B -->|Size stabilizes| C[probe-file]
+    C -->|Extracts metadata| D[evaluate-rules]
+    D -->|OPA Decision| E{Should Transcode?}
+    E -->|Yes| F[transcode]
+    E -->|No/Skip| H[Skip pipeline]
+    F --> G[delete-original]
+    G -->|Cleanup| I[Done]
 ```
 
 ### Workflow Steps:
 
+1. **`wait-for-file`**: Enforces a 30-second stabilization window (checking file size across 3 consecutive 10-second intervals) and forces NFS/SMB client metadata cache invalidation (`touch -c`) to ensure the file copy is completely finished.
 1. **`probe-file`**: Runs `ffprobe` (via `scripts/media-info.sh`) on the input media to output structural JSON metadata containing codec, size, height, width, bitrate, and BPP (Bits Per Pixel).
 1. **`evaluate-rules`**: Invokes the **Open Policy Agent (OPA)** engine (using `policy/policy.rego`) to make a declarative decision on whether the file needs transcoding.
 1. **`transcode`**: Runs **FFmpeg** (using VAAPI hardware acceleration) to convert the video to highly-compatible formats at the desired quality tier if the policy dictates it.
