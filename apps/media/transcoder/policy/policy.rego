@@ -95,14 +95,18 @@ matching_tier := "SD" if {
 }
 
 # Check eligibility
-is_resolution_eligible if {
+resolution_eligible contains sprintf("BPP %.5f >= threshold %.5f", [input.bpp, t.bpp]) if {
 	t := thresholds[matching_tier]
 	input.bpp >= t.bpp
 }
 
-is_resolution_eligible if {
+resolution_eligible contains sprintf("bitrate %v >= threshold %v", [input.bitrate, t.bitrate]) if {
 	t := thresholds[matching_tier]
 	input.bitrate >= t.bitrate
+}
+
+is_resolution_eligible if {
+	count(resolution_eligible) > 0
 }
 
 format_bytes(bytes) := msg if {
