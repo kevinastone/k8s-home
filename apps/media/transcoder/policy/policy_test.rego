@@ -383,3 +383,11 @@ test_raw_input_bitrate_fallback_to_format if {
 		},
 	}
 }
+
+# -------------------------------------------------------------
+# 6. Transcoding Parameter Tests
+# -------------------------------------------------------------
+
+test_transcode_params_default if {
+	policy.transcode_params == {"quality": 24}
+}

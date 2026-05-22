@@ -17,8 +17,6 @@ spec:
     - name: filepath
     - name: output_filepath
       value: ""
-    - name: quality
-      value: "24"
     - name: encoder
       value: "software"
       enum:
@@ -79,6 +77,10 @@ spec:
         template: transcode
         depends: "evaluate-rules.Succeeded"
         when: "{{tasks.evaluate-rules.outputs.parameters.should_transcode}} == true"
+        arguments:
+          parameters:
+          - name: transcode_params
+            value: "{{tasks.evaluate-rules.outputs.parameters.transcode_params}}"
       - name: delete-original
         template: delete-original
         when: "{{workflow.parameters.delete_original}} == true"
@@ -98,8 +100,7 @@ spec:
         value: "{{workflow.parameters.filepath}}"
       - name: output_filepath
         value: "{{workflow.parameters.output_filepath}}"
-      - name: quality
-        value: "{{workflow.parameters.quality}}"
+      - name: transcode_params
       - name: encoder
         value: "{{workflow.parameters.encoder}}"
 
@@ -130,8 +131,8 @@ spec:
         value: "{{inputs.parameters.filepath}}"
       - name: OUTPUT_FILEPATH
         value: "{{inputs.parameters.output_filepath}}"
-      - name: QUALITY
-        value: "{{inputs.parameters.quality}}"
+      - name: TRANSCODE_PARAMS
+        value: "{{inputs.parameters.transcode_params}}"
       - name: ENCODER
         value: "{{inputs.parameters.encoder}}"
       resources:
@@ -326,6 +327,10 @@ spec:
         valueFrom:
           path: /tmp/reason.txt
           default: ""
+      - name: transcode_params
+        valueFrom:
+          path: /tmp/transcode_params.json
+          default: "{}"
     container:
       image: openpolicyagent/opa:1.16.2-debug
       command: [/bin/sh, -c]
@@ -339,10 +344,12 @@ spec:
         # Evaluate Rego policy and extract outputs from combined decision object
         /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
         /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
+        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
         # echo "  reason: $(cat /tmp/reason.txt)"
+        echo "  transcode_params: $(cat /tmp/transcode_params.json)"
       volumeMounts:
       - name: scripts
         mountPath: /scripts

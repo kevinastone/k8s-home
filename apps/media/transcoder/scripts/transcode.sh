@@ -4,7 +4,7 @@ set -o pipefail
 # These are expected to be passed as environment variables
 # FILEPATH
 # OUTPUT_FILEPATH
-# QUALITY
+# TRANSCODE_PARAMS (JSON string containing parameters, e.g. quality)
 # ENCODER (optional: 'hardware' or 'software')
 
 if [ -z "$FILEPATH" ]; then
@@ -14,6 +14,15 @@ fi
 
 # Default values
 ENCODER_TYPE="hardware"
+QUALITY="24"
+
+if [ -n "${TRANSCODE_PARAMS:-}" ]; then
+  if echo "$TRANSCODE_PARAMS" | jq empty 2>/dev/null; then
+    QUALITY=$(echo "$TRANSCODE_PARAMS" | jq -r '.quality // "24"')
+  else
+    echo "Warning: Invalid TRANSCODE_PARAMS JSON. Using default quality." >&2
+  fi
+fi
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do

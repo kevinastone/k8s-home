@@ -50,6 +50,8 @@ should_transcode if {
 	allow
 }
 
+default transcode_params := {"quality": 24}
+
 reasons := error | skip
 reason := concat("\n", reasons)
 
