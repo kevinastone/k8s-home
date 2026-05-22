@@ -13,7 +13,7 @@ spec:
   mountOptions:
   - dir_mode=0777
   - file_mode=0777
-  - cache=strict
+  - cache=none
   - actimeo=30
   - nosharesock
   - vers=3.0
