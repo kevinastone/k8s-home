@@ -16,3 +16,5 @@ configMapGenerator:
   - scripts/argo-ffmpeg-progress.sh
   - scripts/media-info.sh
   - policy/policy.rego
+  - policy/media-info.rego
+

@@ -279,12 +279,12 @@ spec:
 
         if [ ! -f "$INPUT_FILE" ]; then
           echo "Error: File $INPUT_FILE not found on PVC." >&2
-          jq -n '{codec: "unknown", width: 0, height: 0, bpp: 0, bitrate: 0, size: 0, fps: 0}' > /tmp/media-info-raw.json
+          jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info-raw.json
         else
           echo "Probing file: $INPUT_FILE"
           if ! /scripts/media-info.sh "$INPUT_FILE" > /tmp/media-info-raw.json; then
             echo "Warning: media-info.sh failed. Writing fallback JSON." >&2
-            jq -n '{codec: "unknown", width: 0, height: 0, bpp: 0, bitrate: 0, size: 0, fps: 0}' > /tmp/media-info-raw.json
+            jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info-raw.json
           fi
         fi
 
@@ -322,8 +322,8 @@ spec:
         echo '{{inputs.parameters.media-info}}' > /tmp/input.json
 
         # Evaluate Rego policy and extract outputs from combined decision object
-        /opa eval --format=raw --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
-        /opa eval --format=raw --data=/scripts/policy.rego --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
+        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
+        /opa eval --format=raw --data=/scripts/policy.rego --data=/scripts/media-info.rego --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"

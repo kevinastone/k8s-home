@@ -301,3 +301,85 @@ test_error_on_unknown_codec_case_insensitive if {
 test_error_on_missing_codec if {
 	policy.error with input as {"height": 1080}
 }
+
+# -------------------------------------------------------------
+# 5. Raw ffprobe Input Parsing Tests
+# -------------------------------------------------------------
+
+test_raw_input_eligible_h264 if {
+	policy.should_transcode with input as {
+		"force_transcode": false,
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "h264",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "24/1",
+			"bit_rate": "6000000",
+		}],
+		"format": {
+			"size": "100000000",
+			"bit_rate": "6100000",
+		},
+	}
+}
+
+test_raw_input_skip_efficient_codec if {
+	not policy.should_transcode with input as {
+		"force_transcode": false,
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "hevc",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "24/1",
+			"bit_rate": "6000000",
+		}],
+		"format": {"size": "100000000"},
+	}
+}
+
+test_raw_input_skip_small_size if {
+	not policy.should_transcode with input as {
+		"force_transcode": false,
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "h264",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "24/1",
+			"bit_rate": "6000000",
+		}],
+		"format": {"size": "10000"}, # < 50MB
+	}
+}
+
+test_raw_input_error_invalid_stream if {
+	policy.error with input as {
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "unknown",
+			"width": 0,
+			"height": 0,
+		}],
+		"format": {"size": "100000000"},
+	}
+}
+
+test_raw_input_bitrate_fallback_to_format if {
+	# No bit_rate on video stream, should fall back to format.bit_rate
+	policy.should_transcode with input as {
+		"force_transcode": false,
+		"streams": [{
+			"codec_type": "video",
+			"codec_name": "h264",
+			"width": 1920,
+			"height": 1080,
+			"r_frame_rate": "24/1",
+		}],
+		"format": {
+			"size": "100000000",
+			"bit_rate": "6000000",
+		},
+	}
+}

@@ -2,6 +2,13 @@ package policy
 
 import rego.v1
 
+import data.policy.media_info
+
+# Unified media helper to support dual-mode inputs
+media := media_info.info if {
+	input.streams
+} else := input
+
 error contains "No valid video stream found" if {
 	is_invalid_stream
 }
@@ -16,8 +23,8 @@ skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }
 
-skip contains $"{format_bytes(input.size)} is smaller than {format_bytes(minimum_size)}" if {
-	input.size < minimum_size
+skip contains $"{format_bytes(media.size)} is smaller than {format_bytes(minimum_size)}" if {
+	media.size < minimum_size
 }
 
 skip contains $"resolution tier {matching_tier} requirement failed: {msg}" if {
@@ -27,6 +34,8 @@ skip contains $"resolution tier {matching_tier} requirement failed: {msg}" if {
 
 default deny := false
 
+# METADATA
+# entrypoint: true
 default should_transcode := false
 
 should_transcode if {
@@ -49,26 +58,26 @@ reason := concat("\n", reasons)
 # -------------------------------------------------------------
 
 is_invalid_stream if {
-	not input.height
+	not media.height
 }
 
 is_invalid_stream if {
-	input.height <= 0
+	media.height <= 0
 }
 
 is_invalid_stream if {
-	not input.codec
+	not media.codec
 }
 
 is_invalid_stream if {
-	lower(input.codec) == "unknown"
+	lower(media.codec) == "unknown"
 }
 
 efficient_codecs := {"hevc", "h265", "av1", "vp9"}
 minimum_size := 52428800
 
 is_efficient_codec if {
-	lower(input.codec) in efficient_codecs
+	lower(media.codec) in efficient_codecs
 }
 
 # Threshold definitions
@@ -79,34 +88,34 @@ thresholds := {
 	"SD": {"min_height": 0, "bpp": 0.08, "bitrate": 1500000},
 }
 
-# Match the resolution tier (the highest tier where input.height >= min_height)
+# Match the resolution tier (the highest tier where media.height >= min_height)
 matching_tier := "4K" if {
-	input.height >= thresholds["4K"].min_height
+	media.height >= thresholds["4K"].min_height
 }
 
 matching_tier := "1080P" if {
-	input.height < thresholds["4K"].min_height
-	input.height >= thresholds["1080P"].min_height
+	media.height < thresholds["4K"].min_height
+	media.height >= thresholds["1080P"].min_height
 }
 
 matching_tier := "720P" if {
-	input.height < thresholds["1080P"].min_height
-	input.height >= thresholds["720P"].min_height
+	media.height < thresholds["1080P"].min_height
+	media.height >= thresholds["720P"].min_height
 }
 
 matching_tier := "SD" if {
-	input.height < thresholds["720P"].min_height
+	media.height < thresholds["720P"].min_height
 }
 
 # Failed requirements
-resolution_ineligible contains $"BPP {input.bpp} < threshold {t.bpp}" if {
+resolution_ineligible contains $"BPP {media.bpp} < threshold {t.bpp}" if {
 	t := thresholds[matching_tier]
-	input.bpp < t.bpp
+	media.bpp < t.bpp
 }
 
-resolution_ineligible contains $"bitrate {input.bitrate} < threshold {t.bitrate}" if {
+resolution_ineligible contains $"bitrate {media.bitrate} < threshold {t.bitrate}" if {
 	t := thresholds[matching_tier]
-	input.bitrate < t.bitrate
+	media.bitrate < t.bitrate
 }
 
 is_resolution_eligible if {

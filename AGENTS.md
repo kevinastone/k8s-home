@@ -23,3 +23,19 @@ ______________________________________________________________________
 This repository uses `treefmt` via Nix to enforce style consistency across files (including Markdown, YAML, and Nix).
 
 - **Rule:** AI agents and developers must format all modified files using `nix fmt` in the repository root before staging or committing changes.
+
+### Running OPA Tests Locally
+
+To run the OPA policy tests locally without installing the binary on your host machine, run OPA inside Docker:
+
+```bash
+docker run --rm -v $(pwd):/app -w /app openpolicyagent/opa:1.16.2 test apps/media/transcoder/policy/ -v
+```
+
+### Running Regal Lint Locally
+
+To run the Regal linter locally via the Nix development shell:
+
+```bash
+nix develop --command regal lint apps/media/transcoder/policy
+```
