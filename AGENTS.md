@@ -13,3 +13,13 @@ This cluster is managed entirely via GitOps. All infrastructure and application 
   - Do **not** manually create, edit, or delete namespace resources on the live cluster.
 - **Workflow:** Any desired state changes must be declared by committing and pushing the configuration files to this Git repository. The GitOps controller will automatically synchronize and apply the changes.
 - **Troubleshooting:** Read-only commands (e.g., `kubectl get`, `kubectl describe`, `kubectl logs`, `kubectl top`) are fully permitted for troubleshooting and inspection.
+
+______________________________________________________________________
+
+## Code Style & Formatting
+
+### File Formatting (`nix fmt`)
+
+This repository uses `treefmt` via Nix to enforce style consistency across files (including Markdown, YAML, and Nix).
+
+- **Rule:** AI agents and developers must format all modified files using `nix fmt` in the repository root before staging or committing changes.
