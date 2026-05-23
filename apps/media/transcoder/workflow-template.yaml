@@ -355,12 +355,14 @@ spec:
         set -eu
 
         # Generate input.json using native Argo JSON expressions and sprig template functions
-        echo '{{=toJson(sprig.dict(
+        cat << 'EOF' > /tmp/input.json
+        {{=toJson(sprig.dict(
           "media_info", sprig.mustFromJson(inputs.parameters["media-info"]),
           "force_transcode", inputs.parameters["force_transcode"] == "true",
           "filepath", inputs.parameters["filepath"],
           "output_filepath", inputs.parameters["output_filepath"]
-        ))}}' > /tmp/input.json
+        ))}}
+        EOF
 
         # Evaluate Rego policy using the Kubernetes-native ..data symlink directory to recursively load modular packages while avoiding symlink duplicate traversal
         /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
