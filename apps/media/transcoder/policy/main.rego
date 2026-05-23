@@ -4,10 +4,10 @@ import rego.v1
 
 import data.policy.audio
 import data.policy.filepath
-import data.policy.video as media
+import data.policy.video
 
 error contains "No valid video stream found" if {
-	media.is_invalid_stream
+	video.is_invalid_stream
 }
 
 error contains msg if {
@@ -18,11 +18,11 @@ skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }
 
-skip contains $"{format_bytes(media.size)} is smaller than {format_bytes(minimum_size)}" if {
-	media.size < minimum_size
+skip contains $"{format_bytes(video.size)} is smaller than {format_bytes(minimum_size)}" if {
+	video.size < minimum_size
 }
 
-deny contains $"resolution tier {media.matching_tier} requirement failed: {msg}" if {
+deny contains $"resolution tier {video.matching_tier} requirement failed: {msg}" if {
 	not is_resolution_eligible
 	some msg in resolution_ineligible
 }
@@ -62,7 +62,7 @@ efficient_codecs := {"hevc", "h265", "av1", "vp9"}
 minimum_size := 52428800
 
 is_efficient_codec if {
-	lower(media.codec) in efficient_codecs
+	lower(video.codec) in efficient_codecs
 }
 
 # Acceptance thresholds for each tier
@@ -74,14 +74,14 @@ thresholds := {
 }
 
 # Failed requirements
-resolution_ineligible contains $"BPP {media.bpp} < threshold {t.bpp}" if {
-	t := thresholds[media.matching_tier]
-	media.bpp < t.bpp
+resolution_ineligible contains $"BPP {video.bpp} < threshold {t.bpp}" if {
+	t := thresholds[video.matching_tier]
+	video.bpp < t.bpp
 }
 
-resolution_ineligible contains $"bitrate {media.bitrate} < threshold {t.bitrate}" if {
-	t := thresholds[media.matching_tier]
-	media.bitrate < t.bitrate
+resolution_ineligible contains $"bitrate {video.bitrate} < threshold {t.bitrate}" if {
+	t := thresholds[video.matching_tier]
+	video.bitrate < t.bitrate
 }
 
 is_resolution_eligible if {
