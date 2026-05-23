@@ -1,21 +1,21 @@
 # regal ignore:directory-package-mismatch
-package policy.media_info
+package policy.video
 
 import rego.v1
 
 # Extracts the first video stream from streams list
-video_streams := [s | some s in input.media_info.streams; s.codec_type == "video"]
+streams := [s | some s in input.media_info.streams; s.codec_type == "video"]
 
-first_video_stream := video_streams[0]
+first_stream := streams[0]
 
 # Individual calculated properties with safe defaults
 default width := 0
 
-width := first_video_stream.width
+width := first_stream.width
 
 default height := 0
 
-height := first_video_stream.height
+height := first_stream.height
 
 default size := 0
 
@@ -23,12 +23,12 @@ size := to_number(input.media_info.format.size)
 
 default codec := "unknown"
 
-codec := first_video_stream.codec_name
+codec := first_stream.codec_name
 
 default fps := 0
 
 fps := f if {
-	fps_str := first_video_stream.r_frame_rate
+	fps_str := first_stream.r_frame_rate
 	parts := split(fps_str, "/")
 	num := to_number(parts[0])
 	den := to_number(parts[1])
@@ -40,7 +40,7 @@ default bitrate := 0
 
 bitrate := br if {
 	candidates := [
-		object.get(first_video_stream, "bit_rate", null),
+		object.get(first_stream, "bit_rate", null),
 		object.get(input.media_info.format, "bit_rate", null),
 	]
 	valid_rates := [to_number(c) | some c in candidates; c != null; c != "N/A"; to_number(c) > 1]

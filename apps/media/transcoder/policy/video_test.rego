@@ -1,12 +1,12 @@
 # regal ignore:directory-package-mismatch
-package policy.media_info_test
+package policy.video_test
 
 import rego.v1
 
-import data.policy.media_info
+import data.policy.video
 
-test_media_info_standard if {
-	info := media_info with input as {"media_info": {
+test_video_standard if {
+	info := video with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"codec_name": "h264",
@@ -31,7 +31,7 @@ test_media_info_standard if {
 }
 
 test_fps_fraction_calculation if {
-	info := media_info with input as {"media_info": {
+	info := video with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "30000/1001",
@@ -44,7 +44,7 @@ test_fps_fraction_calculation if {
 }
 
 test_fps_zero_denominator if {
-	info := media_info with input as {"media_info": {
+	info := video with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "0/0",
@@ -56,7 +56,7 @@ test_fps_zero_denominator if {
 }
 
 test_bitrate_fallback_to_format if {
-	info := media_info with input as {"media_info": {
+	info := video with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"r_frame_rate": "24/1",
@@ -71,7 +71,7 @@ test_bitrate_fallback_to_format if {
 }
 
 test_bitrate_invalid_fallbacks if {
-	info := media_info with input as {"media_info": {
+	info := video with input as {"media_info": {
 		"streams": [{
 			"codec_type": "video",
 			"bit_rate": "N/A",
@@ -86,7 +86,7 @@ test_bitrate_invalid_fallbacks if {
 }
 
 test_fallback_defaults_when_empty if {
-	info := media_info with input as {"media_info": {
+	info := video with input as {"media_info": {
 		"streams": [],
 		"format": {"size": "0"},
 	}}
@@ -102,37 +102,37 @@ test_fallback_defaults_when_empty if {
 
 test_is_invalid_stream if {
 	# Zero height
-	media_info.is_invalid_stream with input as {"media_info": {
+	video.is_invalid_stream with input as {"media_info": {
 		"streams": [{"codec_type": "video", "codec_name": "h264", "height": 0}],
 		"format": {"size": "0"},
 	}}
 
 	# Negative height
-	media_info.is_invalid_stream with input as {"media_info": {
+	video.is_invalid_stream with input as {"media_info": {
 		"streams": [{"codec_type": "video", "codec_name": "h264", "height": -10}],
 		"format": {"size": "0"},
 	}}
 
 	# Missing height
-	media_info.is_invalid_stream with input as {"media_info": {
+	video.is_invalid_stream with input as {"media_info": {
 		"streams": [{"codec_type": "video", "codec_name": "h264"}],
 		"format": {"size": "0"},
 	}}
 
 	# Unknown codec
-	media_info.is_invalid_stream with input as {"media_info": {
+	video.is_invalid_stream with input as {"media_info": {
 		"streams": [{"codec_type": "video", "codec_name": "unknown", "height": 1080}],
 		"format": {"size": "0"},
 	}}
 
 	# Missing codec
-	media_info.is_invalid_stream with input as {"media_info": {
+	video.is_invalid_stream with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 1080}],
 		"format": {"size": "0"},
 	}}
 
 	# Valid stream should NOT be invalid
-	not media_info.is_invalid_stream with input as {"media_info": {
+	not video.is_invalid_stream with input as {"media_info": {
 		"streams": [{"codec_type": "video", "codec_name": "h264", "height": 1080}],
 		"format": {"size": "0"},
 	}}
@@ -140,25 +140,25 @@ test_is_invalid_stream if {
 
 test_matching_tier if {
 	# 4K tier
-	media_info.matching_tier == "4K" with input as {"media_info": {
+	video.matching_tier == "4K" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 2160}],
 		"format": {"size": "0"},
 	}}
 
 	# 1080P tier
-	media_info.matching_tier == "1080P" with input as {"media_info": {
+	video.matching_tier == "1080P" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 1080}],
 		"format": {"size": "0"},
 	}}
 
 	# 720P tier
-	media_info.matching_tier == "720P" with input as {"media_info": {
+	video.matching_tier == "720P" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 720}],
 		"format": {"size": "0"},
 	}}
 
 	# SD tier
-	media_info.matching_tier == "SD" with input as {"media_info": {
+	video.matching_tier == "SD" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 480}],
 		"format": {"size": "0"},
 	}}

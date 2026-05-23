@@ -4,7 +4,7 @@ import rego.v1
 
 import data.policy.audio
 import data.policy.filepath
-import data.policy.media_info as media
+import data.policy.video as media
 
 error contains "No valid video stream found" if {
 	media.is_invalid_stream

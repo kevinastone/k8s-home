@@ -17,7 +17,7 @@ configMapGenerator:
 - name: transcoder-policy
   files:
   - policy/main.rego
-  - policy/media-info.rego
+  - policy/video.rego
   - policy/audio.rego
   - policy/filepath.rego
 
