@@ -121,17 +121,15 @@ spec:
           path: /tmp/transcoded_filepath.txt
           default: ""
 
-    # Pod anti-affinity to spread Argo jobs across hosts
-    affinity:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: workflows.argoproj.io/workflow
-                operator: Exists
-            topologyKey: kubernetes.io/hostname
+    # Inject topology spread constraints via podSpecPatch for schema compatibility
+    podSpecPatch: |
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            workflows.argoproj.io/template-name: transcode
 
     container:
       image: lscr.io/linuxserver/ffmpeg:version-8.1-cli
