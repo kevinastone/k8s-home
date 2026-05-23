@@ -200,7 +200,12 @@ spec:
           DELETED=false
           for i in 1 2 3; do
             echo "Deletion attempt $i of 3..."
-            rm -f "$INPUT"
+            if [ ! -f "$INPUT" ]; then
+              echo "Successfully verified original file deletion."
+              DELETED=true
+              break
+            fi
+            rm -f "$INPUT" || true
             sync
             if [ ! -f "$INPUT" ]; then
               echo "Successfully verified original file deletion."
