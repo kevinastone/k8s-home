@@ -12,7 +12,7 @@ devices:
       product: 0x0601
 - name: vaapi
   groups:
-  - count: 2
+  - count: 10
     paths:
     - path: /dev/dri/renderD128
 - name: tun
