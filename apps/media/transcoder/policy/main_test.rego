@@ -131,7 +131,11 @@ test_skip_on_efficient_codec_case_insensitive if {
 	not policy.should_transcode with input as raw_video_force("HEVC", 1920, 1080, "24/1", 100000000, 5000000, false)
 }
 
-test_skip_on_low_bitrate_and_bpp if {
+# -------------------------------------------------------------
+# 4. Deny Conditions
+# -------------------------------------------------------------
+
+test_deny_on_low_bitrate_and_bpp if {
 	inp := {
 		"force_transcode": false,
 		"media_info": {
@@ -151,12 +155,12 @@ test_skip_on_low_bitrate_and_bpp if {
 	}
 	not policy.should_transcode with input as inp
 	msg := "resolution tier 1080P requirement failed: BPP 0.0010299802115483539095 < threshold 0.04"
-	policy.skip[msg] with input as inp
-	policy.skip["resolution tier 1080P requirement failed: bitrate 128018 < threshold 4000000"] with input as inp
+	policy.deny[msg] with input as inp
+	policy.deny["resolution tier 1080P requirement failed: bitrate 128018 < threshold 4000000"] with input as inp
 }
 
 # -------------------------------------------------------------
-# 4. Invalid Streams / Error Conditions
+# 5. Invalid Streams / Error Conditions
 # -------------------------------------------------------------
 
 test_error_on_zero_height if {
@@ -198,7 +202,7 @@ test_error_on_missing_codec if {
 }
 
 # -------------------------------------------------------------
-# 5. Raw ffprobe Input Parsing Tests
+# 6. Raw ffprobe Input Parsing Tests
 # -------------------------------------------------------------
 
 test_raw_input_eligible_h264 if {

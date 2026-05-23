@@ -14,12 +14,6 @@ error contains msg if {
 	some msg in filepath.error
 }
 
-default allow := false
-
-allow if {
-	is_resolution_eligible
-}
-
 skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }
@@ -28,12 +22,10 @@ skip contains $"{format_bytes(media.size)} is smaller than {format_bytes(minimum
 	media.size < minimum_size
 }
 
-skip contains $"resolution tier {media.matching_tier} requirement failed: {msg}" if {
+deny contains $"resolution tier {media.matching_tier} requirement failed: {msg}" if {
 	not is_resolution_eligible
 	some msg in resolution_ineligible
 }
-
-default deny := false
 
 # METADATA
 # entrypoint: true
@@ -47,8 +39,7 @@ should_transcode if {
 should_transcode if {
 	count(error) == 0
 	count(skip) == 0
-	not deny
-	allow
+	count(deny) == 0
 }
 
 transcode_params := {
@@ -56,7 +47,7 @@ transcode_params := {
 	"audio_args": audio.args,
 }
 
-reasons := error | skip
+reasons := (error | skip) | deny
 reason := concat("\n", reasons)
 
 default final_output_filepath := ""
