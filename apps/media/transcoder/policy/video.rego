@@ -21,20 +21,18 @@ default size := 0
 
 size := to_number(input.media_info.format.size)
 
-h264_codecs := {"h264", "h.264", "avc", "avc1"}
-hevc_codecs := {"h265", "hevc"}
-vc1_codecs := {"vc1", "vc-1", "wmv3"}
+codecs := {
+	"h264": {"h264", "h.264", "avc", "avc1"},
+	"hevc": {"h265", "hevc"},
+	"vc1": {"vc1", "vc-1", "wmv3"},
+}
 
-canonicalize(c) := "h264" if {
-	# regal ignore:external-reference
-	c in h264_codecs
-} else := "hevc" if {
-	# regal ignore:external-reference
-	c in hevc_codecs
-} else := "vc1" if {
-	# regal ignore:external-reference
-	c in vc1_codecs
-} else := c
+codec_normalization[variant] := canonical if {
+	some canonical, variants in codecs
+	some variant in variants
+}
+
+canonicalize(c) := object.get(codec_normalization, c, c)
 
 default codec := "unknown"
 
@@ -165,7 +163,7 @@ default selected_codec := ""
 
 selected_codec := "hevc_vaapi" if {
 	encoder == "hardware"
-	target_codec in hevc_codecs
+	target_codec == "hevc"
 }
 
 selected_codec := "av1_vaapi" if {
@@ -175,7 +173,7 @@ selected_codec := "av1_vaapi" if {
 
 selected_codec := "libx265" if {
 	encoder == "software"
-	target_codec in hevc_codecs
+	target_codec == "hevc"
 }
 
 selected_codec := "libsvtav1" if {
