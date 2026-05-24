@@ -40,16 +40,26 @@ default codec := "unknown"
 
 codec := canonicalize(lower(first_stream.codec_name))
 
-default fps := 0
-
-fps := f if {
-	fps_str := first_stream.r_frame_rate
+parse_fps_str(fps_str) := f if {
+	fps_str != "0/0"
 	parts := split(fps_str, "/")
 	num := to_number(parts[0])
 	den := to_number(parts[1])
 	den != 0
 	f := num / den
 }
+
+parse_fps(stream) := f if {
+	fps_str := object.get(stream, "avg_frame_rate", "0/0")
+	f := parse_fps_str(fps_str)
+} else := f if {
+	fps_str := object.get(stream, "r_frame_rate", "0/0")
+	f := parse_fps_str(fps_str)
+}
+
+default fps := 0
+
+fps := parse_fps(first_stream)
 
 default bitrate := 0
 

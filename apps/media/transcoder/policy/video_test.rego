@@ -55,6 +55,44 @@ test_fps_zero_denominator if {
 	info.fps == 0
 }
 
+test_fps_avg_frame_rate_preferred if {
+	info := video with input as {"media_info": {
+		"streams": [{
+			"codec_type": "video",
+			"avg_frame_rate": "24/1",
+			"r_frame_rate": "90000/1",
+		}],
+		"format": {"size": "0"},
+	}}
+
+	info.fps == 24
+}
+
+test_fps_avg_frame_rate_fallback_to_r_frame_rate if {
+	info := video with input as {"media_info": {
+		"streams": [{
+			"codec_type": "video",
+			"avg_frame_rate": "0/0",
+			"r_frame_rate": "30/1",
+		}],
+		"format": {"size": "0"},
+	}}
+
+	info.fps == 30
+}
+
+test_fps_avg_frame_rate_missing_fallback if {
+	info := video with input as {"media_info": {
+		"streams": [{
+			"codec_type": "video",
+			"r_frame_rate": "60/1",
+		}],
+		"format": {"size": "0"},
+	}}
+
+	info.fps == 60
+}
+
 test_bitrate_fallback_to_format if {
 	info := video with input as {"media_info": {
 		"streams": [{
