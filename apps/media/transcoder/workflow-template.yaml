@@ -32,6 +32,11 @@ spec:
       enum:
       - "true"
       - "false"
+    - name: target_codec
+      value: "hevc"
+      enum:
+      - "hevc"
+      - "av1"
 
   serviceAccountName: transcoder-sa
   activeDeadlineSeconds: 86400 # 24 hours — transcodes can queue and run for a long time
@@ -84,6 +89,8 @@ spec:
             value: "{{workflow.parameters.force_transcode}}"
           - name: encoder
             value: "{{workflow.parameters.encoder}}"
+          - name: target_codec
+            value: "{{workflow.parameters.target_codec}}"
       - name: transcode
         template: transcode
         depends: "evaluate-rules.Succeeded"
@@ -344,6 +351,7 @@ spec:
       - name: output_filepath
       - name: force_transcode
       - name: encoder
+      - name: target_codec
     outputs:
       parameters:
       - name: should_transcode
@@ -375,7 +383,8 @@ spec:
           "force_transcode", inputs.parameters["force_transcode"] == "true",
           "filepath", inputs.parameters["filepath"],
           "output_filepath", inputs.parameters["output_filepath"],
-          "encoder", inputs.parameters["encoder"]
+          "encoder", inputs.parameters["encoder"],
+          "target_codec", inputs.parameters["target_codec"]
         ))}}
         EOF
 
