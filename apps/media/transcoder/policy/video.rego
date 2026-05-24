@@ -23,7 +23,7 @@ size := to_number(input.media_info.format.size)
 
 h264_codecs := {"h264", "h.264", "avc", "avc1"}
 hevc_codecs := {"h265", "hevc"}
-vc1_codecs := {"vc1", "vc-1"}
+vc1_codecs := {"vc1", "vc-1", "wmv3"}
 
 canonicalize(c) := "h264" if {
 	# regal ignore:external-reference

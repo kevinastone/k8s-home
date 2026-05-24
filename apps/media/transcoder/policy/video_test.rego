@@ -100,7 +100,7 @@ test_fallback_defaults_when_empty if {
 	info.size == 0
 }
 
-test_codec_canonicalization if {
+test_codec_canonicalization_h264 if {
 	# h264 aliases should map to h264
 	c1 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "h264"}]}}
 	c1 == "h264"
@@ -113,14 +113,18 @@ test_codec_canonicalization if {
 
 	c4 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "avc1"}]}}
 	c4 == "h264"
+}
 
+test_codec_canonicalization_hevc if {
 	# hevc/h265 aliases should map to hevc
 	c6 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "h265"}]}}
 	c6 == "hevc"
 
 	c7 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc"}]}}
 	c7 == "hevc"
+}
 
+test_codec_canonicalization_vc1 if {
 	# vc1/vc-1 aliases should map to vc1
 	c8 := video.codec with input as {"media_info": {"streams": [{
 		"codec_type": "video",
@@ -134,6 +138,14 @@ test_codec_canonicalization if {
 	}]}}
 	c9 == "vc1"
 
+	c11 := video.codec with input as {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "wmv3",
+	}]}}
+	c11 == "vc1"
+}
+
+test_codec_canonicalization_other if {
 	# vp8 should resolve as-is
 	c10 := video.codec with input as {"media_info": {"streams": [{
 		"codec_type": "video",
@@ -147,7 +159,9 @@ test_codec_canonicalization if {
 		"codec_name": "mpeg2video",
 	}]}}
 	c5 == "mpeg2video"
+}
 
+test_target_codec_canonicalization if {
 	# target_codec canonicalization checks
 	t1 := video.target_codec with input as {"target_codec": "h264"}
 	t1 == "h264"
