@@ -26,6 +26,11 @@ skip contains $"{format_bytes(video.size)} is smaller than {format_bytes(minimum
 	video.size < minimum_size
 }
 
+skip contains "both video and audio can be copied without transcoding" if {
+	video.is_copying
+	audio.is_copying
+}
+
 deny contains $"resolution tier {video.matching_tier} requirement failed: {msg}" if {
 	not is_resolution_eligible
 	some msg in resolution_ineligible
@@ -67,7 +72,7 @@ efficient_codecs := {"hevc", "h265", "av1", "vp9"}
 minimum_size := 52428800
 
 is_efficient_codec if {
-	lower(video.codec) in efficient_codecs
+	video.codec in efficient_codecs
 }
 
 # Acceptance thresholds for each tier

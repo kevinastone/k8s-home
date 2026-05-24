@@ -217,3 +217,43 @@ test_video_args_hardware_4k if {
 		"media_info": {"streams": [{"codec_type": "video", "height": 2160}]},
 	}
 }
+
+test_video_args_copy_identical_codec if {
+	video.args == ["-c:v", "copy"] with input as {
+		"target_codec": "h264",
+		"media_info": {"streams": [{"codec_type": "video", "codec_name": "h264", "height": 1080}]},
+	}
+	video.pre_input_args == [] with input as {
+		"target_codec": "h264",
+		"encoder": "hardware",
+		"media_info": {"streams": [{"codec_type": "video", "codec_name": "h264", "height": 1080}]},
+	}
+
+	# Also verify identical hevc to hevc copy (which matches both helper rules)
+	video.args == ["-c:v", "copy"] with input as {
+		"target_codec": "hevc",
+		"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc", "height": 1080}]},
+	}
+}
+
+test_video_args_copy_equivalent_hevc if {
+	video.args == ["-c:v", "copy"] with input as {
+		"target_codec": "h265",
+		"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc", "height": 1080}]},
+	}
+}
+
+test_video_args_copy_equivalent_h265 if {
+	video.args == ["-c:v", "copy"] with input as {
+		"target_codec": "hevc",
+		"media_info": {"streams": [{"codec_type": "video", "codec_name": "h265", "height": 1080}]},
+	}
+}
+
+test_video_args_no_copy_when_scaling if {
+	video.args == ["-c:v", "hevc_vaapi", "-q:v", "24", "-vf", "scale_vaapi=w=-2:h=1080"] with input as {
+		"target_codec": "h265",
+		"encoder": "hardware",
+		"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc", "height": 2160}]},
+	}
+}

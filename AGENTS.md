@@ -39,3 +39,8 @@ To run the Regal linter locally via the Nix development shell:
 ```bash
 nix develop --command regal lint apps/media/transcoder/policy
 ```
+
+### OPA / Rego Style Guidelines
+
+- **Rule:** AI agents and developers must prefer string interpolation (`$""`) over `sprintf` for formatting strings in Rego policy files.
+  - *Example:* Use `$"Unsupported target_codec: {target_codec}."` instead of `sprintf("Unsupported target_codec: %s.", [target_codec])`.

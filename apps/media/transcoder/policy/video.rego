@@ -23,7 +23,7 @@ size := to_number(input.media_info.format.size)
 
 default codec := "unknown"
 
-codec := first_stream.codec_name
+codec := lower(first_stream.codec_name)
 
 default fps := 0
 
@@ -64,7 +64,7 @@ is_invalid_stream if {
 }
 
 is_invalid_stream if {
-	lower(codec) == "unknown"
+	codec == "unknown"
 }
 
 # Tier definitions based on height range
@@ -127,14 +127,34 @@ args := array.concat(base_args, scale_filter) if {
 	count(base_args) > 0
 }
 
+is_equivalent_codec if {
+	codec == target_codec
+}
+
+is_equivalent_codec if {
+	codec in hevc_codecs
+	target_codec in hevc_codecs
+}
+
+is_copying if {
+	is_equivalent_codec
+	not scale_height > 0
+}
+
+base_args := ["-c:v", "copy"] if {
+	is_copying
+}
+
 base_args := ["-c:v", "hevc_vaapi", "-q:v", $"{quality}"] if {
 	encoder == "hardware"
 	target_codec in hevc_codecs
+	not is_copying
 }
 
 base_args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
 	encoder == "software"
 	target_codec in hevc_codecs
+	not is_copying
 }
 
 default scale_filter := []
@@ -160,4 +180,5 @@ pre_input_args := [
 	"vaapi",
 ] if {
 	encoder == "hardware"
+	not is_copying
 }

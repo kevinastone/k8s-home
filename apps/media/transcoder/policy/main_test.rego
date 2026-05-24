@@ -307,3 +307,28 @@ test_error_on_unsupported_target_codec if {
 	}
 	policy.error["Unsupported target_codec: h264. Supported codecs are {\"h265\", \"hevc\"}"] with input as inp
 }
+
+test_skip_when_both_copying if {
+	inp := {
+		"target_codec": "hevc",
+		"media_info": {
+			"streams": [
+				{
+					"codec_type": "video",
+					"codec_name": "hevc",
+					"width": 1920,
+					"height": 1080,
+					"r_frame_rate": "24/1",
+				},
+				{
+					"codec_type": "audio",
+					"codec_name": "aac",
+				},
+			],
+			"format": {"size": "100000000"},
+		},
+	}
+	policy.skip["both video and audio can be copied without transcoding"] with input as inp
+	not policy.should_transcode with input as inp
+	policy.should_transcode with input as object.union(inp, {"force_transcode": true})
+}

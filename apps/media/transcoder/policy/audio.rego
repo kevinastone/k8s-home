@@ -13,6 +13,16 @@ codec := name if {
 	name := audio_streams[0].codec_name
 }
 
+default is_copying := false
+
+is_copying if {
+	codec == "none"
+}
+
+is_copying if {
+	codec in compatible_codecs
+}
+
 default args := ["-c:a", "copy"]
 
 args := [] if {
@@ -20,6 +30,5 @@ args := [] if {
 }
 
 args := ["-c:a", "aac", "-b:a", "192k"] if {
-	codec != "none"
-	not codec in compatible_codecs
+	not is_copying
 }
