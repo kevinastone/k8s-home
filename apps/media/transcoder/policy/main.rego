@@ -58,7 +58,6 @@ transcode_params := {
 }
 
 reasons := (error | skip) | deny
-reason := concat("\n", reasons)
 
 default final_output_filepath := ""
 

@@ -349,10 +349,10 @@ spec:
       - name: should_transcode
         valueFrom:
           path: /tmp/should_transcode.txt
-      - name: reason
+      - name: reasons
         valueFrom:
-          path: /tmp/reason.txt
-          default: ""
+          path: /tmp/reasons.json
+          default: "[]"
       - name: transcode_params
         valueFrom:
           path: /tmp/transcode_params.json
@@ -381,13 +381,13 @@ spec:
 
         # Evaluate Rego policy using the Kubernetes-native ..data symlink directory to recursively load modular packages while avoiding symlink duplicate traversal
         /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.should_transcode" > /tmp/should_transcode.txt
-        /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.reason" > /tmp/reason.txt
+        /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.reasons" > /tmp/reasons.json
         /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.transcode_params" > /tmp/transcode_params.json
         /opa eval --format=raw --data=/policy/..data --input=/tmp/input.json "data.policy.final_output_filepath" > /tmp/output_filepath.txt
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
-        echo "  reason: $(cat /tmp/reason.txt)"
+        echo "  reasons: $(cat /tmp/reasons.json)"
         echo "  transcode_params: $(cat /tmp/transcode_params.json)"
         echo "  output_filepath: $(cat /tmp/output_filepath.txt)"
       volumeMounts:
