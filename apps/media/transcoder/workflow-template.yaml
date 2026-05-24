@@ -123,8 +123,6 @@ spec:
         value: "{{workflow.parameters.filepath}}"
       - name: output_filepath
       - name: transcode_params
-      - name: encoder
-        value: "{{workflow.parameters.encoder}}"
 
     outputs:
       parameters:
@@ -153,8 +151,6 @@ spec:
         value: "{{inputs.parameters.output_filepath}}"
       - name: TRANSCODE_PARAMS
         value: "{{inputs.parameters.transcode_params}}"
-      - name: ENCODER
-        value: "{{inputs.parameters.encoder}}"
       resources:
         requests:
           cpu: 4000m
