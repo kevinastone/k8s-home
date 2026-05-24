@@ -14,7 +14,8 @@ spec:
   - dir_mode=0777
   - file_mode=0777
   - cache=none
-  - actimeo=30
+  - actimeo=1
+  - nohandlecache
   - nosharesock
   - vers=3.0
   - noserverino # required to prevent data corruption
