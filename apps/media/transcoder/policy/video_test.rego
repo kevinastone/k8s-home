@@ -100,6 +100,71 @@ test_fallback_defaults_when_empty if {
 	info.size == 0
 }
 
+test_codec_canonicalization if {
+	# h264 aliases should map to h264
+	c1 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "h264"}]}}
+	c1 == "h264"
+
+	c2 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "h.264"}]}}
+	c2 == "h264"
+
+	c3 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "avc"}]}}
+	c3 == "h264"
+
+	c4 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "avc1"}]}}
+	c4 == "h264"
+
+	# hevc/h265 aliases should map to hevc
+	c6 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "h265"}]}}
+	c6 == "hevc"
+
+	c7 := video.codec with input as {"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc"}]}}
+	c7 == "hevc"
+
+	# vc1/vc-1 aliases should map to vc1
+	c8 := video.codec with input as {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "vc1",
+	}]}}
+	c8 == "vc1"
+
+	c9 := video.codec with input as {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "vc-1",
+	}]}}
+	c9 == "vc1"
+
+	# vp8 should resolve as-is
+	c10 := video.codec with input as {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "vp8",
+	}]}}
+	c10 == "vp8"
+
+	# Other codecs should remain as-is
+	c5 := video.codec with input as {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "mpeg2video",
+	}]}}
+	c5 == "mpeg2video"
+
+	# target_codec canonicalization checks
+	t1 := video.target_codec with input as {"target_codec": "h264"}
+	t1 == "h264"
+
+	t2 := video.target_codec with input as {"target_codec": "AVC"}
+	t2 == "h264"
+
+	t3 := video.target_codec with input as {"target_codec": "h265"}
+	t3 == "hevc"
+
+	t4 := video.target_codec with input as {"target_codec": "HEVC"}
+	t4 == "hevc"
+
+	t5 := video.target_codec with input as {"target_codec": "vp9"}
+	t5 == "vp9"
+}
+
 test_is_invalid_stream if {
 	# Zero height
 	video.is_invalid_stream with input as {"media_info": {
@@ -173,7 +238,7 @@ test_scale_height if {
 test_video_encoder_defaults if {
 	video.encoder == "software" with input as {}
 	video.quality == 24 with input as {}
-	video.target_codec == "h265" with input as {}
+	video.target_codec == "hevc" with input as {}
 }
 
 test_video_encoder_custom if {

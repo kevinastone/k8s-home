@@ -21,9 +21,24 @@ default size := 0
 
 size := to_number(input.media_info.format.size)
 
+h264_codecs := {"h264", "h.264", "avc", "avc1"}
+hevc_codecs := {"h265", "hevc"}
+vc1_codecs := {"vc1", "vc-1"}
+
+canonicalize(c) := "h264" if {
+	# regal ignore:external-reference
+	c in h264_codecs
+} else := "hevc" if {
+	# regal ignore:external-reference
+	c in hevc_codecs
+} else := "vc1" if {
+	# regal ignore:external-reference
+	c in vc1_codecs
+} else := c
+
 default codec := "unknown"
 
-codec := lower(first_stream.codec_name)
+codec := canonicalize(lower(first_stream.codec_name))
 
 default fps := 0
 
@@ -108,17 +123,13 @@ default quality := 24
 
 quality := input.quality
 
-default target_codec := "h265"
+default target_codec := "hevc"
 
-target_codec := lower(input.target_codec)
-
-hevc_codecs := {"h265", "hevc"}
-
-supported_codecs := union({hevc_codecs})
+target_codec := canonicalize(lower(input.target_codec))
 
 # Errors
-error contains $"Unsupported target_codec: {target_codec}. Supported codecs are {supported_codecs}" if {
-	not target_codec in supported_codecs
+error contains $"Unsupported target_codec: {target_codec}. Supported codecs are {hevc_codecs}" if {
+	not target_codec in hevc_codecs
 }
 
 default args := []
@@ -127,13 +138,10 @@ args := array.concat(base_args, scale_filter) if {
 	count(base_args) > 0
 }
 
-is_equivalent_codec if {
-	codec == target_codec
-}
+default is_equivalent_codec := false
 
 is_equivalent_codec if {
-	codec in hevc_codecs
-	target_codec in hevc_codecs
+	codec == target_codec
 }
 
 is_copying if {

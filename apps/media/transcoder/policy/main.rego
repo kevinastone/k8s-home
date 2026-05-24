@@ -75,8 +75,9 @@ is_efficient_codec if {
 	video.codec in efficient_codecs
 }
 
-# Acceptance thresholds for each tier
-thresholds := {
+legacy_codecs := {"h264", "vc1", "vp8"}
+
+legacy_thresholds := {
 	"4K": {"bpp": 0.03, "bitrate": 10000000},
 	"1080P": {"bpp": 0.04, "bitrate": 4000000},
 	"720P": {"bpp": 0.05, "bitrate": 2000000},
@@ -85,12 +86,14 @@ thresholds := {
 
 # Failed requirements
 resolution_ineligible contains $"BPP {video.bpp} < threshold {t.bpp}" if {
-	t := thresholds[video.matching_tier]
+	video.codec in legacy_codecs
+	t := legacy_thresholds[video.matching_tier]
 	video.bpp < t.bpp
 }
 
 resolution_ineligible contains $"bitrate {video.bitrate} < threshold {t.bitrate}" if {
-	t := thresholds[video.matching_tier]
+	video.codec in legacy_codecs
+	t := legacy_thresholds[video.matching_tier]
 	video.bitrate < t.bitrate
 }
 

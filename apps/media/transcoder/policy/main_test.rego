@@ -141,7 +141,7 @@ test_deny_on_low_bitrate_and_bpp if {
 		"media_info": {
 			"streams": [{
 				"codec_type": "video",
-				"codec_name": "vc1",
+				"codec_name": "h264",
 				"width": 1920,
 				"height": 1080,
 				"r_frame_rate": "60000/1001",
@@ -157,6 +157,80 @@ test_deny_on_low_bitrate_and_bpp if {
 	msg := "resolution tier 1080P requirement failed: BPP 0.0010299802115483539095 < threshold 0.04"
 	policy.deny[msg] with input as inp
 	policy.deny["resolution tier 1080P requirement failed: bitrate 128018 < threshold 4000000"] with input as inp
+}
+
+test_unanticipated_codec_tolerated if {
+	inp := {
+		"force_transcode": false,
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "mpeg2video",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "60000/1001",
+				"bit_rate": "128018",
+			}],
+			"format": {
+				"size": "67108864",
+				"bit_rate": "128018",
+			},
+		},
+	}
+
+	# An unanticipated codec should tolerate low BPP and bitrate, and thus transcode without deny/skip
+	policy.should_transcode with input as inp
+	count(policy.deny) == 0 with input as inp
+}
+
+test_vc1_thresholds_enforced if {
+	inp := {
+		"force_transcode": false,
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "vc-1",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "60000/1001",
+				"bit_rate": "128018",
+			}],
+			"format": {
+				"size": "67108864",
+				"bit_rate": "128018",
+			},
+		},
+	}
+
+	# VC1 and VC-1 are anticipated, so they should fail thresholds
+	not policy.should_transcode with input as inp
+	msg := "resolution tier 1080P requirement failed: BPP 0.0010299802115483539095 < threshold 0.04"
+	policy.deny[msg] with input as inp
+}
+
+test_vp8_thresholds_enforced if {
+	inp := {
+		"force_transcode": false,
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "vp8",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "60000/1001",
+				"bit_rate": "128018",
+			}],
+			"format": {
+				"size": "67108864",
+				"bit_rate": "128018",
+			},
+		},
+	}
+
+	# VP8 is anticipated, so it should fail thresholds
+	not policy.should_transcode with input as inp
+	msg := "resolution tier 1080P requirement failed: BPP 0.0010299802115483539095 < threshold 0.04"
+	policy.deny[msg] with input as inp
 }
 
 # -------------------------------------------------------------
