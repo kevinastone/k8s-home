@@ -164,6 +164,12 @@ test_matching_tier if {
 	}}
 }
 
+test_scale_height if {
+	video.scale_height == 1080 with input as {"media_info": {"streams": [{"codec_type": "video", "height": 2160}]}}
+
+	video.scale_height == 0 with input as {"media_info": {"streams": [{"codec_type": "video", "height": 1080}]}}
+}
+
 test_video_encoder_defaults if {
 	video.encoder == "software" with input as {}
 	video.quality == 24 with input as {}

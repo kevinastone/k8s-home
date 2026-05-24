@@ -94,6 +94,12 @@ matching_tier := "SD" if {
 	height < tiers["720P"].min_height
 }
 
+default scale_height := 0
+
+scale_height := 1080 if {
+	matching_tier == "4K"
+}
+
 default encoder := "software"
 
 encoder := input.encoder
@@ -118,14 +124,14 @@ base_args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
 
 default scale_filter := []
 
-scale_filter := ["-vf", "scale_vaapi=w=-2:h=1080"] if {
+scale_filter := ["-vf", $"scale_vaapi=w=-2:h={scale_height}"] if {
 	encoder == "hardware"
-	matching_tier == "4K"
+	scale_height > 0
 }
 
-scale_filter := ["-vf", "scale=-2:1080"] if {
+scale_filter := ["-vf", $"scale=-2:{scale_height}"] if {
 	encoder == "software"
-	matching_tier == "4K"
+	scale_height > 0
 }
 
 default pre_input_args := []
