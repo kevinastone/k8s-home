@@ -191,21 +191,48 @@ quality_flag := "-crf" if {
 	encoder == "software"
 }
 
+default quality_args := []
+
+quality_args := [quality_flag, $"{quality}"] if {
+	quality_flag != ""
+}
+
+default pix_fmt_args := []
+
+pix_fmt_args := ["-pix_fmt", "yuv420p10le"] if {
+	selected_codec == "libx265"
+}
+
+default profile_args := []
+
+profile_args := ["-profile:v", "main10"] if {
+	selected_codec == "hevc_vaapi"
+}
+
+encoding_flags := array.concat(array.concat(quality_args, pix_fmt_args), profile_args)
+
 codec_args := ["-c:v", "copy"] if {
 	is_copying
 }
 
-codec_args := ["-c:v", selected_codec, quality_flag, $"{quality}"] if {
+codec_args := array.concat(["-c:v", selected_codec], encoding_flags) if {
 	selected_codec != ""
-	quality_flag != ""
 	not is_copying
 }
 
 default scale_filter := []
 
-scale_filter := ["-vf", $"scale_vaapi=w=-2:h={scale_height}"] if {
+scale_filter := ["-vf", $"scale_vaapi=w=-2:h={scale_height}:format=p010"] if {
 	encoder == "hardware"
+	not is_copying
 	scale_height > 0
+}
+
+# Converts the frame format to p010 on the GPU, which is required for 10-bit hardware transcoding.
+scale_filter := ["-vf", "scale_vaapi=format=p010"] if {
+	encoder == "hardware"
+	not is_copying
+	not scale_height > 0
 }
 
 scale_filter := ["-vf", $"scale=-2:{scale_height}"] if {
