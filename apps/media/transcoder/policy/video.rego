@@ -127,15 +127,17 @@ default target_codec := "hevc"
 
 target_codec := canonicalize(lower(input.target_codec))
 
+supported_target_codecs := {"hevc", "av1"}
+
 # Errors
-error contains $"Unsupported target_codec: {target_codec}. Supported codecs are {hevc_codecs}" if {
-	not target_codec in hevc_codecs
+error contains $"Unsupported target_codec: {target_codec}. Supported codecs are {supported_target_codecs}" if {
+	not target_codec in supported_target_codecs
 }
 
 default args := []
 
-args := array.concat(base_args, scale_filter) if {
-	count(base_args) > 0
+args := array.concat(codec_args, scale_filter) if {
+	count(codec_args) > 0
 }
 
 default is_equivalent_codec := false
@@ -149,19 +151,45 @@ is_copying if {
 	not scale_height > 0
 }
 
-base_args := ["-c:v", "copy"] if {
+default selected_codec := ""
+
+selected_codec := "hevc_vaapi" if {
+	encoder == "hardware"
+	target_codec in hevc_codecs
+}
+
+selected_codec := "av1_vaapi" if {
+	encoder == "hardware"
+	target_codec == "av1"
+}
+
+selected_codec := "libx265" if {
+	encoder == "software"
+	target_codec in hevc_codecs
+}
+
+selected_codec := "libsvtav1" if {
+	encoder == "software"
+	target_codec == "av1"
+}
+
+default quality_flag := ""
+
+quality_flag := "-q:v" if {
+	encoder == "hardware"
+}
+
+quality_flag := "-crf" if {
+	encoder == "software"
+}
+
+codec_args := ["-c:v", "copy"] if {
 	is_copying
 }
 
-base_args := ["-c:v", "hevc_vaapi", "-q:v", $"{quality}"] if {
-	encoder == "hardware"
-	target_codec in hevc_codecs
-	not is_copying
-}
-
-base_args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
-	encoder == "software"
-	target_codec in hevc_codecs
+codec_args := ["-c:v", selected_codec, quality_flag, $"{quality}"] if {
+	selected_codec != ""
+	quality_flag != ""
 	not is_copying
 }
 

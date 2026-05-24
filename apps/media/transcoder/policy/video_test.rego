@@ -249,12 +249,17 @@ test_video_encoder_custom if {
 
 	video.target_codec == "hevc" with input as {"target_codec": "hevc"}
 	video.args == ["-c:v", "libx265", "-crf", "24"] with input as {"target_codec": "hevc", "encoder": "software"}
+
+	video.target_codec == "av1" with input as {"target_codec": "av1"}
+	video.args == ["-c:v", "libsvtav1", "-crf", "24"] with input as {"target_codec": "av1", "encoder": "software"}
+	video.args == ["-c:v", "av1_vaapi", "-q:v", "24"] with input as {"target_codec": "av1", "encoder": "hardware"}
 }
 
 test_video_error_unsupported_target_codec if {
-	expected_err := "Unsupported target_codec: av1. Supported codecs are {\"h265\", \"hevc\"}"
-	video.error[expected_err] with input as {"target_codec": "AV1"}
+	expected_err := "Unsupported target_codec: h264. Supported codecs are {\"av1\", \"hevc\"}"
+	video.error[expected_err] with input as {"target_codec": "h264"}
 	count(video.error) == 0 with input as {"target_codec": "HEVC"}
+	count(video.error) == 0 with input as {"target_codec": "AV1"}
 }
 
 test_video_args_software if {

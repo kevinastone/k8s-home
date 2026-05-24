@@ -379,7 +379,7 @@ test_error_on_unsupported_target_codec if {
 			"format": {"size": "100000000"},
 		},
 	}
-	policy.error["Unsupported target_codec: h264. Supported codecs are {\"h265\", \"hevc\"}"] with input as inp
+	policy.error["Unsupported target_codec: h264. Supported codecs are {\"av1\", \"hevc\"}"] with input as inp
 }
 
 test_skip_when_both_copying if {
