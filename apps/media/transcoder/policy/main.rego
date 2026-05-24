@@ -43,7 +43,6 @@ should_transcode if {
 }
 
 transcode_params := {
-	"quality": video.quality,
 	"audio_args": audio.args,
 	"video_args": video.args,
 	"pre_input_args": video.pre_input_args,

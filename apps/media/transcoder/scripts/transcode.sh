@@ -4,7 +4,7 @@ set -euo pipefail
 # These are expected to be passed as environment variables
 # FILEPATH
 # OUTPUT_FILEPATH
-# TRANSCODE_PARAMS (JSON string containing parameters, e.g. quality, video_args, pre_input_args, audio_args)
+# TRANSCODE_PARAMS (JSON string containing parameters, e.g. video_args, pre_input_args, audio_args)
 
 if [ -z "${FILEPATH:-}" ]; then
   echo "Error: No filepath provided." >&2
