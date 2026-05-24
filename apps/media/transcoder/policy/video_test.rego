@@ -173,11 +173,23 @@ test_scale_height if {
 test_video_encoder_defaults if {
 	video.encoder == "software" with input as {}
 	video.quality == 24 with input as {}
+	video.target_codec == "h265" with input as {}
 }
 
 test_video_encoder_custom if {
 	video.encoder == "hardware" with input as {"encoder": "hardware"}
 	video.quality == 18 with input as {"quality": 18}
+	video.target_codec == "h264" with input as {"target_codec": "h264"}
+	video.args == [] with input as {"target_codec": "h264"}
+
+	video.target_codec == "hevc" with input as {"target_codec": "hevc"}
+	video.args == ["-c:v", "libx265", "-crf", "24"] with input as {"target_codec": "hevc", "encoder": "software"}
+}
+
+test_video_error_unsupported_target_codec if {
+	expected_err := "Unsupported target_codec: av1. Supported codecs are {\"h265\", \"hevc\"}"
+	video.error[expected_err] with input as {"target_codec": "AV1"}
+	count(video.error) == 0 with input as {"target_codec": "HEVC"}
 }
 
 test_video_args_software if {

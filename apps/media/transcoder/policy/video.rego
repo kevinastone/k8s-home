@@ -108,6 +108,19 @@ default quality := 24
 
 quality := input.quality
 
+default target_codec := "h265"
+
+target_codec := lower(input.target_codec)
+
+hevc_codecs := {"h265", "hevc"}
+
+supported_codecs := union({hevc_codecs})
+
+# Errors
+error contains $"Unsupported target_codec: {target_codec}. Supported codecs are {supported_codecs}" if {
+	not target_codec in supported_codecs
+}
+
 default args := []
 
 args := array.concat(base_args, scale_filter) if {
@@ -116,10 +129,12 @@ args := array.concat(base_args, scale_filter) if {
 
 base_args := ["-c:v", "hevc_vaapi", "-q:v", $"{quality}"] if {
 	encoder == "hardware"
+	target_codec in hevc_codecs
 }
 
 base_args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
 	encoder == "software"
+	target_codec in hevc_codecs
 }
 
 default scale_filter := []

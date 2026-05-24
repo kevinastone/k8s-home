@@ -14,6 +14,10 @@ error contains msg if {
 	some msg in filepath.error
 }
 
+error contains msg if {
+	some msg in video.error
+}
+
 skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }

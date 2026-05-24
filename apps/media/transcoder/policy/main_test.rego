@@ -290,3 +290,20 @@ test_raw_input_bitrate_fallback_to_format if {
 		},
 	}
 }
+
+test_error_on_unsupported_target_codec if {
+	inp := {
+		"target_codec": "H264",
+		"media_info": {
+			"streams": [{
+				"codec_type": "video",
+				"codec_name": "h264",
+				"width": 1920,
+				"height": 1080,
+				"r_frame_rate": "24/1",
+			}],
+			"format": {"size": "100000000"},
+		},
+	}
+	policy.error["Unsupported target_codec: h264. Supported codecs are {\"h265\", \"hevc\"}"] with input as inp
+}
