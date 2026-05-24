@@ -104,12 +104,28 @@ quality := input.quality
 
 default args := []
 
-args := ["-c:v", "hevc_vaapi", "-q:v", $"{quality}"] if {
+args := array.concat(base_args, scale_filter) if {
+	count(base_args) > 0
+}
+
+base_args := ["-c:v", "hevc_vaapi", "-q:v", $"{quality}"] if {
 	encoder == "hardware"
 }
 
-args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
+base_args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
 	encoder == "software"
+}
+
+default scale_filter := []
+
+scale_filter := ["-vf", "scale_vaapi=w=-2:h=1080"] if {
+	encoder == "hardware"
+	matching_tier == "4K"
+}
+
+scale_filter := ["-vf", "scale=-2:1080"] if {
+	encoder == "software"
+	matching_tier == "4K"
 }
 
 default pre_input_args := []

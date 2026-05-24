@@ -184,3 +184,18 @@ test_video_args_hardware if {
 	expected := ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "vaapi"]
 	video.pre_input_args == expected with input as {"encoder": "hardware"}
 }
+
+test_video_args_software_4k if {
+	video.args == ["-c:v", "libx265", "-crf", "24", "-vf", "scale=-2:1080"] with input as {
+		"encoder": "software",
+		"media_info": {"streams": [{"codec_type": "video", "height": 2160}]},
+	}
+}
+
+test_video_args_hardware_4k if {
+	video.args == ["-c:v", "hevc_vaapi", "-q:v", "18", "-vf", "scale_vaapi=w=-2:h=1080"] with input as {
+		"encoder": "hardware",
+		"quality": 18,
+		"media_info": {"streams": [{"codec_type": "video", "height": 2160}]},
+	}
+}
