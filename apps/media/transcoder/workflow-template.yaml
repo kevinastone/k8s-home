@@ -387,7 +387,7 @@ spec:
 
         echo "OPA evaluation complete:"
         echo "  should_transcode: $(cat /tmp/should_transcode.txt)"
-        # echo "  reason: $(cat /tmp/reason.txt)"
+        echo "  reason: $(cat /tmp/reason.txt)"
         echo "  transcode_params: $(cat /tmp/transcode_params.json)"
         echo "  output_filepath: $(cat /tmp/output_filepath.txt)"
       volumeMounts:
