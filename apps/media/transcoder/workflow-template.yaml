@@ -22,7 +22,7 @@ spec:
       enum:
       - "hardware"
       - "software"
-    - name: delete_original
+    - name: replace_original
       value: "false"
       enum:
       - "true"
@@ -104,9 +104,11 @@ spec:
             value: "{{workflow.parameters.filepath}}"
           - name: output_filepath
             value: "{{tasks.evaluate-rules.outputs.parameters.output_filepath}}"
+          - name: replace_original
+            value: "{{workflow.parameters.replace_original}}"
       - name: delete-original
         template: delete-original
-        when: "{{workflow.parameters.delete_original}} == true"
+        when: "{{workflow.parameters.replace_original}} == true"
         depends: "transcode.Succeeded"
         arguments:
           parameters:
@@ -398,6 +400,7 @@ spec:
       parameters:
       - name: input_filepath
       - name: output_filepath
+      - name: replace_original
     script:
       image: alpine:3
       command: [sh]
@@ -428,12 +431,19 @@ spec:
 
         REAL_INPUT=$(realpath "$INPUT")
         REAL_OUTPUT=$(realpath "$OUTPUT" 2>/dev/null || echo "$OUTPUT")
+        REPLACE_ORIGINAL="{{inputs.parameters.replace_original}}"
 
-        if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
+        if [ "$REAL_INPUT" = "$REAL_OUTPUT" ]; then
+          echo "Input and output files are the same: $INPUT. No move or copy required."
+          exit 0
+        fi
+
+        if [ "$REPLACE_ORIGINAL" = "true" ]; then
           echo "Moving $INPUT to $OUTPUT"
           mv "$INPUT" "$OUTPUT"
         else
-          echo "Input and output files are the same: $INPUT. No move required."
+          echo "Copying $INPUT to $OUTPUT"
+          cp "$INPUT" "$OUTPUT"
         fi
       volumeMounts:
       - name: media

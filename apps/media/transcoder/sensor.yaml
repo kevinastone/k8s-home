@@ -39,7 +39,7 @@ spec:
                 parameters:
                 - name: filepath
                 - name: output_filepath
-                - name: delete_original
+                - name: replace_original
                   value: "true"
         parameters:
         - src:
