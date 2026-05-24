@@ -93,3 +93,34 @@ matching_tier := "720P" if {
 matching_tier := "SD" if {
 	height < tiers["720P"].min_height
 }
+
+default encoder := "software"
+
+encoder := input.encoder
+
+default quality := 24
+
+quality := input.quality
+
+default args := []
+
+args := ["-c:v", "hevc_vaapi", "-q:v", $"{quality}"] if {
+	encoder == "hardware"
+}
+
+args := ["-c:v", "libx265", "-crf", $"{quality}"] if {
+	encoder == "software"
+}
+
+default pre_input_args := []
+
+pre_input_args := [
+	"-hwaccel",
+	"vaapi",
+	"-hwaccel_device",
+	"/dev/dri/renderD128",
+	"-hwaccel_output_format",
+	"vaapi",
+] if {
+	encoder == "hardware"
+}

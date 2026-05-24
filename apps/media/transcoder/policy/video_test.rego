@@ -163,3 +163,24 @@ test_matching_tier if {
 		"format": {"size": "0"},
 	}}
 }
+
+test_video_encoder_defaults if {
+	video.encoder == "software" with input as {}
+	video.quality == 24 with input as {}
+}
+
+test_video_encoder_custom if {
+	video.encoder == "hardware" with input as {"encoder": "hardware"}
+	video.quality == 18 with input as {"quality": 18}
+}
+
+test_video_args_software if {
+	video.args == ["-c:v", "libx265", "-crf", "24"] with input as {"encoder": "software"}
+	video.pre_input_args == [] with input as {"encoder": "software"}
+}
+
+test_video_args_hardware if {
+	video.args == ["-c:v", "hevc_vaapi", "-q:v", "18"] with input as {"encoder": "hardware", "quality": 18}
+	expected := ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "vaapi"]
+	video.pre_input_args == expected with input as {"encoder": "hardware"}
+}

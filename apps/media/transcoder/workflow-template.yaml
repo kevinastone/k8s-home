@@ -82,6 +82,8 @@ spec:
             value: "{{workflow.parameters.output_filepath}}"
           - name: force_transcode
             value: "{{workflow.parameters.force_transcode}}"
+          - name: encoder
+            value: "{{workflow.parameters.encoder}}"
       - name: transcode
         template: transcode
         depends: "evaluate-rules.Succeeded"
@@ -333,6 +335,7 @@ spec:
       - name: filepath
       - name: output_filepath
       - name: force_transcode
+      - name: encoder
     outputs:
       parameters:
       - name: should_transcode
@@ -363,7 +366,8 @@ spec:
           "media_info", sprig.mustFromJson(inputs.parameters["media-info"]),
           "force_transcode", inputs.parameters["force_transcode"] == "true",
           "filepath", inputs.parameters["filepath"],
-          "output_filepath", inputs.parameters["output_filepath"]
+          "output_filepath", inputs.parameters["output_filepath"],
+          "encoder", inputs.parameters["encoder"]
         ))}}
         EOF
 

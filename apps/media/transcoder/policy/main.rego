@@ -43,8 +43,10 @@ should_transcode if {
 }
 
 transcode_params := {
-	"quality": 24,
+	"quality": video.quality,
 	"audio_args": audio.args,
+	"video_args": video.args,
+	"pre_input_args": video.pre_input_args,
 }
 
 reasons := (error | skip) | deny
