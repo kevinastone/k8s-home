@@ -94,6 +94,16 @@ spec:
             value: "{{tasks.evaluate-rules.outputs.parameters.transcode_params}}"
           - name: output_filepath
             value: "{{tasks.evaluate-rules.outputs.parameters.output_filepath}}"
+      - name: move-file
+        template: move-file
+        depends: "evaluate-rules.Succeeded"
+        when: "{{tasks.evaluate-rules.outputs.parameters.should_transcode}} == false"
+        arguments:
+          parameters:
+          - name: input_filepath
+            value: "{{workflow.parameters.filepath}}"
+          - name: output_filepath
+            value: "{{tasks.evaluate-rules.outputs.parameters.output_filepath}}"
       - name: delete-original
         template: delete-original
         when: "{{workflow.parameters.delete_original}} == true"
@@ -385,3 +395,50 @@ spec:
       volumeMounts:
       - name: policy
         mountPath: /policy
+
+  # Move file step: moves the input file to the output file if they're not the same
+  - name: move-file
+    inputs:
+      parameters:
+      - name: input_filepath
+      - name: output_filepath
+    script:
+      image: alpine:3
+      command: [sh]
+      source: |
+        set -eu
+
+        INPUT_FILE="{{inputs.parameters.input_filepath}}"
+        if [ "${INPUT_FILE#/media/}" != "$INPUT_FILE" ]; then
+          INPUT="$INPUT_FILE"
+        else
+          INPUT="/media/${INPUT_FILE#/}"
+        fi
+
+        OUTPUT_FILE="{{inputs.parameters.output_filepath}}"
+        if [ "${OUTPUT_FILE#/media/}" != "$OUTPUT_FILE" ]; then
+          OUTPUT="$OUTPUT_FILE"
+        else
+          OUTPUT="/media/${OUTPUT_FILE#/}"
+        fi
+
+        if [ ! -f "$INPUT" ]; then
+          echo "Error: Input file not found: $INPUT" >&2
+          exit 1
+        fi
+
+        # Make sure target directory exists
+        mkdir -p "$(dirname "$OUTPUT")"
+
+        REAL_INPUT=$(realpath "$INPUT")
+        REAL_OUTPUT=$(realpath "$OUTPUT" 2>/dev/null || echo "$OUTPUT")
+
+        if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
+          echo "Moving $INPUT to $OUTPUT"
+          mv "$INPUT" "$OUTPUT"
+        else
+          echo "Input and output files are the same: $INPUT. No move required."
+        fi
+      volumeMounts:
+      - name: media
+        mountPath: /media
