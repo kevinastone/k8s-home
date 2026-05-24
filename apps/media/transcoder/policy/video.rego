@@ -191,25 +191,23 @@ quality_flag := "-crf" if {
 	encoder == "software"
 }
 
-default quality_args := []
-
-quality_args := [quality_flag, $"{quality}"] if {
+encoding_options contains [quality_flag, $"{quality}"] if {
 	quality_flag != ""
 }
 
-default pix_fmt_args := []
-
-pix_fmt_args := ["-pix_fmt", "yuv420p10le"] if {
+encoding_options contains ["-pix_fmt", "yuv420p10le"] if {
 	selected_codec == "libx265"
 }
 
-default profile_args := []
-
-profile_args := ["-profile:v", "main10"] if {
+encoding_options contains ["-profile:v", "main10"] if {
 	selected_codec == "hevc_vaapi"
 }
 
-encoding_flags := array.concat(array.concat(quality_args, pix_fmt_args), profile_args)
+# Flattens the set of key-value option tuples into a single deterministic array of arguments for FFmpeg.
+encoding_flags := [arg |
+	some opt in encoding_options
+	some arg in opt
+]
 
 codec_args := ["-c:v", "copy"] if {
 	is_copying

@@ -320,7 +320,7 @@ test_video_args_software if {
 }
 
 test_video_args_hardware if {
-	video.args == ["-c:v", "hevc_vaapi", "-q:v", "18", "-profile:v", "main10", "-vf", "scale_vaapi=format=p010"] with input as {"encoder": "hardware", "quality": 18}
+	video.args == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18", "-vf", "scale_vaapi=format=p010"] with input as {"encoder": "hardware", "quality": 18}
 	expected := ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "vaapi"]
 	video.pre_input_args == expected with input as {"encoder": "hardware"}
 }
@@ -333,7 +333,7 @@ test_video_args_software_4k if {
 }
 
 test_video_args_hardware_4k if {
-	video.args == ["-c:v", "hevc_vaapi", "-q:v", "18", "-profile:v", "main10", "-vf", "scale_vaapi=w=-2:h=1080:format=p010"] with input as {
+	video.args == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18", "-vf", "scale_vaapi=w=-2:h=1080:format=p010"] with input as {
 		"encoder": "hardware",
 		"quality": 18,
 		"media_info": {"streams": [{"codec_type": "video", "height": 2160}]},
@@ -373,7 +373,7 @@ test_video_args_copy_equivalent_h265 if {
 }
 
 test_video_args_no_copy_when_scaling if {
-	video.args == ["-c:v", "hevc_vaapi", "-q:v", "24", "-profile:v", "main10", "-vf", "scale_vaapi=w=-2:h=1080:format=p010"] with input as {
+	video.args == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "24", "-vf", "scale_vaapi=w=-2:h=1080:format=p010"] with input as {
 		"target_codec": "h265",
 		"encoder": "hardware",
 		"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc", "height": 2160}]},
