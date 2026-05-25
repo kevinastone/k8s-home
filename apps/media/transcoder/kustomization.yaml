@@ -20,11 +20,11 @@ configMapGenerator:
   - scripts/delete-original.sh
 - name: transcoder-policy
   files:
-  - main.rego=policy/main.rego
-  - video/main.rego=policy/video/main.rego
-  - video/resolution.rego=policy/video/resolution.rego
-  - video/codec.rego=policy/video/codec.rego
-  - video/ffmpeg.rego=policy/video/ffmpeg.rego
-  - audio.rego=policy/audio.rego
-  - filepath.rego=policy/filepath.rego
+  - policy/main.rego
+  - policy/video_main.rego
+  - policy/video_resolution.rego
+  - policy/video_codec.rego
+  - policy/video_ffmpeg.rego
+  - policy/audio.rego
+  - policy/filepath.rego
 
