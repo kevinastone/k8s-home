@@ -31,7 +31,7 @@ skip contains "both video and audio can be copied without transcoding" if {
 	audio.is_copying
 }
 
-deny contains $"resolution tier {video.matching_tier} requirement failed: {msg}" if {
+deny contains $"resolution tier {video.resolution} requirement failed: {msg}" if {
 	not is_resolution_eligible
 	some msg in resolution_ineligible
 }
@@ -86,13 +86,13 @@ legacy_thresholds := {
 # Failed requirements
 resolution_ineligible contains $"BPP {video.bpp} < threshold {t.bpp}" if {
 	video.codec in legacy_codecs
-	t := legacy_thresholds[video.matching_tier]
+	t := legacy_thresholds[video.resolution]
 	video.bpp < t.bpp
 }
 
 resolution_ineligible contains $"bitrate {video.bitrate} < threshold {t.bitrate}" if {
 	video.codec in legacy_codecs
-	t := legacy_thresholds[video.matching_tier]
+	t := legacy_thresholds[video.resolution]
 	video.bitrate < t.bitrate
 }
 

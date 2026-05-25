@@ -255,27 +255,27 @@ test_is_invalid_stream if {
 	}}
 }
 
-test_matching_tier if {
-	# 4K tier
-	video.matching_tier == "4K" with input as {"media_info": {
+test_resolution if {
+	# 4K resolution
+	video.resolution == "4K" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 2160}],
 		"format": {"size": "0"},
 	}}
 
-	# 1080P tier
-	video.matching_tier == "1080P" with input as {"media_info": {
+	# 1080P resolution
+	video.resolution == "1080P" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 1080}],
 		"format": {"size": "0"},
 	}}
 
-	# 720P tier
-	video.matching_tier == "720P" with input as {"media_info": {
+	# 720P resolution
+	video.resolution == "720P" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 720}],
 		"format": {"size": "0"},
 	}}
 
-	# SD tier
-	video.matching_tier == "SD" with input as {"media_info": {
+	# SD resolution
+	video.resolution == "SD" with input as {"media_info": {
 		"streams": [{"codec_type": "video", "height": 480}],
 		"format": {"size": "0"},
 	}}

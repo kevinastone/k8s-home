@@ -90,37 +90,37 @@ is_invalid_stream if {
 	codec == "unknown"
 }
 
-# Tier definitions based on height range
-tiers := {
+# Resolution definitions based on height range
+resolutions := {
 	"4K": {"min_height": 2000},
 	"1080P": {"min_height": 1000},
 	"720P": {"min_height": 700},
 	"SD": {"min_height": 0},
 }
 
-# Match the resolution tier (the highest tier where height >= min_height)
-matching_tier := "4K" if {
-	height >= tiers["4K"].min_height
+# Match the resolution (the highest resolution where height >= min_height)
+resolution := "4K" if {
+	height >= resolutions["4K"].min_height
 }
 
-matching_tier := "1080P" if {
-	height < tiers["4K"].min_height
-	height >= tiers["1080P"].min_height
+resolution := "1080P" if {
+	height < resolutions["4K"].min_height
+	height >= resolutions["1080P"].min_height
 }
 
-matching_tier := "720P" if {
-	height < tiers["1080P"].min_height
-	height >= tiers["720P"].min_height
+resolution := "720P" if {
+	height < resolutions["1080P"].min_height
+	height >= resolutions["720P"].min_height
 }
 
-matching_tier := "SD" if {
-	height < tiers["720P"].min_height
+resolution := "SD" if {
+	height < resolutions["720P"].min_height
 }
 
 default scale_height := 0
 
 scale_height := 1080 if {
-	matching_tier == "4K"
+	resolution == "4K"
 }
 
 default encoder := "software"
