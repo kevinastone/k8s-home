@@ -34,7 +34,7 @@ spec:
     namespace: envoy
     sectionName: https
   hostnames:
-  - rustfs-s3.k8s.kevinastone.com
+  - s3.k8s.kevinastone.com
   rules:
   - backendRefs:
     - name: rustfs

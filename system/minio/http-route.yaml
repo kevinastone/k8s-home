@@ -35,7 +35,7 @@ spec:
     namespace: envoy
     sectionName: https
   hostnames:
-  - s3.k8s.kevinastone.com
+  - minio-s3.k8s.kevinastone.com
   rules:
   - backendRefs:
     - name: minio
