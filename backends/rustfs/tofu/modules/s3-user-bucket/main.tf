@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    minio = {
-      source = "aminueza/minio"
+    rustfs = {
+      source = "ethdevops/rustfs"
     }
   }
 }
@@ -17,51 +17,34 @@ variable "secret" {
   sensitive   = true
 }
 
-resource "minio_s3_bucket" "bucket" {
-  bucket = var.name
+resource "rustfs_bucket" "bucket" {
+  name = var.name
 }
 
-resource "minio_iam_user" "user" {
-  name   = "${var.name}_user"
-  secret = var.secret
+resource "rustfs_policy" "policy" {
+  name = var.name
+  statement = [
+    {
+      action = ["s3:*"]
+      effect = "Allow"
+      # Necessary typo
+      ressource = [
+        "arn:aws:s3:::${var.name}",
+        "arn:aws:s3:::${var.name}/*"
+      ]
+    }
+  ]
 }
 
-# resource "minio_accesskey" "access-key" {
-#   # user               = minio_iam_user.user.name
-#   access_key         = var.name
-#   secret_key         = var.secret
-#   secret_key_version = sha256(var.secret)
-#   policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [
-#       {
-#         Effect = "Allow"
-#         Action = ["s3:*"]
-#         Resource = [
-#           "arn:aws:s3:::${var.name}",
-#           "arn:aws:s3:::${var.name}/*"
-#         ]
-#       }
-#     ]
-#   })
-# }
+resource "rustfs_user" "user" {
+  access_key = "${var.name}_user"
+  secret_key = var.secret
+  policy     = var.name
+}
 
-resource "minio_s3_bucket_policy" "policy" {
-  bucket = minio_s3_bucket.bucket.bucket
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          AWS = ["arn:aws:iam:::user/${minio_iam_user.user.name}"]
-        }
-        Action = ["s3:*"]
-        Resource = [
-          "arn:aws:s3:::${var.name}",
-          "arn:aws:s3:::${var.name}/*"
-        ]
-      }
-    ]
-  })
+resource "rustfs_serviceaccount" "serviceaccount" {
+  user       = "${var.name}_user"
+  access_key = var.name
+  name       = var.name
+  secret_key = var.secret
 }
