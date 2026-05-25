@@ -14,7 +14,7 @@ resources:
 - k8tz
 - longhorn
 - metallb
-- minio
+# - minio
 # - node-feature-discovery
 - openebs
 - reflector
