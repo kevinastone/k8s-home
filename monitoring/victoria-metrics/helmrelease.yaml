@@ -76,6 +76,8 @@ spec:
 
     vmagent:
       spec:
+        extraArgs:
+          promscrape.maxScrapeSize: "64MiB"
         resources:
           limits:
             cpu: 1
