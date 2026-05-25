@@ -1,0 +1,20 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: s3-creds
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: rustfs-kubernetes-store
+  target:
+    name: s3-creds
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        ACCESS_KEY: postgres
+        SECRET_KEY: "{{ .postgres }}"
+  dataFrom:
+  - extract:
+      key: rustfs-users
