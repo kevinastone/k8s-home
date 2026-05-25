@@ -182,63 +182,17 @@ spec:
       parameters:
       - name: input_filepath
       - name: output_filepath
-    script:
+    container:
       image: alpine:3
-      command: [sh]
-      source: |
-        set -eu
-
-        INPUT_FILE="{{inputs.parameters.input_filepath}}"
-        if [ "${INPUT_FILE#/media/}" != "$INPUT_FILE" ]; then
-          INPUT="$INPUT_FILE"
-        else
-          INPUT="/media/${INPUT_FILE#/}"
-        fi
-
-        OUTPUT_FILE="{{inputs.parameters.output_filepath}}"
-        if [ "${OUTPUT_FILE#/media/}" != "$OUTPUT_FILE" ]; then
-          OUTPUT="$OUTPUT_FILE"
-        else
-          OUTPUT="/media/${OUTPUT_FILE#/}"
-        fi
-
-        # Guard: must be a regular file, not a directory or symlink to one
-        if [ ! -f "$INPUT" ]; then
-          echo "Skipping: input path is not a regular file: $INPUT"; exit 0
-        fi
-
-        REAL_INPUT=$(realpath "$INPUT")
-        REAL_OUTPUT=$(realpath "$OUTPUT" 2>/dev/null || echo "$OUTPUT")
-
-        if [ "$REAL_INPUT" != "$REAL_OUTPUT" ]; then
-          echo "Deleting original input file: $INPUT"
-          DELETED=false
-          for i in 1 2 3; do
-            echo "Deletion attempt $i of 3..."
-            if [ ! -f "$INPUT" ]; then
-              echo "Successfully verified original file deletion."
-              DELETED=true
-              break
-            fi
-            rm -f "$INPUT" || true
-            sync
-            if [ ! -f "$INPUT" ]; then
-              echo "Successfully verified original file deletion."
-              DELETED=true
-              break
-            fi
-            echo "Warning: File still detected after attempt $i. Retrying after delay..." >&2
-            sleep 10
-          done
-          if [ "$DELETED" = "false" ]; then
-            echo "Error: Failed to delete original file after 3 attempts." >&2
-          fi
-        else
-          echo "Skipping deletion: output overwrote the original file."
-        fi
+      command: [/scripts/delete-original.sh]
+      args:
+      - "{{inputs.parameters.input_filepath}}"
+      - "{{inputs.parameters.output_filepath}}"
       volumeMounts:
       - name: media
         mountPath: /media
+      - name: scripts
+        mountPath: /scripts
 
   # Wait for file step: loops and ensures the file isn't changing size before continuing
   - name: wait-for-file
@@ -248,60 +202,13 @@ spec:
         value: "{{workflow.parameters.filepath}}"
     container:
       image: alpine:3
-      command: [sh, -c]
-      args:
-      - |
-        set -eu
-        FILEPATH="{{inputs.parameters.filepath}}"
-        INPUT_FILE="/media/${FILEPATH#/}"
-
-        if [ ! -f "$INPUT_FILE" ]; then
-          echo "Error: File $INPUT_FILE not found on PVC." >&2
-          exit 1
-        fi
-
-        echo "Waiting for file to stabilize: $INPUT_FILE"
-        prev_size=-1
-        stable_count=0
-        required_stable_checks=3
-        check_interval=10
-
-        while true; do
-          # Force NFS/SMB attribute cache invalidation by attempting a touch
-          touch -c "$INPUT_FILE" 2>/dev/null || true
-
-          curr_size=$(stat -c %s "$INPUT_FILE" 2>/dev/null || stat -f %z "$INPUT_FILE" 2>/dev/null || wc -c < "$INPUT_FILE")
-          if [ -z "$curr_size" ]; then
-            echo "Error: Could not determine size of $INPUT_FILE" >&2
-            exit 1
-          fi
-
-          if [ "$prev_size" -eq -1 ]; then
-            echo "Initial size check: $curr_size bytes"
-          else
-            echo "Current size: $curr_size bytes (previous: $prev_size bytes)"
-          fi
-
-          if [ "$curr_size" -eq "$prev_size" ] && [ "$curr_size" -gt 0 ]; then
-            stable_count=$((stable_count + 1))
-            echo "Size has been stable for $stable_count consecutive check(s)."
-            if [ "$stable_count" -ge "$required_stable_checks" ]; then
-              echo "File size stabilized at $curr_size bytes."
-              break
-            fi
-          else
-            if [ "$prev_size" -ne -1 ] && [ "$curr_size" -ne "$prev_size" ]; then
-              echo "Size changed. Resetting stability counter."
-            fi
-            stable_count=0
-          fi
-
-          prev_size=$curr_size
-          sleep $check_interval
-        done
+      command: [/scripts/wait-for-file.sh]
+      args: ["{{inputs.parameters.filepath}}"]
       volumeMounts:
       - name: media
         mountPath: /media
+      - name: scripts
+        mountPath: /scripts
 
   # Probe step: checks input codec and resolution to see if transcoding is needed
   - name: probe-file
@@ -318,24 +225,8 @@ spec:
           path: /tmp/media-info.json
     container:
       image: lscr.io/linuxserver/ffmpeg:version-8.1-cli
-      command: [/bin/bash, -c]
-      args:
-      - |
-        set -euo pipefail
-
-        FILEPATH="{{inputs.parameters.filepath}}"
-        INPUT_FILE="/media/${FILEPATH#/}"
-
-        if [ ! -f "$INPUT_FILE" ]; then
-          echo "Error: File $INPUT_FILE not found on PVC." >&2
-          jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info.json
-        else
-          echo "Probing file: $INPUT_FILE"
-          if ! ffprobe -v quiet -print_format json -show_format -show_streams "$INPUT_FILE" > /tmp/media-info.json; then
-            echo "Warning: ffprobe failed. Writing fallback JSON." >&2
-            jq -n '{"streams": [], "format": {"size": "0"}}' > /tmp/media-info.json
-          fi
-        fi
+      command: [/scripts/probe-file.sh]
+      args: ["{{inputs.parameters.filepath}}"]
       volumeMounts:
       - name: media
         mountPath: /media
@@ -410,50 +301,15 @@ spec:
       - name: input_filepath
       - name: output_filepath
       - name: replace_original
-    script:
+    container:
       image: alpine:3
-      command: [sh]
-      source: |
-        set -eu
-
-        INPUT_FILE="{{inputs.parameters.input_filepath}}"
-        if [ "${INPUT_FILE#/media/}" != "$INPUT_FILE" ]; then
-          INPUT="$INPUT_FILE"
-        else
-          INPUT="/media/${INPUT_FILE#/}"
-        fi
-
-        OUTPUT_FILE="{{inputs.parameters.output_filepath}}"
-        if [ "${OUTPUT_FILE#/media/}" != "$OUTPUT_FILE" ]; then
-          OUTPUT="$OUTPUT_FILE"
-        else
-          OUTPUT="/media/${OUTPUT_FILE#/}"
-        fi
-
-        if [ ! -f "$INPUT" ]; then
-          echo "Error: Input file not found: $INPUT" >&2
-          exit 1
-        fi
-
-        # Make sure target directory exists
-        mkdir -p "$(dirname "$OUTPUT")"
-
-        REAL_INPUT=$(realpath "$INPUT")
-        REAL_OUTPUT=$(realpath "$OUTPUT" 2>/dev/null || echo "$OUTPUT")
-        REPLACE_ORIGINAL="{{inputs.parameters.replace_original}}"
-
-        if [ "$REAL_INPUT" = "$REAL_OUTPUT" ]; then
-          echo "Input and output files are the same: $INPUT. No move or copy required."
-          exit 0
-        fi
-
-        if [ "$REPLACE_ORIGINAL" = "true" ]; then
-          echo "Moving $INPUT to $OUTPUT"
-          mv "$INPUT" "$OUTPUT"
-        else
-          echo "Copying $INPUT to $OUTPUT"
-          cp "$INPUT" "$OUTPUT"
-        fi
+      command: [/scripts/move-file.sh]
+      args:
+      - "{{inputs.parameters.input_filepath}}"
+      - "{{inputs.parameters.output_filepath}}"
+      - "{{inputs.parameters.replace_original}}"
       volumeMounts:
       - name: media
         mountPath: /media
+      - name: scripts
+        mountPath: /scripts
