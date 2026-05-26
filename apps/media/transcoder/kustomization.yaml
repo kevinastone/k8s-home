@@ -11,6 +11,8 @@ configurations:
 - kustomizeconfig.yaml
 configMapGenerator:
 - name: transcoder-scripts
+  options:
+    disableNameSuffixHash: true
   files:
   - scripts/transcode.sh
   - scripts/argo-ffmpeg-progress.sh
@@ -19,6 +21,8 @@ configMapGenerator:
   - scripts/move-file.sh
   - scripts/delete-original.sh
 - name: transcoder-policy
+  options:
+    disableNameSuffixHash: true
   files:
   - policy/main.rego
   - policy/video_main.rego
