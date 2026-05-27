@@ -16,13 +16,13 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/argus
-              tag: main@sha256:1d7fe89b97578a24e16025957fa49278731bb13e85f73b8b5ee047ea02a008fd
+              tag: main@sha256:1bd13a94980ad5a7a5ab84ea2683d216927c3e8e96bdb0d3b53284100492d73a
             env:
               RUST_LOG: debug
             args:
             - "--pattern"
-            - "**/*.{mp4,mkv,avi,wmv,mov,mpg,m4v,f4v}"
-            - "/media/Transcode"
+            - "Transcode/**/*.{mp4,mkv,avi,wmv,mov,mpg,m4v,f4v}"
+            - "/media"
             - "http://transcoder-webhook-eventsource-svc:12000/webhook"
     persistence:
       media:
