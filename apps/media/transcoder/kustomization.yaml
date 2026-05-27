@@ -17,7 +17,6 @@ configMapGenerator:
   files:
   - scripts/transcode.sh
   - scripts/argo-ffmpeg-progress.sh
-  - scripts/wait-for-file.sh
   - scripts/probe-file.sh
   - scripts/move-file.sh
   - scripts/delete-original.sh

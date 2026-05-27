@@ -69,11 +69,8 @@ spec:
   - name: transcode-media
     dag:
       tasks:
-      - name: wait-for-file
-        template: wait-for-file
       - name: probe-file
         template: probe-file
-        depends: "wait-for-file.Succeeded"
       - name: evaluate-rules
         template: evaluate-rules
         depends: "probe-file.Succeeded"
@@ -188,22 +185,6 @@ spec:
       args:
       - "{{inputs.parameters.input_filepath}}"
       - "{{inputs.parameters.output_filepath}}"
-      volumeMounts:
-      - name: media
-        mountPath: /media
-      - name: scripts
-        mountPath: /scripts
-
-  # Wait for file step: loops and ensures the file isn't changing size before continuing
-  - name: wait-for-file
-    inputs:
-      parameters:
-      - name: filepath
-        value: "{{workflow.parameters.filepath}}"
-    container:
-      image: alpine:3
-      command: [/scripts/wait-for-file.sh]
-      args: ["{{inputs.parameters.filepath}}"]
       volumeMounts:
       - name: media
         mountPath: /media
