@@ -20,7 +20,3 @@ spec:
     data:
       compression: *compression
   retentionPolicy: "7d"
-  instanceSidecarConfiguration:
-    resources:
-      limits:
-        memory: 1Gi
