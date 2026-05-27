@@ -105,5 +105,5 @@ spec:
         parameters:
         - src:
             dependencyName: webhook-dep
-            dataKey: body
+            dataTemplate: "{{ .Input.body | b64dec }}"
           dest: spec.arguments.parameters.0.value
