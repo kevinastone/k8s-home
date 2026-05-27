@@ -23,38 +23,6 @@ spec:
 
   triggers:
   - template:
-      name: transcode-trigger-file
-      # Explicitly bind this trigger to the file dependency
-      conditions: "file-dep"
-      k8s:
-        operation: create
-        source:
-          resource:
-            apiVersion: argoproj.io/v1alpha1
-            kind: Workflow
-            metadata:
-              generateName: transcode-job-
-              namespace: media
-            spec:
-              workflowTemplateRef:
-                name: transcoder-workflow
-              arguments:
-                parameters:
-                - name: filepath
-                - name: output_filepath
-                - name: replace_original
-                  value: "true"
-        parameters:
-        - src:
-            dependencyName: file-dep
-            dataTemplate: "Transcode/{{ .Input.name }}"
-          dest: spec.arguments.parameters.0.value
-        - src:
-            dependencyName: file-dep
-            dataTemplate: "Output/{{ .Input.name }}"
-          dest: spec.arguments.parameters.1.value
-
-  - template:
       name: transcode-trigger-mqtt
       # Explicitly bind this trigger to the mqtt dependency
       conditions: "mqtt-dep"
@@ -102,6 +70,8 @@ spec:
                 - name: filepath
                 - name: output_filepath
                   value: "Output/"
+                - name: replace_original
+                  value: "true"
         parameters:
         - src:
             dependencyName: webhook-dep
