@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - rbac.yaml
 - workflow-template.yaml
+- helmrelease-watcher.yaml
 - eventsource.yaml
 - sensor.yaml
 - eventbus.yaml

@@ -2,31 +2,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
-  name: transcoder-file
-  namespace: media
-spec:
-  file:
-    transcode-watch:
-      eventType: CREATE
-      watchPathConfig:
-        directory: /media/Transcode
-        pathRegexp: ".*\\.(mp4|mkv|avi|wmv|mov|mpg|m4v|f4v)$"
-      # Enable polling for network-attached storage (SMB/NFS)
-      polling: true
-  template:
-    container:
-      volumeMounts:
-      - name: media-storage
-        mountPath: /media
-    volumes:
-    - name: media-storage
-      persistentVolumeClaim:
-        claimName: media-incoming
----
-# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/argoproj.io/eventsource_v1alpha1.json
-apiVersion: argoproj.io/v1alpha1
-kind: EventSource
-metadata:
   name: transcoder-mqtt
   namespace: media
 spec:
