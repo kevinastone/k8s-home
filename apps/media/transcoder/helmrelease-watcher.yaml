@@ -16,13 +16,19 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/argus
-              tag: main@sha256:1bd13a94980ad5a7a5ab84ea2683d216927c3e8e96bdb0d3b53284100492d73a
+              tag: main@sha256:2d5fb23804e650e88cdfe5c585f8a593f2c6f46bfe22afc7c5dd0a650fcb5fe1
             env:
               RUST_LOG: debug
+              # Need to escape the braces for helm
+              ARGUS_WEBHOOK_TEMPLATE: |-
+                {
+                  "path": "Transcode/{{ "{{" }} path {{ "}}" }}",
+                  "output_path": "Output/{{ "{{" }} path {{ "}}" }}"
+                }
             args:
             - "--pattern"
-            - "Transcode/**/*.{mp4,mkv,avi,wmv,mov,mpg,m4v,f4v}"
-            - "/media"
+            - "**/*.{mp4,mkv,avi,wmv,mov,mpg,m4v,f4v}"
+            - "/media/Transcode"
             - "http://transcoder-webhook-eventsource-svc:12000/webhook"
     persistence:
       media:
