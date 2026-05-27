@@ -16,7 +16,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/argus
-              tag: main@sha256:a37ef833a7e11e72f498355f1b80a8d6f18e6534ddc4e2341dbe659e91a94655
+              tag: main@sha256:1d7fe89b97578a24e16025957fa49278731bb13e85f73b8b5ee047ea02a008fd
             env:
               RUST_LOG: debug
             args:
