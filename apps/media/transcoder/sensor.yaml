@@ -15,6 +15,9 @@ spec:
   - name: file-dep
     eventSourceName: transcoder-file
     eventName: transcode-watch
+  - name: webhook-dep
+    eventSourceName: transcoder-webhook
+    eventName: transcode-webhook
 
   # (dependencyGroups has been removed to keep the logic strictly isolated)
 
@@ -75,5 +78,32 @@ spec:
         parameters:
         - src:
             dependencyName: mqtt-dep
+            dataKey: body
+          dest: spec.arguments.parameters.0.value
+
+  - template:
+      name: transcode-trigger-webhook
+      # Explicitly bind this trigger to the webhook dependency
+      conditions: "webhook-dep"
+      k8s:
+        operation: create
+        source:
+          resource:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:
+              generateName: transcode-job-
+              namespace: media
+            spec:
+              workflowTemplateRef:
+                name: transcoder-workflow
+              arguments:
+                parameters:
+                - name: filepath
+                - name: output_filepath
+                  value: "Output/"
+        parameters:
+        - src:
+            dependencyName: webhook-dep
             dataKey: body
           dest: spec.arguments.parameters.0.value

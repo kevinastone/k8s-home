@@ -43,3 +43,21 @@ spec:
         jitter: 0.2
       # Assuming payload is just a raw string like "movies/movie.mp4"
       jsonBody: false
+---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/argoproj.io/eventsource_v1alpha1.json
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: transcoder-webhook
+  namespace: media
+spec:
+  service:
+    ports:
+    - port: 12000
+      targetPort: 12000
+  webhook:
+    # Key name will be used as the eventName in the Sensor
+    transcode-webhook:
+      port: "12000"
+      endpoint: /webhook
+      method: POST
