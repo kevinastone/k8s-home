@@ -16,7 +16,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/argus
-              tag: main@sha256:e962645243fca0bb43988baaa4a7a41e0dd4ace21335f2c71fe31b4114e590a1
+              tag: v0.2.0@sha256:e6b3218a8e630a15dd869d277a822cccd4c4e74b59ed4a599bf976ccf07237e9
             env:
               RUST_LOG: debug
               # Need to escape the braces for helm
