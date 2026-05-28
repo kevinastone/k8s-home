@@ -15,12 +15,12 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/kevinastone/argus
-              tag: v0.2.0@sha256:e6b3218a8e630a15dd869d277a822cccd4c4e74b59ed4a599bf976ccf07237e9
+              repository: ghcr.io/kevinastone/lynceus
+              tag: v0.4.0@sha256:a3ad6b3543a8e7175ce107d403ab03494518bc512c0a18219d572a6344e7adae
             env:
               RUST_LOG: debug
               # Need to escape the braces for helm
-              ARGUS_WEBHOOK_TEMPLATE: |-
+              LYNCEUS_WEBHOOK_TEMPLATE: |-
                 {
                   "path": "Transcode/{{ "{{" }} path {{ "}}" }}",
                   "output_path": "Output/{{ "{{" }} path {{ "}}" }}"
