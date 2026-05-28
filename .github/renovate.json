@@ -75,6 +75,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/home-assistant/home-assistant"],
       "automerge": true
+    },
+    {
+      "description": ["Use OpenTofu registry for terraform providers and modules"],
+      "matchDatasources": ["terraform-provider", "terraform-module"],
+      "registryUrls": ["https://registry.opentofu.org"]
     }
   ]
 }
