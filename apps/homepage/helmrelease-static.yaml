@@ -17,7 +17,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/homer-assets
-              tag: "main@sha256:6689eb80208be685f17a142d1828612eb6f79ef883a7c63574398aa98523a9dd"
+              tag: "main@sha256:1e84750c109a5c679e192f54fdcb45fb9e03166acfecc176a9bdfc02213f46fc"
               pullPolicy: IfNotPresent
             ports:
             - containerPort: 8080
