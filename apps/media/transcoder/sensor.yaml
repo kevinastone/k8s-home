@@ -12,9 +12,6 @@ spec:
   - name: mqtt-dep
     eventSourceName: transcoder-mqtt
     eventName: transcode-requests
-  - name: file-dep
-    eventSourceName: transcoder-file
-    eventName: transcode-watch
   - name: webhook-dep
     eventSourceName: transcoder-webhook
     eventName: transcode-webhook
