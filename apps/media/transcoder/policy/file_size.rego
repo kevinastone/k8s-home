@@ -18,25 +18,29 @@ GB := 1024 * MB
 # regal ignore:prefer-snake-case
 TB := 1024 * GB
 
+format_val(val) := sprintf("%d.00", [val]) if {
+	floor(val) == val
+} else := sprintf("%.2f", [val])
+
 format_bytes(bytes) := msg if {
 	# regal ignore:external-reference
 	bytes >= GB
 
 	# regal ignore:external-reference
 	val := bytes / GB
-	msg := sprintf("%.2f GB", [val])
+	msg := $"{format_val(val)} GB"
 } else := msg if {
 	# regal ignore:external-reference
 	bytes >= MB
 
 	# regal ignore:external-reference
 	val := bytes / MB
-	msg := sprintf("%.2f MB", [val])
+	msg := $"{format_val(val)} MB"
 } else := msg if {
 	# regal ignore:external-reference
 	bytes >= KB
 
 	# regal ignore:external-reference
 	val := bytes / KB
-	msg := sprintf("%.2f KB", [val])
-} else := sprintf("%d Bytes", [bytes])
+	msg := $"{format_val(val)} KB"
+} else := $"{bytes} Bytes"

@@ -32,3 +32,9 @@ test_format_bytes_gb if {
 	file_size.format_bytes(1500000000) == "1.40 GB"
 	file_size.format_bytes(4000000000) == "3.73 GB"
 }
+
+test_format_bytes_exact_multiples if {
+	file_size.format_bytes(500 * file_size.MB) == "500.00 MB"
+	file_size.format_bytes(2 * file_size.GB) == "2.00 GB"
+	file_size.format_bytes(10 * file_size.KB) == "10.00 KB"
+}
