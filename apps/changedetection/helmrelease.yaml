@@ -35,7 +35,7 @@ spec:
           browser:
             image:
               repository: ghcr.io/browserless/chrome
-              tag: v2.50.0@sha256:16335f6030f0ef456e34496dfb0ab649c9b4a2d206c480b7158278b011accada
+              tag: v2.50.1@sha256:d1d8c73b1b9b3007f71688522fe8956d61caa40d3954757c65af2d648dec180f
               pullPolicy: IfNotPresent
             env:
             - {name: SCREEN_WIDTH, value: "1920"}
