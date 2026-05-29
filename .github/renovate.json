@@ -26,8 +26,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "(^|/)workflow-template\\.yaml$"
+      "managerFilePatterns": [
+        "/(^|/)workflow-template\\.yaml$/"
       ],
       "matchStrings": [
         "image:\\s*[\"']?(?<depName>[^\\s\"':]+):(?<currentValue>[^\\s\"':]+)[\"']?"
