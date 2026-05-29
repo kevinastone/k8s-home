@@ -1,5 +1,5 @@
 # regal ignore:directory-package-mismatch
-package policy.filepath
+package policy.file.path
 
 import rego.v1
 

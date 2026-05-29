@@ -32,7 +32,7 @@ raw_video_force(codec, width, height, rate, size, bitrate, force) := object.unio
 # -------------------------------------------------------------
 
 test_force_transcode_should_transcode if {
-	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 1000000, true)
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 1000000000, 1000000, true)
 }
 
 test_force_transcode_bypasses_small_size if {
@@ -40,11 +40,11 @@ test_force_transcode_bypasses_small_size if {
 }
 
 test_force_transcode_bypasses_efficient_codec if {
-	policy.should_transcode with input as raw_video_force("hevc", 1920, 1080, "24/1", 100000000, 1000000, true)
+	policy.should_transcode with input as raw_video_force("hevc", 1920, 1080, "24/1", 1000000000, 1000000, true)
 }
 
 test_force_transcode_fails_on_invalid_stream if {
-	not policy.should_transcode with input as raw_video_force("h264", 1920, 0, "24/1", 100000000, 1000000, true)
+	not policy.should_transcode with input as raw_video_force("h264", 1920, 0, "24/1", 1000000000, 1000000, true)
 }
 
 # -------------------------------------------------------------
@@ -53,66 +53,66 @@ test_force_transcode_fails_on_invalid_stream if {
 
 # --- 4K (height >= 2000) ---
 test_4k_eligible_by_bitrate if {
-	policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 100000000, 10000000, false)
+	policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 1000000000, 10000000, false)
 }
 
 test_4k_eligible_by_bpp if {
 	# width*height*fps = 3840 * 2160 * 24 = 199065600
 	# bpp = 6000000 / 199065600 = 0.0301 (>= 0.03)
-	policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 100000000, 6000000, false)
+	policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 1000000000, 6000000, false)
 }
 
 test_4k_ineligible if {
 	# bpp = 4000000 / 199065600 = 0.0201 (< 0.03)
-	not policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 100000000, 4000000, false)
+	not policy.should_transcode with input as raw_video_force("h264", 3840, 2160, "24/1", 1000000000, 4000000, false)
 }
 
 # --- 1080P (1000 <= height < 2000) ---
 test_1080p_eligible_by_bitrate if {
-	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 4000000, false)
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 1000000000, 4000000, false)
 }
 
 test_1080p_eligible_by_bpp if {
 	# width*height*fps = 1920 * 1080 * 24 = 49766400
 	# bpp = 2000000 / 49766400 = 0.0402 (>= 0.04)
-	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 2000000, false)
+	policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 1000000000, 2000000, false)
 }
 
 test_1080p_ineligible if {
 	# bpp = 1500000 / 49766400 = 0.0301 (< 0.04)
-	not policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 100000000, 1500000, false)
+	not policy.should_transcode with input as raw_video_force("h264", 1920, 1080, "24/1", 1000000000, 1500000, false)
 }
 
 # --- 720P (700 <= height < 1000) ---
 test_720p_eligible_by_bitrate if {
-	policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 100000000, 2000000, false)
+	policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 1000000000, 2000000, false)
 }
 
 test_720p_eligible_by_bpp if {
 	# width*height*fps = 1280 * 720 * 24 = 22118400
 	# bpp = 1105920 / 22118400 = 0.05 (>= 0.05)
-	policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 100000000, 1105920, false)
+	policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 1000000000, 1105920, false)
 }
 
 test_720p_ineligible if {
 	# bpp = 884736 / 22118400 = 0.04 (< 0.05)
-	not policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 100000000, 884736, false)
+	not policy.should_transcode with input as raw_video_force("h264", 1280, 720, "24/1", 1000000000, 884736, false)
 }
 
 # --- SD (height < 700) ---
 test_sd_eligible_by_bitrate if {
-	policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 100000000, 1500000, false)
+	policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 1000000000, 1500000, false)
 }
 
 test_sd_eligible_by_bpp if {
 	# width*height*fps = 854 * 480 * 24 = 9838080
 	# bpp = 800000 / 9838080 = 0.0813 (>= 0.08)
-	policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 100000000, 800000, false)
+	policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 1000000000, 800000, false)
 }
 
 test_sd_ineligible if {
 	# bpp = 688665 / 9838080 = 0.07 (< 0.08)
-	not policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 100000000, 688665, false)
+	not policy.should_transcode with input as raw_video_force("h264", 854, 480, "24/1", 1000000000, 688665, false)
 }
 
 # -------------------------------------------------------------
@@ -124,11 +124,11 @@ test_skip_on_small_size if {
 }
 
 test_skip_on_efficient_codec if {
-	not policy.should_transcode with input as raw_video_force("hevc", 1920, 1080, "24/1", 100000000, 5000000, false)
+	not policy.should_transcode with input as raw_video_force("hevc", 1920, 1080, "24/1", 1000000000, 5000000, false)
 }
 
 test_skip_on_efficient_codec_case_insensitive if {
-	not policy.should_transcode with input as raw_video_force("HEVC", 1920, 1080, "24/1", 100000000, 5000000, false)
+	not policy.should_transcode with input as raw_video_force("HEVC", 1920, 1080, "24/1", 1000000000, 5000000, false)
 }
 
 # -------------------------------------------------------------
@@ -148,7 +148,7 @@ test_deny_on_low_bitrate_and_bpp if {
 				"bit_rate": "128018",
 			}],
 			"format": {
-				"size": "67108864",
+				"size": "1000000000",
 				"bit_rate": "128018",
 			},
 		},
@@ -172,7 +172,7 @@ test_unanticipated_codec_tolerated if {
 				"bit_rate": "128018",
 			}],
 			"format": {
-				"size": "67108864",
+				"size": "1000000000",
 				"bit_rate": "128018",
 			},
 		},
@@ -196,7 +196,7 @@ test_vc1_thresholds_enforced if {
 				"bit_rate": "128018",
 			}],
 			"format": {
-				"size": "67108864",
+				"size": "1000000000",
 				"bit_rate": "128018",
 			},
 		},
@@ -221,7 +221,7 @@ test_vp8_thresholds_enforced if {
 				"bit_rate": "128018",
 			}],
 			"format": {
-				"size": "67108864",
+				"size": "1000000000",
 				"bit_rate": "128018",
 			},
 		},
@@ -246,7 +246,7 @@ test_wmv3_thresholds_enforced if {
 				"bit_rate": "128018",
 			}],
 			"format": {
-				"size": "67108864",
+				"size": "1000000000",
 				"bit_rate": "128018",
 			},
 		},
@@ -263,11 +263,11 @@ test_wmv3_thresholds_enforced if {
 # -------------------------------------------------------------
 
 test_error_on_zero_height if {
-	policy.error with input as raw_video("h264", 1920, 0, "24/1", 100000000, 1000000)
+	policy.error with input as raw_video("h264", 1920, 0, "24/1", 1000000000, 1000000)
 }
 
 test_error_on_negative_height if {
-	policy.error with input as raw_video("h264", 1920, -10, "24/1", 100000000, 1000000)
+	policy.error with input as raw_video("h264", 1920, -10, "24/1", 1000000000, 1000000)
 }
 
 test_error_on_missing_height if {
@@ -282,11 +282,11 @@ test_error_on_missing_height if {
 }
 
 test_error_on_unknown_codec if {
-	policy.error with input as raw_video("unknown", 1920, 1080, "24/1", 100000000, 1000000)
+	policy.error with input as raw_video("unknown", 1920, 1080, "24/1", 1000000000, 1000000)
 }
 
 test_error_on_unknown_codec_case_insensitive if {
-	policy.error with input as raw_video("UNKNOWN", 1920, 1080, "24/1", 100000000, 1000000)
+	policy.error with input as raw_video("UNKNOWN", 1920, 1080, "24/1", 1000000000, 1000000)
 }
 
 test_error_on_missing_codec if {
@@ -317,7 +317,7 @@ test_raw_input_eligible_h264 if {
 				"bit_rate": "6000000",
 			}],
 			"format": {
-				"size": "100000000",
+				"size": "1000000000",
 				"bit_rate": "6100000",
 			},
 		},
@@ -336,7 +336,7 @@ test_raw_input_skip_efficient_codec if {
 				"r_frame_rate": "24/1",
 				"bit_rate": "6000000",
 			}],
-			"format": {"size": "100000000"},
+			"format": {"size": "1000000000"},
 		},
 	}
 }
@@ -366,7 +366,7 @@ test_raw_input_error_invalid_stream if {
 			"width": 0,
 			"height": 0,
 		}],
-		"format": {"size": "100000000"},
+		"format": {"size": "1000000000"},
 	}}
 }
 
@@ -383,7 +383,7 @@ test_raw_input_bitrate_fallback_to_format if {
 				"r_frame_rate": "24/1",
 			}],
 			"format": {
-				"size": "100000000",
+				"size": "1000000000",
 				"bit_rate": "6000000",
 			},
 		},
@@ -401,7 +401,7 @@ test_error_on_unsupported_target_codec if {
 				"height": 1080,
 				"r_frame_rate": "24/1",
 			}],
-			"format": {"size": "100000000"},
+			"format": {"size": "1000000000"},
 		},
 	}
 	policy.error["Unsupported target_codec: h264. Supported codecs are {\"av1\", \"hevc\"}"] with input as inp
@@ -424,7 +424,7 @@ test_skip_when_both_copying if {
 					"codec_name": "aac",
 				},
 			],
-			"format": {"size": "100000000"},
+			"format": {"size": "1000000000"},
 		},
 	}
 	policy.skip["both video and audio can be copied without transcoding"] with input as inp

@@ -3,7 +3,8 @@ package policy
 import rego.v1
 
 import data.policy.audio
-import data.policy.filepath
+import data.policy.file.path as filepath
+import data.policy.file.size as file_size
 import data.policy.video
 
 error contains "No valid video stream found" if {
@@ -22,7 +23,7 @@ skip contains "already efficiently encoded" if {
 	is_efficient_codec
 }
 
-skip contains $"{format_bytes(video.size)} is smaller than {format_bytes(minimum_size)}" if {
+skip contains $"{file_size.format_bytes(video.size)} is smaller than {file_size.format_bytes(minimum_size)}" if {
 	video.size < minimum_size
 }
 
@@ -68,7 +69,7 @@ final_output_filepath := filepath.final_output_filepath
 # -------------------------------------------------------------
 
 efficient_codecs := {"hevc", "h265", "av1", "vp9"}
-minimum_size := 52428800
+minimum_size := 500 * file_size.MB
 
 is_efficient_codec if {
 	video.codec in efficient_codecs
@@ -99,17 +100,3 @@ resolution_ineligible contains $"bitrate {video.bitrate} < threshold {t.bitrate}
 is_resolution_eligible if {
 	count(resolution_ineligible) < 2
 }
-
-format_bytes(bytes) := msg if {
-	bytes >= 1073741824 # 1 GB
-	gb := bytes / 1073741824.0
-	msg := sprintf("%.2f GB", [gb])
-} else := msg if {
-	bytes >= 1048576 # 1 MB
-	mb := bytes / 1048576.0
-	msg := sprintf("%.2f MB", [mb])
-} else := msg if {
-	bytes >= 1024 # 1 KB
-	kb := bytes / 1024.0
-	msg := sprintf("%.2f KB", [kb])
-} else := sprintf("%d Bytes", [bytes])

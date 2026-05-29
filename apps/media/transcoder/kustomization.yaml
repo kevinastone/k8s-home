@@ -30,5 +30,6 @@ configMapGenerator:
   - policy/video_codec.rego
   - policy/video_ffmpeg.rego
   - policy/audio.rego
-  - policy/filepath.rego
+  - policy/file_path.rego
+  - policy/file_size.rego
 

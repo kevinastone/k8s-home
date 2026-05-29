@@ -1,10 +1,10 @@
 # regal ignore:opa-fmt
 # regal ignore:directory-package-mismatch
-package policy.filepath_test
+package policy.file.path_test
 
 import rego.v1
 
-import data.policy.filepath
+import data.policy.file.path as filepath
 
 test_basename if {
 	filepath.basename("path/to/file.txt") == "file.txt"
