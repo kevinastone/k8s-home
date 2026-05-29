@@ -26,10 +26,10 @@ This repository uses `treefmt` via Nix to enforce style consistency across files
 
 ### Running OPA Tests Locally
 
-To run the OPA policy tests locally without installing the binary on your host machine, run OPA inside Docker:
+To run the OPA policy tests locally via the Nix development shell:
 
 ```bash
-docker run --rm -v $(pwd):/app -w /app openpolicyagent/opa:1.16.2 test apps/media/transcoder/policy/ -v
+nix develop --command opa test apps/media/transcoder/policy/ -v
 ```
 
 ### Running Regal Lint Locally
