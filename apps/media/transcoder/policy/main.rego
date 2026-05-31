@@ -37,6 +37,10 @@ deny contains $"resolution tier {video.resolution} requirement failed: {msg}" if
 	some msg in resolution_ineligible
 }
 
+deny contains "VR video is not supported" if {
+	video.is_vr
+}
+
 # METADATA
 # entrypoint: true
 default should_transcode := false

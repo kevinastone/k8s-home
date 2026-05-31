@@ -84,11 +84,18 @@ is_invalid_stream if {
 # Calculated properties
 resolution := video_resolution.resolution(height)
 
+default is_vr := false
+
+is_vr if {
+	video_resolution.is_vr(first_stream)
+}
+
 # High-level transcoding downscaling policy decisions
 default scale_height := 0
 
 scale_height := 1080 if {
 	resolution == "4K"
+	not is_vr
 }
 
 error := ffmpeg.error

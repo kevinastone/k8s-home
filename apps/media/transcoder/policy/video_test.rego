@@ -177,9 +177,27 @@ test_is_invalid_stream if {
 }
 
 test_scale_height if {
-	video.scale_height == 1080 with input as {"media_info": {"streams": [{"codec_type": "video", "height": 2160}]}}
+	# 4K non-VR should scale down to 1080
+	input_4k_non_vr := {"media_info": {"streams": [{
+		"codec_type": "video",
+		"height": 2160,
+	}]}}
+	video.scale_height == 1080 with input as input_4k_non_vr
 
-	video.scale_height == 0 with input as {"media_info": {"streams": [{"codec_type": "video", "height": 1080}]}}
+	# 1080P non-VR should not scale
+	input_1080p := {"media_info": {"streams": [{
+		"codec_type": "video",
+		"height": 1080,
+	}]}}
+	video.scale_height == 0 with input as input_1080p
+
+	# 4K VR should NOT scale down
+	input_4k_vr := {"media_info": {"streams": [{
+		"codec_type": "video",
+		"height": 2160,
+		"side_data_type": "Spherical Mapping",
+	}]}}
+	video.scale_height == 0 with input as input_4k_vr
 }
 
 test_video_integration_args_software if {
@@ -229,4 +247,23 @@ test_video_args_no_copy_when_scaling if {
 		"encoder": "hardware",
 		"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc", "height": 2160}]},
 	}
+}
+
+test_video_is_vr if {
+	# Standard is not VR
+	input_standard := {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "h264",
+		"width": 1920,
+		"height": 1080,
+	}]}}
+	not video.is_vr with input as input_standard
+
+	# VR by side data
+	input_vr_side_data := {"media_info": {"streams": [{
+		"codec_type": "video",
+		"codec_name": "h264",
+		"side_data_type": "Spherical Mapping",
+	}]}}
+	video.is_vr with input as input_vr_side_data
 }
