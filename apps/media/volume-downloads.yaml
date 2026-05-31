@@ -16,9 +16,7 @@ spec:
   - cache=none
   - actimeo=1
   - nohandlecache
-  - nosharesock
-  - vers=3.0
-  - noserverino # required to prevent data corruption
+  - vers=3.1.1
   - nobrl
   csi:
     driver: smb.csi.k8s.io
