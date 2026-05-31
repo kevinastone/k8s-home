@@ -39,6 +39,36 @@ stream_width(stream) := w if {
 	w := to_number(stream.width)
 }
 
+# Helper to safely extract height as a number
+stream_height(stream) := h if {
+	is_number(stream.height)
+	h := stream.height
+} else := h if {
+	is_string(stream.height)
+	h := to_number(stream.height)
+}
+
+# Helper to determine if the stream has a specific aspect ratio
+is_aspect_ratio(stream, ratio_str) if {
+	stream.display_aspect_ratio == ratio_str
+} else if {
+	dar := object.get(stream, "display_aspect_ratio", "")
+	dar in {"", "N/A", "0:1"}
+	w := stream_width(stream)
+	h := stream_height(stream)
+	h > 0
+	match_ratio(w, h, ratio_str)
+}
+
+# Match aspect ratio using multiplication to avoid division by zero or float inaccuracies
+match_ratio(w, h, "2:1") if {
+	w == 2 * h
+}
+
+match_ratio(w, h, "1:1") if {
+	w == h
+}
+
 # Determine if a video stream is VR
 default is_vr(_) := false
 
@@ -55,11 +85,10 @@ is_vr(stream) if {
 }
 
 is_vr(stream) if {
-	stream.display_aspect_ratio == "2:1"
-	stream_width(stream) >= 3840
+	is_aspect_ratio(stream, "2:1")
 }
 
 is_vr(stream) if {
-	stream.display_aspect_ratio == "1:1"
+	is_aspect_ratio(stream, "1:1")
 	stream_width(stream) >= 3840
 }

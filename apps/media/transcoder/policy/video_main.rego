@@ -15,11 +15,11 @@ first_stream := streams[0]
 # Individual calculated properties with safe defaults
 default width := 0
 
-width := first_stream.width
+width := video_resolution.stream_width(first_stream)
 
 default height := 0
 
-height := first_stream.height
+height := video_resolution.stream_height(first_stream)
 
 default size := 0
 
