@@ -6,6 +6,5 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - http-route.yaml
-- grafana-client-secret.yaml
 configurations:
 - kustomizeconfig.yaml
