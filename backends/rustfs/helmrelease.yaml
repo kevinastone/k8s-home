@@ -39,7 +39,7 @@ spec:
               RUSTFS_BROWSER_REDIRECT_URL: https://rustfs.k8s.kevinastone.com
             envFrom:
             - secretRef:
-                name: rustfs-secret # overriden by kustomizeconfig
+                name: rustfs-client-secret
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
             args:

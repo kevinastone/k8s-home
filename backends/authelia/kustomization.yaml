@@ -11,6 +11,8 @@ resources:
 - reference-grant.yaml
 - authelia-secret.yaml
 - ldap-secret.yaml
+- client-secret-generator.yaml
+- rustfs-client-secret.yaml
 configurations:
 - kustomizeconfig.yaml
 configMapGenerator:
@@ -28,4 +30,3 @@ secretGenerator:
   files:
   - GRAFANA_CLIENT_SECRET=secrets/grafana.secret.encrypted
   - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
-  - RUSTFS_CLIENT_SECRET=secrets/rustfs.secret.encrypted

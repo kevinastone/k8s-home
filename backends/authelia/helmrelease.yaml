@@ -26,6 +26,8 @@ spec:
             envFrom:
             - secretRef:
                 name: authelia-env # overriden by kustomizeconfig
+            - secretRef:
+                name: rustfs-client-secret
             - prefix: postgres_
               secretRef:
                 name: postgres-app
