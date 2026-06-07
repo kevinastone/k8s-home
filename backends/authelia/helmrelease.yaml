@@ -25,8 +25,6 @@ spec:
               tag: v4.39.20@sha256:1b363e9279e742397966333f364e0876ae02bf5c876de73e83af6d48c57ff51b
             envFrom:
             - secretRef:
-                name: authelia-env # overriden by kustomizeconfig
-            - secretRef:
                 name: rustfs-client-secret
             - secretRef:
                 name: grafana-client-secret

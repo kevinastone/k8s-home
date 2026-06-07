@@ -1,4 +1,0 @@
-[minio]
-id = 13502
-revision = 25
-datasource = { DS_PROMETHEUS = "prometheus" }

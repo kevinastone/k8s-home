@@ -26,7 +26,3 @@ configMapGenerator:
       grafana_dashboard: "true"
   files:
   - dashboards/authelia.json
-secretGenerator:
-- name: authelia-env
-  files:
-  - MINIO_CLIENT_SECRET=secrets/minio.secret.encrypted
