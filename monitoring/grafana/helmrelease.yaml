@@ -83,4 +83,4 @@ spec:
     serviceMonitor:
       enabled: true
 
-    envFromSecret: grafana-secret # overriden by kustomizeconfig
+    envFromSecret: grafana-client-secret

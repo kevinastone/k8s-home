@@ -6,9 +6,6 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - http-route.yaml
+- grafana-client-secret.yaml
 configurations:
 - kustomizeconfig.yaml
-secretGenerator:
-- name: grafana-secret
-  files:
-  - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=secrets/client.secret.encrypted
