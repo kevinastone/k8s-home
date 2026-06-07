@@ -83,4 +83,7 @@ spec:
     serviceMonitor:
       enabled: true
 
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+
     envFromSecret: grafana-client-secret
