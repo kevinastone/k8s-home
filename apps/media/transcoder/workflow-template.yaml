@@ -242,7 +242,7 @@ spec:
           path: /tmp/output_filepath.txt
           default: ""
     container:
-      image: openpolicyagent/opa:1.17.0-debug
+      image: openpolicyagent/opa:1.17.1-debug
       command: [/bin/sh, -c]
       args:
       - |
