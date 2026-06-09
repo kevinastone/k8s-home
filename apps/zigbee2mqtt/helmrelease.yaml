@@ -24,7 +24,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: 63555
               ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "[221, 13, 221, 221, 221, 221, 221, 221]"
               ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
-              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx.mqtt
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://pgmqtt.mqtt
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/zigbee
