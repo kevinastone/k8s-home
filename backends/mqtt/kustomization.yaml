@@ -5,5 +5,4 @@ namespace: mqtt
 resources:
 - namespace.yaml
 # - mosquitto
-- emqx
 - pgmqtt

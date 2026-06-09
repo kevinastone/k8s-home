@@ -1,5 +1,0 @@
-#:schema ../../../../scripts/dashboard-schema.json
-
-[emqx]
-id = 17446
-datasource = { DS_EMQX_PROMETHEUS = "prometheus" }
