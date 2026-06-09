@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/barmancloud.cnpg.io/objectstore_v1.json
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: postgres
+spec:
+  configuration:
+    destinationPath: s3://postgres/authelia
+    endpointURL: https://s3.k8s.kevinastone.com
+    s3Credentials:
+      accessKeyId:
+        name: s3-creds
+        key: ACCESS_KEY
+      secretAccessKey:
+        name: s3-creds
+        key: SECRET_KEY
+    wal:
+      compression: &compression bzip2
+    data:
+      compression: *compression
+  retentionPolicy: "7d"

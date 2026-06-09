@@ -1,0 +1,4 @@
+#:schema ../../../../scripts/dashboard-schema.json
+
+[pgmqtt]
+url = "https://raw.githubusercontent.com/bo0tzz/pgmqtt/refs/heads/main/deploy/helm/pgmqtt/dashboards/pgmqtt.json"
