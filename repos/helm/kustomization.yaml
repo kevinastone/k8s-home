@@ -11,7 +11,6 @@ resources:
 - external-dns.yaml
 - fairwinds.yaml
 - grafana.yaml
-- influxdata.yaml
 - intel.yaml
 - k8tz.yaml
 - longhorn.yaml
