@@ -25,10 +25,12 @@ spec:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_OBS_LOG_STDOUT_ENABLED: "true"
-              RUST_LOG: "debug"
+              RUST_LOG: "info"
               RUSTFS_CONSOLE_ENABLE: "true"
-              RUSTFS_OBS_ENDPOINT: "http://localhost:4318"
+              RUSTFS_OBS_METRIC_ENDPOINT: "http://localhost:4318"
               RUSTFS_OBS_LOGGER_LEVEL: "debug"
+              OTEL_LOGS_EXPORTER: "none"
+              OTEL_TRACES_EXPORTER: "none"
               RUSTFS_IDENTITY_OPENID_ENABLE: "true"
               RUSTFS_IDENTITY_OPENID_CONFIG_URL: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
               RUSTFS_IDENTITY_OPENID_CLIENT_ID: rustfs

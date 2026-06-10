@@ -40,6 +40,7 @@ exporters:
     metric_expiration: 5m
     resource_to_telemetry_conversion:
       enabled: true
+  nop:
 
 extensions:
   health_check:
@@ -54,3 +55,11 @@ service:
       # ORDER MATTERS: k8sattributes first, then batch
       processors: [k8sattributes, memory_limiter, batch]
       exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [k8sattributes, memory_limiter, batch]
+      exporters: [nop]
+    traces:
+      receivers: [otlp]
+      processors: [k8sattributes, memory_limiter, batch]
+      exporters: [nop]
