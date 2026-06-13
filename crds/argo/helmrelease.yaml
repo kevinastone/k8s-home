@@ -65,6 +65,9 @@ spec:
   - name: prometheus-crds
     namespace: prometheus
   values:
+    crds:
+      install: true
+      full: false
     controller:
       deploymentAnnotations:
         reloader.stakater.com/auto: "true"
