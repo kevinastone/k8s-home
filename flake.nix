@@ -46,12 +46,15 @@
               }))
               # keep-sorted start
               age
+              crane
               kubectl
               kubectl-cnpg
               kubectl-rook-ceph
               kustomize
+              oras
               python3
               regal
+              skopeo
               sops
               # keep-sorted end
             ];
