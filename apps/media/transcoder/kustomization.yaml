@@ -16,7 +16,6 @@ configMapGenerator:
     disableNameSuffixHash: true
   files:
   - scripts/transcode.sh
-  - scripts/argo-ffmpeg-progress.sh
   - scripts/probe-file.sh
   - scripts/move-file.sh
   - scripts/delete-original.sh
@@ -32,4 +31,3 @@ configMapGenerator:
   - policy/audio.rego
   - policy/file_path.rego
   - policy/file_size.rego
-
