@@ -61,7 +61,7 @@ ffmpeg \
   -i "$INPUT_FILE" \
   "${VIDEO_ARGS[@]}" \
   "${AUDIO_ARGS[@]}" \
-  -progress >(/scripts/argo-ffmpeg-progress.sh "$TOTAL_DURATION" "$ARGO_PROGRESS_FILE") \
+  -progress >(argo-ffmpeg-progress "$TOTAL_DURATION" "$ARGO_PROGRESS_FILE") \
   -stats_period 5 \
   "$TEMP_OUTPUT_FILE" 2>&1 | stdbuf --output=L tr '\r' '\n'
 FFMPEG_EXIT_CODE=$?
