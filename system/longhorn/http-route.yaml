@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Metrics
-    gethomepage.dev/icon: /static/icons/svg/longhorn.svg
+    gethomepage.dev/icon: /icons/svg/longhorn.svg
     gethomepage.dev/name: Longhorn
     gethomepage.dev/pod-selector: "app=longhorn-ui"
 spec:

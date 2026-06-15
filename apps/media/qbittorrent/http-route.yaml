@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Media
-    gethomepage.dev/icon: /static/icons/svg/qbittorrent.svg
+    gethomepage.dev/icon: /icons/svg/qbittorrent.svg
     gethomepage.dev/name: qBittorrent
     gethomepage.dev/widget.type: qbittorrent
     gethomepage.dev/widget.url: http://qbittorrent.media.svc:8080

@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Metrics
-    gethomepage.dev/icon: /static/custom/goldilocks.svg
+    gethomepage.dev/icon: /custom/goldilocks.svg
     gethomepage.dev/name: Goldilocks
 spec:
   parentRefs:

@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Media
-    gethomepage.dev/icon: /static/icons/svg/sonarr.svg
+    gethomepage.dev/icon: /icons/svg/sonarr.svg
     gethomepage.dev/name: Sonarr
 spec:
   parentRefs:
