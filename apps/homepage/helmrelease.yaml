@@ -67,6 +67,17 @@ spec:
           path: /app/config/settings.yaml
         - subPath: widgets.yaml
           path: /app/config/widgets.yaml
+      assets:
+        type: image
+        image: ghcr.io/kevinastone/homer-assets:main@sha256:1e84750c109a5c679e192f54fdcb45fb9e03166acfecc176a9bdfc02213f46fc
+        pullPolicy: IfNotPresent
+        globalMounts:
+        - path: /app/public/icons
+          subPath: usr/share/nginx/html/icons
+        - path: /app/public/theme
+          subPath: usr/share/nginx/html/theme
+        - path: /app/public/custom
+          subPath: usr/share/nginx/html/custom
     serviceAccount:
       homepage: {}
     defaultPodOptions:
