@@ -31,4 +31,5 @@ spec:
       enable_converter_ownership: true
       useCustomConfigReloader: true
     serviceMonitor:
-      enabled: true
+      # Currently failing due to a timeouts
+      enabled: false
