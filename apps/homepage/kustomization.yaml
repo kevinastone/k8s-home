@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: homepage
 resources:
 - namespace.yaml
-- rbac.yaml
 - helmrelease.yaml
 - helmrelease-static.yaml
 - http-route.yaml
