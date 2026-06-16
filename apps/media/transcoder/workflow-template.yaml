@@ -169,7 +169,7 @@ spec:
       - name: media
         mountPath: /media
       - name: temp
-        mountPath: /temp
+        mountPath: /tmp
       - name: scripts
         mountPath: /scripts
 
@@ -211,6 +211,8 @@ spec:
       volumeMounts:
       - name: media
         mountPath: /media
+      - name: temp
+        mountPath: /tmp
       - name: scripts
         mountPath: /scripts
 

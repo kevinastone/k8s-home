@@ -36,7 +36,7 @@ OUTPUT_FILE="/media/${OUTPUT_FILEPATH#/}"
 # Ensure output directory exists
 mkdir -p "$(dirname "$OUTPUT_FILE")"
 
-TEMP_OUTPUT_FILE="/temp/$(basename "$OUTPUT_FILE")"
+TEMP_OUTPUT_FILE="/tmp/$(basename "$OUTPUT_FILE")"
 
 TOTAL_DURATION=$(ffprobe -v error -show_entries format=duration -of default=nokey=1:noprint_wrappers=1 "$INPUT_FILE" 2>/dev/null)
 if [ -z "$TOTAL_DURATION" ] || [ "$TOTAL_DURATION" = "N/A" ]; then
