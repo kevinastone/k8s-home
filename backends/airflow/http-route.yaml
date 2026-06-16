@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
-    gethomepage.dev/icon: /icons/svg/apache-airflow.svg
+    gethomepage.dev/icon: /assets/icons/svg/apache-airflow.svg
     gethomepage.dev/name: Apache Airflow
     gethomepage.dev/pod-selector: "component=api-server,release=airflow"
 spec:

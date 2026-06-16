@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Metrics
-    gethomepage.dev/icon: /icons/svg/victoriametrics-light.svg
+    gethomepage.dev/icon: /assets/icons/svg/victoriametrics-light.svg
     gethomepage.dev/name: Victoria Metrics
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmsingle"
     gethomepage.dev/href: https://vm.k8s.kevinastone.com/vmalert/alerts

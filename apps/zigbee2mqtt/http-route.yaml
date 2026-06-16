@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
-    gethomepage.dev/icon: /icons/svg/zigbee2mqtt.svg
+    gethomepage.dev/icon: /assets/icons/svg/zigbee2mqtt.svg
     gethomepage.dev/name: Zigbee2MQTT
 spec:
   parentRefs:

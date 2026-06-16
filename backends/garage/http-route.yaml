@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
-    gethomepage.dev/icon: /icons/svg/garage.svg
+    gethomepage.dev/icon: /assets/icons/svg/garage.svg
     gethomepage.dev/name: Garage
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=garage"
 spec:

@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
-    gethomepage.dev/icon: /custom/weather_star.png
+    gethomepage.dev/icon: /assets/custom/weather_star.png
     gethomepage.dev/name: "WeatherStar 4000+"
 spec:
   parentRefs:

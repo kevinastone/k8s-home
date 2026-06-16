@@ -1,5 +1,5 @@
 - logo:
-    icon: /theme/assets/logos/dark_circle.png
+    icon: /assets/theme/assets/logos/dark_circle.png
 
 - kubernetes:
     cluster:

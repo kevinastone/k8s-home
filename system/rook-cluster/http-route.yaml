@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Metrics
-    gethomepage.dev/icon: /icons/svg/rook.svg
+    gethomepage.dev/icon: /assets/icons/svg/rook.svg
     gethomepage.dev/name: Rook
     gethomepage.dev/pod-selector: "app=rook-ceph-mgr"
 spec:

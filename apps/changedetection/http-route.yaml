@@ -5,7 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
-    gethomepage.dev/icon: /icons/svg/changedetection.svg
+    gethomepage.dev/icon: /assets/icons/svg/changedetection.svg
     gethomepage.dev/name: Change Detection
 spec:
   parentRefs:

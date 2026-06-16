@@ -6,7 +6,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
-    gethomepage.dev/icon: /icons/svg/argo-cd.svg
+    gethomepage.dev/icon: /assets/icons/svg/argo-cd.svg
     gethomepage.dev/name: Argo
 spec:
   parentRefs:

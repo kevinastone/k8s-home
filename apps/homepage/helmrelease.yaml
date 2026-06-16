@@ -72,12 +72,7 @@ spec:
         image: ghcr.io/kevinastone/homer-assets:main@sha256:649c02c58119f8e1717c096c410689f6657285c258d5c4bebaa58278816ad963
         pullPolicy: IfNotPresent
         globalMounts:
-        - path: /app/public/icons
-          subPath: icons
-        - path: /app/public/theme
-          subPath: theme
-        - path: /app/public/custom
-          subPath: custom
+        - path: /app/public/assets
     serviceAccount:
       homepage: {}
     defaultPodOptions:
