@@ -24,7 +24,7 @@ spec:
     operation: copy
   url: oci://ghcr.io/argoproj/argo-helm/argo-workflows
   ref:
-    tag: 1.0.16
+    tag: 1.0.17
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
