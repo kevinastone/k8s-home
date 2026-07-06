@@ -36,6 +36,7 @@ spec:
               QBT_Preferences__WebUI__LocalHostAuth: false
               QBT_Preferences__WebUI__UseUPNP: false
               QBT_Preferences__WebUI__AlternativeUIEnabled: false
+              QBT_Preferences__Connection__PortRangeMin: &btPort "55920"
               QBT_Preferences__Advanced__confirmTorrentDeletion: false
               QBT_Preferences__General__StatusbarExternalIPDisplayed: true
               QBT_BitTorrent__Session__DefaultSavePath: /incoming
@@ -68,6 +69,7 @@ spec:
               FIREWALL_OUTBOUND_SUBNETS: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
               # Don't tunnel the webui port
               FIREWALL_INPUT_PORTS: *port
+              FIREWALL_VPN_INPUT_PORTS: *btPort
               SERVER_COUNTRIES: "United States"
             envFrom:
             - secretRef:
