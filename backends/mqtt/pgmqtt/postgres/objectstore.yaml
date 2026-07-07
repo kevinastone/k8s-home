@@ -5,7 +5,7 @@ metadata:
   name: postgres
 spec:
   configuration:
-    destinationPath: s3://postgres/authelia
+    destinationPath: s3://postgres/mqtt
     endpointURL: https://s3.k8s.kevinastone.com
     s3Credentials:
       accessKeyId:
