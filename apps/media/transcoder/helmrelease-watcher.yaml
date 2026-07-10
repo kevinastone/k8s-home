@@ -27,7 +27,7 @@ spec:
                 }
             args:
             - "--pattern"
-            - "**/*.{mp4,mkv,avi,wmv,mov,mpg,m4v,f4v,m2ts}"
+            - "**/*.{mp4,mkv,avi,wmv,mov,mpg,m4v,f4v,flv,m2ts}"
             - "/media/Transcode"
             - "http://transcoder-webhook-eventsource-svc:12000/webhook"
     persistence:
