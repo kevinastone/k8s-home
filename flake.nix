@@ -50,8 +50,10 @@
               kubectl
               kubectl-cnpg
               kubectl-rook-ceph
+              kubent
               kustomize
               oras
+              pluto
               python3
               regal
               skopeo
