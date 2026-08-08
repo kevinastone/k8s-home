@@ -39,7 +39,8 @@ spec:
         kubeScheduler:
           create: false
       rules:
-        kubePrometheusGeneral: false
+        kubePrometheusGeneral:
+          enabled: false
 
     vmsingle:
       enabled: true
