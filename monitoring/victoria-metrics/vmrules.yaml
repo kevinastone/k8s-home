@@ -1,0 +1,16 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: vm-stack-rule-kube-prometheus-general-rules-override
+  namespace: victoria-metrics
+  labels:
+    app.kubernetes.io/instance: vm
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  groups:
+  - name: kube-prometheus-general.rules
+    rules:
+    - expr: count without(instance, pod, node) (up == 1)
+      record: count:up1
+    - expr: count without(instance, pod, node) (up == 0) or (count without(instance, pod, node) (up) * 0)
+      record: count:up0

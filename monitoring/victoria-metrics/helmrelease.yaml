@@ -38,11 +38,8 @@ spec:
         # These metrics don't seem to work
         kubeScheduler:
           create: false
-      # These record rule returns empty when there's no pods with up == 0 (which is nominal) - added a default of 0
       rules:
-        "count:up0":
-          spec:
-            expr: count without(instance, pod, node) (up == 0) or (count without(instance, pod, node) (up) * 0)
+        kubePrometheusGeneral: false
 
     vmsingle:
       enabled: true
