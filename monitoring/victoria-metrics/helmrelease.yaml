@@ -38,8 +38,7 @@ spec:
         # These metrics don't seem to work
         kubeScheduler:
           create: false
-      rules:
-        kubePrometheusGeneral:
+        kube-prometheus-general.rules:
           enabled: false
 
     vmsingle:
