@@ -42,7 +42,7 @@ spec:
       rules:
         "count:up0":
           spec:
-            expr: count without(instance, pod, node) (up == 0) or vector(0)
+            expr: count without(instance, pod, node) (up == 0) or (count without(instance, pod, node) (up) * 0)
 
     vmsingle:
       enabled: true
