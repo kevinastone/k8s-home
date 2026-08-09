@@ -53,7 +53,10 @@ resource "rustfs_serviceaccount" "serviceaccount" {
   secret_key = var.secret
 
   lifecycle {
-    ignore_changes = [secret_key]
+    ignore_changes = [
+      secret_key,
+      name,
+    ]
     replace_triggered_by = [
       terraform_data.secret_rotation
     ]
