@@ -39,11 +39,11 @@ resource "rustfs_policy" "policy" {
 resource "rustfs_user" "user" {
   access_key = "${var.name}_user"
   secret_key = var.secret
-  policy     = var.name
+  policy     = rustfs_policy.policy.name
 }
 
 resource "rustfs_serviceaccount" "serviceaccount" {
-  user       = "${var.name}_user"
+  user       = rustfs_user.user.access_key
   access_key = var.name
   name       = var.name
   secret_key = var.secret
