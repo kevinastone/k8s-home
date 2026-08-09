@@ -44,11 +44,16 @@ resource "rustfs_user" "user" {
   lifecycle {
     ignore_changes = [secret_key]
     replace_triggered_by = [
-      terraform_data.secret_rotation
+      terraform_data.secret_rotation,
+      terraform_data.user_replacement
     ]
   }
 }
 
 resource "terraform_data" "secret_rotation" {
   input = var.secret
+}
+
+resource "terraform_data" "user_replacement" {
+  input = var.name
 }
