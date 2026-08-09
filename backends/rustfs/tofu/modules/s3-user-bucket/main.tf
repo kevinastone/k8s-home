@@ -40,6 +40,13 @@ resource "rustfs_user" "user" {
   access_key = "${var.name}_user"
   secret_key = var.secret
   policy     = rustfs_policy.policy.name
+
+  lifecycle {
+    ignore_changes = [secret_key]
+    replace_triggered_by = [
+      terraform_data.secret_rotation
+    ]
+  }
 }
 
 resource "terraform_data" "secret_rotation" {
