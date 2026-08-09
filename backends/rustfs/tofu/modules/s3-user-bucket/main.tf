@@ -37,7 +37,7 @@ resource "rustfs_policy" "policy" {
 }
 
 resource "rustfs_user" "user" {
-  access_key = "${var.name}_user"
+  access_key = var.name
   secret_key = var.secret
   policy     = rustfs_policy.policy.name
 
@@ -51,21 +51,4 @@ resource "rustfs_user" "user" {
 
 resource "terraform_data" "secret_rotation" {
   input = var.secret
-}
-
-resource "rustfs_serviceaccount" "serviceaccount" {
-  user       = rustfs_user.user.access_key
-  access_key = var.name
-  name       = var.name
-  secret_key = var.secret
-
-  lifecycle {
-    ignore_changes = [
-      secret_key,
-      name,
-    ]
-    replace_triggered_by = [
-      terraform_data.secret_rotation
-    ]
-  }
 }
