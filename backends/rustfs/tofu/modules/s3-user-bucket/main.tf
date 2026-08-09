@@ -47,4 +47,8 @@ resource "rustfs_serviceaccount" "serviceaccount" {
   access_key = var.name
   name       = var.name
   secret_key = var.secret
+
+  lifecycle {
+    ignore_changes = [secret_key]
+  }
 }
