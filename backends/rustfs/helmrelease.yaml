@@ -32,6 +32,8 @@ spec:
               OTEL_LOGS_EXPORTER: "none"
               OTEL_TRACES_EXPORTER: "none"
               OTEL_METRICS_EXPORTER: "none"
+              RUSTFS_OBS_USE_STDOUT: "false"
+              RUSTFS_OBS_OTEL_USE_STDOUT: "false"
               RUSTFS_IDENTITY_OPENID_ENABLE: "true"
               RUSTFS_IDENTITY_OPENID_CONFIG_URL: https://auth.k8s.kevinastone.com/.well-known/openid-configuration
               RUSTFS_IDENTITY_OPENID_CLIENT_ID: rustfs
