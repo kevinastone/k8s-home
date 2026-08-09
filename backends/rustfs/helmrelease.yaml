@@ -38,6 +38,7 @@ spec:
               RUSTFS_IDENTITY_OPENID_CLAIM_PREFIX: authelia
               RUSTFS_IDENTITY_OPENID_DISPLAY_NAME: Authelia
               RUSTFS_IDENTITY_OPENID_SCOPES: openid,profile,email
+              RUSTFS_OUTBOUND_ALLOW_ORIGINS: "https://auth.k8s.kevinastone.com"
               RUSTFS_BROWSER_REDIRECT_URL: https://rustfs.k8s.kevinastone.com
             envFrom:
             - secretRef:
