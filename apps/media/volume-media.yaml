@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/provisioned-by: smb.csi.k8s.io
+  name: media-media
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - cache=none
+  - actimeo=1
+  - nohandlecache
+  - vers=3.1.1
+  - nobrl
+  csi:
+    driver: smb.csi.k8s.io
+    volumeHandle: media-media
+    volumeAttributes:
+      source: "//storage.home.kevinastone.com/Media"
+    nodeStageSecretRef:
+      name: storage-cifs-secret
+      namespace: smb
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-media
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteMany
+  volumeName: media-media
+  resources:
+    requests:
+      storage: 100Gi

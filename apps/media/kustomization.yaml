@@ -6,6 +6,7 @@ resources:
 - namespace.yaml
 - volume-downloads.yaml
 - volume-incoming.yaml
+- volume-media.yaml
 # - postgres
 - qbittorrent
 # - sonarr

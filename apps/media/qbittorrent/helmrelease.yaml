@@ -112,3 +112,10 @@ spec:
           main:
             app:
             - path: /downloads
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-media
+        advancedMounts:
+          main:
+            app:
+            - path: /media
