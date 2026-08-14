@@ -31,19 +31,6 @@
           mkShell {
             nativeBuildInputs = [ treefmtConfig.config.build.wrapper ];
             packages = [
-              # Need to patch open-policy-agent to fix darwin bugs in nixpkgs
-              (open-policy-agent.overrideAttrs (_old: {
-                preCheck =
-                  # Feed in all but the e2e tests for testing
-                  # This is because subPackages above limits what is built to just what we
-                  # want but also limits the tests
-                  # Also avoid wasm tests on darwin due to wasmtime-go build issues
-                  ''
-                    getGoDirs() {
-                      go list ./... | grep -v -e e2e ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin "-e wasm"}
-                    }
-                  '';
-              }))
               # keep-sorted start
               age
               crane
@@ -52,6 +39,7 @@
               kubectl-rook-ceph
               kubent
               kustomize
+              open-policy-agent
               oras
               pluto
               python3
