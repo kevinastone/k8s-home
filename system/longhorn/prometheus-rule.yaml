@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: longhorn-instance-manager-alerts
+spec:
+  groups:
+  - name: longhorn-instance-manager
+    rules:
+    - alert: LonghornExcessInstanceManagers
+      expr: |
+        count by (node) (longhorn_instance_manager_cpu_requests_millicpu) > 1
+      for: 2h
+      labels:
+        severity: warning
+      annotations:
+        summary: "Multiple Longhorn instance managers running on a single node"
+        description: "Node {{ $labels.node }} has {{ $value }} instance managers running. This typically indicates that old engine versions are still active and hogging CPU resources. Please upgrade the engine images of your volumes to clean them up."

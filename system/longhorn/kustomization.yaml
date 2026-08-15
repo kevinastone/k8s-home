@@ -5,6 +5,7 @@ namespace: longhorn-system
 resources:
 - helmrelease.yaml
 - http-route.yaml
+- prometheus-rule.yaml
 configMapGenerator:
 - name: longhorn-dashboard
   options:
