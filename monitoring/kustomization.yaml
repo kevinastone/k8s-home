@@ -8,6 +8,7 @@ resources:
 - grafana
 - karma
 - loki
+- longhorn
 - metrics-server
 - network-ups-tools
 - peanut
