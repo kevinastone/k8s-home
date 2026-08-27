@@ -9,9 +9,8 @@ spec:
         config.cilium.io/disable-source-ip-verification: "true"
       tailscaleContainer:
         env:
-        - name: TS_DEBUG_FIREWALL_MODE
-          value: iptables
         - name: TS_USERSPACE
           value: "true"
+
 
 
