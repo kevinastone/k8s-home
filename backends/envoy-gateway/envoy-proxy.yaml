@@ -13,4 +13,4 @@ spec:
       envoyDeployment:
         replicas: 2
       envoyService:
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
