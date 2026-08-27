@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: tailscale
 resources:
 - connector.yaml
+- proxyclass.yaml

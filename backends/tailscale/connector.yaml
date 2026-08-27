@@ -4,6 +4,7 @@ metadata:
   name: home-network
   namespace: tailscale
 spec:
+  proxyClass: tailscale-connector-class
   exitNode: true
   subnetRouter:
     advertiseRoutes:

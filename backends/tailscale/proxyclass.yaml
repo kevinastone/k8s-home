@@ -1,0 +1,9 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: tailscale-connector-class
+spec:
+  statefulSet:
+    pod:
+      annotations:
+        config.cilium.io/disable-source-ip-verification: "true"
