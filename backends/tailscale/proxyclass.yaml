@@ -11,4 +11,7 @@ spec:
         env:
         - name: TS_DEBUG_FIREWALL_MODE
           value: iptables
+        - name: TS_USERSPACE
+          value: "true"
+
 
