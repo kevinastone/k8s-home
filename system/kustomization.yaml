@@ -18,5 +18,5 @@ resources:
 - openebs
 - reflector
 - reloader
-# - rook-cluster
+- tailscale-operator
 - vertical-pod-autoscaler
