@@ -12,3 +12,4 @@ resources:
 - one-password
 - postgres
 - rustfs
+- tailscale
