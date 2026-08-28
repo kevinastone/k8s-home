@@ -1,0 +1,3 @@
+[tailscale]
+id = 24178
+datasource = { DS_PROMETHEUS = "prometheus" }

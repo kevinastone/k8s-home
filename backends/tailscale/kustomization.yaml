@@ -5,3 +5,10 @@ namespace: tailscale
 resources:
 - connector.yaml
 - proxyclass.yaml
+configMapGenerator:
+- name: tailscale-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/tailscale.json
