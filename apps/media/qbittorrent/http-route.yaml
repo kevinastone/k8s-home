@@ -17,7 +17,7 @@ spec:
     namespace: envoy
     sectionName: https
   hostnames:
-  - torrent.k8s.kevinastone.com
+  - qbittorrent.k8s.kevinastone.com
   rules:
   - backendRefs:
     - name: qbittorrent
