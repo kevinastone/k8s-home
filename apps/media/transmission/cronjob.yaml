@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: transmission-blocklist-update
+spec:
+  schedule: "0 3 * * 0" # Every Sunday at 3 AM
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: update-blocklist
+            image: curlimages/curl:8.6.0
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Fetching Transmission Session ID..."
+              SESSION_HEADER=$(curl -sI http://transmission.media.svc:9091/transmission/rpc | grep -i X-Transmission-Session-Id)
+              if [ -z "$SESSION_HEADER" ]; then
+                echo "Failed to get session header"
+                exit 1
+              fi
+              SESSION_ID=$(echo "$SESSION_HEADER" | cut -d' ' -f2 | tr -d '\r')
+              echo "Triggering blocklist update..."
+              RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+                -H "X-Transmission-Session-Id: $SESSION_ID" \
+                -d '{"method": "blocklist-update"}' \
+                http://transmission.media.svc:9091/transmission/rpc)
+              echo "RPC Response HTTP Code: $RESPONSE"
+              if [ "$RESPONSE" != "200" ]; then
+                echo "Failed to update blocklist"
+                exit 1
+              fi
+              echo "Blocklist update triggered successfully!"
