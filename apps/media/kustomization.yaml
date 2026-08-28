@@ -4,10 +4,12 @@ kind: Kustomization
 namespace: media
 resources:
 - namespace.yaml
+- external-secret.yaml
 - volume-downloads.yaml
 - volume-incoming.yaml
 - volume-media.yaml
 # - postgres
 - qbittorrent
+- transmission
 # - sonarr
 - transcoder
