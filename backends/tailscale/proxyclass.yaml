@@ -11,6 +11,7 @@ spec:
         env:
         - name: TS_USERSPACE
           value: "true"
-
-
-
+  metrics:
+    enable: true
+    serviceMonitor:
+      enable: true
