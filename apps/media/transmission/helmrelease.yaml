@@ -27,8 +27,51 @@ spec:
               tag: 4.1.3@sha256:172ff08b53d10b8c83bc7e4d6c74e69d2276509c1997c173c001bbf8b2d0512a
             env:
               UMASK: "022"
-              TRANSMISSION_PORT: &port 9091
-              TRANSMISSION_PEER_PORT: &btPort "55920"
+
+              # Blocklist
+              TRANSMISSION__BLOCKLIST_ENABLED: "true"
+              TRANSMISSION__BLOCKLIST_URL: "https://github.com/GiulioMac/bitlist/releases/download/all/ipfilter.appspot.com.bin.gz"
+
+              # Caching & Performance
+              TRANSMISSION__CACHE_SIZE_MB: "64" # Bumps RAM cache to 64MB to prevent Disk I/O stalls
+              TRANSMISSION__DHT_ENABLED: "true"
+
+              # Directories
+              TRANSMISSION__DOWNLOAD_DIR: "/incoming"
+              TRANSMISSION__INCOMPLETE_DIR: "/downloads"
+              TRANSMISSION__INCOMPLETE_DIR_ENABLED: "true"
+              TRANSMISSION__RENAME_PARTIAL_FILES: "" # Disables appending .part to incomplete files (empty string evaluates to false in minijinja)
+
+              # Connection Limits
+              TRANSMISSION__PEER_LIMIT_GLOBAL: "1000"
+              TRANSMISSION__PEER_LIMIT_PER_TORRENT: "500"
+              TRANSMISSION__PEER_PORT: &btPort "55920"
+              TRANSMISSION__PORT_FORWARDING_ENABLED: "" # Empty string evaluates to false in minijinja
+
+              # Seeding limits
+              TRANSMISSION__RATIO_LIMIT: "0" # Sets seeding ratio limit to 0
+              TRANSMISSION__RATIO_LIMIT_ENABLED: "" # Disables ratio limit to prevent 99.9% download freezing race conditions (empty string evaluates to false in minijinja)
+
+              # RPC/WebUI & Security
+              TRANSMISSION__RPC_AUTHENTICATION_REQUIRED: "" # Empty string evaluates to false in minijinja
+              TRANSMISSION__RPC_BIND_ADDRESS: "0.0.0.0"
+              TRANSMISSION__RPC_ENABLED: "true"
+              TRANSMISSION__RPC_PORT: &port 9091
+              TRANSMISSION__RPC_HOST_WHITELIST_ENABLED: "" # Disabled for ingress/reverse-proxy compatibility (empty string evaluates to false in minijinja)
+              TRANSMISSION__RPC_WHITELIST: "127.0.0.1,10.*.*.*,172.*.*.*,192.168.*.*"
+              TRANSMISSION__RPC_WHITELIST_ENABLED: "true"
+
+              # Queues
+              TRANSMISSION__DOWNLOAD_QUEUE_ENABLED: "" # Empty string evaluates to false in minijinja
+              TRANSMISSION__SEED_QUEUE_ENABLED: "" # Empty string evaluates to false in minijinja
+
+              # System & Watch Dir
+              TRANSMISSION__UMASK: "18" # Umask 022 in decimal
+              TRANSMISSION__UTP_ENABLED: "true" # Enables µTP protocol for better VPN transport
+              TRANSMISSION__TRASH_ORIGINAL_TORRENT_FILES: "true" # Delete .torrent files after they are successfully added
+              TRANSMISSION__WATCH_DIR: "/incoming"
+              TRANSMISSION__WATCH_DIR_ENABLED: "true"
+              TRANSMISSION__WATCH_FORCE_GENERIC: "true" # Force directory polling for network storage compatibility
             probes:
               liveness:
                 enabled: true
@@ -85,14 +128,6 @@ spec:
           main:
             app:
             - path: /config
-      settings:
-        type: configMap
-        name: transmission-settings
-        advancedMounts:
-          main:
-            app:
-            - path: /config/settings.json
-              subPath: settings.json
       incoming:
         type: persistentVolumeClaim
         existingClaim: media-incoming
