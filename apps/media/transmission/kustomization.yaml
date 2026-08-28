@@ -5,9 +5,3 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - cronjob.yaml
-configMapGenerator:
-- name: transmission-settings
-  files:
-  - settings.json=resources/settings.json
-configurations:
-- kustomizeconfig.yaml

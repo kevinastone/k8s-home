@@ -29,6 +29,50 @@ spec:
               UMASK: "022"
               TRANSMISSION_PORT: &port 9091
               TRANSMISSION_PEER_PORT: &btPort "55920"
+
+              # Blocklist
+              TRANSMISSION__BLOCKLIST_ENABLED: "true"
+              TRANSMISSION__BLOCKLIST_URL: "https://github.com/GiulioMac/bitlist/releases/download/all/ipfilter.appspot.com.bin.gz"
+
+              # Caching & Performance
+              TRANSMISSION__CACHE_SIZE_MB: "64" # Bumps RAM cache to 64MB to prevent Disk I/O stalls
+              TRANSMISSION__DHT_ENABLED: "true"
+
+              # Directories
+              TRANSMISSION__DOWNLOAD_DIR: "/incoming"
+              TRANSMISSION__INCOMPLETE_DIR: "/downloads"
+              TRANSMISSION__INCOMPLETE_DIR_ENABLED: "true"
+              TRANSMISSION__RENAME_PARTIAL_FILES: "false" # Disables appending .part to incomplete files
+
+              # Connection Limits
+              TRANSMISSION__PEER_LIMIT_GLOBAL: "1000"
+              TRANSMISSION__PEER_LIMIT_PER_TORRENT: "500"
+              TRANSMISSION__PEER_PORT: *btPort
+              TRANSMISSION__PORT_FORWARDING_ENABLED: "false"
+
+              # Seeding limits
+              TRANSMISSION__RATIO_LIMIT: "0" # Sets seeding ratio limit to 0
+              TRANSMISSION__RATIO_LIMIT_ENABLED: "true" # Stops seeding immediately after finished
+
+              # RPC/WebUI & Security
+              TRANSMISSION__RPC_AUTHENTICATION_REQUIRED: "false"
+              TRANSMISSION__RPC_BIND_ADDRESS: "0.0.0.0"
+              TRANSMISSION__RPC_ENABLED: "true"
+              TRANSMISSION__RPC_PORT: *port
+              TRANSMISSION__RPC_HOST_WHITELIST_ENABLED: "false" # Disabled for ingress/reverse-proxy compatibility
+              TRANSMISSION__RPC_WHITELIST: "127.0.0.1,10.*,172.*,192.168.*"
+              TRANSMISSION__RPC_WHITELIST_ENABLED: "true"
+
+              # Queues
+              TRANSMISSION__DOWNLOAD_QUEUE_ENABLED: "false"
+              TRANSMISSION__SEED_QUEUE_ENABLED: "false"
+
+              # System & Watch Dir
+              TRANSMISSION__UMASK: "18" # Umask 022 in decimal
+              TRANSMISSION__UTP_ENABLED: "true" # Enables µTP protocol for better VPN transport
+              TRANSMISSION__WATCH_DIR: "/incoming"
+              TRANSMISSION__WATCH_DIR_ENABLED: "true"
+              TRANSMISSION__WATCH_DIR_FORCE_GENERIC: "true" # Force directory polling for network storage compatibility
             probes:
               liveness:
                 enabled: true
@@ -85,14 +129,6 @@ spec:
           main:
             app:
             - path: /config
-      settings:
-        type: configMap
-        name: transmission-settings
-        advancedMounts:
-          main:
-            app:
-            - path: /config/settings.json
-              subPath: settings.json
       incoming:
         type: persistentVolumeClaim
         existingClaim: media-incoming
