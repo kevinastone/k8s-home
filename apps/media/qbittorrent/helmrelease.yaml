@@ -41,8 +41,7 @@ spec:
               runAsNonRoot: true
               runAsUser: 568
               runAsGroup: 568
-            # Programmatically registers the /incoming monitored folder via Web API on boot.
-            # Needed because qBittorrent serializes ScanDirsV2 as a binary Qt blob in qBittorrent.conf.
+            # Programmatically applies startup preferences (e.g. /incoming monitored folder) via Web API.
             lifecycle:
               postStart:
                 exec:
@@ -54,7 +53,7 @@ spec:
                       while ! curl -s -f http://127.0.0.1:8080/api/v2/app/version >/dev/null 2>&1; do
                         sleep 1
                       done
-                      curl -s -X POST -d 'json={"scan_dirs":{"/incoming":1}}' http://127.0.0.1:8080/api/v2/app/setPreferences >/dev/null 2>&1
+                      curl -s -X POST --data-urlencode "json=$(jq -c . /config/preferences.jsonc)" http://127.0.0.1:8080/api/v2/app/setPreferences >/dev/null 2>&1
                     ) &
         initContainers:
           init-config:
@@ -117,6 +116,9 @@ spec:
             app:
             - path: /config/qBittorrent/qBittorrent.conf
               subPath: qBittorrent.conf
+              readOnly: true
+            - path: /config/preferences.jsonc
+              subPath: preferences.jsonc
               readOnly: true
       incoming:
         type: persistentVolumeClaim
