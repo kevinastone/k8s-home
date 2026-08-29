@@ -9,8 +9,8 @@ resources:
 - volume-incoming.yaml
 - volume-media.yaml
 # - postgres
-# - qbittorrent
-- transmission
+- qbittorrent
+# - transmission
 # - sonarr
 - transcoder
 - http-route.yaml

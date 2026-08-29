@@ -13,5 +13,5 @@ spec:
   - filters:
     - type: RequestRedirect
       requestRedirect:
-        hostname: flood.k8s.kevinastone.com
+        hostname: qbittorrent.k8s.kevinastone.com
         statusCode: 302
