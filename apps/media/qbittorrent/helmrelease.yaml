@@ -22,7 +22,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
-            image:
+            image: &image
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.2.3@sha256:4fcf15b7f265c2c8d7bc2a7e13240a07e0593c326f3cf3b5b9bb69eec5b79299
             env:
@@ -41,7 +41,31 @@ spec:
               runAsNonRoot: true
               runAsUser: 568
               runAsGroup: 568
+            # Programmatically registers the /incoming monitored folder via Web API on boot.
+            # Needed because qBittorrent serializes ScanDirsV2 as a binary Qt blob in qBittorrent.conf.
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    (
+                      while ! curl -s -f http://127.0.0.1:8080/api/v2/app/version >/dev/null 2>&1; do
+                        sleep 1
+                      done
+                      curl -s -X POST -d 'json={"scan_dirs":{"/incoming":1}}' http://127.0.0.1:8080/api/v2/app/setPreferences >/dev/null 2>&1
+                    ) &
         initContainers:
+          init-config:
+            image: *image
+            command:
+            - sh
+            - -c
+            - "mkdir -p /config/qBittorrent/logs /config/qBittorrent/BT_backup && chown -R 568:568 /config && chmod -R 775 /config"
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
           vpn:
             restartPolicy: Always
             image:
@@ -81,6 +105,8 @@ spec:
         size: 1Gi
         advancedMounts:
           main:
+            init-config:
+            - path: /config
             app:
             - path: /config
       settings:
