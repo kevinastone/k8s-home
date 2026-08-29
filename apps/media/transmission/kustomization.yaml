@@ -5,3 +5,12 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - cronjob.yaml
+
+configMapGenerator:
+- name: flood-ui-config
+  files:
+  - resources/flood/config.json
+  - resources/flood/default.conf
+
+configurations:
+- kustomizeconfig.yaml

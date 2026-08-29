@@ -8,7 +8,7 @@ metadata:
     gethomepage.dev/icon: /assets/icons/svg/transmission.svg
     gethomepage.dev/name: Transmission
     gethomepage.dev/widget.type: transmission
-    gethomepage.dev/widget.url: http://transmission.media.svc:9091
+    gethomepage.dev/widget.url: http://transmission-app.media.svc:9091
 spec:
   parentRefs:
   - name: auth-gateway
@@ -18,9 +18,58 @@ spec:
   - transmission.k8s.kevinastone.com
   rules:
   - backendRefs:
-    - name: transmission
+    - name: transmission-app
       port: 9091
     matches:
     - path:
         type: PathPrefix
         value: /
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: transmission-flood
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: /assets/icons/svg/flood.svg
+    gethomepage.dev/name: Flood
+    gethomepage.dev/href: "https://flood.k8s.kevinastone.com"
+    gethomepage.dev/widget.type: transmission
+    gethomepage.dev/widget.url: http://transmission-app.media.svc:9091
+    gethomepage.dev/pod-selector: "app.kubernetes.io/controller=flood"
+spec:
+  parentRefs:
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
+  hostnames:
+  - flood.k8s.kevinastone.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /rpc
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /transmission/rpc
+    backendRefs:
+    - name: transmission-app
+      port: 9091
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /transmission/rpc
+    backendRefs:
+    - name: transmission-app
+      port: 9091
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: transmission-flood
+      port: 8080
