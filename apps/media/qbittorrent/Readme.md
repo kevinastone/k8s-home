@@ -14,9 +14,11 @@ There's a number of manual settings that need to be configured for optimal use
   - [Check] Keep incomplete torrents in: `/downloads`
 - Connection
   - Listening Port: `[port from VPN]`
+  - [Check] Global maximum number of connections: 1000
+  - [Check] Maximum number of connections per torrent: 500
 - BitTorrent
   - [Uncheck] Torrent Queuing
-  - [Check] Seeing Limits: `0`
+  - [Check] Seeding Limits: when ratio reaches `0`
 - Advanced
   - Network interface: `tun0`
   - Optional IP address to bind to: `All IPV4 addresses`
