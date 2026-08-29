@@ -27,22 +27,6 @@ spec:
               tag: 5.2.3@sha256:4fcf15b7f265c2c8d7bc2a7e13240a07e0593c326f3cf3b5b9bb69eec5b79299
             env:
               UMASK: "022"
-              QBT_WEBUI_PORT: &port 8080
-              QBT_SAVE_PATH: /incoming
-              QBT_SKIP_DIALOG: true
-              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
-              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
-                172.16.0.0/12, 10.0.0.0/8, 192.168.0.0/16
-              QBT_Preferences__WebUI__LocalHostAuth: false
-              QBT_Preferences__WebUI__UseUPNP: false
-              QBT_Preferences__WebUI__AlternativeUIEnabled: false
-              QBT_Preferences__Connection__PortRangeMin: &btPort "55920"
-              QBT_Preferences__Advanced__confirmTorrentDeletion: false
-              QBT_Preferences__General__StatusbarExternalIPDisplayed: true
-              QBT_BitTorrent__Session__DefaultSavePath: /incoming
-              QBT_BitTorrent__Session__QueueingSystemEnabled: false
-              QBT_BitTorrent__Session__ShareLimitAction: Stop
-              QBT_BitTorrent__Session__GlobalMaxRatio: 0
             probes:
               liveness:
                 enabled: true
@@ -68,8 +52,8 @@ spec:
               # Allow local traffic without the VPN
               FIREWALL_OUTBOUND_SUBNETS: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
               # Don't tunnel the webui port
-              FIREWALL_INPUT_PORTS: *port
-              FIREWALL_VPN_INPUT_PORTS: *btPort
+              FIREWALL_INPUT_PORTS: &port 8080
+              FIREWALL_VPN_INPUT_PORTS: &btPort "55920"
               SERVER_COUNTRIES: "United States"
               SERVER_CITIES: "Los Angeles"
             envFrom:
@@ -99,6 +83,15 @@ spec:
           main:
             app:
             - path: /config
+      settings:
+        type: configMap
+        name: qbittorrent-config
+        advancedMounts:
+          main:
+            app:
+            - path: /config/qBittorrent/qBittorrent.conf
+              subPath: qBittorrent.conf
+              readOnly: true
       incoming:
         type: persistentVolumeClaim
         existingClaim: media-incoming

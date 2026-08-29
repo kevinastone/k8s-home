@@ -1,24 +1,13 @@
 # qBittorrent
 
-There's a number of manual settings that need to be configured for optimal use
+Optimal configuration settings are fully declared and managed via GitOps:
 
-## Options
+- Docker and network variables are configured in [helmrelease.yaml](helmrelease.yaml).
+- Application preferences are managed in [qBittorrent.conf](resources/qBittorrent.conf) (mounted as a read-only `ConfigMap` volume).
 
-- Behavior
-  - [Uncheck] Confirm when deleting torrents
-  - [Check] Auto hide zero status filters
-  - [Check] Show external IP in status bar
-- Downloads
-  - Default Save Path: `/incoming`
-  - Monitored Folder: `/incoming`
-  - [Check] Keep incomplete torrents in: `/downloads`
-- Connection
-  - Listening Port: `[port from VPN]`
-  - [Check] Global maximum number of connections: 1000
-  - [Check] Maximum number of connections per torrent: 500
-- BitTorrent
-  - [Uncheck] Torrent Queuing
-  - [Check] Seeding Limits: when ratio reaches `0`
-- Advanced
-  - Network interface: `tun0`
-  - Optional IP address to bind to: `All IPV4 addresses`
+## Manual Settings
+
+Due to serialization limitations in `qBittorrent.conf` (which stores watch paths as serialized Qt binary blobs), the monitored directory must be configured manually via the WebUI:
+
+- **Downloads**
+  - **Automatically add torrents from:** `/incoming` (monitors `/incoming` for `.torrent` files)

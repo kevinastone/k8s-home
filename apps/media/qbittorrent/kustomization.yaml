@@ -4,3 +4,11 @@ kind: Kustomization
 resources:
 - helmrelease.yaml
 - http-route.yaml
+
+configMapGenerator:
+- name: qbittorrent-config
+  files:
+  - resources/qBittorrent.conf
+
+configurations:
+- kustomizeconfig.yaml
