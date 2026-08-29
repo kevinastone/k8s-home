@@ -13,5 +13,5 @@ spec:
   - filters:
     - type: RequestRedirect
       requestRedirect:
-        hostname: transmission.k8s.kevinastone.com
+        hostname: flood.k8s.kevinastone.com
         statusCode: 302
