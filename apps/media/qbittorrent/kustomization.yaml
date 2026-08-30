@@ -10,6 +10,9 @@ configMapGenerator:
   files:
   - resources/qBittorrent.conf
   - resources/preferences.jsonc
+- name: qbit-manage-config
+  files:
+  - resources/qbit-manage.yaml
 
 configurations:
 - kustomizeconfig.yaml
