@@ -33,3 +33,5 @@ tracker: {}
 
 web_server:
   enabled: false
+recyclebin:
+  enabled: false
