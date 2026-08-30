@@ -105,7 +105,7 @@ spec:
           app:
             image:
               repository: ghcr.io/stuffanthings/qbit_manage
-              tag: v4.1.8@sha256:268f6b42308ea5fbd5e0a6a449faee94cd62415e74ef07363c94a26cc1410654
+              tag: v4.12.0@sha256:7a7db6bdec57baf06d580e97d44f00185ff3a774335951b0affc849e014cb8f8
             command:
             - python3
             - -u
