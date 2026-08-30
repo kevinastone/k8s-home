@@ -1,0 +1,35 @@
+qbt:
+  # Internal Kubernetes service URL for qBittorrent in the media namespace
+  host: "http://qbittorrent.media.svc:8080"
+  user: ""
+  pass: ""
+
+settings:
+  dry_run: false
+  cross_seed: false
+  recheck: false
+  cat_update: false
+  tag_update: false
+  rem_unregistered: false
+  tag_tracker_error: false
+  orphaned: true
+
+directory:
+  root_dir: /downloads
+  remote_dir: /downloads
+
+orphaned:
+  empty_dir: true
+  max_age: 7
+  exclude_patterns:
+  - "**/.**"
+  - "**/lost+found/**"
+  - "**/.!qB"
+
+cat:
+  downloads: /downloads
+
+tracker: {}
+
+web_server:
+  enabled: false

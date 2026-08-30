@@ -90,6 +90,39 @@ spec:
                 add:
                 - "NET_ADMIN"
 
+      orphan-cleanup:
+        type: cronjob
+        cronjob:
+          schedule: "0 4 * * 0"
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 3
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          app:
+            image:
+              repository: ghcr.io/stuffanthings/qbit_manage
+              tag: v4.12.0@sha256:7a7db6bdec57baf06d580e97d44f00185ff3a774335951b0affc849e014cb8f8
+            lifecycle:
+              postStart:
+                exec:
+                  command: ["/bin/sh", "-c", "cp /config-src/qbit-manage.yaml /config/config.yml"]
+            command:
+            - python3
+            - qbit_manage.py
+            args:
+            - --run
+            - --orphaned
+            env:
+              QBT_WEB_SERVER: "false"
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 568
+              runAsGroup: 568
+
     service:
       app:
         controller: main
@@ -120,6 +153,14 @@ spec:
             - path: /config/preferences.jsonc
               subPath: preferences.jsonc
               readOnly: true
+      qbit-manage-config:
+        type: configMap
+        name: qbit-manage-config
+        advancedMounts:
+          orphan-cleanup:
+            app:
+            - path: /config-src
+              readOnly: true
       incoming:
         type: persistentVolumeClaim
         existingClaim: media-incoming
@@ -132,6 +173,9 @@ spec:
         existingClaim: media-downloads
         advancedMounts:
           main:
+            app:
+            - path: /downloads
+          orphan-cleanup:
             app:
             - path: /downloads
       media:

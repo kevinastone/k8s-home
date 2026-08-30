@@ -4,3 +4,6 @@ nameReference:
   fieldSpecs:
   - path: spec/values/persistence/settings/name
     kind: HelmRelease
+  - path: spec/values/persistence/qbit-manage-config/name
+    kind: HelmRelease
+
