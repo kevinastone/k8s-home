@@ -1,7 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: cert-manager
 resources:
-- namespace.yaml
-- helmrelease.yaml
+- https://github.com/cert-manager/cert-manager/releases/download/v1.21.1/cert-manager.crds.yaml
