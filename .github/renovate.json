@@ -33,6 +33,17 @@
         "image:\\s*[\"']?(?<depName>[^\\s\"':]+):(?<currentValue>[^\\s\"':]+)[\"']?"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Track GitHub release asset URLs in Kustomize manifests",
+      "managerFilePatterns": [
+        "/(^|/)kustomization\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "https://github\\.com/(?<depName>[^/\\s]+/[^/\\s]+)/releases/download/(?<currentValue>[^/\\s]+)/"
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
