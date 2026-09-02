@@ -7,13 +7,14 @@ metadata:
 spec:
   dependsOn:
   - name: crds
+  - name: repos
   interval: 10m
   sourceRef:
     kind: GitRepository
     name: fluxcd-sync
   path: "./system"
   prune: true
-  timeout: 2m
+  timeout: 10m
   retryInterval: 1m
   decryption:
     provider: sops
