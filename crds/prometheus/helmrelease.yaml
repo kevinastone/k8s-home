@@ -24,5 +24,10 @@ spec:
     name: prometheus-crds
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
+    remediation:
+      retries: 3

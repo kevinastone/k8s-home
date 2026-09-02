@@ -22,6 +22,13 @@ spec:
   chartRef:
     kind: OCIRepository
     name: pgmqtt
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     crds:
       install: false

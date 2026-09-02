@@ -40,6 +40,13 @@ spec:
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     controller:
       metrics:
@@ -64,6 +71,13 @@ spec:
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     crds:
       install: true

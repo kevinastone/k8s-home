@@ -14,6 +14,13 @@ spec:
         name: k8tz
         namespace: flux-system
       interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     namespace: null
     timezone: America/Los_Angeles

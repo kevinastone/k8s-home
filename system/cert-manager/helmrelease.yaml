@@ -24,6 +24,13 @@ spec:
     name: cert-manager
   driftDetection:
     mode: enabled
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     crds:
       enabled: false

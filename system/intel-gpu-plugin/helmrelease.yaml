@@ -16,6 +16,12 @@ spec:
       interval: 5m
   install:
     createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     sharedDevNum: 3
     nodeFeatureRule: true

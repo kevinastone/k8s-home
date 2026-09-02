@@ -27,8 +27,13 @@ spec:
     namespace: prometheus
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
+    remediation:
+      retries: 3
   values:
     allowCrossNamespaceRefs: true
     metrics:

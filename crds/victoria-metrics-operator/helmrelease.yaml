@@ -24,8 +24,13 @@ spec:
     name: victoria-metrics-operator
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
+    remediation:
+      retries: 3
   values:
     operator:
       enable_converter_ownership: true
