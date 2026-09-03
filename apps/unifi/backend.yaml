@@ -1,0 +1,17 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: unifi-controller
+  namespace: unifi
+spec:
+  # UniFi OS advertises HTTP/2 over TLS but only supports HTTP/1.1 WebSocket upgrade
+  # handshakes (no RFC 8441 extended CONNECT support). gateway.envoyproxy.io/wss tells
+  # Envoy Gateway to use WebSocket over TLS and enforce HTTP/1.1 upstream.
+  appProtocols:
+  - gateway.envoyproxy.io/wss
+  endpoints:
+  - ip:
+      address: 192.168.20.1
+      port: 443
+  tls:
+    insecureSkipVerify: true
