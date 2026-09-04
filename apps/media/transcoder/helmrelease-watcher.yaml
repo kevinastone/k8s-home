@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/lynceus
-              tag: v0.5.2@sha256:fd5e705df78b0c42df9242733b5e2b695fec3e06ae084dd120fa06db549d98ca
+              tag: v0.5.3@sha256:043704f80345a6184b62de1b4261392b45bfd5c29dba50a5ace9a9942376aaba
             env:
               RUST_LOG: info,lynceus=debug
               # Need to escape the braces for helm
