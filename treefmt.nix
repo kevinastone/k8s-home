@@ -7,6 +7,9 @@ _: {
     ".sops.yaml"
   ];
 
+  # Shell formatting
+  programs.shfmt.enable = true;
+
   # JSON/YAML formatter
   programs.yamlfmt.enable = true;
   programs.yamlfmt.settings = {

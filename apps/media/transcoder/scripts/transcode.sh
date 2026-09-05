@@ -71,7 +71,7 @@ if [ $FFMPEG_EXIT_CODE -eq 0 ]; then
   echo "Transcode completed successfully! Moving file to destination..."
   mkdir -p "$(dirname "$OUTPUT_FILE")"
   mv "$TEMP_OUTPUT_FILE" "$OUTPUT_FILE"
-  echo "$OUTPUT_FILE" > /tmp/transcoded_filepath.txt
+  echo "$OUTPUT_FILE" >/tmp/transcoded_filepath.txt
 else
   echo "Transcode failed." >&2
   exit 1

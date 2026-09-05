@@ -25,7 +25,8 @@ fi
 
 # Guard: must be a regular file, not a directory or symlink to one
 if [ ! -f "$INPUT" ]; then
-  echo "Skipping: input path is not a regular file: $INPUT"; exit 0
+  echo "Skipping: input path is not a regular file: $INPUT"
+  exit 0
 fi
 
 REAL_INPUT=$(realpath "$INPUT")

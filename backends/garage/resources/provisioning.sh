@@ -7,15 +7,12 @@
 
 ./garage.sh layout show apply --version 1
 
-
 ## Create Users
 # ./garage.sh key create postgres
-./garage.sh key import --yes postgres <secret>
-
+# ./garage.sh key import --yes postgres <secret>
 
 ## Create Buckets
 ./garage.sh bucket create postgres
-
 
 ## Permissions
 ./garage.sh bucket allow --read --write postgres --key postgres
