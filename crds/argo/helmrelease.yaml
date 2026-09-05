@@ -10,7 +10,7 @@ spec:
     operation: copy
   url: oci://ghcr.io/argoproj/argo-helm/argo-events
   ref:
-    tag: 2.4.25
+    tag: 2.4.26
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
