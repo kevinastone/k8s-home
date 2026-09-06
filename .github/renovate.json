@@ -72,6 +72,10 @@
       "allowedVersions": "<5.25.2"
     },
     {
+      "matchPackageNames": ["docker.io/dxflrs/garage", "dxflrs/garage"],
+      "allowedVersions": "!/v?2\\.4\\.0/"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
