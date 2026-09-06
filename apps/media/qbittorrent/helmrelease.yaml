@@ -122,7 +122,7 @@ spec:
             - qbit_manage.py
             args:
             - --run
-            - --orphaned
+            - --rem-orphaned
             env:
               QBT_WEB_SERVER: "false"
             securityContext:

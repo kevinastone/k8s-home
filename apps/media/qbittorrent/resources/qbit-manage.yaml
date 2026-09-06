@@ -12,11 +12,11 @@ settings:
   tag_update: false
   rem_unregistered: false
   tag_tracker_error: false
-  orphaned: true
 
 directory:
   root_dir: /downloads
   remote_dir: /downloads
+  orphaned_dir: /tmp/orphaned_data
 
 orphaned:
   empty_dir: true
