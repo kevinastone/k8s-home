@@ -100,7 +100,7 @@ spec:
       orphan-cleanup:
         type: cronjob
         cronjob:
-          schedule: "0 4 * * 0"
+          schedule: "0 4 * * *"
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 3

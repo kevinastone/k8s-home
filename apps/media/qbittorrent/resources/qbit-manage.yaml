@@ -20,7 +20,7 @@ directory:
 
 orphaned:
   empty_dir: true
-  empty_after_x_days: 7
+  empty_after_x_days: 0
   max_orphaned_files_to_delete: -1
   min_file_age_minutes: 60
   exclude_patterns:
