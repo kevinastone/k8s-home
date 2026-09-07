@@ -5,6 +5,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
+    gethomepage.dev/icon: /assets/custom/httpbox.svg
     gethomepage.dev/name: httpbox
 spec:
   parentRefs:
