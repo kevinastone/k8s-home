@@ -1,7 +1,7 @@
 {
   // Global and per-torrent peer connection limits
   "max_connec": 1000,
-  "max_connec_per_torrent": 500,
+  "max_connec_per_torrent": 150,
 
   // Monitored folders: 1 = download to default save location (/incoming)
   "scan_dirs": {
