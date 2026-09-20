@@ -16,7 +16,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: vmctl
-        image: victoriametrics/vmctl:v1.115.0
+        image: victoriametrics/vmctl:v1.152.0
         args:
         - vm-native
         - --vm-native-src-addr=http://vmsingle-vm-stack.victoria-metrics.svc:8428
