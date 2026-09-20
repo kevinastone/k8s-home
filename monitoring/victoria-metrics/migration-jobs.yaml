@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: vmctl-migrate-influx-v5
+  name: vmctl-migrate-influx-v6
   namespace: victoria-metrics
   labels:
     app.kubernetes.io/name: vmctl
@@ -21,7 +21,7 @@ spec:
         - vm-native
         - --vm-native-src-addr=http://vmsingle-vm-stack.victoria-metrics.svc:8428
         - --vm-native-dst-addr=http://vminsert-vmcluster-influx.victoria-metrics.svc:8480/insert/0/prometheus
-        - --vm-native-filter-match={__name__=~"^home_assistant_.*"}
+        - --vm-native-filter-match={__name__=~"^(home_assistant|telegraf)_.*"}
         - --vm-native-filter-time-start=2025-06-01T00:00:00Z
         resources:
           requests:
