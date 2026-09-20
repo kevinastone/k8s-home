@@ -38,8 +38,13 @@ spec:
             - |
               mkdir -p /config
               cp /config-src/sabnzbd.ini /config/sabnzbd.ini
+              sed -i "s|NEWSHOSTING_USERNAME|${NEWSHOSTING_USERNAME}|g" /config/sabnzbd.ini
+              sed -i "s|NEWSHOSTING_PASSWORD|${NEWSHOSTING_PASSWORD}|g" /config/sabnzbd.ini
               chown -R 568:568 /config
               chmod -R 775 /config
+            envFrom:
+            - secretRef:
+                name: newshosting-secret
             securityContext:
               runAsUser: 0
               runAsNonRoot: false

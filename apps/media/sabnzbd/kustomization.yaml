@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - helmrelease.yaml
 - http-route.yaml
+- external-secret.yaml
 
 configMapGenerator:
 - name: sabnzbd-config
