@@ -103,9 +103,7 @@ spec:
               memory: 1Gi
           # Query across both default (30d) and influx (365d) storage nodes
           extraArgs:
-            storageNode:
-            - "vmstorage-vm-stack-0.vmstorage-vm-stack.victoria-metrics.svc:8401"
-            - "vmstorage-vmcluster-influx-0.vmstorage-vmcluster-influx.victoria-metrics.svc:8401"
+            storageNode: "vmstorage-vm-stack-0.vmstorage-vm-stack.victoria-metrics.svc:8401,vmstorage-vmcluster-influx-0.vmstorage-vmcluster-influx.victoria-metrics.svc:8401"
 
     vmagent:
       spec:
