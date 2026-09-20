@@ -41,10 +41,10 @@ spec:
     replicaCount: 1
     resources:
       requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
+        cpu: 200m
         memory: 500Mi
+      limits:
+        memory: 2Gi
   vmselect:
     # Query aggregation is handled centrally by the primary vmselect
     replicaCount: 0
