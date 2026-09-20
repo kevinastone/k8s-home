@@ -37,9 +37,7 @@ spec:
             - -c
             - |
               mkdir -p /config
-              if [ ! -f /config/sabnzbd.ini ]; then
-                cp /config-src/sabnzbd.ini /config/sabnzbd.ini
-              fi
+              cp /config-src/sabnzbd.ini /config/sabnzbd.ini
               chown -R 568:568 /config
               chmod -R 775 /config
             securityContext:
@@ -108,6 +106,15 @@ spec:
             init-config:
             - path: /config-src
               readOnly: true
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          main:
+            app:
+            - path: /config/logs
+              subPath: logs
+            - path: /tmp
+              subPath: tmp
       incoming:
         type: persistentVolumeClaim
         existingClaim: media-incoming
