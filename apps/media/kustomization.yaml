@@ -10,6 +10,7 @@ resources:
 - volume-media.yaml
 # - postgres
 - qbittorrent
+- sabnzbd
 # - transmission
 # - sonarr
 - transcoder
