@@ -38,8 +38,10 @@ spec:
       defaultClassReplicaCount: 2
       defaultFsType: xfs
       defaultDataLocality: best-effort
+      unmapMarkSnapChainRemoved: "true"
       nfsOptions: "vers=4.1,noresvport,softerr,timeo=600,retrans=5"
 
     defaultSettings:
       defaultReplicaCount: "2"
       replicaAutoBalance: best-effort
+      removeSnapshotsDuringFilesystemTrim: true
