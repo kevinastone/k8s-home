@@ -132,12 +132,12 @@ spec:
         remoteWrite:
         # Default metrics -> 30d cluster (drop metrics tagged for influx-365d)
         - url: "http://vminsert-vm-stack.victoria-metrics.svc:8480/insert/0/prometheus/api/v1/write"
-          urlRelabelConfig:
+          inlineUrlRelabelConfig:
           - if: '{retention="influx-365d"}'
             action: drop
         # Influx metrics -> 365d cluster (keep only metrics tagged for influx-365d)
         - url: "http://vminsert-vmcluster-influx.victoria-metrics.svc:8480/insert/0/prometheus/api/v1/write"
-          urlRelabelConfig:
+          inlineUrlRelabelConfig:
           - if: '{retention="influx-365d"}'
             action: keep
           - action: labeldrop
