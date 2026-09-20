@@ -11,6 +11,8 @@ resources:
 #   - helmrelease-json-exporter.yaml
 - http-route.yaml
 - vmrules.yaml
+- vmcluster-influx.yaml
+- migration-jobs.yaml
 configMapGenerator:
 - name: vm-datasources
   options:

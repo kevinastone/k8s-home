@@ -1,0 +1,50 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMCluster
+metadata:
+  name: vmcluster-influx
+  namespace: victoria-metrics
+  labels:
+    app.kubernetes.io/instance: vm
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: vmcluster-influx
+spec:
+  retentionPeriod: "365d"
+  replicationFactor: 1
+  vmstorage:
+    replicaCount: 1
+    storageDataPath: /vm-data
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 60Gi
+    resources:
+      requests:
+        cpu: 200m
+        memory: 500Mi
+      limits:
+        memory: 2Gi
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: NotIn
+              values:
+              - ser5max
+  vminsert:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 500Mi
+  vmselect:
+    # Query aggregation is handled centrally by the primary vmselect
+    replicaCount: 0
