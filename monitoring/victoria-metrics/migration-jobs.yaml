@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: vmctl-migrate-influx
+  name: vmctl-migrate-influx-v4
   namespace: victoria-metrics
   labels:
     app.kubernetes.io/name: vmctl
     app.kubernetes.io/component: migration
 spec:
-  backoffLimit: 3
+  backoffLimit: 6
   template:
     metadata:
       labels:
@@ -19,9 +19,10 @@ spec:
         image: victoriametrics/vmctl:v1.115.0
         args:
         - vm-native
-        - --vm-native-src-addr=http://vmsingle-vm-stack.victoria-metrics.svc:8428
+        - --vm-native-src-addr=http://vmsingle-vmsingle-vm-stack.victoria-metrics.svc:8428
         - --vm-native-dst-addr=http://vminsert-vmcluster-influx.victoria-metrics.svc:8480/insert/0/prometheus
         - --vm-native-filter-match={__name__=~"^home_assistant_.*"}
+        - --vm-native-filter-time-start=2025-06-01T00:00:00Z
         resources:
           requests:
             cpu: 200m
@@ -32,13 +33,13 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: vmctl-migrate-default
+  name: vmctl-migrate-default-v4
   namespace: victoria-metrics
   labels:
     app.kubernetes.io/name: vmctl
     app.kubernetes.io/component: migration
 spec:
-  backoffLimit: 3
+  backoffLimit: 6
   template:
     metadata:
       labels:
@@ -50,9 +51,10 @@ spec:
         image: victoriametrics/vmctl:v1.115.0
         args:
         - vm-native
-        - --vm-native-src-addr=http://vmsingle-vm-stack.victoria-metrics.svc:8428
+        - --vm-native-src-addr=http://vmsingle-vmsingle-vm-stack.victoria-metrics.svc:8428
         - --vm-native-dst-addr=http://vminsert-vm-stack.victoria-metrics.svc:8480/insert/0/prometheus
         - --vm-native-filter-match={__name__!~"^home_assistant_.*"}
+        - --vm-native-filter-time-start=2025-06-01T00:00:00Z
         resources:
           requests:
             cpu: 200m
