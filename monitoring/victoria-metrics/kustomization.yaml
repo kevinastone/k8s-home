@@ -13,7 +13,6 @@ resources:
 - vmrules.yaml
 - vmcluster-influx.yaml
 - vmsingle.yaml
-- migration-jobs.yaml
 configMapGenerator:
 - name: vm-datasources
   options:
