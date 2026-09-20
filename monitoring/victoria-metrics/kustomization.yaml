@@ -12,7 +12,6 @@ resources:
 - http-route.yaml
 - vmrules.yaml
 - vmcluster-influx.yaml
-- vmsingle.yaml
 configMapGenerator:
 - name: vm-datasources
   options:
