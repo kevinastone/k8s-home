@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/name: SABnzbd
     gethomepage.dev/widget.type: sabnzbd
     gethomepage.dev/widget.url: http://sabnzbd.media.svc:8080
+    gethomepage.dev/widget.key: 700b7ed180a776332846d602ff211340
 spec:
   parentRefs:
   - name: auth-gateway
