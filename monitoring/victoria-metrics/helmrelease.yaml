@@ -90,7 +90,6 @@ spec:
               cpu: 200m
               memory: 200Mi
             limits:
-              cpu: 500m
               memory: 500Mi
         vmselect:
           replicaCount: 1
@@ -99,7 +98,6 @@ spec:
               cpu: 200m
               memory: 200Mi
             limits:
-              cpu: 500m
               memory: 1Gi
           # Query across both default (30d) and influx (365d) storage nodes
           extraArgs:
