@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vmctl-migrate-influx
+  namespace: victoria-metrics
+  labels:
+    app.kubernetes.io/name: vmctl
+    app.kubernetes.io/component: migration
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vmctl
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: vmctl
+        image: victoriametrics/vmctl:v1.115.0
+        args:
+        - prometheus
+        - --prom-old-api
+        - --prom-filter-series={__name__=~"^home_assistant_.*"}
+        - --vm-addr=http://vmsingle-vm-stack.victoria-metrics.svc:8428
+        - --vm-native-addr=http://vminsert-vmcluster-influx.victoria-metrics.svc:8480/insert/0/prometheus
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vmctl-migrate-default
+  namespace: victoria-metrics
+  labels:
+    app.kubernetes.io/name: vmctl
+    app.kubernetes.io/component: migration
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vmctl
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: vmctl
+        image: victoriametrics/vmctl:v1.115.0
+        args:
+        - prometheus
+        - --prom-old-api
+        - --prom-filter-series={__name__!~"^home_assistant_.*"}
+        - --vm-addr=http://vmsingle-vm-stack.victoria-metrics.svc:8428
+        - --vm-native-addr=http://vminsert-vm-stack.victoria-metrics.svc:8480/insert/0/prometheus
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            memory: 1Gi

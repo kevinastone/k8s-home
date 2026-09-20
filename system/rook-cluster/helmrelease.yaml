@@ -49,7 +49,7 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
-        prometheusEndpoint: http://vmsingle-vm-stack.victoria-metrics.svc.cluster.local:8428
+        prometheusEndpoint: http://vmselect-vm-stack.victoria-metrics.svc.cluster.local:8481/select/0/prometheus
       mgr:
         count: 2
         allowMultiplePerNode: false
