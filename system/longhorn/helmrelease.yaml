@@ -38,7 +38,7 @@ spec:
       defaultClassReplicaCount: 2
       defaultFsType: xfs
       defaultDataLocality: best-effort
-      unmapMarkSnapChainRemoved: "true"
+      unmapMarkSnapChainRemoved: "enabled"
       nfsOptions: "vers=4.1,noresvport,softerr,timeo=600,retrans=5"
 
     defaultSettings:
