@@ -82,7 +82,7 @@ metadata:
     gethomepage.dev/widget.url: http://vmselect-vm-stack.victoria-metrics.svc:8481/select/0/prometheus
     gethomepage.dev/widget.refreshInterval: 5000
     gethomepage.dev/widget.metrics.0.label: Firing Alerts
-    gethomepage.dev/widget.metrics.0.query: clamp_min(alertmanager_alerts{state="active", service="vmalertmanager-vm-stack"} - 1, 0)
+    gethomepage.dev/widget.metrics.0.query: alertmanager_alerts{state="active", service="vmalertmanager-vm-stack"}
     gethomepage.dev/widget.metrics.0.format.type: number
 spec:
   parentRefs:

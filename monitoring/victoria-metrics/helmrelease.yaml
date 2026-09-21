@@ -47,6 +47,10 @@ spec:
           create: false
         kube-prometheus-general.rules:
           enabled: false
+        general.rules:
+          rules:
+            Watchdog:
+              enabled: false
 
     vmsingle:
       enabled: false
