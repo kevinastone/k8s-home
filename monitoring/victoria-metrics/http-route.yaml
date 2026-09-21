@@ -8,14 +8,8 @@ metadata:
     gethomepage.dev/icon: /assets/icons/svg/victoriametrics-light.svg
     gethomepage.dev/name: Victoria Metrics
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmselect"
-    gethomepage.dev/href: https://vm.k8s.kevinastone.com/vmalert/alerts
+    gethomepage.dev/href: https://vm.k8s.kevinastone.com/select/0/prometheus/vmui/
     gethomepage.dev/weight: -8
-    gethomepage.dev/widget.type: prometheusmetric
-    gethomepage.dev/widget.url: http://vmselect-vm-stack.victoria-metrics.svc:8481/select/0/prometheus
-    gethomepage.dev/widget.refreshInterval: 5000
-    gethomepage.dev/widget.metrics.0.label: Firing Alerts
-    gethomepage.dev/widget.metrics.0.query: alertmanager_alerts{state="active", service="vmalertmanager-vm-stack"}
-    gethomepage.dev/widget.metrics.0.format.type: number
 spec:
   parentRefs:
   - name: auth-gateway
@@ -25,20 +19,123 @@ spec:
   - vm.k8s.kevinastone.com
   rules:
   - matches:
-    - path: {value: /config}
-    - path: {value: /targets}
-    - path: {value: /service-discovery}
-    backendRefs:
-    - name: vmagent-vm-stack
-      port: 8429
-  - matches:
-    - path: {value: /vmalert}
-    backendRefs:
-    - name: vmalert-vm-stack
-      port: 8080
+    - path:
+        type: Exact
+        value: /
+    filters:
+    - type: RequestRedirect
+      requestRedirect:
+        path:
+          type: ReplaceFullPath
+          replaceFullPath: /select/0/prometheus/vmui/
+        statusCode: 302
   - backendRefs:
     - name: vmselect-vm-stack
       port: 8481
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vmagent
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Metrics
+    gethomepage.dev/icon: /assets/icons/svg/victoriametrics-light.svg
+    gethomepage.dev/name: VMAgent
+    gethomepage.dev/href: https://vmagent.k8s.kevinastone.com/targets
+    gethomepage.dev/weight: -5
+spec:
+  parentRefs:
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
+  hostnames:
+  - vmagent.k8s.kevinastone.com
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /
+    filters:
+    - type: RequestRedirect
+      requestRedirect:
+        path:
+          type: ReplaceFullPath
+          replaceFullPath: /targets
+        statusCode: 302
+  - backendRefs:
+    - name: vmagent-vm-stack
+      port: 8429
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vmalert
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Metrics
+    gethomepage.dev/icon: /assets/icons/svg/victoriametrics-light.svg
+    gethomepage.dev/name: VMAlert
+    gethomepage.dev/href: https://vmalert.k8s.kevinastone.com/vmalert/alerts
+    gethomepage.dev/weight: -7
+    gethomepage.dev/widget.type: prometheusmetric
+    gethomepage.dev/widget.url: http://vmselect-vm-stack.victoria-metrics.svc:8481/select/0/prometheus
+    gethomepage.dev/widget.refreshInterval: 5000
+    gethomepage.dev/widget.metrics.0.label: Firing Alerts
+    gethomepage.dev/widget.metrics.0.query: clamp_min(alertmanager_alerts{state="active", service="vmalertmanager-vm-stack"} - 1, 0)
+    gethomepage.dev/widget.metrics.0.format.type: number
+spec:
+  parentRefs:
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
+  hostnames:
+  - vmalert.k8s.kevinastone.com
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /
+    filters:
+    - type: RequestRedirect
+      requestRedirect:
+        path:
+          type: ReplaceFullPath
+          replaceFullPath: /vmalert/alerts
+        statusCode: 302
+  - backendRefs:
+    - name: vmalert-vm-stack
+      port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: alertmanager
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Metrics
+    gethomepage.dev/name: Alertmanager
+    gethomepage.dev/icon: mdi-bell-alert
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
+    gethomepage.dev/href: https://alertmanager.k8s.kevinastone.com/#/alerts
+    gethomepage.dev/weight: -6
+    gethomepage.dev/widget.type: prometheusmetric
+    gethomepage.dev/widget.url: http://vmselect-vm-stack.victoria-metrics.svc:8481/select/0/prometheus
+    gethomepage.dev/widget.refreshInterval: 5000
+    gethomepage.dev/widget.metrics.0.label: Silences
+    gethomepage.dev/widget.metrics.0.query: alertmanager_silences{state="active", service="vmalertmanager-vm-stack"}
+    gethomepage.dev/widget.metrics.0.format.type: number
+spec:
+  parentRefs:
+  - name: auth-gateway
+    namespace: envoy
+    sectionName: https
+  hostnames:
+  - alertmanager.k8s.kevinastone.com
+  rules:
+  - backendRefs:
+    - name: vmalertmanager-vm-stack
+      port: 9093
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

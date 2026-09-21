@@ -141,10 +141,10 @@ spec:
           - action: labeldrop
             regex: "retention"
 
-    # alertmanager:
-    #   enabled: true
-    #   spec:
-    #     externalURL: "https://vmalert.k8s.kevinastone.com"
+    alertmanager:
+      enabled: true
+      spec:
+        externalURL: "https://alertmanager.k8s.kevinastone.com"
 
     vmalert:
       enabled: true
