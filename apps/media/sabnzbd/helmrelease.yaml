@@ -24,6 +24,16 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                    - ser8
           securityContext:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
