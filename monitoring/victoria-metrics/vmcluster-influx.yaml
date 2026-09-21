@@ -48,3 +48,4 @@ spec:
   vmselect:
     # Query aggregation is handled centrally by the primary vmselect
     replicaCount: 0
+    disableSelfServiceScrape: true
