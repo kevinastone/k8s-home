@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=none
 apiVersion: 1
 datasources:
 - name: Alertmanager
@@ -8,3 +9,4 @@ datasources:
   editable: false
   jsonData:
     implementation: "prometheus"
+    handleGrafanaManagedAlerts: false

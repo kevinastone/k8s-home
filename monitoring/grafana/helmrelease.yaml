@@ -67,6 +67,12 @@ spec:
       #   enabled: true
       #   org_name: Main Org.
       #   org_role: Admin
+      alerting:
+        enabled: false
+      unified_alerting:
+        enabled: true
+        # Keep VMAlertmanager as the default Alertmanager source in the UI
+        default_alertmanager_datasource_uid: alertmanager
       server:
         serve_from_sub_path: false
         root_url: https://grafana.k8s.kevinastone.com
