@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/name: Victoria Metrics
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmselect"
     gethomepage.dev/href: https://vm.k8s.kevinastone.com/select/0/prometheus/vmui/
-    gethomepage.dev/weight: -8
+    gethomepage.dev/weight: -7
 spec:
   parentRefs:
   - name: auth-gateway
@@ -43,7 +43,7 @@ metadata:
     gethomepage.dev/icon: /assets/icons/svg/victoriametrics-light.svg
     gethomepage.dev/name: VMAgent
     gethomepage.dev/href: https://vmagent.k8s.kevinastone.com/targets
-    gethomepage.dev/weight: -5
+    gethomepage.dev/weight: -4
 spec:
   parentRefs:
   - name: auth-gateway
@@ -77,13 +77,7 @@ metadata:
     gethomepage.dev/icon: /assets/icons/svg/victoriametrics-light.svg
     gethomepage.dev/name: VMAlert
     gethomepage.dev/href: https://vmalert.k8s.kevinastone.com/vmalert/alerts
-    gethomepage.dev/weight: -7
-    gethomepage.dev/widget.type: prometheusmetric
-    gethomepage.dev/widget.url: http://vmselect-vm-stack.victoria-metrics.svc:8481/select/0/prometheus
-    gethomepage.dev/widget.refreshInterval: 5000
-    gethomepage.dev/widget.metrics.0.label: Firing Alerts
-    gethomepage.dev/widget.metrics.0.query: alertmanager_alerts{state="active", service="vmalertmanager-vm-stack"}
-    gethomepage.dev/widget.metrics.0.format.type: number
+    gethomepage.dev/weight: -5
 spec:
   parentRefs:
   - name: auth-gateway
@@ -115,15 +109,15 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Metrics
     gethomepage.dev/name: Alertmanager
-    gethomepage.dev/icon: mdi-bell-alert
+    gethomepage.dev/icon: /assets/icons/svg/alertmanager-dark.svg
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
     gethomepage.dev/href: https://alertmanager.k8s.kevinastone.com/#/alerts
-    gethomepage.dev/weight: -6
+    gethomepage.dev/weight: -9
     gethomepage.dev/widget.type: prometheusmetric
     gethomepage.dev/widget.url: http://vmselect-vm-stack.victoria-metrics.svc:8481/select/0/prometheus
     gethomepage.dev/widget.refreshInterval: 5000
-    gethomepage.dev/widget.metrics.0.label: Silences
-    gethomepage.dev/widget.metrics.0.query: alertmanager_silences{state="active", service="vmalertmanager-vm-stack"}
+    gethomepage.dev/widget.metrics.0.label: Firing Alerts
+    gethomepage.dev/widget.metrics.0.query: alertmanager_alerts{state="active", service="vmalertmanager-vm-stack"}
     gethomepage.dev/widget.metrics.0.format.type: number
 spec:
   parentRefs:
