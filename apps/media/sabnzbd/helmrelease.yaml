@@ -39,28 +39,30 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         initContainers:
           init-config:
-            image: &image
-              repository: ghcr.io/home-operations/sabnzbd
-              tag: 5.1.3@sha256:b1795982db498ed5691a7b1231f0fac7eed2a1d53e9c81b8e834d02695e76104
+            image:
+              repository: bhgedigital/envsubst
+              tag: v1.0-alpine3.6@sha256:edc130d1f2cd066f68cbba01d7e467bda543785ce28e2b426be929d266f31b87
             command:
             - sh
             - -c
             - |
               mkdir -p /config
-              cp /config-src/sabnzbd.ini /config/sabnzbd.ini
-              sed -i "s|NEWSHOSTING_USERNAME|${NEWSHOSTING_USERNAME}|g" /config/sabnzbd.ini
-              sed -i "s|NEWSHOSTING_PASSWORD|${NEWSHOSTING_PASSWORD}|g" /config/sabnzbd.ini
+              envsubst < /config-src/sabnzbd.ini > /config/sabnzbd.ini
               chown -R 568:568 /config
               chmod -R 775 /config
             envFrom:
             - secretRef:
                 name: newshosting-secret
+            - secretRef:
+                name: nzbgeek-secret
             securityContext:
               runAsUser: 0
               runAsNonRoot: false
         containers:
           app:
-            image: *image
+            image:
+              repository: ghcr.io/home-operations/sabnzbd
+              tag: 5.1.3@sha256:b1795982db498ed5691a7b1231f0fac7eed2a1d53e9c81b8e834d02695e76104
             env:
               UMASK: "022"
               SABNZBD__PORT: &port 8080
