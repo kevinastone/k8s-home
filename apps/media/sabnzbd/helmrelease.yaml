@@ -148,6 +148,7 @@ spec:
           main:
             app:
             - path: /downloads
+              subPath: sabnzbd
       media:
         type: persistentVolumeClaim
         existingClaim: media-media

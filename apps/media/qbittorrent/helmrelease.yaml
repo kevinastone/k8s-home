@@ -182,9 +182,11 @@ spec:
           main:
             app:
             - path: /downloads
+              subPath: qbittorrent
           orphan-cleanup:
             app:
             - path: /downloads
+              subPath: qbittorrent
       media:
         type: persistentVolumeClaim
         existingClaim: media-media
