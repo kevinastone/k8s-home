@@ -152,4 +152,4 @@ spec:
         advancedMounts:
           main:
             app:
-            - path: /media
+            - path: /storage/media
