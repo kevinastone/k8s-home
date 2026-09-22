@@ -9,7 +9,10 @@ resources:
 configMapGenerator:
 - name: sabnzbd-config
   files:
-  - resources/sabnzbd.ini
+  - resources/misc.ini
+  - resources/servers.ini
+  - resources/categories.ini
+  - resources/rss.ini
 
 configurations:
 - kustomizeconfig.yaml

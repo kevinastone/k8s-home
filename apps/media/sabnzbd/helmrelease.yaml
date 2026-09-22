@@ -47,7 +47,7 @@ spec:
             - -c
             - |
               mkdir -p /config
-              envsubst < /config-src/sabnzbd.ini > /config/sabnzbd.ini
+              cat /template/*.ini | envsubst > /config/sabnzbd.ini
               chown -R 568:568 /config
               chmod -R 775 /config
             envFrom:
@@ -123,7 +123,7 @@ spec:
         advancedMounts:
           main:
             init-config:
-            - path: /config-src
+            - path: /template
               readOnly: true
       tmpfs:
         type: emptyDir
