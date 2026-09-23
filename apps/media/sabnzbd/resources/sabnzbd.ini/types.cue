@@ -35,3 +35,12 @@ import "strings"
 		in,
 	][0]
 }
+
+// Helper to serialize an optional value to its string representation or "None" if unset
+#NoneOptional: {
+	in?: _
+	out: [
+		if in != _|_ {"\(in)"},
+		"None",
+	][0]
+}

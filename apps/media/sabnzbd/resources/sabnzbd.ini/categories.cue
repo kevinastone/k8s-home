@@ -43,3 +43,5 @@ package sabnzbd
 }
 
 categories: [...#Category]
+
+#CategoryName: or([for c in categories {c.name}])
