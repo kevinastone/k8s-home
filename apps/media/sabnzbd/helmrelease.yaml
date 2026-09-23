@@ -3,6 +3,8 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: sabnzbd
+  annotations:
+    reconcile.fluxcd.io/requestedAt: "2026-09-23T16:20:00Z"
 spec:
   interval: 5m
   chartRef:
