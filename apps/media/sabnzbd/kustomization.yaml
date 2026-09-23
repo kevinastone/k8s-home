@@ -9,10 +9,16 @@ resources:
 configMapGenerator:
 - name: sabnzbd-config
   files:
-  - resources/misc.ini
-  - resources/servers.ini
-  - resources/categories.ini
-  - resources/rss.ini
+  - resources/sabnzbd.ini/main.cue
+  - resources/sabnzbd.ini/env.cue
+  - resources/sabnzbd.ini/misc.cue
+  - resources/sabnzbd.ini/categories.cue
+  - resources/sabnzbd.ini/categories.yaml
+  - resources/sabnzbd.ini/servers.cue
+  - resources/sabnzbd.ini/servers.yaml
+  - resources/sabnzbd.ini/shows.cue
+  - resources/sabnzbd.ini/shows.yaml
+  - resources/sabnzbd.ini/types.cue
 
 configurations:
 - kustomizeconfig.yaml

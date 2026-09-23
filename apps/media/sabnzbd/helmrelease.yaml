@@ -40,24 +40,36 @@ spec:
         initContainers:
           init-config:
             image:
-              repository: bhgedigital/envsubst
-              tag: v1.0-alpine3.6@sha256:edc130d1f2cd066f68cbba01d7e467bda543785ce28e2b426be929d266f31b87
+              repository: cuelang/cue
+              tag: 0.17.1@sha256:520f883dcc92642389b3b75e8befe4e5a233a1aa903a8c846c4a3b338b202635
             command:
-            - sh
-            - -c
-            - |
-              mkdir -p /config
-              cat /template/*.ini | envsubst > /config/sabnzbd.ini
-              chown -R 568:568 /config
-              chmod -R 775 /config
+            - cue
+            - export
+            - /template:sabnzbd
+            - /template/categories.yaml
+            - /template/servers.yaml
+            - /template/shows.yaml
+            - -t
+            - NZBGEEK_API_KEY=$(NZBGEEK_API_KEY)
+            - -t
+            - NEWSHOSTING_USERNAME=$(NEWSHOSTING_USERNAME)
+            - -t
+            - NEWSHOSTING_PASSWORD=$(NEWSHOSTING_PASSWORD)
+            - -e
+            - out
+            - --out
+            - text
+            - -o
+            - /config/sabnzbd.ini
             envFrom:
             - secretRef:
                 name: newshosting-secret
             - secretRef:
                 name: nzbgeek-secret
             securityContext:
-              runAsUser: 0
-              runAsNonRoot: false
+              runAsUser: 568
+              runAsGroup: 568
+              runAsNonRoot: true
         containers:
           app:
             image:

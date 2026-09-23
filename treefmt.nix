@@ -30,6 +30,8 @@ _: {
 
   programs.mdformat.enable = true;
 
+  programs.cue.enable = true;
+
   programs.keep-sorted.enable = true;
 
   # Nix formatters

@@ -1,0 +1,9 @@
+categories:
+- name: "*"
+  pp: Delete
+  script: "None"
+  priority: 0
+- name: movies
+  dir: /storage/media
+- name: tv
+  dir: /storage/media

@@ -1,0 +1,5 @@
+servers:
+- name: news.newshosting.com
+  displayname: Newshosting
+  username_env: NEWSHOSTING_USERNAME
+  password_env: NEWSHOSTING_PASSWORD

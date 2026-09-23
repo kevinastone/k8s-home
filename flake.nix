@@ -34,6 +34,7 @@
               # keep-sorted start
               age
               crane
+              cue
               kubectl
               kubectl-cnpg
               kubectl-rook-ceph
