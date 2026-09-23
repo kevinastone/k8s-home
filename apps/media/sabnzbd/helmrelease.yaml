@@ -47,6 +47,7 @@ spec:
             - export
             - /template:sabnzbd
             - /template/categories.yaml
+            - /template/filters.yaml
             - /template/servers.yaml
             - /template/shows.yaml
             - -t

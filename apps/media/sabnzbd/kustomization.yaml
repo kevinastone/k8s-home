@@ -14,6 +14,8 @@ configMapGenerator:
   - resources/sabnzbd.ini/misc.cue
   - resources/sabnzbd.ini/categories.cue
   - resources/sabnzbd.ini/categories.yaml
+  - resources/sabnzbd.ini/filters.cue
+  - resources/sabnzbd.ini/filters.yaml
   - resources/sabnzbd.ini/servers.cue
   - resources/sabnzbd.ini/servers.yaml
   - resources/sabnzbd.ini/shows.cue

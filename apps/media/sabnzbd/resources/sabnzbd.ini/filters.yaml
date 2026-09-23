@@ -1,0 +1,11 @@
+filter_presets:
+  4k:
+  - filter_type: R
+    value: "re:(1080|720)p"
+  - filter_type: M
+    value: "2160p"
+  hdr:
+  - filter_type: R
+    value: "SDR"
+  - filter_type: M
+    value: "re:(DV|HDR)"
