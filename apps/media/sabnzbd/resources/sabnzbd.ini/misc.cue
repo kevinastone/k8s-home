@@ -27,6 +27,7 @@ package sabnzbd
 	notified_new_skin:           int | *0
 	helpful_warnings:            bool | *true
 	cache_limit:                 #DataSize | *""
+	ignore_samples:              bool | *false
 
 	out: """
 		[misc]
@@ -56,6 +57,7 @@ package sabnzbd
 		notified_new_skin = \(notified_new_skin)
 		helpful_warnings = \(#BoolToInt["\(helpful_warnings)"])
 		cache_limit = \((#QuoteIni & {"in": cache_limit}).out)
+		ignore_samples = \(#BoolToInt["\(ignore_samples)"])
 		"""
 }
 
@@ -70,4 +72,5 @@ misc: #Misc & {
 	no_smart_dupes:       true
 	notified_new_skin:    2
 	helpful_warnings:     false
+	ignore_samples:       true
 }
