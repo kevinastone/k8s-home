@@ -64,6 +64,7 @@ spec:
             - out
             - --out
             - text
+            - -f
             - -o
             - /config/sabnzbd.ini
             envFrom:
