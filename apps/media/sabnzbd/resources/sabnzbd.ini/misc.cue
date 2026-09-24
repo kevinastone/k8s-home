@@ -5,7 +5,7 @@ package sabnzbd
 	dirscan_speed:               int | *5
 	download_dir:                string | *"Downloads/incomplete"
 	complete_dir:                string | *"Downloads/complete"
-	complete_free:               string | *""
+	complete_free:               #DataSize | *""
 	auto_sort:                   string | *""
 	enable_tv_sorting:           bool | *false
 	tv_sort_string:              string | *""
@@ -26,6 +26,7 @@ package sabnzbd
 	no_smart_dupes:              bool | *false
 	notified_new_skin:           int | *0
 	helpful_warnings:            bool | *true
+	cache_limit:                 #DataSize | *""
 
 	out: """
 		[misc]
@@ -54,6 +55,7 @@ package sabnzbd
 		no_smart_dupes = \(#BoolToInt["\(no_smart_dupes)"])
 		notified_new_skin = \(notified_new_skin)
 		helpful_warnings = \(#BoolToInt["\(helpful_warnings)"])
+		cache_limit = \((#QuoteIni & {"in": cache_limit}).out)
 		"""
 }
 

@@ -44,3 +44,7 @@ import "strings"
 		"None",
 	][0]
 }
+
+// Data size string supporting optional binary/decimal unit prefixes (e.g. "500M", "1G", "2.5G", "100K", "0", "-1", "")
+// Matches SABnzbd's internal unit parser (K/M/G/T/P).
+#DataSize: string & =~"^$|^-1$|^[0-9]+(\\.[0-9]+)?\\s*[kKmMgGtTpP]?[bB]?$"
