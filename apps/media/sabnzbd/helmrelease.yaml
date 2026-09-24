@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: sabnzbd
   annotations:
-    reconcile.fluxcd.io/requestedAt: "2026-09-23T16:20:00Z"
+    reconcile.fluxcd.io/requestedAt: "2026-09-23T18:25:00Z"
 spec:
   interval: 5m
   chartRef:
@@ -16,10 +16,12 @@ spec:
   install:
     remediation:
       retries: 3
+  rollback:
+    disableWait: true
   upgrade:
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 0
   values:
     controllers:
       main:
