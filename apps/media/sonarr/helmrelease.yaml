@@ -36,13 +36,12 @@ spec:
               SONARR__PORT: &port 8989
               SONARR__POSTGRES__HOST: "$(postgres_host)"
               SONARR__POSTGRES__PORT: "$(postgres_port)"
-
               SONARR__POSTGRES__USER: "$(postgres_user)"
               SONARR__POSTGRES__PASSWORD: "$(postgres_password)"
               SONARR__POSTGRES__MAINDB: "$(postgres_dbname)"
+              SONARR__SERVER__ALLOWEDHOSTS: "sonarr,sonarr.media,sonarr.media.svc,sonarr.media.svc.cluster.local,sonarr.k8s.kevinastone.com"
               SONARR__UPDATE__MECHANISM: None
               SONARR__UPDATE__AUTOMATICALLY: "False"
-
             envFrom:
             - prefix: postgres_
               secretRef:
@@ -57,6 +56,9 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    httpHeaders:
+                    - name: Host
+                      value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
