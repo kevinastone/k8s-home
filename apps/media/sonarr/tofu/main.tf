@@ -11,3 +11,15 @@ resource "sonarr_download_client_sabnzbd" "sabnzbd" {
   api_key     = var.sabnzbd_api_key
   tv_category = var.sabnzbd_tv_category
 }
+
+resource "sonarr_indexer_newznab" "nzbgeek" {
+  name                      = "NZBGeek"
+  enable_rss                = true
+  enable_automatic_search   = true
+  enable_interactive_search = true
+  base_url                  = "https://api.nzbgeek.info"
+  api_path                  = "/api"
+  api_key                   = var.NZBGEEK_API_KEY
+  categories                = [5000, 5020, 5030, 5040, 5045]
+}
+

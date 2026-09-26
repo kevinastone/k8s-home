@@ -40,3 +40,10 @@ variable "sabnzbd_tv_category" {
   description = "SABnzbd category for TV"
   default     = "tv"
 }
+
+variable "NZBGEEK_API_KEY" {
+  type        = string
+  description = "NZBGeek API key"
+  sensitive   = true
+}
+
