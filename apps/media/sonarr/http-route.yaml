@@ -7,7 +7,12 @@ metadata:
     gethomepage.dev/group: Media
     gethomepage.dev/icon: /assets/icons/svg/sonarr.svg
     gethomepage.dev/name: Sonarr
+    gethomepage.dev/widget.type: sonarr
+    gethomepage.dev/widget.url: http://sonarr.media.svc:8989
+    gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SONARR_API_KEY}}"
+    gethomepage.dev/widget.enableQueue: "true"
 spec:
+
   parentRefs:
   - name: auth-gateway
     namespace: envoy

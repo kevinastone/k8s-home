@@ -34,6 +34,10 @@ spec:
             - secretRef:
                 name: sabnzbd-secret
                 optional: true
+            - secretRef:
+                name: sonarr-secret
+                optional: true
+
 
             ports:
             - containerPort: 3000
