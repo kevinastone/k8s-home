@@ -19,6 +19,8 @@ spec:
   values:
     controllers:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
         strategy: RollingUpdate
         containers:
           main:
@@ -28,6 +30,11 @@ spec:
             env:
               LOG_TARGETS: stdout
               HOMEPAGE_ALLOWED_HOSTS: "*"
+            envFrom:
+            - secretRef:
+                name: sabnzbd-secret
+                optional: true
+
             ports:
             - containerPort: 3000
               name: http
