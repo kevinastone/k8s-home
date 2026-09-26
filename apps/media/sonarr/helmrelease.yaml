@@ -24,8 +24,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.14.2938@sha256:75da01d2da78d226cd89352fbab919f2eb26ea9a8d6c592bf812dde5f8949243
+              repository: ghcr.io/home-operations/sonarr
+              tag: 4.0.20.3012@sha256:1f19eb5e0f421418c1a956bbe01310a0141423afe28bd9a4b1dcb8629ff2bce2
             env:
               SONARR__APP__INSTANCENAME: Sonarr
               SONARR__APP__THEME: dark
@@ -34,16 +34,21 @@ spec:
               SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
               SONARR__PORT: &port 8989
-              SONARR__UPDATE__BRANCH: develop
               SONARR__POSTGRES__HOST: "$(postgres_host)"
               SONARR__POSTGRES__PORT: "$(postgres_port)"
+
               SONARR__POSTGRES__USER: "$(postgres_user)"
               SONARR__POSTGRES__PASSWORD: "$(postgres_password)"
               SONARR__POSTGRES__MAINDB: "$(postgres_dbname)"
+              SONARR__UPDATE__MECHANISM: None
+              SONARR__UPDATE__AUTOMATICALLY: "False"
+
             envFrom:
             - prefix: postgres_
               secretRef:
                 name: postgres-app
+            - secretRef:
+                name: sonarr-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -66,6 +71,39 @@ spec:
                 cpu: 100m
               limits:
                 memory: 2Gi
+      recyclarr:
+        type: cronjob
+        cronjob:
+          schedule: "@daily"
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 3
+        containers:
+          app:
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 8.7.2@sha256:6e69e009e1cd7493ff6093e8e187b5d3788c75b4a2c0c5127b6a1beda1c19728
+            command:
+            - recyclarr
+            args:
+            - sync
+            env:
+              COMPlus_EnableDiagnostics: "0"
+            envFrom:
+            - secretRef:
+                name: sonarr-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -81,16 +119,26 @@ spec:
             port: *port
     persistence:
       config:
-        size: 1Gi
-        accessMode: ReadWriteOnce
+        type: emptyDir
         globalMounts:
         - path: /config
-
       tmp:
         type: emptyDir
-      # data:
-      #   type: nfs
-      #   server: voyager.internal
-      #   path: ${SECRET_NFS_DATA}
-      #   globalMounts:
-      #   - path: /data
+        globalMounts:
+        - path: /tmp
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-media
+        advancedMounts:
+          main:
+            app:
+            - path: /storage/media
+      recyclarr-config:
+        type: configMap
+        name: recyclarr-config
+        advancedMounts:
+          recyclarr:
+            app:
+            - path: /config/recyclarr.yml
+              subPath: recyclarr.yml
+              readOnly: true
