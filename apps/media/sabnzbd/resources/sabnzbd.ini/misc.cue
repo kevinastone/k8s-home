@@ -63,7 +63,7 @@ package sabnzbd
 
 misc: #Misc & {
 	dirscan_dir:          "/incoming"
-	download_dir:         "/downloads"
+	download_dir:         "/downloads/incomplete"
 	complete_dir:         "/incoming"
 	complete_free:        "1G"
 	direct_unpack:        false

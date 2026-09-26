@@ -21,6 +21,21 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-dirs:
+            image:
+              repository: ghcr.io/home-operations/sonarr
+              tag: 4.0.20.3012@sha256:1f19eb5e0f421418c1a956bbe01310a0141423afe28bd9a4b1dcb8629ff2bce2
+            command:
+            - /bin/sh
+            - -c
+            args:
+            - mkdir -p /downloads/tv
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
         containers:
           app:
             image:
@@ -139,13 +154,17 @@ spec:
           main:
             app:
             - path: /storage/media
-      incoming:
+      downloads:
         type: persistentVolumeClaim
-        existingClaim: media-incoming
+        existingClaim: media-downloads
         advancedMounts:
           main:
+            init-dirs:
+            - path: /downloads
+              subPath: sabnzbd
             app:
-            - path: /incoming
+            - path: /downloads
+              subPath: sabnzbd
       recyclarr-config:
         type: configMap
         name: recyclarr-config
