@@ -6,4 +6,4 @@ categories:
 - name: movies
   dir: /storage/media
 - name: tv
-  dir: /storage/media
+  dir: tv

@@ -135,6 +135,13 @@ spec:
           main:
             app:
             - path: /storage/media
+      incoming:
+        type: persistentVolumeClaim
+        existingClaim: media-incoming
+        advancedMounts:
+          main:
+            app:
+            - path: /incoming
       recyclarr-config:
         type: configMap
         name: recyclarr-config
