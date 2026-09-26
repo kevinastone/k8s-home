@@ -12,6 +12,14 @@ resource "sonarr_download_client_sabnzbd" "sabnzbd" {
   tv_category = var.sabnzbd_tv_category
 }
 
+resource "sonarr_download_client_qbittorrent" "qbittorrent" {
+  enable   = true
+  priority = 1
+  name     = "qBittorrent"
+  host     = var.qbittorrent_host
+  port     = var.qbittorrent_port
+}
+
 resource "sonarr_indexer_newznab" "nzbgeek" {
   name                      = "NZBGeek"
   enable_rss                = true
