@@ -23,8 +23,8 @@ import (
 	enable:   bool | *true
 	priority: int | *-100
 
-	presets?: [...#FilterPresetName]
-	filters: [...#Filter] | *list.Concat([for p in (*["4k", "hdr"] | presets) {filter_presets[p]}])
+	presets: [...#FilterPresetName] | *["4k", "hdr"]
+	filters: [...#Filter] | *list.Concat([for p in presets {filter_presets[p]}])
 
 	let seasonFilter = #Filter & {
 		filter_type: "S"
