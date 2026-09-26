@@ -9,3 +9,6 @@ filter_presets:
     value: "SDR"
   - filter_type: M
     value: "re:(DV|HDR)"
+  h265:
+  - filter_type: M
+    value: "re:(HEVC|H\\.?265)"
