@@ -5,6 +5,8 @@ resources:
 - external-secret.yaml
 - helmrelease.yaml
 - http-route.yaml
+- terraform.yaml
+
 
 configMapGenerator:
 - name: recyclarr-config
