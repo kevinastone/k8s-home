@@ -30,7 +30,9 @@ spec:
             - /bin/sh
             - -c
             args:
-            - mkdir -p /downloads/tv
+            - |
+              mkdir -p /downloads/tv
+              ln -s /config/MediaCover /config/MediaCovers 2>/dev/null || true
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -174,3 +176,12 @@ spec:
             - path: /config/recyclarr.yml
               subPath: recyclarr.yml
               readOnly: true
+      media-cover:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteMany
+        size: 5Gi
+        advancedMounts:
+          main:
+            app:
+            - path: /config/MediaCover
