@@ -44,6 +44,8 @@ spec:
             - prefix: postgres_
               secretRef:
                 name: postgres-app
+            - secretRef:
+                name: sonarr-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -66,6 +68,39 @@ spec:
                 cpu: 100m
               limits:
                 memory: 2Gi
+      recyclarr:
+        type: cronjob
+        cronjob:
+          schedule: "@daily"
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 3
+        containers:
+          app:
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 7.4.1@sha256:759540877f95453eca8a26c1a93593e783a7a824c324fbd57523deffb67f48e1
+            command:
+            - recyclarr
+            args:
+            - sync
+            env:
+              COMPlus_EnableDiagnostics: "0"
+            envFrom:
+            - secretRef:
+                name: sonarr-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -81,16 +116,27 @@ spec:
             port: *port
     persistence:
       config:
-        size: 1Gi
-        accessMode: ReadWriteOnce
+        type: emptyDir
         globalMounts:
         - path: /config
-
       tmp:
         type: emptyDir
-      # data:
-      #   type: nfs
-      #   server: voyager.internal
-      #   path: ${SECRET_NFS_DATA}
-      #   globalMounts:
-      #   - path: /data
+        globalMounts:
+        - path: /tmp
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-media
+        advancedMounts:
+          main:
+            app:
+            - path: /storage/media
+      recyclarr-config:
+        type: configMap
+        name: recyclarr-config
+        advancedMounts:
+          recyclarr:
+            app:
+            - path: /config/recyclarr.yml
+              subPath: recyclarr.yml
+              readOnly: true
+
