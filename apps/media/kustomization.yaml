@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: media
 resources:
 - namespace.yaml
-- external-secret.yaml
+- nzbgeek-secret.yaml
+- vpn-secret.yaml
 - volume-downloads.yaml
 - volume-incoming.yaml
 - volume-media.yaml
