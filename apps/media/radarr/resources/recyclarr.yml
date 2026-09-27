@@ -21,6 +21,24 @@ radarr:
     - trash_id: fd161a61e3ab826d3a22d53f935696dd # Remux + WEB 2160p
       reset_unmatched_scores:
         enabled: true
+    - trash_id: e8c5acb741363a0dbda67d3978f4912f # WEB 1080p
+      name: Mobile (x265)
+      reset_unmatched_scores:
+        enabled: true
+      upgrade:
+        allowed: true
+        until_quality: 1080p (Combined)
+      qualities:
+      - name: 1080p (Combined)
+        qualities:
+        - WEBDL-1080p
+        - WEBRip-1080p
+        - Bluray-1080p
+      - name: 720p (Combined)
+        qualities:
+        - WEBDL-720p
+        - WEBRip-720p
+        - Bluray-720p
 
     custom_format_groups:
       add:
@@ -29,3 +47,10 @@ radarr:
         - name: HD Bluray + WEB
       - trash_id: ff204bbcecdd487d1cefcefdbf0c278d # [Optional] Golden Rule UHD
       - trash_id: 1616617ab3a14397a2b2321bcbda44d1 # [HDR Formats] DV Boost
+
+    custom_formats:
+    - trash_ids:
+      - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+      assign_scores_to:
+      - name: Mobile (x265)
+        score: 1000
