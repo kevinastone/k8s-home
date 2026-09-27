@@ -7,6 +7,7 @@ metadata:
     gethomepage.dev/group: Media
     gethomepage.dev/icon: /assets/icons/svg/sabnzbd.svg
     gethomepage.dev/name: SABnzbd
+    gethomepage.dev/weight: 40
     gethomepage.dev/widget.type: sabnzbd
     gethomepage.dev/widget.url: http://sabnzbd.media.svc:8080
     gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
