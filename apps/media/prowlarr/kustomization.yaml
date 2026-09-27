@@ -5,4 +5,3 @@ resources:
 - external-secret.yaml
 - helmrelease.yaml
 - http-route.yaml
-- terraform.yaml

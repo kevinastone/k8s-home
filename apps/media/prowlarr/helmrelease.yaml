@@ -40,6 +40,55 @@ spec:
             envFrom:
             - secretRef:
                 name: prowlarr-secret
+            - secretRef:
+                name: nzbgeek-secret
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    (
+                      while ! curl -s -f -H "X-Api-Key: $api_key" http://127.0.0.1:9696/api/v1/system/status >/dev/null 2>&1; do
+                        sleep 2
+                      done
+
+                      EXISTING=$(curl -s -f -H "X-Api-Key: $api_key" http://127.0.0.1:9696/api/v1/indexer | jq '.[] | select(.name == "NZBGeek")')
+
+                      if [ -z "$EXISTING" ]; then
+                        PAYLOAD=$(curl -s -f -H "X-Api-Key: $api_key" http://127.0.0.1:9696/api/v1/indexer/schema | jq \
+                          --arg apikey "$NZBGEEK_API_KEY" \
+                          '.[] | select(.name == "NZBgeek") |
+                           .name = "NZBGeek" |
+                           .enable = true |
+                           .redirect = true |
+                           .appProfileId = 1 |
+                           .priority = 1 |
+                           .fields = [.fields[] | if .name == "apiKey" then .value = $apikey else . end]')
+
+                        curl -s -f -X POST \
+                          -H "Content-Type: application/json" \
+                          -H "X-Api-Key: $api_key" \
+                          -d "$PAYLOAD" \
+                          http://127.0.0.1:9696/api/v1/indexer
+                      else
+                        INDEXER_ID=$(echo "$EXISTING" | jq '.id')
+                        PAYLOAD=$(echo "$EXISTING" | jq \
+                          --arg apikey "$NZBGEEK_API_KEY" \
+                          '.enable = true |
+                           .redirect = true |
+                           .appProfileId = 1 |
+                           .priority = 1 |
+                           .fields = [.fields[] | if .name == "apiKey" then .value = $apikey else . end]')
+
+                        curl -s -f -X PUT \
+                          -H "Content-Type: application/json" \
+                          -H "X-Api-Key: $api_key" \
+                          -d "$PAYLOAD" \
+                          "http://127.0.0.1:9696/api/v1/indexer/$INDEXER_ID"
+                      fi
+                    ) &
             probes:
               liveness: &probes
                 enabled: true
