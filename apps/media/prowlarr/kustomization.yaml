@@ -5,3 +5,11 @@ resources:
 - external-secret.yaml
 - helmrelease.yaml
 - http-route.yaml
+
+configMapGenerator:
+- name: prowlarr-provision-script
+  files:
+  - resources/provision.sh
+
+configurations:
+- kustomizeconfig.yaml
