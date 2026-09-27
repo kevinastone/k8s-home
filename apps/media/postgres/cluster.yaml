@@ -13,11 +13,6 @@ spec:
   storage:
     size: 1Gi
     storageClass: openebs-hostpath
-  bootstrap:
-    initdb:
-      postInitSQL:
-      - CREATE DATABASE sonarr_main
-      - CREATE DATABASE sonarr_log
   resources:
     requests:
       cpu: 200m
