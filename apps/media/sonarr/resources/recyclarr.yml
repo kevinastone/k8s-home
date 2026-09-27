@@ -73,4 +73,4 @@ sonarr:
       - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
       assign_scores_to:
       - name: Mobile (x265)
-        score: 1000
+        score: 2500

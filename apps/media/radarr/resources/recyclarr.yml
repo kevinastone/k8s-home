@@ -53,4 +53,4 @@ radarr:
       - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
       assign_scores_to:
       - name: Mobile (x265)
-        score: 1000
+        score: 2500
