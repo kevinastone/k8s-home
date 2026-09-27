@@ -4,6 +4,6 @@ categories:
   script: "None"
   priority: 0
 - name: movies
-  dir: /storage/media
+  dir: /downloads/movies
 - name: tv
   dir: /downloads/tv
