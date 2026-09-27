@@ -23,3 +23,4 @@ sonarr:
       add:
       - trash_id: 158188097a58d7687dee647e04af0da3 # [Optional] Golden Rule HD
       - trash_id: e3f37512790f00d0e89e54fe5e790d1c # [Optional] Golden Rule UHD
+      - trash_id: e0b2774083df4265f25c9e5bc6c80940 # [HDR Formats] DV Boost
