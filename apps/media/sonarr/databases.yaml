@@ -20,4 +20,4 @@ spec:
   owner: app
   cluster:
     name: postgres
-  databaseReclaimPolicy: retain
+  databaseReclaimPolicy: delete
