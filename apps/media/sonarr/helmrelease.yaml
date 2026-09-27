@@ -30,9 +30,7 @@ spec:
             - /bin/sh
             - -c
             args:
-            - |
-              mkdir -p /downloads/tv
-              ln -s /config/MediaCover /config/MediaCovers 2>/dev/null || true
+            - mkdir -p /downloads/tv
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
