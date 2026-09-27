@@ -1,10 +1,1 @@
-shows:
-- name: Mobland
-  season: 2
-  uri:
-    tvdb: 446831
-- name: South Park
-  season: 29
-  uri:
-    tvdb: 75897
-  presets: ['4k', 'h265']
+shows: []
