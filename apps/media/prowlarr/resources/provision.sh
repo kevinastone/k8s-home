@@ -103,6 +103,7 @@ reconcile "downloadclient" '.[] | select(.implementationName == "SABnzbd")' "$(j
       host: "sabnzbd",
       port: 8080,
       apiKey: $apiKey,
-      category: "*"
+      category: "*",
+      priority: 1
     }
   }')"
