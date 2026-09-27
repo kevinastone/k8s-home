@@ -3,8 +3,9 @@ resource "radarr_root_folder" "media" {
 }
 
 resource "radarr_download_client_config" "config" {
-  enable_completed_download_handling = true
-  auto_redownload_failed             = true
+  check_for_finished_download_interval = 1
+  enable_completed_download_handling   = true
+  auto_redownload_failed               = true
 }
 
 resource "radarr_download_client_sabnzbd" "sabnzbd" {
@@ -36,4 +37,5 @@ resource "radarr_indexer_newznab" "nzbgeek" {
   api_path                  = "/api"
   api_key                   = var.NZBGEEK_API_KEY
   categories                = [2000, 2010, 2020, 2030, 2040, 2045, 2050, 2060]
+  priority                  = 25
 }
