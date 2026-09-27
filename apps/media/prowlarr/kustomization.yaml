@@ -5,6 +5,7 @@ resources:
 - external-secret.yaml
 - helmrelease.yaml
 - http-route.yaml
+- databases.yaml
 
 configMapGenerator:
 - name: prowlarr-provision-script

@@ -34,10 +34,19 @@ spec:
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
               PROWLARR__PORT: &port 9696
+              PROWLARR__POSTGRES__HOST: "$(postgres_host)"
+              PROWLARR__POSTGRES__PORT: "$(postgres_port)"
+              PROWLARR__POSTGRES__USER: "$(postgres_user)"
+              PROWLARR__POSTGRES__PASSWORD: "$(postgres_password)"
+              PROWLARR__POSTGRES__MAINDB: prowlarr_main
+              PROWLARR__POSTGRES__LOGDB: prowlarr_log
               PROWLARR__SERVER__ALLOWEDHOSTS: "prowlarr,prowlarr.media,prowlarr.media.svc,prowlarr.media.svc.cluster.local,prowlarr.k8s.kevinastone.com"
               PROWLARR__UPDATE__MECHANISM: None
               PROWLARR__UPDATE__AUTOMATICALLY: "False"
             envFrom:
+            - prefix: postgres_
+              secretRef:
+                name: postgres-app
             - secretRef:
                 name: prowlarr-secret
             - secretRef:
@@ -92,14 +101,9 @@ spec:
             port: *port
     persistence:
       config:
-        type: persistentVolumeClaim
-        storageClass: longhorn
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        advancedMounts:
-          main:
-            app:
-            - path: /config
+        type: emptyDir
+        globalMounts:
+        - path: /config
       provision-script:
         type: configMap
         name: prowlarr-provision-script
@@ -114,3 +118,4 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /tmp
+
