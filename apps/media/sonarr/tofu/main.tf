@@ -19,7 +19,7 @@ resource "sonarr_download_client_sabnzbd" "sabnzbd" {
 }
 
 resource "sonarr_download_client_qbittorrent" "qbittorrent" {
-  enable                     = true
+  enable                     = false
   priority                   = 1
   name                       = "qBittorrent"
   host                       = var.qbittorrent_host
@@ -37,4 +37,3 @@ resource "sonarr_indexer_newznab" "nzbgeek" {
   api_key                   = var.NZBGEEK_API_KEY
   categories                = [5000, 5020, 5030, 5040, 5045]
 }
-
