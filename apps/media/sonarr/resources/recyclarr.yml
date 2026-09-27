@@ -39,8 +39,38 @@ sonarr:
         - WEBRip-1080p
       - name: HDTV-1080p
 
+    - trash_id: 9d142234e45d6143785ac55f5a9e8dc9 # WEB-1080p (Alternative)
+      name: Mobile (x265)
+      reset_unmatched_scores:
+        enabled: true
+      upgrade:
+        allowed: true
+        until_quality: 1080p (Combined)
+      qualities:
+      - name: 1080p (Combined)
+        qualities:
+        - WEBDL-1080p
+        - WEBRip-1080p
+        - Bluray-1080p
+      - name: 720p (Combined)
+        qualities:
+        - WEBDL-720p
+        - WEBRip-720p
+        - Bluray-720p
+      - name: HDTV-1080p
+      - name: HDTV-720p
+
     custom_format_groups:
       add:
       - trash_id: 158188097a58d7687dee647e04af0da3 # [Optional] Golden Rule HD
+        assign_scores_to:
+        - name: WEB-1080p
       - trash_id: e3f37512790f00d0e89e54fe5e790d1c # [Optional] Golden Rule UHD
       - trash_id: e0b2774083df4265f25c9e5bc6c80940 # [HDR Formats] DV Boost
+
+    custom_formats:
+    - trash_ids:
+      - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
+      assign_scores_to:
+      - name: Mobile (x265)
+        score: 1000
