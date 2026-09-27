@@ -5,6 +5,5 @@ resources:
 - cluster.yaml
 - backup.yaml
 - objectstore.yaml
-- databases.yaml
 components:
 - ../../../crds/postgres/component

@@ -6,7 +6,7 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - terraform.yaml
-
+- databases.yaml
 
 configMapGenerator:
 - name: recyclarr-config
@@ -15,5 +15,3 @@ configMapGenerator:
 
 configurations:
 - kustomizeconfig.yaml
-
-
