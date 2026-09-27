@@ -14,5 +14,6 @@ resources:
 - sabnzbd
 # - transmission
 - sonarr
+- prowlarr
 - transcoder
 - http-route.yaml

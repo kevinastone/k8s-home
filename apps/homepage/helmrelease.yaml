@@ -37,6 +37,9 @@ spec:
             - secretRef:
                 name: sonarr-secret
                 optional: true
+            - secretRef:
+                name: prowlarr-secret
+                optional: true
 
 
             ports:

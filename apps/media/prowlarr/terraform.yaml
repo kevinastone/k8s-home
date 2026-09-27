@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/infra.contrib.fluxcd.io/terraform_v1alpha2.json
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: prowlarr
+spec:
+  serviceAccountName: tf-runner
+  interval: 10m
+  approvePlan: auto
+  path: ./apps/media/prowlarr/tofu
+  sourceRef:
+    kind: GitRepository
+    name: fluxcd-sync
+    namespace: flux-system
+  varsFrom:
+  - kind: Secret
+    name: prowlarr-secret
+    varsKeys:
+    - api_key
+  - kind: Secret
+    name: nzbgeek-secret
+    varsKeys:
+    - NZBGEEK_API_KEY
