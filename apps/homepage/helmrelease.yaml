@@ -38,6 +38,9 @@ spec:
                 name: sonarr-secret
                 optional: true
             - secretRef:
+                name: radarr-secret
+                optional: true
+            - secretRef:
                 name: prowlarr-secret
                 optional: true
 

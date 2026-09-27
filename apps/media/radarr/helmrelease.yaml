@@ -1,0 +1,185 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: radarr
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-dirs:
+            image:
+              repository: ghcr.io/home-operations/radarr
+              tag: 6.4.4.10685@sha256:be53998a2d39cfa3c3315b70c7509a6a1f2a10c3aee9337653efc9f4c970430e
+            command:
+            - /bin/sh
+            - -c
+            args:
+            - mkdir -p /downloads/movies
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/radarr
+              tag: 6.4.4.10685@sha256:be53998a2d39cfa3c3315b70c7509a6a1f2a10c3aee9337653efc9f4c970430e
+            env:
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: "False"
+              RADARR__LOG__LEVEL: info
+              RADARR__PORT: &port 7878
+              RADARR__POSTGRES__HOST: "$(postgres_host)"
+              RADARR__POSTGRES__PORT: "$(postgres_port)"
+              RADARR__POSTGRES__USER: "$(postgres_user)"
+              RADARR__POSTGRES__PASSWORD: "$(postgres_password)"
+              RADARR__POSTGRES__MAINDB: "$(postgres_dbname)"
+              RADARR__SERVER__ALLOWEDHOSTS: "radarr,radarr.media,radarr.media.svc,radarr.media.svc.cluster.local,radarr.k8s.kevinastone.com"
+              RADARR__UPDATE__MECHANISM: None
+              RADARR__UPDATE__AUTOMATICALLY: "False"
+            envFrom:
+            - prefix: postgres_
+              secretRef:
+                name: postgres-app
+            - secretRef:
+                name: radarr-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                    httpHeaders:
+                    - name: Host
+                      value: localhost
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 2Gi
+      recyclarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 8.7.2@sha256:6e69e009e1cd7493ff6093e8e187b5d3788c75b4a2c0c5127b6a1beda1c19728
+            command:
+            - /bin/bash
+            - -c
+            args:
+            - |
+              until recyclarr sync; do
+                echo "Waiting for Radarr API before scheduling..."
+                sleep 5
+              done
+              exec /entrypoint.sh
+            env:
+              COMPlus_EnableDiagnostics: "0"
+              CRON_SCHEDULE: "@daily"
+              TZ: America/Los_Angeles
+            envFrom:
+            - secretRef:
+                name: radarr-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 100
+        fsGroup: 100
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: main
+        ports:
+          http:
+            port: *port
+    persistence:
+      config:
+        type: emptyDir
+        globalMounts:
+        - path: /config
+      tmp:
+        type: emptyDir
+        globalMounts:
+        - path: /tmp
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-media
+        advancedMounts:
+          main:
+            app:
+            - path: /storage/media
+      downloads:
+        type: persistentVolumeClaim
+        existingClaim: media-downloads
+        advancedMounts:
+          main:
+            init-dirs:
+            - path: /downloads
+              subPath: sabnzbd
+            app:
+            - path: /downloads
+              subPath: sabnzbd
+      recyclarr-config:
+        type: configMap
+        name: radarr-recyclarr-config
+        advancedMounts:
+          recyclarr:
+            app:
+            - path: /config/recyclarr.yml
+              subPath: recyclarr.yml
+              readOnly: true
+      media-cover:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteMany
+        size: 5Gi
+        advancedMounts:
+          main:
+            app:
+            - path: /config/MediaCover
