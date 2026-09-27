@@ -53,7 +53,8 @@ spec:
               SONARR__POSTGRES__PORT: "$(postgres_port)"
               SONARR__POSTGRES__USER: "$(postgres_user)"
               SONARR__POSTGRES__PASSWORD: "$(postgres_password)"
-              SONARR__POSTGRES__MAINDB: "$(postgres_dbname)"
+              SONARR__POSTGRES__MAINDB: sonarr_main
+              SONARR__POSTGRES__LOGDB: sonarr_log
               SONARR__SERVER__ALLOWEDHOSTS: "sonarr,sonarr.media,sonarr.media.svc,sonarr.media.svc.cluster.local,sonarr.k8s.kevinastone.com"
               SONARR__UPDATE__MECHANISM: None
               SONARR__UPDATE__AUTOMATICALLY: "False"

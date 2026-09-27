@@ -53,7 +53,8 @@ spec:
               RADARR__POSTGRES__PORT: "$(postgres_port)"
               RADARR__POSTGRES__USER: "$(postgres_user)"
               RADARR__POSTGRES__PASSWORD: "$(postgres_password)"
-              RADARR__POSTGRES__MAINDB: "$(postgres_dbname)"
+              RADARR__POSTGRES__MAINDB: radarr_main
+              RADARR__POSTGRES__LOGDB: radarr_log
               RADARR__SERVER__ALLOWEDHOSTS: "radarr,radarr.media,radarr.media.svc,radarr.media.svc.cluster.local,radarr.k8s.kevinastone.com"
               RADARR__UPDATE__MECHANISM: None
               RADARR__UPDATE__AUTOMATICALLY: "False"
