@@ -5,6 +5,9 @@ radarr:
     api_key: !env_var RADARR__AUTH__APIKEY
     delete_old_custom_formats: true
 
+    media_management:
+      propers_and_repacks: do_not_prefer
+
     quality_definition:
       type: movie
 
