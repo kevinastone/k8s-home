@@ -9,7 +9,7 @@ resources:
 - databases.yaml
 
 configMapGenerator:
-- name: recyclarr-config
+- name: sonarr-recyclarr-config
   files:
   - resources/recyclarr.yml
 
