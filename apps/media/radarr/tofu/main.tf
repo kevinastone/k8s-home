@@ -39,11 +39,3 @@ resource "radarr_indexer_newznab" "nzbgeek" {
   categories                = [2000, 2010, 2020, 2030, 2040, 2045, 2050, 2060]
   priority                  = 25
 }
-
-resource "radarr_naming" "naming" {
-  rename_movies              = true
-  replace_illegal_characters = true
-  colon_replacement_format   = "smart"
-  standard_movie_format      = "{Movie CleanTitle} ({Release Year}) {[Custom Formats]}{[Quality Full]}{[MediaInfo AudioCodec}{ MediaInfo AudioChannels]}{[MediaInfo VideoDynamicRangeType]}{[MediaInfo VideoCodec]}{-Release Group}"
-  movie_folder_format        = "{Movie CleanTitle} ({Release Year})"
-}

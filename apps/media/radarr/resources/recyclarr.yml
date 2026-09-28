@@ -8,6 +8,12 @@ radarr:
     media_management:
       propers_and_repacks: do_not_prefer
 
+    media_naming:
+      folder: default
+      movie:
+        rename: true
+        standard: default
+
     quality_definition:
       type: movie
 
