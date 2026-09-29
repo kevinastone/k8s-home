@@ -1,28 +1,3 @@
-import {
-  to = sonarr_root_folder.media
-  id = "4"
-}
-
-import {
-  to = sonarr_download_client_config.config
-  id = "1"
-}
-
-import {
-  to = sonarr_download_client_sabnzbd.sabnzbd
-  id = "1"
-}
-
-import {
-  to = sonarr_download_client_qbittorrent.qbittorrent
-  id = "2"
-}
-
-import {
-  to = sonarr_indexer_newznab.nzbgeek
-  id = "1"
-}
-
 resource "sonarr_root_folder" "media" {
   path = var.root_folder_path
 }
