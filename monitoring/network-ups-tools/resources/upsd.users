@@ -1,4 +1,4 @@
 [root]
     password = root
-    action = SET
+    actions = SET
     instcmds = ALL
