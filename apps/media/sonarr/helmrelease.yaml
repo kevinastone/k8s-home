@@ -107,12 +107,7 @@ spec:
                 echo "Waiting for Sonarr API before scheduling..."
                 sleep 5
               done
-              # Upstream /entrypoint.sh launches supercronic without exec, keeping bash
-              # as PID 1 which does not forward SIGTERM and causes a 30s termination grace timeout.
-              # Running supercronic directly via exec ensures it receives SIGTERM for fast shutdown.
-              echo "Starting cron schedule using: ${CRON_SCHEDULE}"
-              echo "${CRON_SCHEDULE} /cron.sh" > /tmp/crontab
-              exec supercronic -passthrough-logs -no-reap /tmp/crontab
+              exec /entrypoint.sh
             env:
               COMPlus_EnableDiagnostics: "0"
               CRON_SCHEDULE: "@daily"
