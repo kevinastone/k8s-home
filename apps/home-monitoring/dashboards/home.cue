@@ -6,25 +6,20 @@ import (
 )
 
 // Reusable Room Card: Stat panel with sparklines + temperature trend graph
-#RoomPanels: {
+#RoomPanels: R={
 	room:   string
 	prefix: string
 	x:      int
 	y:      int
 
-	let _room = room
-	let _prefix = prefix
-	let _x = x
-	let _y = y
-
-	let _tempExpr = #"{entity_id="\#(_prefix)_temperature",__name__=~".*_value"}"#
-	let _humidityExpr = #"{entity_id="\#(_prefix)_humidity",__name__=~".*_value"}"#
-	let _pressureExpr = #"{entity_id="\#(_prefix)_pressure",__name__=~".*_value"}"#
+	let _tempExpr = #"{entity_id="\#(R.prefix)_temperature",__name__=~".*_value"}"#
+	let _humidityExpr = #"{entity_id="\#(R.prefix)_humidity",__name__=~".*_value"}"#
+	let _pressureExpr = #"{entity_id="\#(R.prefix)_pressure",__name__=~".*_value"}"#
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
 	statPanel: grafana.#StatPanel & {
-		title: "\(_room)"
-		gridPos: {h: 5, w: 6, x: _x, y: _y}
+		title: R.room
+		gridPos: {h: 5, w: 6, x: R.x, y: R.y}
 		options: {
 			orientation: "horizontal"
 			textMode:    "value_and_name"
@@ -48,25 +43,16 @@ import (
 			]
 		}
 		targets: [
-			grafana.#PromTarget & {
-				expr:         _tempExpr
-				legendFormat: "Temperature"
-			},
-			grafana.#PromTarget & {
-				expr:         _humidityExpr
-				legendFormat: "Humidity"
-			},
-			grafana.#PromTarget & {
-				expr:         _pressureExpr
-				legendFormat: "Pressure"
-			},
+			grafana.#PromTarget & {expr: _tempExpr, legendFormat: "Temperature"},
+			grafana.#PromTarget & {expr: _humidityExpr, legendFormat: "Humidity"},
+			grafana.#PromTarget & {expr: _pressureExpr, legendFormat: "Pressure"},
 		]
 	}
 
 	// 2. Temperature History Graph (matching Lovelace card footer)
 	graphPanel: grafana.#TimeSeriesPanel & {
-		title: "\(_room) Temperature History"
-		gridPos: {h: 4, w: 6, x: _x, y: _y + 5}
+		title: "\(R.room) Temperature History"
+		gridPos: {h: 4, w: 6, x: R.x, y: R.y + 5}
 		fieldConfig: defaults: {
 			unit: "fahrenheit"
 			custom: {
@@ -75,10 +61,7 @@ import (
 			}
 		}
 		targets: [
-			grafana.#PromTarget & {
-				expr:         _tempExpr
-				legendFormat: "\(_room)"
-			},
+			grafana.#PromTarget & {expr: _tempExpr, legendFormat: R.room},
 		]
 	}
 
@@ -86,36 +69,29 @@ import (
 }
 
 // Reusable Power Device: Stat panel on top, dedicated trend graph directly below
-#PowerTile: {
+#PowerTile: P={
 	name:      string
 	entity_id: string
 	x:         int | *18
 	y:         int
 
-	let _name = name
-	let _entity_id = entity_id
-	let _x = x
-	let _y = y
-	let _powerExpr = #"{entity_id="\#(_entity_id)",__name__=~".*_value"}"#
+	let _powerExpr = #"{entity_id="\#(P.entity_id)",__name__=~".*_value"}"#
 
-	// 1. Current Power Stat Panel (clean number, no background overlap, no thresholds)
+	// 1. Current Power Stat Panel
 	stat: grafana.#StatPanel & {
-		title: _name
-		gridPos: {h: 2, w: 6, x: _x, y: _y}
+		title: P.name
+		gridPos: {h: 2, w: 6, x: P.x, y: P.y}
 		options: graphMode: "none"
 		fieldConfig: defaults: unit: "watt"
 		targets: [
-			grafana.#PromTarget & {
-				expr:         _powerExpr
-				legendFormat: _name
-			},
+			grafana.#PromTarget & {expr: _powerExpr, legendFormat: P.name},
 		]
 	}
 
-	// 2. Trend Graph directly below the stat value (no redundant title, no axis noise)
+	// 2. Trend Graph directly below the stat value (no title, no axis noise)
 	graph: grafana.#TimeSeriesPanel & {
 		title: ""
-		gridPos: {h: 2, w: 6, x: _x, y: _y + 2}
+		gridPos: {h: 2, w: 6, x: P.x, y: P.y + 2}
 		options: legend: showLegend: false
 		fieldConfig: defaults: {
 			unit: "watt"
@@ -127,10 +103,7 @@ import (
 			}
 		}
 		targets: [
-			grafana.#PromTarget & {
-				expr:         _powerExpr
-				legendFormat: _name
-			},
+			grafana.#PromTarget & {expr: _powerExpr, legendFormat: P.name},
 		]
 	}
 
@@ -151,22 +124,16 @@ import (
 ]
 
 // Reusable Binary State Tile (e.g. appliances derived from power consumption)
-#BinaryApplianceTile: {
+#BinaryApplianceTile: T={
 	name:      string
 	entity_id: string
 	threshold: number
 	x:         int | *18
 	y:         int
 
-	let _name = name
-	let _entity_id = entity_id
-	let _threshold = threshold
-	let _x = x
-	let _y = y
-
 	out: grafana.#StatPanel & {
-		title: _name
-		gridPos: {h: 2, w: 6, x: _x, y: _y}
+		title: T.name
+		gridPos: {h: 2, w: 6, x: T.x, y: T.y}
 		options: graphMode: "none"
 		fieldConfig: defaults: mappings: [
 			{
@@ -179,7 +146,7 @@ import (
 		]
 		targets: [
 			grafana.#PromTarget & {
-				expr:         #"{entity_id="\#(_entity_id)",__name__=~".*_value"} > bool \#(_threshold)"#
+				expr:         #"{entity_id="\#(T.entity_id)",__name__=~".*_value"} > bool \#(T.threshold)"#
 				legendFormat: "State"
 			},
 		]
@@ -207,9 +174,9 @@ out: grafana.#Dashboard & {
 	title: "Home"
 	uid:   "home-overview"
 	tags: ["home", "iot"]
-	panels: list.Concat(list.Concat([
-		roomPanels,
-		powerPanels,
-		[[washerTile.out]],
-	]))
+	panels: list.Concat([
+		list.Concat(roomPanels),
+		list.Concat(powerPanels),
+		[washerTile.out],
+	])
 }
