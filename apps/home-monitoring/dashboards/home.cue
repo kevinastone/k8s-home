@@ -21,6 +21,7 @@ import (
 			orientation: "horizontal"
 			textMode:    "value_and_name"
 			graphMode:   "area"
+			colorMode:   "none"
 		}
 		fieldConfig: {
 			defaults: {}
@@ -76,7 +77,10 @@ import (
 	stat: grafana.#StatPanel & {
 		title: P.name
 		gridPos: {h: 2, w: 6}
-		options: graphMode: "none"
+		options: {
+			graphMode: "none"
+			colorMode: "none"
+		}
 		fieldConfig: defaults: unit: "watt"
 		targets: [
 			grafana.#PromTarget & {expr: _powerExpr, legendFormat: P.name},

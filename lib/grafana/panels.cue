@@ -54,6 +54,7 @@ package grafana
 		orientation: "horizontal" | "vertical" | "auto" | *"auto"
 		textMode:    "auto" | "value" | "value_and_name" | "name" | *"auto"
 		graphMode:   "none" | "area" | *"area"
+		colorMode?:  "value" | "background" | "none"
 	}
 	fieldConfig: {
 		defaults: {

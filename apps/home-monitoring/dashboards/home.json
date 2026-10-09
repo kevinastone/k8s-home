@@ -39,7 +39,8 @@
                 },
                 "orientation": "horizontal",
                 "textMode": "value_and_name",
-                "graphMode": "area"
+                "graphMode": "area",
+                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -167,7 +168,8 @@
                 },
                 "orientation": "horizontal",
                 "textMode": "value_and_name",
-                "graphMode": "area"
+                "graphMode": "area",
+                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -295,7 +297,8 @@
                 },
                 "orientation": "horizontal",
                 "textMode": "value_and_name",
-                "graphMode": "area"
+                "graphMode": "area",
+                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -423,7 +426,8 @@
                 },
                 "orientation": "auto",
                 "textMode": "auto",
-                "graphMode": "none"
+                "graphMode": "none",
+                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -504,7 +508,8 @@
                 },
                 "orientation": "auto",
                 "textMode": "auto",
-                "graphMode": "none"
+                "graphMode": "none",
+                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -585,7 +590,8 @@
                 },
                 "orientation": "auto",
                 "textMode": "auto",
-                "graphMode": "none"
+                "graphMode": "none",
+                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
