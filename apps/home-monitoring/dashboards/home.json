@@ -470,7 +470,7 @@
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10,
-                        "axisPlacement": "none"
+                        "axisPlacement": "hidden"
                     },
                     "unit": "watt"
                 },
@@ -552,7 +552,7 @@
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10,
-                        "axisPlacement": "none"
+                        "axisPlacement": "hidden"
                     },
                     "unit": "watt"
                 },
@@ -634,7 +634,7 @@
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10,
-                        "axisPlacement": "none"
+                        "axisPlacement": "hidden"
                     },
                     "unit": "watt"
                 },

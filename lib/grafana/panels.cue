@@ -34,7 +34,7 @@ package grafana
 					legend?:  bool
 					viz?:     bool
 				}
-				axisPlacement?: "none" | "left" | "right" | "auto"
+				axisPlacement?: "hidden" | "none" | "left" | "right" | "auto"
 			}
 			unit?: string
 		}

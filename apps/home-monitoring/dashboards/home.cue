@@ -98,7 +98,7 @@ import (
 				drawStyle:     "line"
 				spanNulls:     true
 				fillOpacity:   10
-				axisPlacement: "none"
+				axisPlacement: "hidden"
 			}
 		}
 		targets: [
