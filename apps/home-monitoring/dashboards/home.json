@@ -76,7 +76,7 @@
                                     {
                                         "title": "Bedroom Temperature History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -98,7 +98,7 @@
                                     {
                                         "title": "Bedroom Humidity History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -120,7 +120,7 @@
                                     {
                                         "title": "Bedroom Pressure History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -250,7 +250,7 @@
                                     {
                                         "title": "Office Temperature History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -272,7 +272,7 @@
                                     {
                                         "title": "Office Humidity History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -294,7 +294,7 @@
                                     {
                                         "title": "Office Pressure History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -424,7 +424,7 @@
                                     {
                                         "title": "Living Room Temperature History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -446,7 +446,7 @@
                                     {
                                         "title": "Living Room Humidity History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -468,7 +468,7 @@
                                     {
                                         "title": "Living Room Pressure History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                                     }
                                 ]
                             }
@@ -569,7 +569,7 @@
                         {
                             "title": "Rack Power Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"rack_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"rack_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                         }
                     ],
                     "thresholds": {
@@ -636,7 +636,7 @@
                         {
                             "title": "Media Power Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"media_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"media_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                         }
                     ],
                     "thresholds": {
@@ -703,7 +703,7 @@
                         {
                             "title": "Desk Power Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"desk_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"desk_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                         }
                     ],
                     "thresholds": {
@@ -767,7 +767,7 @@
                         {
                             "title": "Laundry Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"laundry_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"laundry_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
                         }
                     ],
                     "mappings": [

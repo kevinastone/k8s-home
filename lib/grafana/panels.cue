@@ -37,6 +37,14 @@ import "encoding/json"
 				from: "now-24h"
 				to:   "now"
 			}
+			panelsState: {
+				trace: {
+					spanNulls: true
+				}
+				graph: {
+					spanNulls: true
+				}
+			}
 		}
 	}
 
