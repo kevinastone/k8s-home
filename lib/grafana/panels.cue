@@ -17,7 +17,7 @@ package grafana
 
 // Timeseries Graph Panel
 #TimeSeriesPanel: {
-	title: string
+	title: string | *""
 	datasource: {type: "prometheus", uid: "prometheus"}
 	gridPos: {h: int, w: int, x?: int, y?: int}
 	type: "timeseries"
@@ -45,7 +45,7 @@ package grafana
 
 // Stat Panel
 #StatPanel: {
-	title: string
+	title: string | *""
 	datasource: {type: "prometheus", uid: "prometheus"}
 	gridPos: {h: int, w: int, x?: int, y?: int}
 	type: "stat"

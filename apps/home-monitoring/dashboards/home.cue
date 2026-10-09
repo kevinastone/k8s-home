@@ -74,7 +74,6 @@ import (
 	let _powerExpr = #"{entity_id="\#(P.entity_id)",__name__=~".*_value"}"#
 
 	out: grafana.#StatPanel & {
-		title: ""
 		gridPos: {h: 4, w: 6}
 		options: {
 			orientation:            "auto"
