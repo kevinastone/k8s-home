@@ -19,7 +19,7 @@ package grafana
 #TimeSeriesPanel: {
 	title: string
 	datasource: {type: "prometheus", uid: "prometheus"}
-	gridPos: {h: int, w: int, x: int, y: int}
+	gridPos: {h: int, w: int, x?: int, y?: int}
 	type: "timeseries"
 	options: legend: showLegend: bool | *false
 	fieldConfig: {
@@ -47,7 +47,7 @@ package grafana
 #StatPanel: {
 	title: string
 	datasource: {type: "prometheus", uid: "prometheus"}
-	gridPos: {h: int, w: int, x: int, y: int}
+	gridPos: {h: int, w: int, x?: int, y?: int}
 	type: "stat"
 	options: {
 		reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
