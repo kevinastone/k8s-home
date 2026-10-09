@@ -72,7 +72,7 @@ import (
 #PowerTile: P={
 	name:      string
 	entity_id: string
-	x:         int | *18
+	x:         int
 	y:         int
 
 	let _powerExpr = #"{entity_id="\#(P.entity_id)",__name__=~".*_value"}"#
@@ -128,7 +128,7 @@ import (
 	name:      string
 	entity_id: string
 	threshold: number
-	x:         int | *18
+	x:         int
 	y:         int
 
 	out: grafana.#StatPanel & {
@@ -153,19 +153,21 @@ import (
 	}
 }
 
+let powerColumnX = len(#Rooms) * 6
+
 let roomPanels = [for i, r in #Rooms {
 	(#RoomPanels & {room: r.name, prefix: r.prefix, x: i * 6, y: 0}).out
 }]
 
 let powerPanels = [for i, p in #PowerDevices {
-	(#PowerTile & {name: p.name, entity_id: p.entity_id, x: 18, y: i * 4}).out
+	(#PowerTile & {name: p.name, entity_id: p.entity_id, x: powerColumnX, y: i * 4}).out
 }]
 
 let washerTile = #BinaryApplianceTile & {
 	name:      "Washing Machine"
 	entity_id: "laundry_power_power"
 	threshold: 10
-	x:         18
+	x:         powerColumnX
 	y:         len(#PowerDevices) * 4
 }
 
