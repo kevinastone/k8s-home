@@ -31,16 +31,7 @@ import (
 			graphMode:   "area"
 		}
 		fieldConfig: {
-			defaults: {
-				thresholds: {
-					mode: "absolute"
-					steps: [
-						{color: "blue", value: null},
-						{color: "green", value: 68},
-						{color: "red", value: 80},
-					]
-				}
-			}
+			defaults: {}
 			overrides: [
 				{
 					matcher: {id: "byName", options: "Temperature"}
@@ -107,22 +98,12 @@ import (
 	let _y = y
 	let _powerExpr = #"{entity_id="\#(_entity_id)",__name__=~".*_value"}"#
 
-	// 1. Current Power Stat Panel (clean number, no background overlap)
+	// 1. Current Power Stat Panel (clean number, no background overlap, no thresholds)
 	stat: grafana.#StatPanel & {
 		title: _name
 		gridPos: {h: 2, w: 6, x: _x, y: _y}
 		options: graphMode: "none"
-		fieldConfig: defaults: {
-			unit: "watt"
-			thresholds: {
-				mode: "absolute"
-				steps: [
-					{color: "green", value: null},
-					{color: "orange", value: 150},
-					{color: "red", value: 300},
-				]
-			}
-		}
+		fieldConfig: defaults: unit: "watt"
 		targets: [
 			grafana.#PromTarget & {
 				expr:         _powerExpr
@@ -131,17 +112,18 @@ import (
 		]
 	}
 
-	// 2. Trend Graph directly below the stat value (interactive tooltip, connected line)
+	// 2. Trend Graph directly below the stat value (no redundant title, no axis noise)
 	graph: grafana.#TimeSeriesPanel & {
-		title: "\(_name) Trend"
+		title: ""
 		gridPos: {h: 2, w: 6, x: _x, y: _y + 2}
 		options: legend: showLegend: false
 		fieldConfig: defaults: {
 			unit: "watt"
 			custom: {
-				drawStyle:   "line"
-				spanNulls:   true
-				fillOpacity: 10
+				drawStyle:     "line"
+				spanNulls:     true
+				fillOpacity:   10
+				axisPlacement: "none"
 			}
 		}
 		targets: [

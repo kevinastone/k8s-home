@@ -29,6 +29,12 @@ package grafana
 				lineInterpolation: "smooth"
 				spanNulls:         bool | *true
 				fillOpacity:       int | *10
+				hideFrom?: {
+					tooltip?: bool
+					legend?:  bool
+					viz?:     bool
+				}
+				axisPlacement?: "none" | "left" | "right" | "auto"
 			}
 			unit?: string
 		}

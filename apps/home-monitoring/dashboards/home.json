@@ -43,24 +43,7 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "blue",
-                                "value": null
-                            },
-                            {
-                                "color": "green",
-                                "value": 68
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    }
+                    "mappings": []
                 },
                 "overrides": [
                     {
@@ -188,24 +171,7 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "blue",
-                                "value": null
-                            },
-                            {
-                                "color": "green",
-                                "value": 68
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    }
+                    "mappings": []
                 },
                 "overrides": [
                     {
@@ -333,24 +299,7 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "blue",
-                                "value": null
-                            },
-                            {
-                                "color": "green",
-                                "value": 68
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    }
+                    "mappings": []
                 },
                 "overrides": [
                     {
@@ -479,23 +428,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "orange",
-                                "value": 150
-                            },
-                            {
-                                "color": "red",
-                                "value": 300
-                            }
-                        ]
-                    },
                     "unit": "watt"
                 },
                 "overrides": []
@@ -510,7 +442,7 @@
             ]
         },
         {
-            "title": "Rack Power Trend",
+            "title": "",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
@@ -533,7 +465,8 @@
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
-                        "fillOpacity": 10
+                        "fillOpacity": 10,
+                        "axisPlacement": "none"
                     },
                     "unit": "watt"
                 },
@@ -576,23 +509,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "orange",
-                                "value": 150
-                            },
-                            {
-                                "color": "red",
-                                "value": 300
-                            }
-                        ]
-                    },
                     "unit": "watt"
                 },
                 "overrides": []
@@ -607,7 +523,7 @@
             ]
         },
         {
-            "title": "Media Power Trend",
+            "title": "",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
@@ -630,7 +546,8 @@
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
-                        "fillOpacity": 10
+                        "fillOpacity": 10,
+                        "axisPlacement": "none"
                     },
                     "unit": "watt"
                 },
@@ -673,23 +590,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "orange",
-                                "value": 150
-                            },
-                            {
-                                "color": "red",
-                                "value": 300
-                            }
-                        ]
-                    },
                     "unit": "watt"
                 },
                 "overrides": []
@@ -704,7 +604,7 @@
             ]
         },
         {
-            "title": "Desk Power Trend",
+            "title": "",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
@@ -727,7 +627,8 @@
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
-                        "fillOpacity": 10
+                        "fillOpacity": 10,
+                        "axisPlacement": "none"
                     },
                     "unit": "watt"
                 },
