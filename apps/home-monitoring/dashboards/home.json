@@ -452,15 +452,13 @@
             ]
         },
         {
-            "name": "Rack Power",
-            "entity_id": "rack_power_power",
             "title": "Rack Power",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 3,
+                "h": 2,
                 "w": 6,
                 "x": 18,
                 "y": 0
@@ -476,7 +474,7 @@
                 },
                 "orientation": "auto",
                 "textMode": "auto",
-                "graphMode": "area"
+                "graphMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -512,18 +510,55 @@
             ]
         },
         {
-            "name": "Media Power",
-            "entity_id": "media_power_power",
+            "title": "Rack Power Trend",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 2,
+                "w": 6,
+                "x": 18,
+                "y": 2
+            },
+            "type": "timeseries",
+            "options": {
+                "legend": {
+                    "showLegend": false
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    },
+                    "unit": "watt"
+                },
+                "overrides": []
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"rack_power_power\",__name__=~\".*_value\"}",
+                    "legendFormat": "Rack Power",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
             "title": "Media Power",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 3,
+                "h": 2,
                 "w": 6,
                 "x": 18,
-                "y": 3
+                "y": 4
             },
             "type": "stat",
             "options": {
@@ -536,7 +571,7 @@
                 },
                 "orientation": "auto",
                 "textMode": "auto",
-                "graphMode": "area"
+                "graphMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -572,18 +607,55 @@
             ]
         },
         {
-            "name": "Desk Power",
-            "entity_id": "desk_power_power",
+            "title": "Media Power Trend",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 2,
+                "w": 6,
+                "x": 18,
+                "y": 6
+            },
+            "type": "timeseries",
+            "options": {
+                "legend": {
+                    "showLegend": false
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    },
+                    "unit": "watt"
+                },
+                "overrides": []
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"media_power_power\",__name__=~\".*_value\"}",
+                    "legendFormat": "Media Power",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
             "title": "Desk Power",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 3,
+                "h": 2,
                 "w": 6,
                 "x": 18,
-                "y": 6
+                "y": 8
             },
             "type": "stat",
             "options": {
@@ -596,7 +668,7 @@
                 },
                 "orientation": "auto",
                 "textMode": "auto",
-                "graphMode": "area"
+                "graphMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -632,6 +704,45 @@
             ]
         },
         {
+            "title": "Desk Power Trend",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 2,
+                "w": 6,
+                "x": 18,
+                "y": 10
+            },
+            "type": "timeseries",
+            "options": {
+                "legend": {
+                    "showLegend": false
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    },
+                    "unit": "watt"
+                },
+                "overrides": []
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"desk_power_power\",__name__=~\".*_value\"}",
+                    "legendFormat": "Desk Power",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
             "title": "Washing Machine",
             "datasource": {
                 "type": "prometheus",
@@ -641,7 +752,7 @@
                 "h": 2,
                 "w": 6,
                 "x": 18,
-                "y": 9
+                "y": 12
             },
             "type": "stat",
             "options": {

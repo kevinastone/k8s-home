@@ -94,17 +94,24 @@ import (
 	out: [statPanel, graphPanel]
 }
 
-// Reusable Power Tile template
+// Reusable Power Device: Stat panel on top, dedicated trend graph directly below
 #PowerTile: {
 	name:      string
 	entity_id: string
-	gridPos: {h: int, w: int, x: int, y: int}
+	x:         int | *18
+	y:         int
 
-	let _powerExpr = #"{entity_id="\#(entity_id)",__name__=~".*_value"}"#
+	let _name = name
+	let _entity_id = entity_id
+	let _x = x
+	let _y = y
+	let _powerExpr = #"{entity_id="\#(_entity_id)",__name__=~".*_value"}"#
 
-	grafana.#StatPanel & {
-		title:     name
-		"gridPos": gridPos
+	// 1. Current Power Stat Panel (clean number, no background overlap)
+	stat: grafana.#StatPanel & {
+		title: _name
+		gridPos: {h: 2, w: 6, x: _x, y: _y}
+		options: graphMode: "none"
 		fieldConfig: defaults: {
 			unit: "watt"
 			thresholds: {
@@ -119,25 +126,48 @@ import (
 		targets: [
 			grafana.#PromTarget & {
 				expr:         _powerExpr
-				legendFormat: name
+				legendFormat: _name
 			},
 		]
 	}
+
+	// 2. Trend Graph directly below the stat value (interactive tooltip, connected line)
+	graph: grafana.#TimeSeriesPanel & {
+		title: "\(_name) Trend"
+		gridPos: {h: 2, w: 6, x: _x, y: _y + 2}
+		options: legend: showLegend: false
+		fieldConfig: defaults: {
+			unit: "watt"
+			custom: {
+				drawStyle:   "line"
+				spanNulls:   true
+				fillOpacity: 10
+			}
+		}
+		targets: [
+			grafana.#PromTarget & {
+				expr:         _powerExpr
+				legendFormat: _name
+			},
+		]
+	}
+
+	out: [stat, graph]
 }
 
 let bedroom = #RoomPanels & {room: "Bedroom", prefix: "bedroom_temperature", x: 0, y: 0}
 let office = #RoomPanels & {room: "Office", prefix: "office_temperature", x: 6, y: 0}
 let living = #RoomPanels & {room: "Living Room", prefix: "living_room_temperature", x: 12, y: 0}
 
-let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power", gridPos: {h: 3, w: 6, x: 18, y: 0}}
-let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", gridPos: {h: 3, w: 6, x: 18, y: 3}}
-let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", gridPos: {h: 3, w: 6, x: 18, y: 6}}
+let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power", y: 0}
+let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", y: 4}
+let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", y: 8}
 
 let washerExpr = #"{entity_id="laundry_power_power",__name__=~".*_value"}"#
 
 let washerTile = grafana.#StatPanel & {
 	title: "Washing Machine"
-	gridPos: {h: 2, w: 6, x: 18, y: 9}
+	gridPos: {h: 2, w: 6, x: 18, y: 12}
 	options: graphMode: "none"
 	fieldConfig: defaults: {
 		mappings: [
@@ -167,6 +197,9 @@ out: grafana.#Dashboard & {
 		bedroom.out,
 		office.out,
 		living.out,
-		[rackPower, mediaPower, deskPower, washerTile],
+		rackPower.out,
+		mediaPower.out,
+		deskPower.out,
+		[washerTile],
 	])
 }
