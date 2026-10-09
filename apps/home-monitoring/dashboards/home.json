@@ -126,13 +126,14 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "unit": "fahrenheit",
+                    "mappings": [],
                     "custom": {
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10
-                    },
-                    "unit": "fahrenheit"
+                    }
                 },
                 "overrides": []
             },
@@ -255,13 +256,14 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "unit": "fahrenheit",
+                    "mappings": [],
                     "custom": {
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10
-                    },
-                    "unit": "fahrenheit"
+                    }
                 },
                 "overrides": []
             },
@@ -384,13 +386,14 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "unit": "fahrenheit",
+                    "mappings": [],
                     "custom": {
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10
-                    },
-                    "unit": "fahrenheit"
+                    }
                 },
                 "overrides": []
             },
@@ -435,6 +438,7 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "unit": "watt",
                     "mappings": [],
                     "color": {
                         "mode": "palette-classic"
@@ -447,8 +451,7 @@
                                 "value": null
                             }
                         ]
-                    },
-                    "unit": "watt"
+                    }
                 },
                 "overrides": []
             },
@@ -493,6 +496,7 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "unit": "watt",
                     "mappings": [],
                     "color": {
                         "mode": "palette-classic"
@@ -505,8 +509,7 @@
                                 "value": null
                             }
                         ]
-                    },
-                    "unit": "watt"
+                    }
                 },
                 "overrides": []
             },
@@ -551,6 +554,7 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "unit": "watt",
                     "mappings": [],
                     "color": {
                         "mode": "palette-classic"
@@ -563,8 +567,7 @@
                                 "value": null
                             }
                         ]
-                    },
-                    "unit": "watt"
+                    }
                 },
                 "overrides": []
             },

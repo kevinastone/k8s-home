@@ -15,39 +15,55 @@ package grafana
 	targetBlank: bool | *false
 }
 
-// Timeseries Graph Panel
-#TimeSeriesPanel: {
+// Common Field Config Defaults
+#FieldDefaults: {
+	unit?: string
+	mappings: [...] | *[]
+	links?: [...#DataLink]
+	color?: {
+		mode: string
+	}
+	thresholds?: {
+		mode: "absolute" | "percentage"
+		steps: [...]
+	}
+	custom?: {...}
+}
+
+// Base Panel Definition
+#BasePanel: {
 	title: string | *""
 	datasource: {type: "prometheus", uid: "prometheus"}
 	gridPos: {h: int, w: int, x?: int, y?: int}
-	type: "timeseries"
-	options: legend: showLegend: bool | *false
+	type: string
+	options?: {...}
 	fieldConfig: {
-		defaults: {
-			custom: {
-				drawStyle:         "line"
-				lineInterpolation: "smooth"
-				spanNulls:         bool | *true
-				fillOpacity:       int | *10
-				hideFrom?: {
-					tooltip?: bool
-					legend?:  bool
-					viz?:     bool
-				}
-				axisPlacement?: "hidden" | "none" | "left" | "right" | "auto"
-			}
-			unit?: string
-		}
+		defaults: #FieldDefaults
 		overrides: [...] | *[]
 	}
 	targets: [...#PromTarget]
 }
 
+// Timeseries Graph Panel
+#TimeSeriesPanel: #BasePanel & {
+	type: "timeseries"
+	options: legend: showLegend: bool | *false
+	fieldConfig: defaults: custom: {
+		drawStyle:         "line"
+		lineInterpolation: "smooth"
+		spanNulls:         bool | *true
+		fillOpacity:       int | *10
+		hideFrom?: {
+			tooltip?: bool
+			legend?:  bool
+			viz?:     bool
+		}
+		axisPlacement?: "hidden" | "none" | "left" | "right" | "auto"
+	}
+}
+
 // Stat Panel
-#StatPanel: {
-	title: string | *""
-	datasource: {type: "prometheus", uid: "prometheus"}
-	gridPos: {h: int, w: int, x?: int, y?: int}
+#StatPanel: #BasePanel & {
 	type: "stat"
 	options: {
 		reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
@@ -60,22 +76,6 @@ package grafana
 		showPercentChange?:      bool
 		percentChangeColorMode?: string
 	}
-	fieldConfig: {
-		defaults: {
-			mappings: [...] | *[]
-			links?: [...#DataLink]
-			thresholds?: {
-				mode: "absolute" | "percentage"
-				steps: [...]
-			}
-			unit?: string
-			color?: {
-				mode: string
-			}
-		}
-		overrides: [...] | *[]
-	}
-	targets: [...#PromTarget]
 }
 
 // Dashboard Definition
