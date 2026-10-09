@@ -1,14 +1,9 @@
 package monitoring
 
-import "list"
-
-// Reusable Prometheus target definition
-#PromTarget: {
-	expr:         string
-	legendFormat: string | *""
-	format:       "time_series"
-	instant:      bool | *false
-}
+import (
+	"list"
+	"k8s-home.internal/lib/grafana"
+)
 
 // Reusable Room Card: Stat panel with sparklines + temperature trend graph
 #RoomPanels: {
@@ -23,20 +18,16 @@ import "list"
 	let _y = y
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
-	statPanel: {
-		type:  "stat"
+	statPanel: grafana.#StatPanel & {
 		title: "\(_room)"
-		datasource: {type: "prometheus", uid: "prometheus"}
 		gridPos: {h: 5, w: 6, x: _x, y: _y}
 		options: {
-			reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
 			orientation: "horizontal"
 			textMode:    "value_and_name"
 			graphMode:   "area"
 		}
 		fieldConfig: {
 			defaults: {
-				mappings: []
 				thresholds: {
 					mode: "absolute"
 					steps: [
@@ -62,43 +53,34 @@ import "list"
 			]
 		}
 		targets: [
-			#PromTarget & {
-				expr:         "last_over_time({entity_id=\"\(prefix)_temperature\",__name__=~\".*_value\"}[24h])"
+			grafana.#PromTarget & {
+				expr:         "last_over_time({entity_id=\"\(_prefix)_temperature\",__name__=~\".*_value\"}[24h])"
 				legendFormat: "Temperature"
 			},
-			#PromTarget & {
-				expr:         "last_over_time({entity_id=\"\(prefix)_humidity\",__name__=~\".*_value\"}[24h])"
+			grafana.#PromTarget & {
+				expr:         "last_over_time({entity_id=\"\(_prefix)_humidity\",__name__=~\".*_value\"}[24h])"
 				legendFormat: "Humidity"
 			},
-			#PromTarget & {
-				expr:         "last_over_time({entity_id=\"\(prefix)_pressure\",__name__=~\".*_value\"}[24h])"
+			grafana.#PromTarget & {
+				expr:         "last_over_time({entity_id=\"\(_prefix)_pressure\",__name__=~\".*_value\"}[24h])"
 				legendFormat: "Pressure"
 			},
 		]
 	}
 
 	// 2. Temperature History Graph (matching Lovelace card footer)
-	graphPanel: {
-		type:  "timeseries"
+	graphPanel: grafana.#TimeSeriesPanel & {
 		title: "\(_room) Temperature History"
-		datasource: {type: "prometheus", uid: "prometheus"}
 		gridPos: {h: 4, w: 6, x: _x, y: _y + 5}
-		options: {
-			legend: {
-				showLegend: false
-			}
-		}
 		fieldConfig: defaults: {
 			unit: "fahrenheit"
 			custom: {
-				drawStyle:         "line"
-				lineInterpolation: "smooth"
-				spanNulls:         true
-				fillOpacity:       10
+				spanNulls:   true
+				fillOpacity: 10
 			}
 		}
 		targets: [
-			#PromTarget & {
+			grafana.#PromTarget & {
 				expr:         "{entity_id=\"\(_prefix)_temperature\",__name__=~\".*_value\"}"
 				legendFormat: "\(_room)"
 			},
@@ -114,30 +96,27 @@ import "list"
 	entity_id: string
 	gridPos: {h: int, w: int, x: int, y: int}
 
-	type:  "stat"
-	title: name
-	datasource: {type: "prometheus", uid: "prometheus"}
-	options: {
-		reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
-		graphMode: "area"
-	}
-	fieldConfig: defaults: {
-		unit: "watt"
-		thresholds: {
-			mode: "absolute"
-			steps: [
-				{color: "green", value: null},
-				{color: "orange", value: 150},
-				{color: "red", value: 300},
-			]
+	grafana.#StatPanel & {
+		title:     name
+		"gridPos": gridPos
+		fieldConfig: defaults: {
+			unit: "watt"
+			thresholds: {
+				mode: "absolute"
+				steps: [
+					{color: "green", value: null},
+					{color: "orange", value: 150},
+					{color: "red", value: 300},
+				]
+			}
 		}
+		targets: [
+			grafana.#PromTarget & {
+				expr:         "last_over_time({entity_id=\"\(entity_id)\",__name__=~\".*_value\"}[24h])"
+				legendFormat: name
+			},
+		]
 	}
-	targets: [
-		#PromTarget & {
-			expr:         "last_over_time({entity_id=\"\(entity_id)\",__name__=~\".*_value\"}[24h])"
-			legendFormat: name
-		},
-	]
 }
 
 let bedroom = #RoomPanels & {room: "Bedroom", prefix: "bedroom_temperature", x: 0, y: 0}
@@ -148,15 +127,10 @@ let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power",
 let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", gridPos: {h: 2, w: 6, x: 18, y: 2}}
 let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", gridPos: {h: 2, w: 6, x: 18, y: 4}}
 
-let washerTile = {
-	type:  "stat"
+let washerTile = grafana.#StatPanel & {
 	title: "Washing Machine"
-	datasource: {type: "prometheus", uid: "prometheus"}
 	gridPos: {h: 3, w: 6, x: 18, y: 6}
-	options: {
-		reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
-		graphMode: "none"
-	}
+	options: graphMode: "none"
 	fieldConfig: defaults: {
 		mappings: [
 			{
@@ -169,7 +143,7 @@ let washerTile = {
 		]
 	}
 	targets: [
-		#PromTarget & {
+		grafana.#PromTarget & {
 			expr:         "last_over_time({entity_id=\"laundry_power_power\",__name__=~\".*_value\"}[24h]) > bool 10"
 			legendFormat: "State"
 		},
@@ -177,17 +151,10 @@ let washerTile = {
 }
 
 // Final Dashboard Output
-out: {
+out: grafana.#Dashboard & {
 	title: "Home"
 	uid:   "home-overview"
 	tags: ["home", "iot"]
-	timezone:      "browser"
-	schemaVersion: 39
-	refresh:       "30s"
-	time: {
-		from: "now-24h"
-		to:   "now"
-	}
 	panels: list.Concat([
 		bedroom.out,
 		office.out,

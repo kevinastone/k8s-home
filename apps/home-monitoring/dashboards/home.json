@@ -14,7 +14,6 @@
     },
     "panels": [
         {
-            "type": "stat",
             "title": "Bedroom",
             "datasource": {
                 "type": "prometheus",
@@ -26,6 +25,7 @@
                 "x": 0,
                 "y": 0
             },
+            "type": "stat",
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -120,7 +120,6 @@
             ]
         },
         {
-            "type": "timeseries",
             "title": "Bedroom Temperature History",
             "datasource": {
                 "type": "prometheus",
@@ -132,6 +131,7 @@
                 "x": 0,
                 "y": 5
             },
+            "type": "timeseries",
             "options": {
                 "legend": {
                     "showLegend": false
@@ -139,13 +139,13 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "unit": "fahrenheit",
                     "custom": {
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10
-                    }
+                    },
+                    "unit": "fahrenheit"
                 }
             },
             "targets": [
@@ -158,7 +158,6 @@
             ]
         },
         {
-            "type": "stat",
             "title": "Office",
             "datasource": {
                 "type": "prometheus",
@@ -170,6 +169,7 @@
                 "x": 6,
                 "y": 0
             },
+            "type": "stat",
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -264,7 +264,6 @@
             ]
         },
         {
-            "type": "timeseries",
             "title": "Office Temperature History",
             "datasource": {
                 "type": "prometheus",
@@ -276,6 +275,7 @@
                 "x": 6,
                 "y": 5
             },
+            "type": "timeseries",
             "options": {
                 "legend": {
                     "showLegend": false
@@ -283,13 +283,13 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "unit": "fahrenheit",
                     "custom": {
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10
-                    }
+                    },
+                    "unit": "fahrenheit"
                 }
             },
             "targets": [
@@ -302,7 +302,6 @@
             ]
         },
         {
-            "type": "stat",
             "title": "Living Room",
             "datasource": {
                 "type": "prometheus",
@@ -314,6 +313,7 @@
                 "x": 12,
                 "y": 0
             },
+            "type": "stat",
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -408,7 +408,6 @@
             ]
         },
         {
-            "type": "timeseries",
             "title": "Living Room Temperature History",
             "datasource": {
                 "type": "prometheus",
@@ -420,6 +419,7 @@
                 "x": 12,
                 "y": 5
             },
+            "type": "timeseries",
             "options": {
                 "legend": {
                     "showLegend": false
@@ -427,13 +427,13 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "unit": "fahrenheit",
                     "custom": {
                         "drawStyle": "line",
                         "lineInterpolation": "smooth",
                         "spanNulls": true,
                         "fillOpacity": 10
-                    }
+                    },
+                    "unit": "fahrenheit"
                 }
             },
             "targets": [
@@ -448,6 +448,11 @@
         {
             "name": "Rack Power",
             "entity_id": "rack_power_power",
+            "title": "Rack Power",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
             "gridPos": {
                 "h": 2,
                 "w": 6,
@@ -455,11 +460,6 @@
                 "y": 0
             },
             "type": "stat",
-            "title": "Rack Power",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -468,11 +468,13 @@
                     ],
                     "fields": ""
                 },
+                "orientation": "auto",
+                "textMode": "auto",
                 "graphMode": "area"
             },
             "fieldConfig": {
                 "defaults": {
-                    "unit": "watt",
+                    "mappings": [],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -489,8 +491,10 @@
                                 "value": 300
                             }
                         ]
-                    }
-                }
+                    },
+                    "unit": "watt"
+                },
+                "overrides": []
             },
             "targets": [
                 {
@@ -504,6 +508,11 @@
         {
             "name": "Media Power",
             "entity_id": "media_power_power",
+            "title": "Media Power",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
             "gridPos": {
                 "h": 2,
                 "w": 6,
@@ -511,11 +520,6 @@
                 "y": 2
             },
             "type": "stat",
-            "title": "Media Power",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -524,11 +528,13 @@
                     ],
                     "fields": ""
                 },
+                "orientation": "auto",
+                "textMode": "auto",
                 "graphMode": "area"
             },
             "fieldConfig": {
                 "defaults": {
-                    "unit": "watt",
+                    "mappings": [],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -545,8 +551,10 @@
                                 "value": 300
                             }
                         ]
-                    }
-                }
+                    },
+                    "unit": "watt"
+                },
+                "overrides": []
             },
             "targets": [
                 {
@@ -560,6 +568,11 @@
         {
             "name": "Desk Power",
             "entity_id": "desk_power_power",
+            "title": "Desk Power",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
             "gridPos": {
                 "h": 2,
                 "w": 6,
@@ -567,11 +580,6 @@
                 "y": 4
             },
             "type": "stat",
-            "title": "Desk Power",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -580,11 +588,13 @@
                     ],
                     "fields": ""
                 },
+                "orientation": "auto",
+                "textMode": "auto",
                 "graphMode": "area"
             },
             "fieldConfig": {
                 "defaults": {
-                    "unit": "watt",
+                    "mappings": [],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -601,8 +611,10 @@
                                 "value": 300
                             }
                         ]
-                    }
-                }
+                    },
+                    "unit": "watt"
+                },
+                "overrides": []
             },
             "targets": [
                 {
@@ -614,7 +626,6 @@
             ]
         },
         {
-            "type": "stat",
             "title": "Washing Machine",
             "datasource": {
                 "type": "prometheus",
@@ -626,6 +637,7 @@
                 "x": 18,
                 "y": 6
             },
+            "type": "stat",
             "options": {
                 "reduceOptions": {
                     "values": false,
@@ -634,6 +646,8 @@
                     ],
                     "fields": ""
                 },
+                "orientation": "auto",
+                "textMode": "auto",
                 "graphMode": "none"
             },
             "fieldConfig": {
@@ -653,7 +667,8 @@
                             }
                         }
                     ]
-                }
+                },
+                "overrides": []
             },
             "targets": [
                 {
