@@ -179,7 +179,8 @@
                         "fillOpacity": 10
                     },
                     "unit": "fahrenheit"
-                }
+                },
+                "overrides": []
             },
             "targets": [
                 {
@@ -353,7 +354,8 @@
                         "fillOpacity": 10
                     },
                     "unit": "fahrenheit"
-                }
+                },
+                "overrides": []
             },
             "targets": [
                 {
@@ -527,7 +529,8 @@
                         "fillOpacity": 10
                     },
                     "unit": "fahrenheit"
-                }
+                },
+                "overrides": []
             },
             "targets": [
                 {

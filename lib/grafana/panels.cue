@@ -33,14 +33,17 @@ package grafana
 	gridPos: {h: int, w: int, x: int, y: int}
 	type: "timeseries"
 	options: legend: showLegend: bool | *false
-	fieldConfig: defaults: {
-		custom: {
-			drawStyle:         "line"
-			lineInterpolation: "smooth"
-			spanNulls:         bool | *true
-			fillOpacity:       int | *10
+	fieldConfig: {
+		defaults: {
+			custom: {
+				drawStyle:         "line"
+				lineInterpolation: "smooth"
+				spanNulls:         bool | *true
+				fillOpacity:       int | *10
+			}
+			unit?: string
 		}
-		unit?: string
+		overrides: [...] | *[]
 	}
 	targets: [...#PromTarget]
 }
