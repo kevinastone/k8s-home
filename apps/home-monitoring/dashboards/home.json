@@ -595,7 +595,7 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"rack_power_power\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"rack_power_power\",__name__=~\".*_value\"}",
                     "legendFormat": "Rack Power",
                     "format": "time_series",
                     "instant": false
@@ -662,7 +662,7 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"media_power_power\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"media_power_power\",__name__=~\".*_value\"}",
                     "legendFormat": "Media Power",
                     "format": "time_series",
                     "instant": false
@@ -729,7 +729,7 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"desk_power_power\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"desk_power_power\",__name__=~\".*_value\"}",
                     "legendFormat": "Desk Power",
                     "format": "time_series",
                     "instant": false

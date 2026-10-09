@@ -130,7 +130,7 @@ import (
 		}
 		targets: [
 			grafana.#PromTarget & {
-				expr:         "last_over_time(\(_powerExpr)[24h])"
+				expr:         _powerExpr
 				legendFormat: name
 			},
 		]
