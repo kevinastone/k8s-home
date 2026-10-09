@@ -67,15 +67,15 @@ import (
 		}
 		targets: [
 			grafana.#PromTarget & {
-				expr:         "last_over_time(\(_tempExpr)[24h])"
+				expr:         _tempExpr
 				legendFormat: "Temperature"
 			},
 			grafana.#PromTarget & {
-				expr:         "last_over_time(\(_humidityExpr)[24h])"
+				expr:         _humidityExpr
 				legendFormat: "Humidity"
 			},
 			grafana.#PromTarget & {
-				expr:         "last_over_time(\(_pressureExpr)[24h])"
+				expr:         _pressureExpr
 				legendFormat: "Pressure"
 			},
 		]
@@ -167,7 +167,7 @@ let washerTile = grafana.#StatPanel & {
 	}
 	targets: [
 		grafana.#PromTarget & {
-			expr:         "last_over_time(\(washerExpr)[24h]) > bool 10"
+			expr:         "\(washerExpr) > bool 10"
 			legendFormat: "State"
 		},
 	]

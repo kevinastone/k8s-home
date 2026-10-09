@@ -130,19 +130,19 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "last_over_time({entity_id=\"bedroom_temperature_humidity\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"bedroom_temperature_humidity\",__name__=~\".*_value\"}",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "last_over_time({entity_id=\"bedroom_temperature_pressure\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"bedroom_temperature_pressure\",__name__=~\".*_value\"}",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -304,19 +304,19 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "last_over_time({entity_id=\"office_temperature_humidity\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"office_temperature_humidity\",__name__=~\".*_value\"}",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "last_over_time({entity_id=\"office_temperature_pressure\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"office_temperature_pressure\",__name__=~\".*_value\"}",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -478,19 +478,19 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "last_over_time({entity_id=\"living_room_temperature_humidity\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"living_room_temperature_humidity\",__name__=~\".*_value\"}",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "last_over_time({entity_id=\"living_room_temperature_pressure\",__name__=~\".*_value\"}[24h])",
+                    "expr": "{entity_id=\"living_room_temperature_pressure\",__name__=~\".*_value\"}",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -790,7 +790,7 @@
             },
             "targets": [
                 {
-                    "expr": "last_over_time({entity_id=\"laundry_power_power\",__name__=~\".*_value\"}[24h]) > bool 10",
+                    "expr": "{entity_id=\"laundry_power_power\",__name__=~\".*_value\"} > bool 10",
                     "legendFormat": "State",
                     "format": "time_series",
                     "instant": false
