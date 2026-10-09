@@ -87,19 +87,19 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "{entity_id=\"bedroom_temperature_humidity\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_humidity\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "{entity_id=\"bedroom_temperature_pressure\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_pressure\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -138,7 +138,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Bedroom",
                     "format": "time_series",
                     "instant": false
@@ -216,19 +216,19 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "{entity_id=\"office_temperature_humidity\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"office_temperature_humidity\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "{entity_id=\"office_temperature_pressure\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"office_temperature_pressure\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -267,7 +267,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Office",
                     "format": "time_series",
                     "instant": false
@@ -345,19 +345,19 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "{entity_id=\"living_room_temperature_humidity\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_humidity\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "{entity_id=\"living_room_temperature_pressure\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_pressure\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -396,7 +396,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Living Room",
                     "format": "time_series",
                     "instant": false

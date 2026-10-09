@@ -9,9 +9,9 @@ import (
 	room:   string
 	prefix: string
 
-	let _tempExpr = #"{entity_id="\#(R.prefix)_temperature",__name__=~".*_value"}"#
-	let _humidityExpr = #"{entity_id="\#(R.prefix)_humidity",__name__=~".*_value"}"#
-	let _pressureExpr = #"{entity_id="\#(R.prefix)_pressure",__name__=~".*_value"}"#
+	let _tempExpr = #"last_over_time({entity_id="\#(R.prefix)_temperature",__name__=~".*_value"}[2h])"#
+	let _humidityExpr = #"last_over_time({entity_id="\#(R.prefix)_humidity",__name__=~".*_value"}[2h])"#
+	let _pressureExpr = #"last_over_time({entity_id="\#(R.prefix)_pressure",__name__=~".*_value"}[2h])"#
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
 	statPanel: grafana.#StatPanel & {
