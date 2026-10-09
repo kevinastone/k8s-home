@@ -5,6 +5,7 @@ resources:
 - changedetection
 - dao-2048
 - home-assistant
+- home-monitoring
 - homepage
 - httpbox
 - isponsorblocktv

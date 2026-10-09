@@ -20,6 +20,14 @@
         pkgs = import nixpkgs { inherit system; };
         treefmtConfig = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
 
+        build-dashboards =
+          with pkgs;
+          writeShellApplication {
+            name = "build-dashboards";
+            runtimeInputs = [ cue ];
+            text = builtins.readFile ./scripts/build_dashboards.sh;
+          };
+
       in
       {
         formatter = treefmtConfig.config.build.wrapper;
@@ -33,6 +41,7 @@
             packages = [
               # keep-sorted start
               age
+              build-dashboards
               crane
               cue
               kubectl

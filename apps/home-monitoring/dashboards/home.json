@@ -1,0 +1,668 @@
+{
+    "title": "Home",
+    "uid": "home-overview",
+    "tags": [
+        "home",
+        "iot"
+    ],
+    "timezone": "browser",
+    "schemaVersion": 39,
+    "refresh": "30s",
+    "time": {
+        "from": "now-24h",
+        "to": "now"
+    },
+    "panels": [
+        {
+            "type": "stat",
+            "title": "Bedroom",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 0,
+                "y": 0
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "orientation": "horizontal",
+                "textMode": "value_and_name",
+                "graphMode": "area"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "blue",
+                                "value": null
+                            },
+                            {
+                                "color": "green",
+                                "value": 68
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Temperature"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "fahrenheit"
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Humidity"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "percent"
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Pressure"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "inHg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Temperature",
+                    "format": "time_series",
+                    "instant": false
+                },
+                {
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_humidity\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Humidity",
+                    "format": "time_series",
+                    "instant": false
+                },
+                {
+                    "expr": "last_over_time({entity_id=\"bedroom_temperature_pressure\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Pressure",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Bedroom Temperature History",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 0,
+                "y": 5
+            },
+            "options": {
+                "legend": {
+                    "showLegend": false
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "fahrenheit",
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    }
+                }
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}",
+                    "legendFormat": "Bedroom",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "type": "stat",
+            "title": "Office",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 6,
+                "y": 0
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "orientation": "horizontal",
+                "textMode": "value_and_name",
+                "graphMode": "area"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "blue",
+                                "value": null
+                            },
+                            {
+                                "color": "green",
+                                "value": 68
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Temperature"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "fahrenheit"
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Humidity"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "percent"
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Pressure"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "inHg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Temperature",
+                    "format": "time_series",
+                    "instant": false
+                },
+                {
+                    "expr": "last_over_time({entity_id=\"office_temperature_humidity\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Humidity",
+                    "format": "time_series",
+                    "instant": false
+                },
+                {
+                    "expr": "last_over_time({entity_id=\"office_temperature_pressure\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Pressure",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Office Temperature History",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 6,
+                "y": 5
+            },
+            "options": {
+                "legend": {
+                    "showLegend": false
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "fahrenheit",
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    }
+                }
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}",
+                    "legendFormat": "Office",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "type": "stat",
+            "title": "Living Room",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 12,
+                "y": 0
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "orientation": "horizontal",
+                "textMode": "value_and_name",
+                "graphMode": "area"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "blue",
+                                "value": null
+                            },
+                            {
+                                "color": "green",
+                                "value": 68
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Temperature"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "fahrenheit"
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Humidity"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "percent"
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Pressure"
+                        },
+                        "properties": [
+                            {
+                                "id": "unit",
+                                "value": "inHg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Temperature",
+                    "format": "time_series",
+                    "instant": false
+                },
+                {
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_humidity\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Humidity",
+                    "format": "time_series",
+                    "instant": false
+                },
+                {
+                    "expr": "last_over_time({entity_id=\"living_room_temperature_pressure\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Pressure",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Living Room Temperature History",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 12,
+                "y": 5
+            },
+            "options": {
+                "legend": {
+                    "showLegend": false
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "fahrenheit",
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    }
+                }
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}",
+                    "legendFormat": "Living Room",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "name": "Rack Power",
+            "entity_id": "rack_power_power",
+            "gridPos": {
+                "h": 2,
+                "w": 6,
+                "x": 18,
+                "y": 0
+            },
+            "type": "stat",
+            "title": "Rack Power",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "graphMode": "area"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "watt",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "orange",
+                                "value": 150
+                            },
+                            {
+                                "color": "red",
+                                "value": 300
+                            }
+                        ]
+                    }
+                }
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"rack_power_power\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Rack Power",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "name": "Media Power",
+            "entity_id": "media_power_power",
+            "gridPos": {
+                "h": 2,
+                "w": 6,
+                "x": 18,
+                "y": 2
+            },
+            "type": "stat",
+            "title": "Media Power",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "graphMode": "area"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "watt",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "orange",
+                                "value": 150
+                            },
+                            {
+                                "color": "red",
+                                "value": 300
+                            }
+                        ]
+                    }
+                }
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"media_power_power\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Media Power",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "name": "Desk Power",
+            "entity_id": "desk_power_power",
+            "gridPos": {
+                "h": 2,
+                "w": 6,
+                "x": 18,
+                "y": 4
+            },
+            "type": "stat",
+            "title": "Desk Power",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "graphMode": "area"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "watt",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "orange",
+                                "value": 150
+                            },
+                            {
+                                "color": "red",
+                                "value": 300
+                            }
+                        ]
+                    }
+                }
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"desk_power_power\",__name__=~\".*_value\"}[24h])",
+                    "legendFormat": "Desk Power",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        },
+        {
+            "type": "stat",
+            "title": "Washing Machine",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 6,
+                "x": 18,
+                "y": 6
+            },
+            "options": {
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "graphMode": "none"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [
+                        {
+                            "type": "value",
+                            "options": {
+                                "0": {
+                                    "text": "Idle",
+                                    "color": "text"
+                                },
+                                "1": {
+                                    "text": "Running",
+                                    "color": "blue"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "targets": [
+                {
+                    "expr": "last_over_time({entity_id=\"laundry_power_power\",__name__=~\".*_value\"}[24h]) > bool 10",
+                    "legendFormat": "State",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        }
+    ]
+}
