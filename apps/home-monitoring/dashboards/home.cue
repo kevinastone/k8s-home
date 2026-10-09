@@ -17,9 +17,9 @@ import (
 	let _x = x
 	let _y = y
 
-	let _tempExpr = "{entity_id=\"\(_prefix)_temperature\",__name__=~\".*_value\"}"
-	let _humidityExpr = "{entity_id=\"\(_prefix)_humidity\",__name__=~\".*_value\"}"
-	let _pressureExpr = "{entity_id=\"\(_prefix)_pressure\",__name__=~\".*_value\"}"
+	let _tempExpr = #"{entity_id="\#(_prefix)_temperature",__name__=~".*_value"}"#
+	let _humidityExpr = #"{entity_id="\#(_prefix)_humidity",__name__=~".*_value"}"#
+	let _pressureExpr = #"{entity_id="\#(_prefix)_pressure",__name__=~".*_value"}"#
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
 	statPanel: grafana.#StatPanel & {
@@ -109,7 +109,7 @@ import (
 	entity_id: string
 	gridPos: {h: int, w: int, x: int, y: int}
 
-	let _powerExpr = "{entity_id=\"\(entity_id)\",__name__=~\".*_value\"}"
+	let _powerExpr = #"{entity_id="\#(entity_id)",__name__=~".*_value"}"#
 
 	grafana.#StatPanel & {
 		title:     name
@@ -145,7 +145,7 @@ let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power",
 let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", gridPos: {h: 2, w: 6, x: 18, y: 2}}
 let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", gridPos: {h: 2, w: 6, x: 18, y: 4}}
 
-let washerExpr = "{entity_id=\"laundry_power_power\",__name__=~\".*_value\"}"
+let washerExpr = #"{entity_id="laundry_power_power",__name__=~".*_value"}"#
 
 let washerTile = grafana.#StatPanel & {
 	title: "Washing Machine"
