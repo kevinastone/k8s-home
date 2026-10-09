@@ -1,11 +1,46 @@
 package grafana
 
+import "encoding/json"
+
 // Base Prometheus Target
 #PromTarget: {
 	expr:         string
 	legendFormat: string | *""
 	format:       "time_series"
 	instant:      bool | *false
+}
+
+// Data Link Definition
+#DataLink: {
+	title:       string | *"View History in Explore"
+	url:         string
+	targetBlank: bool | *false
+}
+
+// Helper to construct an Explore link for Prometheus
+#ExploreLink: {
+	#expr:       string
+	title:       string | *"View History in Explore"
+	targetBlank: bool | *false
+
+	let _panes = {
+		left: {
+			datasource: "prometheus"
+			queries: [
+				{
+					expr:  #expr
+					refId: "A"
+					datasource: {type: "prometheus", uid: "prometheus"}
+				},
+			]
+			range: {
+				from: "now-24h"
+				to:   "now"
+			}
+		}
+	}
+
+	url: "/explore?schemaVersion=1&panes=\(json.Marshal(_panes))"
 }
 
 // Timeseries Graph Panel
@@ -42,6 +77,7 @@ package grafana
 	fieldConfig: {
 		defaults: {
 			mappings: [...] | *[]
+			links?: [...#DataLink]
 			thresholds?: {
 				mode: "absolute"
 				steps: [...]

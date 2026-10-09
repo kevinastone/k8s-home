@@ -69,6 +69,16 @@
                             {
                                 "id": "unit",
                                 "value": "fahrenheit"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Bedroom Temperature History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -81,6 +91,16 @@
                             {
                                 "id": "unit",
                                 "value": "percent"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Bedroom Humidity History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -93,6 +113,16 @@
                             {
                                 "id": "unit",
                                 "value": "inHg"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Bedroom Pressure History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -213,6 +243,16 @@
                             {
                                 "id": "unit",
                                 "value": "fahrenheit"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Office Temperature History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -225,6 +265,16 @@
                             {
                                 "id": "unit",
                                 "value": "percent"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Office Humidity History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -237,6 +287,16 @@
                             {
                                 "id": "unit",
                                 "value": "inHg"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Office Pressure History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -357,6 +417,16 @@
                             {
                                 "id": "unit",
                                 "value": "fahrenheit"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Living Room Temperature History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -369,6 +439,16 @@
                             {
                                 "id": "unit",
                                 "value": "percent"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Living Room Humidity History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -381,6 +461,16 @@
                             {
                                 "id": "unit",
                                 "value": "inHg"
+                            },
+                            {
+                                "id": "links",
+                                "value": [
+                                    {
+                                        "title": "Living Room Pressure History",
+                                        "targetBlank": false,
+                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -475,6 +565,13 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
+                    "links": [
+                        {
+                            "title": "Rack Power Power History",
+                            "targetBlank": false,
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"rack_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                        }
+                    ],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -535,6 +632,13 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
+                    "links": [
+                        {
+                            "title": "Media Power Power History",
+                            "targetBlank": false,
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"media_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                        }
+                    ],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -595,6 +699,13 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
+                    "links": [
+                        {
+                            "title": "Desk Power Power History",
+                            "targetBlank": false,
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"desk_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                        }
+                    ],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -652,6 +763,13 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "links": [
+                        {
+                            "title": "Laundry Power History",
+                            "targetBlank": false,
+                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"laundry_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"}}}"
+                        }
+                    ],
                     "mappings": [
                         {
                             "type": "value",
