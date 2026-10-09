@@ -66,47 +66,40 @@ import (
 	out: [statPanel, graphPanel]
 }
 
-// Reusable Power Device: Stat panel on top, dedicated trend graph directly below
+// Reusable Power Device: Stat panel with built-in area sparkline
 #PowerTile: P={
 	name:      string
 	entity_id: string
 
 	let _powerExpr = #"{entity_id="\#(P.entity_id)",__name__=~".*_value"}"#
 
-	// 1. Current Power Stat Panel
-	stat: grafana.#StatPanel & {
-		title: P.name
-		gridPos: {h: 2, w: 6}
-		options: {
-			graphMode: "none"
-			colorMode: "none"
-		}
-		fieldConfig: defaults: unit: "watt"
-		targets: [
-			grafana.#PromTarget & {expr: _powerExpr, legendFormat: P.name},
-		]
-	}
-
-	// 2. Trend Graph directly below the stat value (no title, no axis noise)
-	graph: grafana.#TimeSeriesPanel & {
+	out: grafana.#StatPanel & {
 		title: ""
-		gridPos: {h: 2, w: 6}
-		options: legend: showLegend: false
+		gridPos: {h: 4, w: 6}
+		options: {
+			orientation:            "auto"
+			textMode:               "value_and_name"
+			wideLayout:             true
+			colorMode:              "none"
+			graphMode:              "area"
+			justifyMode:            "auto"
+			showPercentChange:      false
+			percentChangeColorMode: "standard"
+		}
 		fieldConfig: defaults: {
 			unit: "watt"
-			custom: {
-				drawStyle:     "line"
-				spanNulls:     true
-				fillOpacity:   10
-				axisPlacement: "hidden"
+			color: mode: "palette-classic"
+			thresholds: {
+				mode: "absolute"
+				steps: [
+					{color: "green", value: null},
+				]
 			}
 		}
 		targets: [
 			grafana.#PromTarget & {expr: _powerExpr, legendFormat: P.name},
 		]
 	}
-
-	out: [stat, graph]
 }
 
 // Reusable Binary State Tile (e.g. appliances derived from power consumption)
@@ -162,9 +155,8 @@ let roomColumns = [for r in #Rooms {
 }]
 
 let powerColumn = [
-	for p in #PowerDevices
-	for panel in (#PowerTile & {name: p.name, entity_id: p.entity_id}).out {
-		panel
+	for p in #PowerDevices {
+		(#PowerTile & {name: p.name, entity_id: p.entity_id}).out
 	},
 	washerTile.out,
 ]

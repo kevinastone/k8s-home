@@ -51,20 +51,27 @@ package grafana
 	type: "stat"
 	options: {
 		reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
-		orientation: "horizontal" | "vertical" | "auto" | *"auto"
-		textMode:    "auto" | "value" | "value_and_name" | "name" | *"auto"
-		graphMode:   "none" | "area" | *"area"
-		colorMode?:  "value" | "background" | "none"
+		orientation:             "horizontal" | "vertical" | "auto" | *"auto"
+		textMode:                "auto" | "value" | "value_and_name" | "name" | *"auto"
+		graphMode:               "none" | "area" | *"area"
+		colorMode?:              "value" | "background" | "none"
+		wideLayout?:             bool
+		justifyMode?:            "auto" | "center"
+		showPercentChange?:      bool
+		percentChangeColorMode?: string
 	}
 	fieldConfig: {
 		defaults: {
 			mappings: [...] | *[]
 			links?: [...#DataLink]
 			thresholds?: {
-				mode: "absolute"
+				mode: "absolute" | "percentage"
 				steps: [...]
 			}
 			unit?: string
+			color?: {
+				mode: string
+			}
 		}
 		overrides: [...] | *[]
 	}

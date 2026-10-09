@@ -404,13 +404,13 @@
             ]
         },
         {
-            "title": "Rack Power",
+            "title": "",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
+                "h": 4,
                 "w": 6,
                 "x": 18,
                 "y": 0
@@ -425,13 +425,29 @@
                     "fields": ""
                 },
                 "orientation": "auto",
-                "textMode": "auto",
-                "graphMode": "none",
-                "colorMode": "none"
+                "textMode": "value_and_name",
+                "colorMode": "none",
+                "graphMode": "area",
+                "wideLayout": true,
+                "justifyMode": "auto",
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    },
                     "unit": "watt"
                 },
                 "overrides": []
@@ -452,47 +468,7 @@
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
-                "w": 6,
-                "x": 18,
-                "y": 2
-            },
-            "type": "timeseries",
-            "options": {
-                "legend": {
-                    "showLegend": false
-                }
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "custom": {
-                        "drawStyle": "line",
-                        "lineInterpolation": "smooth",
-                        "spanNulls": true,
-                        "fillOpacity": 10,
-                        "axisPlacement": "hidden"
-                    },
-                    "unit": "watt"
-                },
-                "overrides": []
-            },
-            "targets": [
-                {
-                    "expr": "{entity_id=\"rack_power_power\",__name__=~\".*_value\"}",
-                    "legendFormat": "Rack Power",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ]
-        },
-        {
-            "title": "Media Power",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 2,
+                "h": 4,
                 "w": 6,
                 "x": 18,
                 "y": 4
@@ -507,52 +483,28 @@
                     "fields": ""
                 },
                 "orientation": "auto",
-                "textMode": "auto",
-                "graphMode": "none",
-                "colorMode": "none"
+                "textMode": "value_and_name",
+                "colorMode": "none",
+                "graphMode": "area",
+                "wideLayout": true,
+                "justifyMode": "auto",
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "unit": "watt"
-                },
-                "overrides": []
-            },
-            "targets": [
-                {
-                    "expr": "{entity_id=\"media_power_power\",__name__=~\".*_value\"}",
-                    "legendFormat": "Media Power",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ]
-        },
-        {
-            "title": "",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 2,
-                "w": 6,
-                "x": 18,
-                "y": 6
-            },
-            "type": "timeseries",
-            "options": {
-                "legend": {
-                    "showLegend": false
-                }
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "custom": {
-                        "drawStyle": "line",
-                        "lineInterpolation": "smooth",
-                        "spanNulls": true,
-                        "fillOpacity": 10,
-                        "axisPlacement": "hidden"
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
                     },
                     "unit": "watt"
                 },
@@ -568,13 +520,13 @@
             ]
         },
         {
-            "title": "Desk Power",
+            "title": "",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
+                "h": 4,
                 "w": 6,
                 "x": 18,
                 "y": 8
@@ -589,52 +541,28 @@
                     "fields": ""
                 },
                 "orientation": "auto",
-                "textMode": "auto",
-                "graphMode": "none",
-                "colorMode": "none"
+                "textMode": "value_and_name",
+                "colorMode": "none",
+                "graphMode": "area",
+                "wideLayout": true,
+                "justifyMode": "auto",
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "unit": "watt"
-                },
-                "overrides": []
-            },
-            "targets": [
-                {
-                    "expr": "{entity_id=\"desk_power_power\",__name__=~\".*_value\"}",
-                    "legendFormat": "Desk Power",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ]
-        },
-        {
-            "title": "",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 2,
-                "w": 6,
-                "x": 18,
-                "y": 10
-            },
-            "type": "timeseries",
-            "options": {
-                "legend": {
-                    "showLegend": false
-                }
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "custom": {
-                        "drawStyle": "line",
-                        "lineInterpolation": "smooth",
-                        "spanNulls": true,
-                        "fillOpacity": 10,
-                        "axisPlacement": "hidden"
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
                     },
                     "unit": "watt"
                 },
