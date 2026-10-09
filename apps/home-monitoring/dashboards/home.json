@@ -544,7 +544,7 @@
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
+                "h": 3,
                 "w": 6,
                 "x": 18,
                 "y": 0
@@ -611,10 +611,10 @@
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
+                "h": 3,
                 "w": 6,
                 "x": 18,
-                "y": 2
+                "y": 3
             },
             "type": "stat",
             "options": {
@@ -678,10 +678,10 @@
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
+                "h": 3,
                 "w": 6,
                 "x": 18,
-                "y": 4
+                "y": 6
             },
             "type": "stat",
             "options": {
@@ -743,10 +743,10 @@
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 3,
+                "h": 2,
                 "w": 6,
                 "x": 18,
-                "y": 6
+                "y": 9
             },
             "type": "stat",
             "options": {

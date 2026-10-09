@@ -141,15 +141,15 @@ let bedroom = #RoomPanels & {room: "Bedroom", prefix: "bedroom_temperature", x: 
 let office = #RoomPanels & {room: "Office", prefix: "office_temperature", x: 6, y: 0}
 let living = #RoomPanels & {room: "Living Room", prefix: "living_room_temperature", x: 12, y: 0}
 
-let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power", gridPos: {h: 2, w: 6, x: 18, y: 0}}
-let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", gridPos: {h: 2, w: 6, x: 18, y: 2}}
-let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", gridPos: {h: 2, w: 6, x: 18, y: 4}}
+let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power", gridPos: {h: 3, w: 6, x: 18, y: 0}}
+let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", gridPos: {h: 3, w: 6, x: 18, y: 3}}
+let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", gridPos: {h: 3, w: 6, x: 18, y: 6}}
 
 let washerExpr = #"{entity_id="laundry_power_power",__name__=~".*_value"}"#
 
 let washerTile = grafana.#StatPanel & {
 	title: "Washing Machine"
-	gridPos: {h: 3, w: 6, x: 18, y: 6}
+	gridPos: {h: 2, w: 6, x: 18, y: 9}
 	options: graphMode: "none"
 	fieldConfig: defaults: {
 		links: [
