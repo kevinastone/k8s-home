@@ -155,22 +155,38 @@ import (
 	out: [stat, graph]
 }
 
-let bedroom = #RoomPanels & {room: "Bedroom", prefix: "bedroom_temperature", x: 0, y: 0}
-let office = #RoomPanels & {room: "Office", prefix: "office_temperature", x: 6, y: 0}
-let living = #RoomPanels & {room: "Living Room", prefix: "living_room_temperature", x: 12, y: 0}
+// Declarative definitions of rooms and monitored devices
+#Rooms: [
+	{name: "Bedroom", prefix: "bedroom_temperature"},
+	{name: "Office", prefix: "office_temperature"},
+	{name: "Living Room", prefix: "living_room_temperature"},
+]
 
-let rackPower = #PowerTile & {name: "Rack Power", entity_id: "rack_power_power", y: 0}
-let mediaPower = #PowerTile & {name: "Media Power", entity_id: "media_power_power", y: 4}
-let deskPower = #PowerTile & {name: "Desk Power", entity_id: "desk_power_power", y: 8}
+#PowerDevices: [
+	{name: "Rack Power", entity_id: "rack_power_power"},
+	{name: "Media Power", entity_id: "media_power_power"},
+	{name: "Desk Power", entity_id: "desk_power_power"},
+]
 
-let washerExpr = #"{entity_id="laundry_power_power",__name__=~".*_value"}"#
+// Reusable Binary State Tile (e.g. appliances derived from power consumption)
+#BinaryApplianceTile: {
+	name:      string
+	entity_id: string
+	threshold: number
+	x:         int | *18
+	y:         int
 
-let washerTile = grafana.#StatPanel & {
-	title: "Washing Machine"
-	gridPos: {h: 2, w: 6, x: 18, y: 12}
-	options: graphMode: "none"
-	fieldConfig: defaults: {
-		mappings: [
+	let _name = name
+	let _entity_id = entity_id
+	let _threshold = threshold
+	let _x = x
+	let _y = y
+
+	out: grafana.#StatPanel & {
+		title: _name
+		gridPos: {h: 2, w: 6, x: _x, y: _y}
+		options: graphMode: "none"
+		fieldConfig: defaults: mappings: [
 			{
 				type: "value"
 				options: {
@@ -179,13 +195,29 @@ let washerTile = grafana.#StatPanel & {
 				}
 			},
 		]
+		targets: [
+			grafana.#PromTarget & {
+				expr:         #"{entity_id="\#(_entity_id)",__name__=~".*_value"} > bool \#(_threshold)"#
+				legendFormat: "State"
+			},
+		]
 	}
-	targets: [
-		grafana.#PromTarget & {
-			expr:         "\(washerExpr) > bool 10"
-			legendFormat: "State"
-		},
-	]
+}
+
+let roomPanels = [for i, r in #Rooms {
+	(#RoomPanels & {room: r.name, prefix: r.prefix, x: i * 6, y: 0}).out
+}]
+
+let powerPanels = [for i, p in #PowerDevices {
+	(#PowerTile & {name: p.name, entity_id: p.entity_id, x: 18, y: i * 4}).out
+}]
+
+let washerTile = #BinaryApplianceTile & {
+	name:      "Washing Machine"
+	entity_id: "laundry_power_power"
+	threshold: 10
+	x:         18
+	y:         len(#PowerDevices) * 4
 }
 
 // Final Dashboard Output
@@ -193,13 +225,9 @@ out: grafana.#Dashboard & {
 	title: "Home"
 	uid:   "home-overview"
 	tags: ["home", "iot"]
-	panels: list.Concat([
-		bedroom.out,
-		office.out,
-		living.out,
-		rackPower.out,
-		mediaPower.out,
-		deskPower.out,
-		[washerTile],
-	])
+	panels: list.Concat(list.Concat([
+		roomPanels,
+		powerPanels,
+		[[washerTile.out]],
+	]))
 }
