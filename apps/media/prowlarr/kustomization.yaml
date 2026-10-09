@@ -6,11 +6,5 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - databases.yaml
+- terraform.yaml
 
-configMapGenerator:
-- name: prowlarr-provision-script
-  files:
-  - resources/provision.sh
-
-configurations:
-- kustomizeconfig.yaml

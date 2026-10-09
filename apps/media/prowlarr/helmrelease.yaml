@@ -50,17 +50,6 @@ spec:
                 name: postgres-app
             - secretRef:
                 name: prowlarr-secret
-            - secretRef:
-                name: nzbgeek-secret
-            - secretRef:
-                name: sabnzbd-secret
-            lifecycle:
-              postStart:
-                exec:
-                  command:
-                  - /bin/sh
-                  - -c
-                  - nohup /scripts/provision.sh "$api_key" >/tmp/provision.log 2>&1 &
             probes:
               liveness: &probes
                 enabled: true
@@ -105,16 +94,6 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /config
-      provision-script:
-        type: configMap
-        name: prowlarr-provision-script
-        defaultMode: 0755
-        advancedMounts:
-          main:
-            app:
-            - path: /scripts/provision.sh
-              subPath: provision.sh
-              readOnly: true
       tmp:
         type: emptyDir
         globalMounts:
