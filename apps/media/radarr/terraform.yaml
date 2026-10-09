@@ -21,7 +21,3 @@ spec:
     name: sabnzbd-secret
     varsKeys:
     - sabnzbd_api_key
-  - kind: Secret
-    name: nzbgeek-secret
-    varsKeys:
-    - NZBGEEK_API_KEY

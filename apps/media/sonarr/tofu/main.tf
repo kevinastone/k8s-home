@@ -27,14 +27,4 @@ resource "sonarr_download_client_qbittorrent" "qbittorrent" {
   remove_completed_downloads = true
 }
 
-resource "sonarr_indexer_newznab" "nzbgeek" {
-  name                      = "NZBGeek"
-  enable_rss                = true
-  enable_automatic_search   = true
-  enable_interactive_search = true
-  base_url                  = "https://api.nzbgeek.info"
-  api_path                  = "/api"
-  api_key                   = var.NZBGEEK_API_KEY
-  categories                = [5000, 5020, 5030, 5040, 5045]
-}
 

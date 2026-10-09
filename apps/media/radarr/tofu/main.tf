@@ -28,14 +28,3 @@ resource "radarr_download_client_qbittorrent" "qbittorrent" {
   remove_completed_downloads = true
 }
 
-resource "radarr_indexer_newznab" "nzbgeek" {
-  name                      = "NZBGeek"
-  enable_rss                = true
-  enable_automatic_search   = true
-  enable_interactive_search = true
-  base_url                  = "https://api.nzbgeek.info"
-  api_path                  = "/api"
-  api_key                   = var.NZBGEEK_API_KEY
-  categories                = [2000, 2010, 2020, 2030, 2040, 2045, 2050, 2060]
-  priority                  = 25
-}

@@ -33,3 +33,28 @@ variable "sabnzbd_api_key" {
   description = "SABnzbd API key"
   sensitive   = true
 }
+
+variable "radarr_url" {
+  type        = string
+  description = "Radarr API URL"
+  default     = "http://radarr:7878"
+}
+
+variable "radarr_api_key" {
+  type        = string
+  description = "Radarr API key"
+  sensitive   = true
+}
+
+variable "sonarr_url" {
+  type        = string
+  description = "Sonarr API URL"
+  default     = "http://sonarr:8989"
+}
+
+variable "sonarr_api_key" {
+  type        = string
+  description = "Sonarr API key"
+  sensitive   = true
+}
+

@@ -41,3 +41,20 @@ resource "prowlarr_download_client_sabnzbd" "sabnzbd" {
   api_key  = var.sabnzbd_api_key
   category = "*"
 }
+
+resource "prowlarr_application_radarr" "radarr" {
+  name         = "Radarr"
+  sync_level   = "fullSync"
+  base_url     = var.radarr_url
+  prowlarr_url = var.prowlarr_url
+  api_key      = var.radarr_api_key
+}
+
+resource "prowlarr_application_sonarr" "sonarr" {
+  name         = "Sonarr"
+  sync_level   = "fullSync"
+  base_url     = var.sonarr_url
+  prowlarr_url = var.prowlarr_url
+  api_key      = var.sonarr_api_key
+}
+

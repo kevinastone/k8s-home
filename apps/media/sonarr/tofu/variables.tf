@@ -41,11 +41,6 @@ variable "sabnzbd_tv_category" {
   default     = "tv"
 }
 
-variable "NZBGEEK_API_KEY" {
-  type        = string
-  description = "NZBGeek API key"
-  sensitive   = true
-}
 
 variable "qbittorrent_host" {
   type        = string
