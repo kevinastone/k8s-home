@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import io
 import pathlib
 import re
 import sys
@@ -12,12 +11,12 @@ import tomllib
 
 @dataclass
 class Dashboard:
-    datasource: t.Optional[dict | str] = None
+    datasource: dict | str | None = None
     url: str = ""
-    id: InitVar[t.Optional[int]] = None
+    id: InitVar[int | None] = None
     revision: InitVar[int] = 1
 
-    def __post_init__(self, id: t.Optional[int], revision: int):
+    def __post_init__(self, id: int | None, revision: int):
         if not self.url:
             if id:
                 # From https://github.com/grafana/helm-charts/blob/main/charts/grafana/templates/_config.tpl#L120
@@ -29,7 +28,7 @@ class Dashboard:
 def fetch(url: str, destination: pathlib.Path, datasource: t.Optional[dict | str] = None):
     print(f"Downloading {destination} from {url}")
     with (
-        io.open(destination, "w", encoding="utf-8") as output,
+        open(destination, "w", encoding="utf-8") as output,
         urllib.request.urlopen(url) as request,
     ):
         charset = request.info().get_content_charset()
