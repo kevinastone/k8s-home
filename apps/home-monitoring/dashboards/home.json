@@ -72,16 +72,6 @@
                             {
                                 "id": "unit",
                                 "value": "fahrenheit"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=bedroom_temperature_temperature&var-title=Bedroom Temperature&var-unit=fahrenheit",
-                                        "title": "Bedroom Temperature"
-                                    }
-                                ]
                             }
                         ]
                     },
@@ -94,16 +84,6 @@
                             {
                                 "id": "unit",
                                 "value": "percent"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=bedroom_temperature_humidity&var-title=Bedroom Humidity&var-unit=percent",
-                                        "title": "Bedroom Humidity"
-                                    }
-                                ]
                             }
                         ]
                     },
@@ -116,16 +96,6 @@
                             {
                                 "id": "unit",
                                 "value": "inHg"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=bedroom_temperature_pressure&var-title=Bedroom Pressure&var-unit=inHg",
-                                        "title": "Bedroom Pressure"
-                                    }
-                                ]
                             }
                         ]
                     }
@@ -247,16 +217,6 @@
                             {
                                 "id": "unit",
                                 "value": "fahrenheit"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=office_temperature_temperature&var-title=Office Temperature&var-unit=fahrenheit",
-                                        "title": "Office Temperature"
-                                    }
-                                ]
                             }
                         ]
                     },
@@ -269,16 +229,6 @@
                             {
                                 "id": "unit",
                                 "value": "percent"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=office_temperature_humidity&var-title=Office Humidity&var-unit=percent",
-                                        "title": "Office Humidity"
-                                    }
-                                ]
                             }
                         ]
                     },
@@ -291,16 +241,6 @@
                             {
                                 "id": "unit",
                                 "value": "inHg"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=office_temperature_pressure&var-title=Office Pressure&var-unit=inHg",
-                                        "title": "Office Pressure"
-                                    }
-                                ]
                             }
                         ]
                     }
@@ -422,16 +362,6 @@
                             {
                                 "id": "unit",
                                 "value": "fahrenheit"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=living_room_temperature_temperature&var-title=Living Room Temperature&var-unit=fahrenheit",
-                                        "title": "Living Room Temperature"
-                                    }
-                                ]
                             }
                         ]
                     },
@@ -444,16 +374,6 @@
                             {
                                 "id": "unit",
                                 "value": "percent"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=living_room_temperature_humidity&var-title=Living Room Humidity&var-unit=percent",
-                                        "title": "Living Room Humidity"
-                                    }
-                                ]
                             }
                         ]
                     },
@@ -466,16 +386,6 @@
                             {
                                 "id": "unit",
                                 "value": "inHg"
-                            },
-                            {
-                                "id": "links",
-                                "value": [
-                                    {
-                                        "targetBlank": false,
-                                        "url": "/d/home-history?var-entity=living_room_temperature_pressure&var-title=Living Room Pressure&var-unit=inHg",
-                                        "title": "Living Room Pressure"
-                                    }
-                                ]
                             }
                         ]
                     }
@@ -571,13 +481,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "links": [
-                        {
-                            "targetBlank": false,
-                            "title": "Rack Power",
-                            "url": "/d/home-history?var-entity=rack_power_power&var-title=Rack Power&var-unit=watt"
-                        }
-                    ],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -638,13 +541,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "links": [
-                        {
-                            "targetBlank": false,
-                            "title": "Media Power",
-                            "url": "/d/home-history?var-entity=media_power_power&var-title=Media Power&var-unit=watt"
-                        }
-                    ],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -705,13 +601,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "links": [
-                        {
-                            "targetBlank": false,
-                            "title": "Desk Power",
-                            "url": "/d/home-history?var-entity=desk_power_power&var-title=Desk Power&var-unit=watt"
-                        }
-                    ],
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -769,13 +658,6 @@
             },
             "fieldConfig": {
                 "defaults": {
-                    "links": [
-                        {
-                            "targetBlank": false,
-                            "title": "Laundry Power",
-                            "url": "/d/home-history?var-entity=laundry_power_power&var-title=Laundry Power&var-unit=watt"
-                        }
-                    ],
                     "mappings": [
                         {
                             "type": "value",

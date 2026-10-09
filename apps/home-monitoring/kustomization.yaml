@@ -11,11 +11,3 @@ configMapGenerator:
       grafana_dashboard: "true"
   files:
   - dashboards/home.json
-- name: home-monitoring-detail-dashboard
-  options:
-    labels:
-      grafana_dashboard: "true"
-    annotations:
-      grafana_folder: "Detail"
-  files:
-  - dashboards/history.json

@@ -44,24 +44,15 @@ import (
 			overrides: [
 				{
 					matcher: {id: "byName", options: "Temperature"}
-					properties: [
-						{id: "unit", value: "fahrenheit"},
-						{id: "links", value: [grafana.#HistoryLink & {#entity: "\(_prefix)_temperature", #title: "\(_room) Temperature", #unit: "fahrenheit"}]},
-					]
+					properties: [{id: "unit", value: "fahrenheit"}]
 				},
 				{
 					matcher: {id: "byName", options: "Humidity"}
-					properties: [
-						{id: "unit", value: "percent"},
-						{id: "links", value: [grafana.#HistoryLink & {#entity: "\(_prefix)_humidity", #title: "\(_room) Humidity", #unit: "percent"}]},
-					]
+					properties: [{id: "unit", value: "percent"}]
 				},
 				{
 					matcher: {id: "byName", options: "Pressure"}
-					properties: [
-						{id: "unit", value: "inHg"},
-						{id: "links", value: [grafana.#HistoryLink & {#entity: "\(_prefix)_pressure", #title: "\(_room) Pressure", #unit: "inHg"}]},
-					]
+					properties: [{id: "unit", value: "inHg"}]
 				},
 			]
 		}
@@ -116,9 +107,6 @@ import (
 		"gridPos": gridPos
 		fieldConfig: defaults: {
 			unit: "watt"
-			links: [
-				grafana.#HistoryLink & {#entity: entity_id, #title: name, #unit: "watt"},
-			]
 			thresholds: {
 				mode: "absolute"
 				steps: [
@@ -152,9 +140,6 @@ let washerTile = grafana.#StatPanel & {
 	gridPos: {h: 2, w: 6, x: 18, y: 9}
 	options: graphMode: "none"
 	fieldConfig: defaults: {
-		links: [
-			grafana.#HistoryLink & {#entity: "laundry_power_power", #title: "Laundry Power", #unit: "watt"},
-		]
 		mappings: [
 			{
 				type: "value"

@@ -15,17 +15,6 @@ package grafana
 	targetBlank: bool | *false
 }
 
-// History Link: links to the dedicated History dashboard with query variables
-#HistoryLink: {
-	#entity:     string
-	#title:      string | *"View History"
-	#unit:       string | *""
-	targetBlank: bool | *false
-
-	url:   "/d/home-history?var-entity=\(#entity)&var-title=\(#title)&var-unit=\(#unit)"
-	title: #title
-}
-
 // Timeseries Graph Panel
 #TimeSeriesPanel: {
 	title: string
