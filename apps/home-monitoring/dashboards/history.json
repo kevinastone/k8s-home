@@ -1,0 +1,95 @@
+{
+    "title": "Sensor History",
+    "uid": "home-history",
+    "tags": [
+        "home",
+        "iot"
+    ],
+    "timezone": "browser",
+    "schemaVersion": 39,
+    "refresh": "30s",
+    "time": {
+        "from": "now-24h",
+        "to": "now"
+    },
+    "templating": {
+        "list": [
+            {
+                "name": "entity",
+                "type": "textbox",
+                "label": "Entity",
+                "default": "bedroom_temperature_temperature",
+                "current": {
+                    "selected": false,
+                    "text": "bedroom_temperature_temperature",
+                    "value": "bedroom_temperature_temperature"
+                },
+                "hide": 2
+            },
+            {
+                "name": "title",
+                "type": "textbox",
+                "label": "Title",
+                "default": "Sensor",
+                "current": {
+                    "selected": false,
+                    "text": "Sensor",
+                    "value": "Sensor"
+                },
+                "hide": 2
+            },
+            {
+                "name": "unit",
+                "type": "textbox",
+                "label": "Unit",
+                "default": "",
+                "current": {
+                    "selected": false,
+                    "text": "",
+                    "value": ""
+                },
+                "hide": 2
+            }
+        ]
+    },
+    "panels": [
+        {
+            "title": "${title} History",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "gridPos": {
+                "h": 20,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "type": "timeseries",
+            "options": {
+                "legend": {
+                    "showLegend": true
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "spanNulls": true,
+                        "fillOpacity": 10
+                    },
+                    "unit": "${unit}"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "{entity_id=\"${entity}\",__name__=~\".*_value\"}",
+                    "legendFormat": "${title}",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ]
+        }
+    ]
+}

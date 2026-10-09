@@ -46,21 +46,21 @@ import (
 					matcher: {id: "byName", options: "Temperature"}
 					properties: [
 						{id: "unit", value: "fahrenheit"},
-						{id: "links", value: [grafana.#ExploreLink & {#expr: _tempExpr, title: "\(_room) Temperature History"}]},
+						{id: "links", value: [grafana.#HistoryLink & {#entity: "\(_prefix)_temperature", #title: "\(_room) Temperature", #unit: "fahrenheit"}]},
 					]
 				},
 				{
 					matcher: {id: "byName", options: "Humidity"}
 					properties: [
 						{id: "unit", value: "percent"},
-						{id: "links", value: [grafana.#ExploreLink & {#expr: _humidityExpr, title: "\(_room) Humidity History"}]},
+						{id: "links", value: [grafana.#HistoryLink & {#entity: "\(_prefix)_humidity", #title: "\(_room) Humidity", #unit: "percent"}]},
 					]
 				},
 				{
 					matcher: {id: "byName", options: "Pressure"}
 					properties: [
 						{id: "unit", value: "inHg"},
-						{id: "links", value: [grafana.#ExploreLink & {#expr: _pressureExpr, title: "\(_room) Pressure History"}]},
+						{id: "links", value: [grafana.#HistoryLink & {#entity: "\(_prefix)_pressure", #title: "\(_room) Pressure", #unit: "inHg"}]},
 					]
 				},
 			]
@@ -117,7 +117,7 @@ import (
 		fieldConfig: defaults: {
 			unit: "watt"
 			links: [
-				grafana.#ExploreLink & {#expr: _powerExpr, title: "\(name) Power History"},
+				grafana.#HistoryLink & {#entity: entity_id, #title: name, #unit: "watt"},
 			]
 			thresholds: {
 				mode: "absolute"
@@ -153,7 +153,7 @@ let washerTile = grafana.#StatPanel & {
 	options: graphMode: "none"
 	fieldConfig: defaults: {
 		links: [
-			grafana.#ExploreLink & {#expr: washerExpr, title: "Laundry Power History"},
+			grafana.#HistoryLink & {#entity: "laundry_power_power", #title: "Laundry Power", #unit: "watt"},
 		]
 		mappings: [
 			{

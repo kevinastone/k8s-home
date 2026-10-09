@@ -1,7 +1,5 @@
 package grafana
 
-import "encoding/json"
-
 // Base Prometheus Target
 #PromTarget: {
 	expr:         string
@@ -12,43 +10,20 @@ import "encoding/json"
 
 // Data Link Definition
 #DataLink: {
-	title:       string | *"View History in Explore"
+	title:       string
 	url:         string
 	targetBlank: bool | *false
 }
 
-// Helper to construct an Explore link for Prometheus
-#ExploreLink: {
-	#expr:       string
-	title:       string | *"View History in Explore"
+// History Link: links to the dedicated History dashboard with query variables
+#HistoryLink: {
+	#entity:     string
+	#title:      string | *"View History"
+	#unit:       string | *""
 	targetBlank: bool | *false
 
-	let _panes = {
-		left: {
-			datasource: "prometheus"
-			queries: [
-				{
-					expr:  #expr
-					refId: "A"
-					datasource: {type: "prometheus", uid: "prometheus"}
-				},
-			]
-			range: {
-				from: "now-24h"
-				to:   "now"
-			}
-			panelsState: {
-				trace: {
-					spanNulls: true
-				}
-				graph: {
-					spanNulls: true
-				}
-			}
-		}
-	}
-
-	url: "/explore?schemaVersion=1&panes=\(json.Marshal(_panes))"
+	url:   "/d/home-history?var-entity=\(#entity)&var-title=\(#title)&var-unit=\(#unit)"
+	title: #title
 }
 
 // Timeseries Graph Panel
@@ -108,6 +83,9 @@ import "encoding/json"
 	time: {
 		from: string | *"now-24h"
 		to:   string | *"now"
+	}
+	templating: {
+		list: [...] | *[]
 	}
 	panels: [...]
 }

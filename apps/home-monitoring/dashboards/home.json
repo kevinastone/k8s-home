@@ -12,6 +12,9 @@
         "from": "now-24h",
         "to": "now"
     },
+    "templating": {
+        "list": []
+    },
     "panels": [
         {
             "title": "Bedroom",
@@ -74,9 +77,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Bedroom Temperature History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=bedroom_temperature_temperature&var-title=Bedroom Temperature&var-unit=fahrenheit",
+                                        "title": "Bedroom Temperature"
                                     }
                                 ]
                             }
@@ -96,9 +99,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Bedroom Humidity History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=bedroom_temperature_humidity&var-title=Bedroom Humidity&var-unit=percent",
+                                        "title": "Bedroom Humidity"
                                     }
                                 ]
                             }
@@ -118,9 +121,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Bedroom Pressure History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"bedroom_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=bedroom_temperature_pressure&var-title=Bedroom Pressure&var-unit=inHg",
+                                        "title": "Bedroom Pressure"
                                     }
                                 ]
                             }
@@ -248,9 +251,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Office Temperature History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=office_temperature_temperature&var-title=Office Temperature&var-unit=fahrenheit",
+                                        "title": "Office Temperature"
                                     }
                                 ]
                             }
@@ -270,9 +273,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Office Humidity History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=office_temperature_humidity&var-title=Office Humidity&var-unit=percent",
+                                        "title": "Office Humidity"
                                     }
                                 ]
                             }
@@ -292,9 +295,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Office Pressure History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"office_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=office_temperature_pressure&var-title=Office Pressure&var-unit=inHg",
+                                        "title": "Office Pressure"
                                     }
                                 ]
                             }
@@ -422,9 +425,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Living Room Temperature History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_temperature\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=living_room_temperature_temperature&var-title=Living Room Temperature&var-unit=fahrenheit",
+                                        "title": "Living Room Temperature"
                                     }
                                 ]
                             }
@@ -444,9 +447,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Living Room Humidity History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_humidity\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=living_room_temperature_humidity&var-title=Living Room Humidity&var-unit=percent",
+                                        "title": "Living Room Humidity"
                                     }
                                 ]
                             }
@@ -466,9 +469,9 @@
                                 "id": "links",
                                 "value": [
                                     {
-                                        "title": "Living Room Pressure History",
                                         "targetBlank": false,
-                                        "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"living_room_temperature_pressure\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                                        "url": "/d/home-history?var-entity=living_room_temperature_pressure&var-title=Living Room Pressure&var-unit=inHg",
+                                        "title": "Living Room Pressure"
                                     }
                                 ]
                             }
@@ -567,9 +570,9 @@
                     "mappings": [],
                     "links": [
                         {
-                            "title": "Rack Power Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"rack_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                            "title": "Rack Power",
+                            "url": "/d/home-history?var-entity=rack_power_power&var-title=Rack Power&var-unit=watt"
                         }
                     ],
                     "thresholds": {
@@ -634,9 +637,9 @@
                     "mappings": [],
                     "links": [
                         {
-                            "title": "Media Power Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"media_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                            "title": "Media Power",
+                            "url": "/d/home-history?var-entity=media_power_power&var-title=Media Power&var-unit=watt"
                         }
                     ],
                     "thresholds": {
@@ -701,9 +704,9 @@
                     "mappings": [],
                     "links": [
                         {
-                            "title": "Desk Power Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"desk_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                            "title": "Desk Power",
+                            "url": "/d/home-history?var-entity=desk_power_power&var-title=Desk Power&var-unit=watt"
                         }
                     ],
                     "thresholds": {
@@ -765,9 +768,9 @@
                 "defaults": {
                     "links": [
                         {
-                            "title": "Laundry Power History",
                             "targetBlank": false,
-                            "url": "/explore?schemaVersion=1&panes={\"left\":{\"datasource\":\"prometheus\",\"queries\":[{\"expr\":\"{entity_id=\\\"laundry_power_power\\\",__name__=~\\\".*_value\\\"}\",\"refId\":\"A\",\"datasource\":{\"type\":\"prometheus\",\"uid\":\"prometheus\"}}],\"range\":{\"from\":\"now-24h\",\"to\":\"now\"},\"panelsState\":{\"trace\":{\"spanNulls\":true},\"graph\":{\"spanNulls\":true}}}}"
+                            "title": "Laundry Power",
+                            "url": "/d/home-history?var-entity=laundry_power_power&var-title=Laundry Power&var-unit=watt"
                         }
                     ],
                     "mappings": [

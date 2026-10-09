@@ -11,3 +11,4 @@ configMapGenerator:
       grafana_dashboard: "true"
   files:
   - dashboards/home.json
+  - dashboards/history.json
