@@ -15,14 +15,44 @@ package grafana
 	targetBlank: bool | *false
 }
 
+// Field Color Modes matching Grafana's canonical schema
+#FieldColorModeId:
+	"thresholds" |
+	"fixed" |
+	"shades" |
+	"palette-classic" |
+	"palette-classic-by-name" |
+	"palette-colorblind" |
+	"palette-categorical-next" |
+	"continuous-GrYlRd" |
+	"continuous-RdYlGr" |
+	"continuous-BlYlRd" |
+	"continuous-YlRd" |
+	"continuous-BlPu" |
+	"continuous-YlBl" |
+	"continuous-blues" |
+	"continuous-reds" |
+	"continuous-greens" |
+	"continuous-purples" |
+	"continuous-viridis" |
+	"continuous-magma" |
+	"continuous-plasma" |
+	"continuous-inferno" |
+	"continuous-cividis"
+
+// Field Color Definition
+#FieldColor: {
+	mode:        #FieldColorModeId
+	fixedColor?: string
+	seriesBy?:   "min" | "max" | "last"
+}
+
 // Common Field Config Defaults
 #FieldDefaults: {
 	unit?: string
 	mappings: [...] | *[]
 	links?: [...#DataLink]
-	color?: {
-		mode: string
-	}
+	color?: #FieldColor
 	thresholds?: {
 		mode: "absolute" | "percentage"
 		steps: [...]
