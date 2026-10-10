@@ -80,7 +80,7 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (telegraf_temp_temp)",
+                    "expr": "avg by(host) (telegraf_temp_temp{host=~\"$host\"})",
                     "legendFormat": "__auto",
                     "format": "time_series",
                     "instant": false
@@ -152,7 +152,7 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (telegraf_cpu_usage_active)",
+                    "expr": "avg by(host) (telegraf_cpu_usage_active{host=~\"$host\"})",
                     "legendFormat": "__auto",
                     "format": "time_series",
                     "instant": false
@@ -223,7 +223,7 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (telegraf_system_load1)",
+                    "expr": "avg by(host) (telegraf_system_load1{host=~\"$host\"})",
                     "legendFormat": "__auto",
                     "format": "time_series",
                     "instant": false
@@ -294,7 +294,7 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (telegraf_system_load5)",
+                    "expr": "avg by(host) (telegraf_system_load5{host=~\"$host\"})",
                     "legendFormat": "__auto",
                     "format": "time_series",
                     "instant": false
@@ -353,7 +353,7 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (telegraf_disk_used_percent)",
+                    "expr": "avg by(host) (telegraf_disk_used_percent{host=~\"$host\"})",
                     "legendFormat": "__auto",
                     "format": "time_series",
                     "instant": true
@@ -362,6 +362,28 @@
         }
     ],
     "refresh": false,
+    "templating": {
+        "list": [
+            {
+                "name": "host",
+                "type": "query",
+                "label": "Host",
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "query": {
+                    "query": "label_values({__name__=~\"telegraf_.*\"}, host)",
+                    "refId": "StandardVariableQuery"
+                },
+                "definition": "label_values({__name__=~\"telegraf_.*\"}, host)",
+                "refresh": 1,
+                "sort": 1,
+                "includeAll": true,
+                "multi": true
+            }
+        ]
+    },
     "time": {
         "from": "now-6h",
         "to": "now"

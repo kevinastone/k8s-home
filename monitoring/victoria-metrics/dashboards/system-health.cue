@@ -64,25 +64,25 @@ import (
 
 let cpuTemp = #HealthTimeseries & {
 	title: "CPU Temperature"
-	expr:  #"avg by(host) (telegraf_temp_temp)"#
+	expr:  #"avg by(host) (telegraf_temp_temp{host=~"$host"})"#
 	unit:  "celsius"
 }
 
 let cpuUsage = #HealthTimeseries & {
 	title: "CPU Usage"
-	expr:  #"avg by(host) (telegraf_cpu_usage_active)"#
+	expr:  #"avg by(host) (telegraf_cpu_usage_active{host=~"$host"})"#
 	unit:  "percent"
 }
 
 // Load
 let load1 = #HealthTimeseries & {
 	title: "Load 1"
-	expr:  #"avg by(host) (telegraf_system_load1)"#
+	expr:  #"avg by(host) (telegraf_system_load1{host=~"$host"})"#
 }
 
 let load5 = #HealthTimeseries & {
 	title: "Load 5"
-	expr:  #"avg by(host) (telegraf_system_load5)"#
+	expr:  #"avg by(host) (telegraf_system_load5{host=~"$host"})"#
 }
 
 // Disk Gauge
@@ -116,7 +116,7 @@ let diskGauge = grafana.#GaugePanel & {
 	}
 	targets: [
 		#HealthTarget & {
-			expr:    #"avg by(host) (telegraf_disk_used_percent)"#
+			expr:    #"avg by(host) (telegraf_disk_used_percent{host=~"$host"})"#
 			instant: true
 		},
 	]
@@ -137,5 +137,14 @@ out: grafana.#Dashboard & {
 	uid:     "system-health"
 	refresh: false
 	time: (grafana.#Last & {in: "6h"}).out
+	templating: list: [
+		grafana.#QueryVariable & {
+			name:  "host"
+			label: "Host"
+			query: query: #"label_values({__name__=~"telegraf_.*"}, host)"#
+			multi:      true
+			includeAll: true
+		},
+	]
 	panels: cpuSection.out
 }
