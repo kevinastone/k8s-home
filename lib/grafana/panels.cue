@@ -42,6 +42,20 @@ package grafana
 	targets: [...#PromTarget]
 }
 
+// Dashboard Link Definition
+#DashboardLink: {
+	title:       string
+	url:         string
+	tooltip?:    string
+	type:        "link" | *"link"
+	icon:        string | *"external link"
+	targetBlank: bool | *true
+	asDropdown:  bool | *false
+	includeVars: bool | *false
+	keepTime:    bool | *false
+	tags: [...string] | *[]
+}
+
 // Timeseries Graph Panel
 #TimeSeriesPanel: #BasePanel & {
 	type: "timeseries"
@@ -76,6 +90,48 @@ package grafana
 	}
 }
 
+// Alert List Panel
+#AlertListPanel: {
+	title: string | *""
+	gridPos: {h: int, w: int, x?: int, y?: int}
+	type: "alertlist"
+	options: {
+		viewMode:      "list" | "stat" | *"list"
+		groupMode:     "default" | "none" | *"default"
+		showInstances: bool | *true
+		maxItems:      int | *50
+		sortOrder:     int | *1
+		stateFilter: {
+			error:      bool | *true
+			firing:     bool | *true
+			pending:    bool | *true
+			noData:     bool | *false
+			normal:     bool | *false
+			recovering: bool | *false
+		}
+	}
+}
+
+// State Timeline Panel
+#StateTimelinePanel: #BasePanel & {
+	type: "state-timeline"
+	options: {
+		showValue:   "auto" | "always" | "never" | *"auto"
+		mergeValues: bool | *true
+		rowHeight:   number | *0.8
+		alignValue:  "left" | "center" | "right" | *"left"
+		tooltip: {
+			mode: "single" | "multi" | "none" | *"single"
+			sort: "none" | "asc" | "desc" | *"none"
+		}
+		legend: {
+			showLegend:  bool | *true
+			displayMode: "list" | "table" | "hidden" | *"list"
+			placement:   "bottom" | "right" | *"bottom"
+		}
+	}
+}
+
 // Dashboard Definition
 #Dashboard: {
 	title: string
@@ -88,6 +144,11 @@ package grafana
 		from: string | *"now-24h"
 		to:   string | *"now"
 	}
+	timepicker?: {
+		refresh_intervals: [...string]
+	}
+	liveNow?: bool
+	links?: [...#DashboardLink]
 	templating: {
 		list: [...] | *[]
 	}
