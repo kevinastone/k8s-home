@@ -1,10 +1,15 @@
 {
     "title": "UPS Monitoring",
     "uid": "network-ups-tools",
-    "schemaVersion": 39,
+    "refresh": "5s",
+    "time": {
+        "from": "now-30m",
+        "to": "now"
+    },
+    "schemaVersion": 42,
     "panels": [
         {
-            "title": "Device Info",
+            "type": "row",
             "collapsed": false,
             "gridPos": {
                 "h": 1,
@@ -12,23 +17,16 @@
                 "x": 0,
                 "y": 0
             },
-            "type": "row",
-            "panels": []
+            "id": 0,
+            "panels": [],
+            "title": "Device Info"
         },
         {
-            "title": "Manufacturer",
-            "transparent": true,
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 3,
-                "w": 8,
-                "x": 0,
-                "y": 1
-            },
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
@@ -50,6 +48,12 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 8,
+                "x": 0,
+                "y": 1
             },
             "options": {
                 "colorMode": "value",
@@ -75,22 +79,16 @@
                     "instant": true,
                     "legendFormat": "{{mfr}}"
                 }
-            ]
+            ],
+            "title": "Manufacturer",
+            "transparent": true
         },
         {
-            "title": "Model",
-            "transparent": true,
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 3,
-                "w": 16,
-                "x": 8,
-                "y": 1
-            },
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
@@ -112,6 +110,12 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 16,
+                "x": 8,
+                "y": 1
             },
             "options": {
                 "colorMode": "value",
@@ -137,10 +141,12 @@
                     "instant": true,
                     "legendFormat": "{{model}}"
                 }
-            ]
+            ],
+            "title": "Model",
+            "transparent": true
         },
         {
-            "title": "Status",
+            "type": "row",
             "collapsed": false,
             "gridPos": {
                 "h": 1,
@@ -148,24 +154,17 @@
                 "x": 0,
                 "y": 4
             },
-            "type": "row",
-            "panels": []
+            "id": 0,
+            "panels": [],
+            "title": "Status"
         },
         {
-            "title": "",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "description": " * OL - On line (mains is present)\n * OB - On battery (mains is not present)\n * LB - Low battery\n * HB - High battery\n * RB - The battery needs to be replaced\n * CHRG - The battery is charging\n * DISCHRG - The battery is discharging (inverter is providing load power)\n * BYPASS - UPS bypass circuit is active -- no battery protection is available\n * CAL - UPS is currently performing runtime calibration (on battery)\n * OFF - UPS is offline and is not supplying power to the load\n * OVER - UPS is overloaded\n * TRIM - UPS is trimming incoming voltage (called \"buck\" in some hardware)\n * BOOST - UPS is boosting incoming voltage\n * FSD and SD - Forced Shutdown",
-            "gridPos": {
-                "h": 3,
-                "w": 3,
-                "x": 0,
-                "y": 5
-            },
-            "transparent": true,
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -198,6 +197,12 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 3,
+                "w": 3,
+                "x": 0,
+                "y": 5
+            },
             "options": {
                 "colorMode": "value",
                 "graphMode": "none",
@@ -223,6 +228,7 @@
                     "legendFormat": "{{flag}}"
                 }
             ],
+            "title": "",
             "transformations": [
                 {
                     "id": "seriesToRows",
@@ -239,23 +245,16 @@
                         }
                     }
                 }
-            ]
+            ],
+            "transparent": true
         },
         {
-            "title": "Flags",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
             "description": " * OL - On line (mains is present)\n * OB - On battery (mains is not present)\n * LB - Low battery\n * HB - High battery\n * RB - The battery needs to be replaced\n * CHRG - The battery is charging\n * DISCHRG - The battery is discharging (inverter is providing load power)\n * BYPASS - UPS bypass circuit is active -- no battery protection is available\n * CAL - UPS is currently performing runtime calibration (on battery)\n * OFF - UPS is offline and is not supplying power to the load\n * OVER - UPS is overloaded\n * TRIM - UPS is trimming incoming voltage (called \"buck\" in some hardware)\n * BOOST - UPS is boosting incoming voltage\n * FSD and SD - Forced Shutdown",
-            "gridPos": {
-                "h": 3,
-                "w": 5,
-                "x": 3,
-                "y": 5
-            },
-            "transparent": true,
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -289,6 +288,12 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 3,
+                "w": 5,
+                "x": 3,
+                "y": 5
+            },
             "options": {
                 "colorMode": "value",
                 "graphMode": "none",
@@ -314,6 +319,7 @@
                     "legendFormat": "{{flag}}"
                 }
             ],
+            "title": "Flags",
             "transformations": [
                 {
                     "id": "seriesToRows",
@@ -330,22 +336,15 @@
                         }
                     }
                 }
-            ]
+            ],
+            "transparent": true
         },
         {
-            "title": "Battery Runtime",
-            "transparent": true,
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 3,
-                "w": 5,
-                "x": 8,
-                "y": 5
-            },
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "unit": "s",
@@ -369,6 +368,12 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 5,
+                "x": 8,
+                "y": 5
             },
             "options": {
                 "colorMode": "value",
@@ -394,22 +399,16 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Battery Runtime",
+            "transparent": true
         },
         {
-            "title": "Battery Charge",
-            "transparent": true,
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 3,
-                "w": 5,
-                "x": 13,
-                "y": 5
-            },
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "unit": "percent",
@@ -438,6 +437,12 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 3,
+                "w": 5,
+                "x": 13,
+                "y": 5
+            },
             "options": {
                 "colorMode": "value",
                 "graphMode": "none",
@@ -462,22 +467,16 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Battery Charge",
+            "transparent": true
         },
         {
-            "title": "Power Draw",
-            "transparent": true,
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 3,
-                "w": 6,
-                "x": 18,
-                "y": 5
-            },
-            "type": "stat",
             "fieldConfig": {
                 "defaults": {
                     "unit": "watt",
@@ -496,6 +495,12 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 6,
+                "x": 18,
+                "y": 5
             },
             "options": {
                 "colorMode": "value",
@@ -521,21 +526,16 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Power Draw",
+            "transparent": true
         },
         {
-            "title": "",
+            "type": "state-timeline",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 3,
-                "w": 24,
-                "x": 0,
-                "y": 8
-            },
-            "type": "state-timeline",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -580,15 +580,22 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 3,
+                "w": 24,
+                "x": 0,
+                "y": 8
+            },
             "options": {
                 "alignValue": "center",
                 "mergeValues": true,
                 "rowHeight": 0.9,
                 "showValue": "auto",
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "single",
@@ -603,6 +610,7 @@
                     "instant": false
                 }
             ],
+            "title": "",
             "transformations": [
                 {
                     "id": "seriesToRows",
@@ -622,7 +630,7 @@
             ]
         },
         {
-            "title": "Status Breakdown",
+            "type": "row",
             "collapsed": true,
             "gridPos": {
                 "h": 1,
@@ -630,21 +638,14 @@
                 "x": 0,
                 "y": 11
             },
-            "type": "row",
+            "id": 0,
             "panels": [
                 {
-                    "title": "",
+                    "type": "state-timeline",
                     "datasource": {
                         "type": "prometheus",
                         "uid": "prometheus"
                     },
-                    "gridPos": {
-                        "h": 7,
-                        "w": 24,
-                        "x": 0,
-                        "y": 0
-                    },
-                    "type": "state-timeline",
                     "fieldConfig": {
                         "defaults": {
                             "mappings": [],
@@ -674,15 +675,22 @@
                         },
                         "overrides": []
                     },
+                    "gridPos": {
+                        "h": 7,
+                        "w": 24,
+                        "x": 0,
+                        "y": 0
+                    },
                     "options": {
                         "alignValue": "left",
                         "mergeValues": true,
                         "rowHeight": 0.9,
                         "showValue": "never",
                         "legend": {
-                            "showLegend": false,
                             "displayMode": "list",
-                            "placement": "bottom"
+                            "placement": "bottom",
+                            "showLegend": false,
+                            "calcs": []
                         },
                         "tooltip": {
                             "mode": "single",
@@ -696,12 +704,14 @@
                             "format": "time_series",
                             "instant": false
                         }
-                    ]
+                    ],
+                    "title": ""
                 }
-            ]
+            ],
+            "title": "Status Breakdown"
         },
         {
-            "title": "Runtime",
+            "type": "row",
             "collapsed": false,
             "gridPos": {
                 "h": 1,
@@ -709,23 +719,16 @@
                 "x": 0,
                 "y": 12
             },
-            "type": "row",
-            "panels": []
+            "id": 0,
+            "panels": [],
+            "title": "Runtime"
         },
         {
-            "title": "Battery Charge",
-            "transparent": true,
+            "type": "gauge",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 3,
-                "x": 0,
-                "y": 13
-            },
-            "type": "gauge",
             "fieldConfig": {
                 "defaults": {
                     "unit": "percent",
@@ -759,20 +762,32 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 3,
+                "x": 0,
+                "y": 13
+            },
             "options": {
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "auto",
-                "showThresholdLabels": false,
-                "showThresholdMarkers": true,
-                "sizing": "auto",
                 "reduceOptions": {
                     "calcs": [
                         "last"
                     ],
                     "fields": "",
                     "values": false
-                }
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {}
             },
             "targets": [
                 {
@@ -781,22 +796,16 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Battery Charge",
+            "transparent": true
         },
         {
-            "title": "Battery Charge",
-            "transparent": true,
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 10,
-                "x": 3,
-                "y": 13
-            },
-            "type": "timeseries",
             "fieldConfig": {
                 "defaults": {
                     "unit": "percent",
@@ -836,11 +845,6 @@
                         "drawStyle": "line",
                         "fillOpacity": 50,
                         "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
                         "lineInterpolation": "linear",
                         "lineWidth": 1,
                         "pointSize": 5,
@@ -854,16 +858,28 @@
                         },
                         "thresholdsStyle": {
                             "mode": "area"
+                        },
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
                         }
                     }
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 10,
+                "x": 3,
+                "y": 13
+            },
             "options": {
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -877,22 +893,16 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Battery Charge",
+            "transparent": true
         },
         {
-            "title": "Battery Run Time Left",
-            "transparent": true,
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 11,
-                "x": 13,
-                "y": 13
-            },
-            "type": "timeseries",
             "fieldConfig": {
                 "defaults": {
                     "unit": "s",
@@ -927,11 +937,6 @@
                         "drawStyle": "line",
                         "fillOpacity": 50,
                         "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
                         "lineInterpolation": "linear",
                         "lineWidth": 1,
                         "pointSize": 5,
@@ -945,16 +950,28 @@
                         },
                         "thresholdsStyle": {
                             "mode": "area"
+                        },
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
                         }
                     }
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 11,
+                "x": 13,
+                "y": 13
+            },
             "options": {
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -968,10 +985,12 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Battery Run Time Left",
+            "transparent": true
         },
         {
-            "title": "Load",
+            "type": "row",
             "collapsed": false,
             "gridPos": {
                 "h": 1,
@@ -979,23 +998,16 @@
                 "x": 0,
                 "y": 19
             },
-            "type": "row",
-            "panels": []
+            "id": 0,
+            "panels": [],
+            "title": "Load"
         },
         {
-            "title": "Load",
-            "transparent": true,
+            "type": "gauge",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 3,
-                "x": 0,
-                "y": 20
-            },
-            "type": "gauge",
             "fieldConfig": {
                 "defaults": {
                     "unit": "percent",
@@ -1019,20 +1031,32 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 3,
+                "x": 0,
+                "y": 20
+            },
             "options": {
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "auto",
-                "showThresholdLabels": false,
-                "showThresholdMarkers": true,
-                "sizing": "auto",
                 "reduceOptions": {
                     "calcs": [
                         "lastNotNull"
                     ],
                     "fields": "",
                     "values": false
-                }
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {}
             },
             "targets": [
                 {
@@ -1041,22 +1065,16 @@
                     "instant": true,
                     "legendFormat": "__auto"
                 }
-            ]
+            ],
+            "title": "Load",
+            "transparent": true
         },
         {
-            "title": "Load",
-            "transparent": true,
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 10,
-                "x": 3,
-                "y": 20
-            },
-            "type": "timeseries",
             "fieldConfig": {
                 "defaults": {
                     "unit": "percent",
@@ -1087,11 +1105,6 @@
                         "drawStyle": "line",
                         "fillOpacity": 50,
                         "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
                         "lineInterpolation": "linear",
                         "lineWidth": 1,
                         "pointSize": 5,
@@ -1105,16 +1118,28 @@
                         },
                         "thresholdsStyle": {
                             "mode": "off"
+                        },
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
                         }
                     }
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 10,
+                "x": 3,
+                "y": 20
+            },
             "options": {
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1128,22 +1153,16 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Load",
+            "transparent": true
         },
         {
-            "title": "Power Usage",
-            "transparent": true,
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 11,
-                "x": 13,
-                "y": 20
-            },
-            "type": "timeseries",
             "fieldConfig": {
                 "defaults": {
                     "unit": "watt",
@@ -1168,11 +1187,6 @@
                         "drawStyle": "line",
                         "fillOpacity": 50,
                         "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
                         "lineInterpolation": "linear",
                         "lineWidth": 1,
                         "pointSize": 5,
@@ -1186,16 +1200,28 @@
                         },
                         "thresholdsStyle": {
                             "mode": "off"
+                        },
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
                         }
                     }
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 11,
+                "x": 13,
+                "y": 20
+            },
             "options": {
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1209,10 +1235,12 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Power Usage",
+            "transparent": true
         },
         {
-            "title": "Power Health",
+            "type": "row",
             "collapsed": false,
             "gridPos": {
                 "h": 1,
@@ -1220,23 +1248,16 @@
                 "x": 0,
                 "y": 26
             },
-            "type": "row",
-            "panels": []
+            "id": 0,
+            "panels": [],
+            "title": "Power Health"
         },
         {
-            "title": "Line Volts",
-            "transparent": true,
+            "type": "gauge",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 3,
-                "x": 0,
-                "y": 27
-            },
-            "type": "gauge",
             "fieldConfig": {
                 "defaults": {
                     "unit": "volt",
@@ -1267,20 +1288,32 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 3,
+                "x": 0,
+                "y": 27
+            },
             "options": {
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "auto",
-                "showThresholdLabels": false,
-                "showThresholdMarkers": true,
-                "sizing": "auto",
                 "reduceOptions": {
                     "calcs": [
                         "last"
                     ],
                     "fields": "",
                     "values": false
-                }
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {}
             },
             "targets": [
                 {
@@ -1289,22 +1322,16 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Line Volts",
+            "transparent": true
         },
         {
-            "title": "",
-            "transparent": true,
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 9,
-                "x": 3,
-                "y": 27
-            },
-            "type": "timeseries",
             "fieldConfig": {
                 "defaults": {
                     "unit": "volt",
@@ -1335,11 +1362,6 @@
                         "drawStyle": "line",
                         "fillOpacity": 50,
                         "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
                         "lineInterpolation": "linear",
                         "lineWidth": 1,
                         "pointSize": 5,
@@ -1353,16 +1375,28 @@
                         },
                         "thresholdsStyle": {
                             "mode": "off"
+                        },
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
                         }
                     }
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 9,
+                "x": 3,
+                "y": 27
+            },
             "options": {
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1376,22 +1410,16 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "",
+            "transparent": true
         },
         {
-            "title": "Battery Volts",
-            "transparent": true,
+            "type": "gauge",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 3,
-                "x": 12,
-                "y": 27
-            },
-            "type": "gauge",
             "fieldConfig": {
                 "defaults": {
                     "unit": "volt",
@@ -1432,20 +1460,32 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 3,
+                "x": 12,
+                "y": 27
+            },
             "options": {
                 "minVizHeight": 75,
                 "minVizWidth": 75,
                 "orientation": "horizontal",
-                "showThresholdLabels": false,
-                "showThresholdMarkers": true,
-                "sizing": "auto",
                 "reduceOptions": {
                     "calcs": [
                         "last"
                     ],
                     "fields": "",
                     "values": false
-                }
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {}
             },
             "targets": [
                 {
@@ -1454,22 +1494,16 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Battery Volts",
+            "transparent": true
         },
         {
-            "title": "",
-            "transparent": true,
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 6,
-                "w": 9,
-                "x": 15,
-                "y": 27
-            },
-            "type": "timeseries",
             "fieldConfig": {
                 "defaults": {
                     "unit": "volt",
@@ -1499,11 +1533,6 @@
                         "drawStyle": "line",
                         "fillOpacity": 50,
                         "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
                         "lineInterpolation": "linear",
                         "lineWidth": 1,
                         "pointSize": 5,
@@ -1517,16 +1546,28 @@
                         },
                         "thresholdsStyle": {
                             "mode": "off"
+                        },
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
                         }
                     }
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 6,
+                "w": 9,
+                "x": 15,
+                "y": 27
+            },
             "options": {
                 "legend": {
-                    "showLegend": false,
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1540,32 +1581,29 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "",
+            "transparent": true
         }
     ],
-    "refresh": "5s",
     "templating": {
         "list": [
             {
-                "name": "ups",
-                "type": "query",
-                "label": "UPS",
                 "datasource": {
                     "type": "prometheus",
                     "uid": "prometheus"
                 },
+                "definition": "label_values(network_ups_tools_device_info, ups)",
+                "label": "UPS",
+                "name": "ups",
                 "query": {
                     "query": "label_values(network_ups_tools_device_info, ups)",
                     "refId": "StandardVariableQuery"
                 },
-                "definition": "label_values(network_ups_tools_device_info, ups)",
                 "refresh": 1,
-                "sort": 1
+                "sort": 1,
+                "type": "query"
             }
         ]
-    },
-    "time": {
-        "from": "now-30m",
-        "to": "now"
     }
 }

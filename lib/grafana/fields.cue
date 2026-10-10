@@ -1,45 +1,19 @@
 package grafana
 
-// Field Color Modes matching Grafana's canonical schema
-#FieldColorModeId:
-	"thresholds" |
-	"fixed" |
-	"shades" |
-	"palette-classic" |
-	"palette-classic-by-name" |
-	"palette-colorblind" |
-	"palette-categorical-next" |
-	"continuous-GrYlRd" |
-	"continuous-RdYlGr" |
-	"continuous-BlYlRd" |
-	"continuous-YlRd" |
-	"continuous-BlPu" |
-	"continuous-YlBl" |
-	"continuous-blues" |
-	"continuous-reds" |
-	"continuous-greens" |
-	"continuous-purples" |
-	"continuous-viridis" |
-	"continuous-magma" |
-	"continuous-plasma" |
-	"continuous-inferno" |
-	"continuous-cividis"
+import (
+	dash "github.com/grafana/grafana/kinds/dashboard:kind"
+	"github.com/grafana/grafana/packages/grafana-schema/src/common"
+)
 
-// Field Color Definition
-#FieldColor: {
-	mode:        #FieldColorModeId
-	fixedColor?: string
-	seriesBy?:   "min" | "max" | "last"
-}
+#FieldColorModeId:  dash.lineage.schemas[0].schema.#FieldColorModeId
+#FieldColor:        dash.lineage.schemas[0].schema.#FieldColor
+#FieldConfig:       dash.lineage.schemas[0].schema.#FieldConfig
+#FieldConfigSource: dash.lineage.schemas[0].schema.#FieldConfigSource
+#GridPos:           dash.lineage.schemas[0].schema.#GridPos
+#ThresholdsConfig:  dash.lineage.schemas[0].schema.#ThresholdsConfig
+#ValueMapping:      dash.lineage.schemas[0].schema.#ValueMapping
+#MatcherConfig:     dash.lineage.schemas[0].schema.#MatcherConfig
 
-// Data Link Definition
-#DataLink: {
-	title:       string
-	url:         string
-	targetBlank: bool | *false
-}
-
-// Standard Grafana Field Reducer Calculations (ReducerID)
 #CalcId:
 	"last" |
 	"lastNotNull" |
@@ -61,26 +35,12 @@ package grafana
 	"allIsNull" |
 	"allIsZero"
 
-// Common Reduce Options for Stat, Gauge, Bar Gauge, etc.
-#ReduceOptions: {
-	values: bool | *false
-	calcs: [...#CalcId] | *["lastNotNull"]
-	fields: string | *""
+#ReduceOptions: common.ReduceDataOptions & {
+	values: *false | _
+	calcs: *["lastNotNull"] | _
+	fields: *"" | _
 }
 
-// Common Field Config Defaults
-#FieldDefaults: {
-	displayName?: string
-	unit?:        string
-	min?:         number
-	max?:         number
-	noValue?:     string
-	mappings: [...] | *[]
-	links?: [...#DataLink]
-	color?: #FieldColor
-	thresholds?: {
-		mode: "absolute" | "percentage"
-		steps: [...]
-	}
-	custom?: {...}
+#FieldDefaults: #FieldConfig & {
+	mappings: *[] | _
 }

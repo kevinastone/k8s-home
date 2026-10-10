@@ -1,33 +1,21 @@
 {
     "title": "Home",
     "uid": "home-overview",
-    "schemaVersion": 39,
+    "tags": [
+        "home",
+        "iot"
+    ],
+    "time": {
+        "from": "now-24h",
+        "to": "now"
+    },
+    "schemaVersion": 42,
     "panels": [
         {
-            "title": "Bedroom",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 5,
-                "w": 6,
-                "x": 0,
-                "y": 0
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "horizontal",
-                "textMode": "value_and_name",
-                "graphMode": "area",
-                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -71,6 +59,29 @@
                         ]
                     }
                 ]
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 0,
+                "y": 0
+            },
+            "options": {
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "value_and_name",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -91,25 +102,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Bedroom"
         },
         {
-            "title": "Bedroom Temperature History",
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 4,
-                "w": 6,
-                "x": 0,
-                "y": 5
-            },
-            "type": "timeseries",
-            "options": {
-                "legend": {
-                    "showLegend": false
-                }
             },
             "fieldConfig": {
                 "defaults": {
@@ -124,6 +124,24 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 0,
+                "y": 5
+            },
+            "options": {
+                "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
             "targets": [
                 {
                     "expr": "last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[2h])",
@@ -131,33 +149,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Bedroom Temperature History"
         },
         {
-            "title": "Office",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 5,
-                "w": 6,
-                "x": 6,
-                "y": 0
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "horizontal",
-                "textMode": "value_and_name",
-                "graphMode": "area",
-                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -201,6 +200,29 @@
                         ]
                     }
                 ]
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 6,
+                "y": 0
+            },
+            "options": {
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "value_and_name",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -221,25 +243,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Office"
         },
         {
-            "title": "Office Temperature History",
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 4,
-                "w": 6,
-                "x": 6,
-                "y": 5
-            },
-            "type": "timeseries",
-            "options": {
-                "legend": {
-                    "showLegend": false
-                }
             },
             "fieldConfig": {
                 "defaults": {
@@ -254,6 +265,24 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 6,
+                "y": 5
+            },
+            "options": {
+                "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
             "targets": [
                 {
                     "expr": "last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[2h])",
@@ -261,33 +290,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Office Temperature History"
         },
         {
-            "title": "Living Room",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 5,
-                "w": 6,
-                "x": 12,
-                "y": 0
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "horizontal",
-                "textMode": "value_and_name",
-                "graphMode": "area",
-                "colorMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -332,6 +342,29 @@
                     }
                 ]
             },
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 12,
+                "y": 0
+            },
+            "options": {
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "value_and_name",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
             "targets": [
                 {
                     "expr": "last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[2h])",
@@ -351,25 +384,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Living Room"
         },
         {
-            "title": "Living Room Temperature History",
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 4,
-                "w": 6,
-                "x": 12,
-                "y": 5
-            },
-            "type": "timeseries",
-            "options": {
-                "legend": {
-                    "showLegend": false
-                }
             },
             "fieldConfig": {
                 "defaults": {
@@ -384,6 +406,24 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 12,
+                "y": 5
+            },
+            "options": {
+                "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": false,
+                    "calcs": []
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
             "targets": [
                 {
                     "expr": "last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[2h])",
@@ -391,37 +431,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Living Room Temperature History"
         },
         {
-            "title": "",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 3,
-                "w": 6,
-                "x": 18,
-                "y": 0
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "auto",
-                "textMode": "value_and_name",
-                "colorMode": "none",
-                "graphMode": "area",
-                "wideLayout": true,
-                "justifyMode": "auto",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard"
             },
             "fieldConfig": {
                 "defaults": {
@@ -441,6 +458,29 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 6,
+                "x": 18,
+                "y": 0
+            },
+            "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "value_and_name",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -452,34 +492,10 @@
             ]
         },
         {
-            "title": "",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 3,
-                "w": 6,
-                "x": 18,
-                "y": 3
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "auto",
-                "textMode": "value_and_name",
-                "colorMode": "none",
-                "graphMode": "area",
-                "wideLayout": true,
-                "justifyMode": "auto",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard"
             },
             "fieldConfig": {
                 "defaults": {
@@ -499,6 +515,29 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 6,
+                "x": 18,
+                "y": 3
+            },
+            "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "value_and_name",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -510,34 +549,10 @@
             ]
         },
         {
-            "title": "",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 3,
-                "w": 6,
-                "x": 18,
-                "y": 6
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "auto",
-                "textMode": "value_and_name",
-                "colorMode": "none",
-                "graphMode": "area",
-                "wideLayout": true,
-                "justifyMode": "auto",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard"
             },
             "fieldConfig": {
                 "defaults": {
@@ -558,6 +573,29 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 3,
+                "w": 6,
+                "x": 18,
+                "y": 6
+            },
+            "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "value_and_name",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
             "targets": [
                 {
                     "expr": "last_over_time({entity_id=\"desk_power_power\",__name__=~\".*_value\"}[2h])",
@@ -568,29 +606,10 @@
             ]
         },
         {
-            "title": "Washing Machine",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 3,
-                "w": 6,
-                "x": 18,
-                "y": 9
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "auto",
-                "textMode": "auto",
-                "graphMode": "none"
             },
             "fieldConfig": {
                 "defaults": {
@@ -612,6 +631,29 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 3,
+                "w": 6,
+                "x": 18,
+                "y": 9
+            },
+            "options": {
+                "graphMode": "none",
+                "colorMode": "value",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "textMode": "auto",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
             "targets": [
                 {
                     "expr": "last_over_time({entity_id=\"laundry_power_power\",__name__=~\".*_value\"}[2h]) > bool 10",
@@ -619,15 +661,8 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Washing Machine"
         }
-    ],
-    "tags": [
-        "home",
-        "iot"
-    ],
-    "time": {
-        "from": "now-24h",
-        "to": "now"
-    }
+    ]
 }

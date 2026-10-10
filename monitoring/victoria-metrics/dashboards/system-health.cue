@@ -19,7 +19,6 @@ import (
 	out: grafana.#TimeSeriesPanel & {
 		title: H.title
 		options: {
-			alertThreshold: true
 			legend: {
 				calcs: []
 				displayMode: "list"
@@ -135,7 +134,7 @@ let cpuSection = grafana.#RowSection & {
 out: grafana.#Dashboard & {
 	title:   "System Health"
 	uid:     "system-health"
-	refresh: false
+	refresh: ""
 	time: (grafana.#Last & {in: "6h"}).out
 	templating: list: [
 		grafana.#QueryVariable & {

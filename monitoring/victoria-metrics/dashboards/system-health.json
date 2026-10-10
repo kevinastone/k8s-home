@@ -1,10 +1,15 @@
 {
     "title": "System Health",
     "uid": "system-health",
-    "schemaVersion": 39,
+    "refresh": "",
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "schemaVersion": 42,
     "panels": [
         {
-            "title": "CPU Usage",
+            "type": "row",
             "collapsed": false,
             "gridPos": {
                 "h": 1,
@@ -12,35 +17,15 @@
                 "x": 0,
                 "y": 0
             },
-            "type": "row",
-            "panels": []
+            "id": 0,
+            "panels": [],
+            "title": "CPU Usage"
         },
         {
-            "title": "CPU Temperature",
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 9,
-                "w": 12,
-                "x": 0,
-                "y": 1
-            },
-            "type": "timeseries",
-            "options": {
-                "alertThreshold": true,
-                "legend": {
-                    "calcs": [],
-                    "displayMode": "list",
-                    "placement": "bottom",
-                    "showLegend": true
-                },
-                "tooltip": {
-                    "hideZeros": false,
-                    "mode": "single",
-                    "sort": "none"
-                }
             },
             "fieldConfig": {
                 "defaults": {
@@ -78,30 +63,13 @@
                 },
                 "overrides": []
             },
-            "targets": [
-                {
-                    "expr": "avg by(host) (telegraf_temp_temp{host=~\"$host\"})",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ]
-        },
-        {
-            "title": "CPU Usage",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "gridPos": {
                 "h": 9,
                 "w": 12,
-                "x": 12,
+                "x": 0,
                 "y": 1
             },
-            "type": "timeseries",
             "options": {
-                "alertThreshold": true,
                 "legend": {
                     "calcs": [],
                     "displayMode": "list",
@@ -113,6 +81,22 @@
                     "mode": "single",
                     "sort": "none"
                 }
+            },
+            "targets": [
+                {
+                    "expr": "avg by(host) (telegraf_temp_temp{host=~\"$host\"})",
+                    "legendFormat": "__auto",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ],
+            "title": "CPU Temperature"
+        },
+        {
+            "type": "timeseries",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -150,30 +134,13 @@
                 },
                 "overrides": []
             },
-            "targets": [
-                {
-                    "expr": "avg by(host) (telegraf_cpu_usage_active{host=~\"$host\"})",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ]
-        },
-        {
-            "title": "Load 1",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "gridPos": {
                 "h": 9,
                 "w": 12,
-                "x": 0,
-                "y": 10
+                "x": 12,
+                "y": 1
             },
-            "type": "timeseries",
             "options": {
-                "alertThreshold": true,
                 "legend": {
                     "calcs": [],
                     "displayMode": "list",
@@ -185,6 +152,22 @@
                     "mode": "single",
                     "sort": "none"
                 }
+            },
+            "targets": [
+                {
+                    "expr": "avg by(host) (telegraf_cpu_usage_active{host=~\"$host\"})",
+                    "legendFormat": "__auto",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ],
+            "title": "CPU Usage"
+        },
+        {
+            "type": "timeseries",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -220,6 +203,25 @@
                     }
                 },
                 "overrides": []
+            },
+            "gridPos": {
+                "h": 9,
+                "w": 12,
+                "x": 0,
+                "y": 10
+            },
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
             },
             "targets": [
                 {
@@ -228,34 +230,14 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Load 1"
         },
         {
-            "title": "Load 5",
+            "type": "timeseries",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 9,
-                "w": 12,
-                "x": 12,
-                "y": 10
-            },
-            "type": "timeseries",
-            "options": {
-                "alertThreshold": true,
-                "legend": {
-                    "calcs": [],
-                    "displayMode": "list",
-                    "placement": "bottom",
-                    "showLegend": true
-                },
-                "tooltip": {
-                    "hideZeros": false,
-                    "mode": "single",
-                    "sort": "none"
-                }
             },
             "fieldConfig": {
                 "defaults": {
@@ -292,6 +274,25 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 9,
+                "w": 12,
+                "x": 12,
+                "y": 10
+            },
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
             "targets": [
                 {
                     "expr": "avg by(host) (telegraf_system_load5{host=~\"$host\"})",
@@ -299,21 +300,15 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Load 5"
         },
         {
-            "title": "Disk Used",
+            "type": "gauge",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 7,
-                "w": 24,
-                "x": 0,
-                "y": 19
-            },
-            "type": "gauge",
             "fieldConfig": {
                 "defaults": {
                     "unit": "percent",
@@ -336,20 +331,32 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 19
+            },
             "options": {
-                "orientation": "auto",
-                "showThresholdLabels": false,
-                "showThresholdMarkers": true,
-                "sizing": "auto",
                 "minVizHeight": 75,
                 "minVizWidth": 75,
+                "orientation": "auto",
                 "reduceOptions": {
                     "values": true,
                     "calcs": [
                         "last"
                     ],
                     "fields": ""
-                }
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {}
             },
             "targets": [
                 {
@@ -358,34 +365,30 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Disk Used"
         }
     ],
-    "refresh": false,
     "templating": {
         "list": [
             {
-                "name": "host",
-                "type": "query",
-                "label": "Host",
                 "datasource": {
                     "type": "prometheus",
                     "uid": "prometheus"
                 },
+                "definition": "label_values({__name__=~\"telegraf_.*\"}, host)",
+                "includeAll": true,
+                "label": "Host",
+                "multi": true,
+                "name": "host",
                 "query": {
                     "query": "label_values({__name__=~\"telegraf_.*\"}, host)",
                     "refId": "StandardVariableQuery"
                 },
-                "definition": "label_values({__name__=~\"telegraf_.*\"}, host)",
                 "refresh": 1,
                 "sort": 1,
-                "includeAll": true,
-                "multi": true
+                "type": "query"
             }
         ]
-    },
-    "time": {
-        "from": "now-6h",
-        "to": "now"
     }
 }

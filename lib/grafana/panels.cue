@@ -1,6 +1,23 @@
 package grafana
 
-// Base Prometheus Target
+import (
+	dash "github.com/grafana/grafana/kinds/dashboard:kind"
+	gaugePlugin "github.com/grafana/grafana/public/app/plugins/panel/gauge:grafanaplugin"
+	statPlugin "github.com/grafana/grafana/public/app/plugins/panel/stat:grafanaplugin"
+	stateTimelinePlugin "github.com/grafana/grafana/public/app/plugins/panel/state-timeline:grafanaplugin"
+	tsPlugin "github.com/grafana/grafana/public/app/plugins/panel/timeseries:grafanaplugin"
+)
+
+#Panel:                          dash.lineage.schemas[0].schema.#Panel
+#CanonicalTimeSeriesOptions:     tsPlugin.composableKinds.PanelCfg.lineage.schemas[0].schema.Options
+#CanonicalTimeSeriesFieldConfig: tsPlugin.composableKinds.PanelCfg.lineage.schemas[0].schema.FieldConfig
+
+#CanonicalStatOptions:  statPlugin.composableKinds.PanelCfg.lineage.schemas[0].schema.Options
+#CanonicalGaugeOptions: gaugePlugin.composableKinds.PanelCfg.lineage.schemas[0].schema.Options
+
+#CanonicalStateTimelineOptions:     stateTimelinePlugin.composableKinds.PanelCfg.lineage.schemas[0].schema.Options
+#CanonicalStateTimelineFieldConfig: stateTimelinePlugin.composableKinds.PanelCfg.lineage.schemas[0].schema.FieldConfig
+
 #PromTarget: {
 	expr:         string
 	legendFormat: string | *""
@@ -9,152 +26,101 @@ package grafana
 	datasource?: {type: string, uid: string}
 }
 
-// Common Viz Legend Options
-#LegendOptions: {
-	showLegend?:  bool
-	displayMode?: "list" | "table" | "hidden"
-	placement?:   "bottom" | "right"
-	calcs?: [...#CalcId]
-}
-
-// Common Viz Tooltip Options
-#TooltipOptions: {
-	mode?:      "single" | "multi" | "none"
-	sort?:      "none" | "asc" | "desc"
-	hideZeros?: bool
-}
-
-// Timeseries Panel Options
-#TimeSeriesOptions: {
-	alertThreshold?: bool
-	legend?:         #LegendOptions
-	tooltip?:        #TooltipOptions
-}
-
-// Base Panel Definition
-#BasePanel: {
-	title:        string | *""
-	description?: string
-	transparent?: bool
+#BasePanel: #Panel & {
+	title?: string | *""
 	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
-	gridPos: {h?: int, w?: int, x?: int, y?: int}
-	options?: {...}
-	fieldConfig: {
-		defaults: #FieldDefaults
-		overrides: [...] | *[]
-	}
-	targets: [...#PromTarget]
-	transformations?: [...]
+	fieldConfig?: defaults: #FieldDefaults
+	targets?: [...#PromTarget]
 }
 
-// Timeseries Graph Panel
 #TimeSeriesPanel: {
 	#BasePanel
 	type: "timeseries"
-	options: #TimeSeriesOptions & {
+	options: #CanonicalTimeSeriesOptions & {
 		legend: {
-			showLegend: bool | *false
+			showLegend:  *false | _
+			displayMode: *"list" | _
+			placement:   *"bottom" | _
+			calcs: *[] | _
+		}
+		tooltip: {
+			mode: *"single" | _
+			sort: *"none" | _
 		}
 	}
-	fieldConfig: defaults: custom: {
-		drawStyle:         string | *"line"
-		lineInterpolation: string | *"smooth"
-		spanNulls:         bool | int | *true
-		fillOpacity:       int | *10
-		hideFrom?: {
-			tooltip?: bool
-			legend?:  bool
-			viz?:     bool
-		}
-		axisPlacement?: "hidden" | "none" | "left" | "right" | "auto"
-		...
+	fieldConfig: defaults: custom: #CanonicalTimeSeriesFieldConfig & {
+		drawStyle:         *"line" | _
+		lineInterpolation: *"smooth" | _
+		spanNulls:         *true | _
+		fillOpacity:       *10 | _
 	}
 }
 
-// Stat Panel
 #StatPanel: {
 	#BasePanel
 	type: "stat"
-	options: {
-		reduceOptions:           #ReduceOptions
-		orientation:             "horizontal" | "vertical" | "auto" | *"auto"
-		textMode:                "auto" | "value" | "value_and_name" | "name" | *"auto"
-		graphMode:               "none" | "area" | *"area"
-		colorMode?:              "value" | "background" | "none"
-		wideLayout?:             bool
-		justifyMode?:            "auto" | "center"
-		showPercentChange?:      bool
-		percentChangeColorMode?: string
+	options: #CanonicalStatOptions & {
+		orientation:   *"auto" | _
+		reduceOptions: #ReduceOptions
 	}
 }
 
-// Alert List Panel
 #AlertListPanel: {
-	title: string | *""
-	gridPos: {h?: int, w?: int, x?: int, y?: int}
+	#BasePanel
 	type: "alertlist"
 	options: {
-		viewMode:      "list" | "stat" | *"list"
-		groupMode:     "default" | "none" | *"default"
-		showInstances: bool | *true
-		maxItems:      int | *50
-		sortOrder:     int | *1
+		viewMode:      *"list" | "stat"
+		groupMode:     *"default" | "none"
+		showInstances: *true | bool
+		maxItems:      *50 | int
+		sortOrder:     *1 | int
 		stateFilter: {
-			error:      bool | *true
-			firing:     bool | *true
-			pending:    bool | *true
-			noData:     bool | *false
-			normal:     bool | *false
-			recovering: bool | *false
+			error:      *true | bool
+			firing:     *true | bool
+			pending:    *true | bool
+			noData:     *false | bool
+			normal:     *false | bool
+			recovering: *false | bool
 		}
 	}
 }
 
-// State Timeline Panel
 #StateTimelinePanel: {
 	#BasePanel
 	type: "state-timeline"
-	options: {
-		showValue:   "auto" | "always" | "never" | *"auto"
-		mergeValues: bool | *true
-		rowHeight:   number | *0.8
-		alignValue:  "left" | "center" | "right" | *"left"
-		tooltip: #TooltipOptions & {
-			mode: "single" | "multi" | "none" | *"single"
-			sort: "none" | "asc" | "desc" | *"none"
+	options: #CanonicalStateTimelineOptions & {
+		tooltip: {
+			mode: *"single" | _
+			sort: *"none" | _
 		}
-		legend: #LegendOptions & {
-			showLegend:  bool | *true
-			displayMode: "list" | "table" | "hidden" | *"list"
-			placement:   "bottom" | "right" | *"bottom"
+		legend: {
+			showLegend:  *true | _
+			displayMode: *"list" | _
+			placement:   *"bottom" | _
+			calcs: *[] | _
 		}
 	}
 }
 
-// Gauge Panel
 #GaugePanel: {
 	#BasePanel
 	type: "gauge"
-	options: {
-		orientation:          "auto" | "horizontal" | "vertical" | *"auto"
-		showThresholdLabels:  bool | *false
-		showThresholdMarkers: bool | *true
-		sizing:               "auto" | "manual" | *"auto"
-		minVizHeight?:        int
-		minVizWidth?:         int
+	options: #CanonicalGaugeOptions & {
+		orientation: *"auto" | _
 		reduceOptions: {
-			values: bool | *true
-			calcs: [...#CalcId] | *["last"]
-			fields: string | *""
+			values: *true | _
+			calcs: *["last"] | _
+			fields: *"" | _
 		}
 	}
 }
 
-// Row Panel
-#RowPanel: {
-	title: string
-	gridPos: {h: 1, w: 24, x?: int, y?: int}
-	type:      "row"
-	collapsed: bool | *false
-	panels: [...] | *[]
+#RowPanel: dash.lineage.schemas[0].schema.#RowPanel & {
+	id:        *0 | uint32
+	collapsed: *false | _
+	panels: *[] | _
+	gridPos: {
+		h: *1 | _
+		w: *24 | _
+	}
 }

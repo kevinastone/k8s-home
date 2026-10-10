@@ -47,10 +47,16 @@ import "list"
 			let autoWidth = div(24, numPanels)
 			[
 				for p in r {
+					let _w = p.gridPos.w
+					let _h = p.gridPos.h
 					p & {
 						gridPos: {
-							h: *defaultHeight | int
-							w: *autoWidth | int
+							if _w == _|_ {
+								w: autoWidth
+							}
+							if _h == _|_ {
+								h: defaultHeight
+							}
 						}
 					}
 				},

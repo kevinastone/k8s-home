@@ -1,54 +1,71 @@
 {
     "title": "Alerts Single-Pane Overview",
     "uid": "alerts-single-pane",
-    "schemaVersion": 39,
+    "tags": [
+        "alerts",
+        "alertmanager",
+        "victoria-metrics"
+    ],
+    "liveNow": true,
+    "refresh": "10s",
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {
+        "refresh_intervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m"
+        ]
+    },
+    "schemaVersion": 42,
     "links": [
         {
             "title": "Alertmanager Silences",
-            "tooltip": "Manage or create Alertmanager silences",
             "type": "link",
-            "url": "/alerting/silences?alertmanager=Alertmanager"
+            "icon": "",
+            "tooltip": "Manage or create Alertmanager silences",
+            "url": "/alerting/silences?alertmanager=Alertmanager",
+            "tags": [],
+            "asDropdown": false,
+            "targetBlank": false,
+            "includeVars": false,
+            "keepTime": false
         },
         {
             "title": "Alert Groups",
-            "tooltip": "View grouped alerts in Alertmanager",
             "type": "link",
-            "url": "/alerting/groups?alertmanager=Alertmanager"
+            "icon": "",
+            "tooltip": "View grouped alerts in Alertmanager",
+            "url": "/alerting/groups?alertmanager=Alertmanager",
+            "tags": [],
+            "asDropdown": false,
+            "targetBlank": false,
+            "includeVars": false,
+            "keepTime": false
         },
         {
             "title": "Notification Policies",
-            "tooltip": "View Alertmanager routing tree",
             "type": "link",
-            "url": "/alerting/routes?alertmanager=Alertmanager"
+            "icon": "",
+            "tooltip": "View Alertmanager routing tree",
+            "url": "/alerting/routes?alertmanager=Alertmanager",
+            "tags": [],
+            "asDropdown": false,
+            "targetBlank": false,
+            "includeVars": false,
+            "keepTime": false
         }
     ],
-    "liveNow": true,
     "panels": [
         {
-            "title": "Critical Alerts",
+            "type": "stat",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 4,
-                "w": 6,
-                "x": 0,
-                "y": 0
-            },
-            "type": "stat",
-            "options": {
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "orientation": "auto",
-                "textMode": "auto",
-                "graphMode": "none",
-                "colorMode": "background"
             },
             "fieldConfig": {
                 "defaults": {
@@ -73,29 +90,14 @@
                 },
                 "overrides": []
             },
-            "targets": [
-                {
-                    "expr": "count(ALERTS{alertstate=\"firing\", severity=\"critical\"}) or vector(0)",
-                    "legendFormat": "Critical",
-                    "format": "time_series",
-                    "instant": true
-                }
-            ]
-        },
-        {
-            "title": "Warning Alerts",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "gridPos": {
                 "h": 4,
                 "w": 6,
-                "x": 6,
+                "x": 0,
                 "y": 0
             },
-            "type": "stat",
             "options": {
+                "orientation": "auto",
                 "reduceOptions": {
                     "values": false,
                     "calcs": [
@@ -103,10 +105,29 @@
                     ],
                     "fields": ""
                 },
-                "orientation": "auto",
-                "textMode": "auto",
+                "colorMode": "background",
                 "graphMode": "none",
-                "colorMode": "background"
+                "justifyMode": "auto",
+                "textMode": "auto",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
+            "targets": [
+                {
+                    "expr": "count(ALERTS{alertstate=\"firing\", severity=\"critical\"}) or vector(0)",
+                    "legendFormat": "Critical",
+                    "format": "time_series",
+                    "instant": true
+                }
+            ],
+            "title": "Critical Alerts"
+        },
+        {
+            "type": "stat",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -131,29 +152,14 @@
                 },
                 "overrides": []
             },
-            "targets": [
-                {
-                    "expr": "count(ALERTS{alertstate=\"firing\", severity=\"warning\"}) or vector(0)",
-                    "legendFormat": "Warning",
-                    "format": "time_series",
-                    "instant": true
-                }
-            ]
-        },
-        {
-            "title": "Total Firing Alerts",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "gridPos": {
                 "h": 4,
                 "w": 6,
-                "x": 12,
+                "x": 6,
                 "y": 0
             },
-            "type": "stat",
             "options": {
+                "orientation": "auto",
                 "reduceOptions": {
                     "values": false,
                     "calcs": [
@@ -161,10 +167,29 @@
                     ],
                     "fields": ""
                 },
-                "orientation": "auto",
-                "textMode": "auto",
+                "colorMode": "background",
                 "graphMode": "none",
-                "colorMode": "background"
+                "justifyMode": "auto",
+                "textMode": "auto",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
+            "targets": [
+                {
+                    "expr": "count(ALERTS{alertstate=\"firing\", severity=\"warning\"}) or vector(0)",
+                    "legendFormat": "Warning",
+                    "format": "time_series",
+                    "instant": true
+                }
+            ],
+            "title": "Warning Alerts"
+        },
+        {
+            "type": "stat",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -192,29 +217,14 @@
                 },
                 "overrides": []
             },
-            "targets": [
-                {
-                    "expr": "count(ALERTS{alertstate=\"firing\"}) or vector(0)",
-                    "legendFormat": "Firing",
-                    "format": "time_series",
-                    "instant": true
-                }
-            ]
-        },
-        {
-            "title": "Pending Alerts",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
             "gridPos": {
                 "h": 4,
                 "w": 6,
-                "x": 18,
+                "x": 12,
                 "y": 0
             },
-            "type": "stat",
             "options": {
+                "orientation": "auto",
                 "reduceOptions": {
                     "values": false,
                     "calcs": [
@@ -222,10 +232,29 @@
                     ],
                     "fields": ""
                 },
-                "orientation": "auto",
-                "textMode": "auto",
+                "colorMode": "background",
                 "graphMode": "none",
-                "colorMode": "background"
+                "justifyMode": "auto",
+                "textMode": "auto",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
+            "targets": [
+                {
+                    "expr": "count(ALERTS{alertstate=\"firing\"}) or vector(0)",
+                    "legendFormat": "Firing",
+                    "format": "time_series",
+                    "instant": true
+                }
+            ],
+            "title": "Total Firing Alerts"
+        },
+        {
+            "type": "stat",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -250,6 +279,29 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 18,
+                "y": 0
+            },
+            "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "textMode": "auto",
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
+            },
             "targets": [
                 {
                     "expr": "count(ALERTS{alertstate=\"pending\"}) or vector(0)",
@@ -257,17 +309,21 @@
                     "format": "time_series",
                     "instant": true
                 }
-            ]
+            ],
+            "title": "Pending Alerts"
         },
         {
-            "title": "Active & Firing Alerts",
+            "type": "alertlist",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
             "gridPos": {
                 "h": 12,
                 "w": 24,
                 "x": 0,
                 "y": 4
             },
-            "type": "alertlist",
             "options": {
                 "viewMode": "list",
                 "groupMode": "default",
@@ -282,35 +338,14 @@
                     "normal": false,
                     "recovering": false
                 }
-            }
+            },
+            "title": "Active & Firing Alerts"
         },
         {
-            "title": "Alert Timeline (Last 24 Hours)",
+            "type": "state-timeline",
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
-            },
-            "gridPos": {
-                "h": 8,
-                "w": 24,
-                "x": 0,
-                "y": 16
-            },
-            "type": "state-timeline",
-            "options": {
-                "showValue": "auto",
-                "mergeValues": true,
-                "rowHeight": 0.8,
-                "alignValue": "left",
-                "tooltip": {
-                    "mode": "single",
-                    "sort": "none"
-                },
-                "legend": {
-                    "showLegend": true,
-                    "displayMode": "list",
-                    "placement": "bottom"
-                }
             },
             "fieldConfig": {
                 "defaults": {
@@ -341,6 +376,26 @@
                 },
                 "overrides": []
             },
+            "gridPos": {
+                "h": 8,
+                "w": 24,
+                "x": 0,
+                "y": 16
+            },
+            "options": {
+                "showValue": "auto",
+                "rowHeight": 0.9,
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true,
+                    "calcs": []
+                }
+            },
             "targets": [
                 {
                     "expr": "ALERTS{alertstate=\"firing\"}",
@@ -348,26 +403,8 @@
                     "format": "time_series",
                     "instant": false
                 }
-            ]
+            ],
+            "title": "Alert Timeline (Last 24 Hours)"
         }
-    ],
-    "refresh": "10s",
-    "tags": [
-        "alerts",
-        "alertmanager",
-        "victoria-metrics"
-    ],
-    "time": {
-        "from": "now-6h",
-        "to": "now"
-    },
-    "timepicker": {
-        "refresh_intervals": [
-            "5s",
-            "10s",
-            "30s",
-            "1m",
-            "5m"
-        ]
-    }
+    ]
 }
