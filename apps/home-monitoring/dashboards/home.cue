@@ -109,7 +109,7 @@ import (
 
 	out: grafana.#StatPanel & {
 		title: T.name
-		gridPos: {h: 2, w: 6}
+		gridPos: {h: 3, w: 6}
 		options: graphMode: "none"
 		fieldConfig: defaults: mappings: [
 			{

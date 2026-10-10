@@ -587,7 +587,7 @@
                 "uid": "prometheus"
             },
             "gridPos": {
-                "h": 2,
+                "h": 3,
                 "w": 6,
                 "x": 18,
                 "y": 12
