@@ -33,6 +33,14 @@ Grafana dashboards modeled in CUE must be compiled to JSON whenever `.cue` files
 nix develop --command build-dashboards <path-to-dashboards-dir>
 ```
 
+### Running CUE Schema Tests Locally
+
+To run unit tests and constraint validation for the Grafana CUE library:
+
+```bash
+nix develop --command cue vet -c ./lib/grafana/
+```
+
 ### Running OPA Tests Locally
 
 To run the OPA policy tests locally via the Nix development shell:

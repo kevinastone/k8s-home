@@ -48,6 +48,18 @@ Whenever you update or add `.cue` dashboard templates, re-generate the JSON dash
    cue export path/to/dashboard.cue -e out --out json > path/to/dashboard.json
    ```
 
+### Running Schema & Layout Tests
+
+To run unit tests and constraint validation for the Grafana CUE library:
+
+```bash
+# Via Nix development shell (or direnv)
+cue vet -c ./lib/grafana/
+
+# Or without active shell
+nix develop --command cue vet -c ./lib/grafana/
+```
+
 Remember to format all modified files before committing:
 
 ```bash

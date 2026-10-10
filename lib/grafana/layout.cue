@@ -35,6 +35,7 @@ import "list"
 // The x and y offsets are computed automatically based on row heights and panel widths.
 #LayoutRows: {
 	rows: [...[...{
+		_w?: int
 		gridPos?: {h?: int, w?: int, x?: int, y?: int, ...}
 		...
 	}]]
@@ -47,13 +48,12 @@ import "list"
 			let autoWidth = div(24, numPanels)
 			[
 				for p in r {
-					let _w = p.gridPos.w
+					let _explicitW = [if p._w != _|_ {p._w}, if p.gridPos.w != _|_ && p.gridPos.w != 12 {p.gridPos.w}][0]
+					let _finalW = [if _explicitW != _|_ {_explicitW}, autoWidth][0]
 					let _h = p.gridPos.h
 					p & {
 						gridPos: {
-							if _w == _|_ {
-								w: autoWidth
-							}
+							w: _finalW
 							if _h == _|_ {
 								h: defaultHeight
 							}
