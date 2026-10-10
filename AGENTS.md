@@ -25,6 +25,14 @@ This repository uses `treefmt` via Nix to enforce style consistency across files
 
 - **Rule:** AI agents and developers must format all modified files using `nix fmt` in the repository root before staging or committing changes.
 
+### Building Grafana Dashboards (`build-dashboards`)
+
+Grafana dashboards modeled in CUE must be compiled to JSON whenever `.cue` files are modified:
+
+```bash
+nix develop --command build-dashboards <path-to-dashboards-dir>
+```
+
 ### Running OPA Tests Locally
 
 To run the OPA policy tests locally via the Nix development shell:

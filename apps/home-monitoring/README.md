@@ -22,28 +22,10 @@ The dashboard mimics [`apps/home-assistant/resources/ui-lovelace.yaml`](../home-
 
 ## Re-generating Dashboards
 
-Whenever you update [`dashboards/home.cue`](dashboards/home.cue), re-generate the JSON dashboard using either:
-
-1. **Via the Nix Development Shell** (with `nix develop` or direnv):
-
-   ```bash
-   build-dashboards apps/home-monitoring/dashboards
-   ```
-
-1. **Via Script Directly**:
-
-   ```bash
-   ./scripts/build_dashboards.sh apps/home-monitoring/dashboards
-   ```
-
-1. **Or via `cue` directly**:
-
-   ```bash
-   cue export apps/home-monitoring/dashboards/home.cue -e out --out json > apps/home-monitoring/dashboards/home.json
-   ```
-
-Before committing, format files with:
+Whenever you update [`dashboards/home.cue`](dashboards/home.cue), re-generate the JSON dashboard using:
 
 ```bash
-nix fmt
+build-dashboards apps/home-monitoring/dashboards
 ```
+
+See the [main repository README](../../Readme.md#grafana-dashboards-cue) for full instructions on building CUE dashboards and formatting.

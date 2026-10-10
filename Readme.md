@@ -17,3 +17,39 @@ This repository follows a GitOps approach using [FluxCD](https://fluxcd.io/) to 
 
 - **Secrets Management**: Handled via [SOPS](https://github.com/getsops/sops) with `age` encryption. Encrypted secrets are stored in the repo and decrypted seamlessly by Flux inside the cluster.
 - **Development Environment**: Uses [Nix](https://nixos.org/) and `direnv` (`flake.nix`). Entering the directory automatically provisions a shell with all required tools like `kubectl`, `kustomize`, `sops`, `age`, and formatting tools (`treefmt`).
+
+## Grafana Dashboards (CUE)
+
+Dashboards across the repository (e.g., under `apps/` and `monitoring/`) are authored in **[CUE](https://cuelang.org/)** (`.cue` files) using shared definitions in `lib/grafana/`. This provides strongly-typed, reusable panel and layout components without hand-writing monolithic JSON files.
+
+### Re-generating Dashboards
+
+Whenever you update or add `.cue` dashboard templates, re-generate the JSON dashboards using any of the following methods:
+
+1. **Via the Nix Development Shell** (with `nix develop` or direnv):
+
+   ```bash
+   # Build all dashboards in the repo
+   build-dashboards .
+
+   # Or build dashboards in a specific directory
+   build-dashboards monitoring/victoria-metrics/dashboards
+   ```
+
+1. **Via Script Directly**:
+
+   ```bash
+   ./scripts/build_dashboards.sh monitoring/victoria-metrics/dashboards
+   ```
+
+1. **Or via `cue` directly**:
+
+   ```bash
+   cue export path/to/dashboard.cue -e out --out json > path/to/dashboard.json
+   ```
+
+Remember to format all modified files before committing:
+
+```bash
+nix fmt
+```

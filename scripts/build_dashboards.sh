@@ -17,7 +17,7 @@ while IFS= read -r -d $'\0' cue_file; do
   target="$dir/$base.json"
   echo "  Exporting $cue_file -> $target"
   cue export "$cue_file" -e out --out json >"$target"
-done < <(find "$TARGET_DIR" -type f -name "*.cue" -print0)
+done < <(find "$TARGET_DIR" -type f -path "*/dashboards/*.cue" -print0)
 
 if [ "$found" -eq 0 ]; then
   echo "No .cue files found in '$TARGET_DIR'."
