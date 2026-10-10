@@ -1,69 +1,28 @@
 {
     "title": "Alerts Single-Pane Overview",
     "uid": "alerts-single-pane",
-    "tags": [
-        "alerts",
-        "alertmanager",
-        "victoria-metrics"
-    ],
-    "timezone": "browser",
     "schemaVersion": 39,
-    "refresh": "10s",
-    "time": {
-        "from": "now-6h",
-        "to": "now"
-    },
-    "timepicker": {
-        "refresh_intervals": [
-            "5s",
-            "10s",
-            "30s",
-            "1m",
-            "5m"
-        ]
-    },
-    "liveNow": true,
     "links": [
         {
             "title": "Alertmanager Silences",
-            "url": "/alerting/silences?alertmanager=Alertmanager",
             "tooltip": "Manage or create Alertmanager silences",
             "type": "link",
-            "icon": "external link",
-            "targetBlank": true,
-            "asDropdown": false,
-            "includeVars": false,
-            "keepTime": false,
-            "tags": []
+            "url": "/alerting/silences?alertmanager=Alertmanager"
         },
         {
             "title": "Alert Groups",
-            "url": "/alerting/groups?alertmanager=Alertmanager",
             "tooltip": "View grouped alerts in Alertmanager",
             "type": "link",
-            "icon": "external link",
-            "targetBlank": true,
-            "asDropdown": false,
-            "includeVars": false,
-            "keepTime": false,
-            "tags": []
+            "url": "/alerting/groups?alertmanager=Alertmanager"
         },
         {
             "title": "Notification Policies",
-            "url": "/alerting/routes?alertmanager=Alertmanager",
             "tooltip": "View Alertmanager routing tree",
             "type": "link",
-            "icon": "external link",
-            "targetBlank": true,
-            "asDropdown": false,
-            "includeVars": false,
-            "keepTime": false,
-            "tags": []
+            "url": "/alerting/routes?alertmanager=Alertmanager"
         }
     ],
-    "templating": {
-        "list": []
-    },
+    "liveNow": true,
     "panels": [
         {
             "title": "Critical Alerts",
@@ -391,5 +350,24 @@
                 }
             ]
         }
-    ]
+    ],
+    "refresh": "10s",
+    "tags": [
+        "alerts",
+        "alertmanager",
+        "victoria-metrics"
+    ],
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {
+        "refresh_intervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m"
+        ]
+    }
 }

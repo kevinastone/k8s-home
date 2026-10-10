@@ -1,17 +1,7 @@
 {
     "title": "System Health",
     "uid": "system-health",
-    "tags": [],
-    "timezone": "browser",
     "schemaVersion": 39,
-    "refresh": false,
-    "time": {
-        "from": "now-6h",
-        "to": "now"
-    },
-    "templating": {
-        "list": []
-    },
     "panels": [
         {
             "title": "CPU Usage",
@@ -370,5 +360,10 @@
                 }
             ]
         }
-    ]
+    ],
+    "refresh": false,
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    }
 }

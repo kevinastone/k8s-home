@@ -136,9 +136,6 @@ out: grafana.#Dashboard & {
 	title:   "System Health"
 	uid:     "system-health"
 	refresh: false
-	time: {
-		from: "now-6h"
-		to:   "now"
-	}
+	time: (grafana.#Last & {in: "6h"}).out
 	panels: cpuSection.out
 }

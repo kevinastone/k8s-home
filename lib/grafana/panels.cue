@@ -9,90 +9,6 @@ package grafana
 	datasource?: {type: string, uid: string}
 }
 
-// Data Link Definition
-#DataLink: {
-	title:       string
-	url:         string
-	targetBlank: bool | *false
-}
-
-// Common Field Config Defaults
-#FieldDefaults: {
-	displayName?: string
-	unit?:        string
-	min?:         number
-	max?:         number
-	noValue?:     string
-	mappings: [...] | *[]
-	links?: [...#DataLink]
-	color?: #FieldColor
-	thresholds?: {
-		mode: "absolute" | "percentage"
-		steps: [...]
-	}
-	custom?: {...}
-}
-
-// Base Panel Definition
-#BasePanel: {
-	title:        string | *""
-	description?: string
-	transparent?: bool
-	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
-	gridPos: {h?: int, w?: int, x?: int, y?: int}
-	type: string
-	options?: {...}
-	fieldConfig: {
-		defaults: #FieldDefaults
-		overrides: [...] | *[]
-	}
-	targets: [...#PromTarget]
-	transformations?: [...]
-}
-
-// Dashboard Link Definition
-#DashboardLink: {
-	title:       string
-	url:         string
-	tooltip?:    string
-	type:        "link" | *"link"
-	icon:        string | *"external link"
-	targetBlank: bool | *true
-	asDropdown:  bool | *false
-	includeVars: bool | *false
-	keepTime:    bool | *false
-	tags: [...string] | *[]
-}
-
-// Standard Grafana Field Reducer Calculations (ReducerID)
-#CalcId:
-	"last" |
-	"lastNotNull" |
-	"first" |
-	"firstNotNull" |
-	"mean" |
-	"sum" |
-	"min" |
-	"max" |
-	"count" |
-	"range" |
-	"delta" |
-	"step" |
-	"diff" |
-	"diffperc" |
-	"changeCount" |
-	"distinctCount" |
-	"logmin" |
-	"allIsNull" |
-	"allIsZero"
-
-// Common Reduce Options for Stat, Gauge, Bar Gauge, etc.
-#ReduceOptions: {
-	values: bool | *false
-	calcs: [...#CalcId] | *["lastNotNull"]
-	fields: string | *""
-}
-
 // Common Viz Legend Options
 #LegendOptions: {
 	showLegend?:  bool
@@ -115,8 +31,25 @@ package grafana
 	tooltip?:        #TooltipOptions
 }
 
+// Base Panel Definition
+#BasePanel: {
+	title:        string | *""
+	description?: string
+	transparent?: bool
+	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
+	gridPos: {h?: int, w?: int, x?: int, y?: int}
+	options?: {...}
+	fieldConfig: {
+		defaults: #FieldDefaults
+		overrides: [...] | *[]
+	}
+	targets: [...#PromTarget]
+	transformations?: [...]
+}
+
 // Timeseries Graph Panel
-#TimeSeriesPanel: #BasePanel & {
+#TimeSeriesPanel: {
+	#BasePanel
 	type: "timeseries"
 	options: #TimeSeriesOptions & {
 		legend: {
@@ -139,7 +72,8 @@ package grafana
 }
 
 // Stat Panel
-#StatPanel: #BasePanel & {
+#StatPanel: {
+	#BasePanel
 	type: "stat"
 	options: {
 		reduceOptions:           #ReduceOptions
@@ -177,7 +111,8 @@ package grafana
 }
 
 // State Timeline Panel
-#StateTimelinePanel: #BasePanel & {
+#StateTimelinePanel: {
+	#BasePanel
 	type: "state-timeline"
 	options: {
 		showValue:   "auto" | "always" | "never" | *"auto"
@@ -197,7 +132,8 @@ package grafana
 }
 
 // Gauge Panel
-#GaugePanel: #BasePanel & {
+#GaugePanel: {
+	#BasePanel
 	type: "gauge"
 	options: {
 		orientation:          "auto" | "horizontal" | "vertical" | *"auto"
@@ -221,49 +157,4 @@ package grafana
 	type:      "row"
 	collapsed: bool | *false
 	panels: [...] | *[]
-}
-
-// Template Query Variable
-#QueryVariable: V={
-	name:  string
-	label: string | *V.name
-	type:  "query"
-	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
-	query: {
-		query: string
-		refId: string | *"StandardVariableQuery"
-	}
-	definition: string | *V.query.query
-	refresh:    int | *1
-	sort:       int | *1
-	includeAll: bool | *false
-	multi:      bool | *false
-	options: [...] | *[]
-	current?: {
-		text:  string
-		value: string
-	}
-}
-
-// Dashboard Definition
-#Dashboard: {
-	title: string
-	uid:   string
-	tags: [...string] | *[]
-	timezone:      "browser" | "utc" | *"browser"
-	schemaVersion: int | *39
-	refresh:       string | bool | *"30s"
-	time: {
-		from: string | *"now-24h"
-		to:   string | *"now"
-	}
-	timepicker?: {
-		refresh_intervals: [...string]
-	}
-	liveNow?: bool
-	links?: [...#DashboardLink]
-	templating: {
-		list: [...] | *[]
-	}
-	panels: [...]
 }

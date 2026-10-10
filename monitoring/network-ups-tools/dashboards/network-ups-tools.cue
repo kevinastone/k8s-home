@@ -970,10 +970,7 @@ out: grafana.#Dashboard & {
 	title:   "UPS Monitoring"
 	uid:     "network-ups-tools"
 	refresh: "5s"
-	time: {
-		from: "now-30m"
-		to:   "now"
-	}
+	time: (grafana.#Last & {in: "30m"}).out
 	templating: list: [
 		grafana.#QueryVariable & {
 			name:  "ups"

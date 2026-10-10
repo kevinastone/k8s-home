@@ -138,10 +138,7 @@ out: grafana.#Dashboard & {
 	uid:   "alerts-single-pane"
 	tags: ["alerts", "alertmanager", "victoria-metrics"]
 	refresh: "10s"
-	time: {
-		from: "now-6h"
-		to:   "now"
-	}
+	time: (grafana.#Last & {in: "6h"}).out
 	timepicker: refresh_intervals: [
 		"5s",
 		"10s",
