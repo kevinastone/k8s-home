@@ -74,7 +74,7 @@ import (
 	let _powerExpr = #"last_over_time({entity_id="\#(P.entity_id)",__name__=~".*_value"}[2h])"#
 
 	out: grafana.#StatPanel & {
-		gridPos: {h: 4, w: 6}
+		gridPos: {h: 3, w: 6}
 		options: {
 			orientation:            "auto"
 			textMode:               "value_and_name"
