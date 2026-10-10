@@ -71,7 +71,7 @@ import (
 	name:      string
 	entity_id: string
 
-	let _powerExpr = #"{entity_id="\#(P.entity_id)",__name__=~".*_value"}"#
+	let _powerExpr = #"last_over_time({entity_id="\#(P.entity_id)",__name__=~".*_value"}[2h])"#
 
 	out: grafana.#StatPanel & {
 		gridPos: {h: 4, w: 6}
@@ -107,6 +107,8 @@ import (
 	entity_id: string
 	threshold: number
 
+	let _applianceExpr = #"last_over_time({entity_id="\#(T.entity_id)",__name__=~".*_value"}[2h]) > bool \#(T.threshold)"#
+
 	out: grafana.#StatPanel & {
 		title: T.name
 		gridPos: {h: 3, w: 6}
@@ -122,7 +124,7 @@ import (
 		]
 		targets: [
 			grafana.#PromTarget & {
-				expr:         #"{entity_id="\#(T.entity_id)",__name__=~".*_value"} > bool \#(T.threshold)"#
+				expr:         _applianceExpr
 				legendFormat: "State"
 			},
 		]

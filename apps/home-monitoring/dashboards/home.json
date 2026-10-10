@@ -457,7 +457,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"rack_power_power\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"rack_power_power\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Rack Power",
                     "format": "time_series",
                     "instant": false
@@ -515,7 +515,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"media_power_power\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"media_power_power\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Media Power",
                     "format": "time_series",
                     "instant": false
@@ -573,7 +573,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"desk_power_power\",__name__=~\".*_value\"}",
+                    "expr": "last_over_time({entity_id=\"desk_power_power\",__name__=~\".*_value\"}[2h])",
                     "legendFormat": "Desk Power",
                     "format": "time_series",
                     "instant": false
@@ -627,7 +627,7 @@
             },
             "targets": [
                 {
-                    "expr": "{entity_id=\"laundry_power_power\",__name__=~\".*_value\"} > bool 10",
+                    "expr": "last_over_time({entity_id=\"laundry_power_power\",__name__=~\".*_value\"}[2h]) > bool 10",
                     "legendFormat": "State",
                     "format": "time_series",
                     "instant": false
