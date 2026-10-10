@@ -18,9 +18,11 @@ package grafana
 
 // Common Field Config Defaults
 #FieldDefaults: {
-	unit?: string
-	min?:  number
-	max?:  number
+	displayName?: string
+	unit?:        string
+	min?:         number
+	max?:         number
+	noValue?:     string
 	mappings: [...] | *[]
 	links?: [...#DataLink]
 	color?: #FieldColor
@@ -33,7 +35,9 @@ package grafana
 
 // Base Panel Definition
 #BasePanel: {
-	title: string | *""
+	title:        string | *""
+	description?: string
+	transparent?: bool
 	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
 	gridPos: {h?: int, w?: int, x?: int, y?: int}
 	type: string
@@ -43,6 +47,7 @@ package grafana
 		overrides: [...] | *[]
 	}
 	targets: [...#PromTarget]
+	transformations?: [...]
 }
 
 // Dashboard Link Definition
@@ -59,12 +64,41 @@ package grafana
 	tags: [...string] | *[]
 }
 
+// Standard Grafana Field Reducer Calculations (ReducerID)
+#CalcId:
+	"last" |
+	"lastNotNull" |
+	"first" |
+	"firstNotNull" |
+	"mean" |
+	"sum" |
+	"min" |
+	"max" |
+	"count" |
+	"range" |
+	"delta" |
+	"step" |
+	"diff" |
+	"diffperc" |
+	"changeCount" |
+	"distinctCount" |
+	"logmin" |
+	"allIsNull" |
+	"allIsZero"
+
+// Common Reduce Options for Stat, Gauge, Bar Gauge, etc.
+#ReduceOptions: {
+	values: bool | *false
+	calcs: [...#CalcId] | *["lastNotNull"]
+	fields: string | *""
+}
+
 // Common Viz Legend Options
 #LegendOptions: {
 	showLegend?:  bool
 	displayMode?: "list" | "table" | "hidden"
 	placement?:   "bottom" | "right"
-	calcs?: [...string]
+	calcs?: [...#CalcId]
 }
 
 // Common Viz Tooltip Options
@@ -100,6 +134,7 @@ package grafana
 			viz?:     bool
 		}
 		axisPlacement?: "hidden" | "none" | "left" | "right" | "auto"
+		...
 	}
 }
 
@@ -107,7 +142,7 @@ package grafana
 #StatPanel: #BasePanel & {
 	type: "stat"
 	options: {
-		reduceOptions: {values: false, calcs: ["lastNotNull"], fields: ""}
+		reduceOptions:           #ReduceOptions
 		orientation:             "horizontal" | "vertical" | "auto" | *"auto"
 		textMode:                "auto" | "value" | "value_and_name" | "name" | *"auto"
 		graphMode:               "none" | "area" | *"area"
@@ -173,7 +208,7 @@ package grafana
 		minVizWidth?:         int
 		reduceOptions: {
 			values: bool | *true
-			calcs: [...string] | *["last"]
+			calcs: [...#CalcId] | *["last"]
 			fields: string | *""
 		}
 	}
@@ -186,6 +221,28 @@ package grafana
 	type:      "row"
 	collapsed: bool | *false
 	panels: [...] | *[]
+}
+
+// Template Query Variable
+#QueryVariable: V={
+	name:  string
+	label: string | *V.name
+	type:  "query"
+	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
+	query: {
+		query: string
+		refId: string | *"StandardVariableQuery"
+	}
+	definition: string | *V.query.query
+	refresh:    int | *1
+	sort:       int | *1
+	includeAll: bool | *false
+	multi:      bool | *false
+	options: [...] | *[]
+	current?: {
+		text:  string
+		value: string
+	}
 }
 
 // Dashboard Definition

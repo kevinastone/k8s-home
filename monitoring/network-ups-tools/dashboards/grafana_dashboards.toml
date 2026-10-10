@@ -1,5 +1,0 @@
-#:schema ../../../scripts/dashboard-schema.json
-
-[network-ups-tools]
-# Customized further
-# url = "https://raw.githubusercontent.com/DRuggeri/nut_exporter/refs/heads/master/dashboard/dashboard.json"

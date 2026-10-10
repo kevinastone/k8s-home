@@ -58,6 +58,12 @@ import "list"
 		},
 	]
 
+	totalHeight: list.Sum([
+		for r in normalizedRows {
+			list.Max([for p in r {p.gridPos.h}])
+		},
+	])
+
 	out: [
 		for rowIdx, row in normalizedRows
 		for colIdx, panel in row {
@@ -118,10 +124,36 @@ import "list"
 		}
 	}
 
+	if collapsed {
+		totalHeight: 1
+	}
+	if !collapsed {
+		totalHeight: 1 + childLayout.totalHeight
+	}
+
 	if !R.collapsed {
 		out: list.Concat([[rowHeader], childLayout.out])
 	}
 	if R.collapsed {
 		out: [rowHeader]
 	}
+}
+
+// #LayoutSections organizes multiple sections (rows with child panels) sequentially down the dashboard.
+// It automatically computes each section's startY based on the accumulated heights of preceding sections.
+#LayoutSections: S={
+	sections: [...#RowSection]
+
+	let positionedSections = [
+		for idx, sec in S.sections {
+			sec & {
+				startY: list.Sum([
+					0,
+					for i, prev in S.sections if i < idx {prev.totalHeight},
+				])
+			}
+		},
+	]
+
+	out: list.Concat([for sec in positionedSections {sec.out}])
 }
