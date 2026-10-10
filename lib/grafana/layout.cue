@@ -29,19 +29,41 @@ import "list"
 }
 
 // #LayoutRows organizes panels declared in horizontal rows across a 24-column grid.
-// Each row is a list of panels with defined gridPos.h and gridPos.w.
-// The x and y offsets are computed automatically based on row height and panel widths.
+// Each row is a list of panels. If gridPos.w is not specified, it is automatically
+// computed by dividing the 24-column grid equally among the row's panels (div(24, len(row))).
+// If gridPos.h is not specified, it defaults to defaultHeight (default 8).
+// The x and y offsets are computed automatically based on row heights and panel widths.
 #LayoutRows: {
 	rows: [...[...{
-		gridPos: {h: int, w: int, x?: int, y?: int, ...}
+		gridPos?: {h?: int, w?: int, x?: int, y?: int, ...}
 		...
 	}]]
+	defaultHeight: int | *8
+	startY:        int | *0
+
+	let normalizedRows = [
+		for r in rows {
+			let numPanels = len(r)
+			let autoWidth = div(24, numPanels)
+			[
+				for p in r {
+					p & {
+						gridPos: {
+							h: *defaultHeight | int
+							w: *autoWidth | int
+						}
+					}
+				},
+			]
+		},
+	]
 
 	out: [
-		for rowIdx, row in rows
+		for rowIdx, row in normalizedRows
 		for colIdx, panel in row {
 			let runningY = list.Sum([
-				for i, r in rows if i < rowIdx {
+				startY,
+				for i, r in normalizedRows if i < rowIdx {
 					list.Max([for p in r {p.gridPos.h}])
 				},
 			])
@@ -54,4 +76,52 @@ import "list"
 			}
 		},
 	]
+}
+
+// #RowSection encapsulates a group of panels under a Grafana row.
+// When collapsed is false (default), it emits the row panel (h: 1, w: 24, panels: [])
+// followed by the encapsulated rows laid out sequentially below it (starting at startY + 1).
+// When collapsed is true, it emits a collapsed row panel with the nested panels inside panels: [...].
+#RowSection: R={
+	title:         string
+	startY:        int | *0
+	defaultHeight: int | *8
+	collapsed:     bool | *false
+	rows: [...[...{
+		gridPos?: {h?: int, w?: int, x?: int, y?: int, ...}
+		...
+	}]]
+
+	let childStartY = R.startY + 1
+	let childLayout = #LayoutRows & {
+		rows:          R.rows
+		defaultHeight: R.defaultHeight
+		if R.collapsed {
+			startY: 0
+		}
+		if !R.collapsed {
+			startY: childStartY
+		}
+	}
+
+	let rowHeader = #RowPanel & {
+		title:     R.title
+		collapsed: R.collapsed
+		gridPos: {
+			h: 1
+			w: 24
+			x: 0
+			y: R.startY
+		}
+		if R.collapsed {
+			panels: childLayout.out
+		}
+	}
+
+	if !R.collapsed {
+		out: list.Concat([[rowHeader], childLayout.out])
+	}
+	if R.collapsed {
+		out: [rowHeader]
+	}
 }

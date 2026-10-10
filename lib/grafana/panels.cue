@@ -6,6 +6,7 @@ package grafana
 	legendFormat: string | *""
 	format:       "time_series"
 	instant:      bool | *false
+	datasource?: {type: string, uid: string}
 }
 
 // Data Link Definition
@@ -18,6 +19,8 @@ package grafana
 // Common Field Config Defaults
 #FieldDefaults: {
 	unit?: string
+	min?:  number
+	max?:  number
 	mappings: [...] | *[]
 	links?: [...#DataLink]
 	color?: #FieldColor
@@ -31,8 +34,8 @@ package grafana
 // Base Panel Definition
 #BasePanel: {
 	title: string | *""
-	datasource: {type: "prometheus", uid: "prometheus"}
-	gridPos: {h: int, w: int, x?: int, y?: int}
+	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
+	gridPos: {h?: int, w?: int, x?: int, y?: int}
 	type: string
 	options?: {...}
 	fieldConfig: {
@@ -56,14 +59,40 @@ package grafana
 	tags: [...string] | *[]
 }
 
+// Common Viz Legend Options
+#LegendOptions: {
+	showLegend?:  bool
+	displayMode?: "list" | "table" | "hidden"
+	placement?:   "bottom" | "right"
+	calcs?: [...string]
+}
+
+// Common Viz Tooltip Options
+#TooltipOptions: {
+	mode?:      "single" | "multi" | "none"
+	sort?:      "none" | "asc" | "desc"
+	hideZeros?: bool
+}
+
+// Timeseries Panel Options
+#TimeSeriesOptions: {
+	alertThreshold?: bool
+	legend?:         #LegendOptions
+	tooltip?:        #TooltipOptions
+}
+
 // Timeseries Graph Panel
 #TimeSeriesPanel: #BasePanel & {
 	type: "timeseries"
-	options: legend: showLegend: bool | *false
+	options: #TimeSeriesOptions & {
+		legend: {
+			showLegend: bool | *false
+		}
+	}
 	fieldConfig: defaults: custom: {
-		drawStyle:         "line"
-		lineInterpolation: "smooth"
-		spanNulls:         bool | *true
+		drawStyle:         string | *"line"
+		lineInterpolation: string | *"smooth"
+		spanNulls:         bool | int | *true
 		fillOpacity:       int | *10
 		hideFrom?: {
 			tooltip?: bool
@@ -93,7 +122,7 @@ package grafana
 // Alert List Panel
 #AlertListPanel: {
 	title: string | *""
-	gridPos: {h: int, w: int, x?: int, y?: int}
+	gridPos: {h?: int, w?: int, x?: int, y?: int}
 	type: "alertlist"
 	options: {
 		viewMode:      "list" | "stat" | *"list"
@@ -120,16 +149,43 @@ package grafana
 		mergeValues: bool | *true
 		rowHeight:   number | *0.8
 		alignValue:  "left" | "center" | "right" | *"left"
-		tooltip: {
+		tooltip: #TooltipOptions & {
 			mode: "single" | "multi" | "none" | *"single"
 			sort: "none" | "asc" | "desc" | *"none"
 		}
-		legend: {
+		legend: #LegendOptions & {
 			showLegend:  bool | *true
 			displayMode: "list" | "table" | "hidden" | *"list"
 			placement:   "bottom" | "right" | *"bottom"
 		}
 	}
+}
+
+// Gauge Panel
+#GaugePanel: #BasePanel & {
+	type: "gauge"
+	options: {
+		orientation:          "auto" | "horizontal" | "vertical" | *"auto"
+		showThresholdLabels:  bool | *false
+		showThresholdMarkers: bool | *true
+		sizing:               "auto" | "manual" | *"auto"
+		minVizHeight?:        int
+		minVizWidth?:         int
+		reduceOptions: {
+			values: bool | *true
+			calcs: [...string] | *["last"]
+			fields: string | *""
+		}
+	}
+}
+
+// Row Panel
+#RowPanel: {
+	title: string
+	gridPos: {h: 1, w: 24, x?: int, y?: int}
+	type:      "row"
+	collapsed: bool | *false
+	panels: [...] | *[]
 }
 
 // Dashboard Definition
@@ -139,7 +195,7 @@ package grafana
 	tags: [...string] | *[]
 	timezone:      "browser" | "utc" | *"browser"
 	schemaVersion: int | *39
-	refresh:       string | *"30s"
+	refresh:       string | bool | *"30s"
 	time: {
 		from: string | *"now-24h"
 		to:   string | *"now"
