@@ -173,6 +173,7 @@ let layout = grafana.#LayoutColumns & {
 out: grafana.#Dashboard & {
 	title: "Home"
 	uid:   "home-overview"
+	time: (grafana.#Last & {in: "24h"}).out
 	tags: ["home", "iot"]
 	panels: layout.out
 }

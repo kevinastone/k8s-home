@@ -625,5 +625,9 @@
     "tags": [
         "home",
         "iot"
-    ]
+    ],
+    "time": {
+        "from": "now-24h",
+        "to": "now"
+    }
 }
