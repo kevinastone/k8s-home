@@ -62,6 +62,7 @@ import (
 
 #NutGaugePanel: grafana.#GaugePanel & {
 	transparent: true
+	gridPos: w: 4
 	options: reduceOptions: calcs: ["lastNotNull"]
 	fieldConfig: defaults: color: mode: "thresholds"
 }
@@ -340,7 +341,6 @@ let statusBreakdownSection = grafana.#RowSection & {
 // -----------------------------------------------------------------------------
 let batteryChargeGauge = #NutGaugePanel & {
 	title: "Battery Charge"
-	gridPos: w: 3
 	fieldConfig: defaults: {
 		unit:       "percent"
 		min:        0
@@ -378,7 +378,7 @@ let batteryChargeTimeseries = #NutTimeSeriesPanel & {
 
 let batteryRuntimeTimeseries = #NutTimeSeriesPanel & {
 	title: "Battery Run Time Left"
-	gridPos: w: 11
+	gridPos: w: 10
 	fieldConfig: defaults: {
 		unit: "s"
 		min:  0
@@ -411,7 +411,6 @@ let runtimeSection = grafana.#RowSection & {
 // -----------------------------------------------------------------------------
 let loadGauge = #NutGaugePanel & {
 	title: "Load"
-	gridPos: w: 3
 	fieldConfig: defaults: {
 		unit:       "percent"
 		thresholds: #GreenRed80Thresholds
@@ -441,7 +440,7 @@ let loadTimeseries = #NutTimeSeriesPanel & {
 
 let powerUsageTimeseries = #NutTimeSeriesPanel & {
 	title: "Power Usage"
-	gridPos: w: 11
+	gridPos: w: 10
 	fieldConfig: defaults: unit: "watt"
 	targets: [
 		grafana.#PromTarget & {
@@ -468,7 +467,6 @@ let loadSection = grafana.#RowSection & {
 // -----------------------------------------------------------------------------
 let lineVoltsGauge = #NutGaugePanel & {
 	title: "Line Volts"
-	gridPos: w: 3
 	fieldConfig: defaults: {
 		unit: "volt"
 		min:  90
@@ -491,24 +489,8 @@ let lineVoltsGauge = #NutGaugePanel & {
 	]
 }
 
-let lineVoltsTimeseries = #NutTimeSeriesPanel & {
-	gridPos: w: 9
-	fieldConfig: defaults: {
-		unit: "volt"
-		min:  90
-		max:  140
-	}
-	targets: [
-		grafana.#PromTarget & {
-			expr:         #"network_ups_tools_input_voltage{ups="$ups"}"#
-			legendFormat: "Input Voltage"
-		},
-	]
-}
-
 let batteryVoltsGauge = #NutGaugePanel & {
 	title: "Battery Volts"
-	gridPos: w: 3
 	fieldConfig: defaults: {
 		unit:    "volt"
 		min:     0
@@ -536,7 +518,7 @@ let batteryVoltsGauge = #NutGaugePanel & {
 }
 
 let batteryVoltsTimeseries = #NutTimeSeriesPanel & {
-	gridPos: w: 9
+	gridPos: w: 10
 	fieldConfig: defaults: {
 		unit: "volt"
 		min:  0
@@ -555,7 +537,6 @@ let powerHealthSection = grafana.#RowSection & {
 	rows: [
 		[
 			lineVoltsGauge,
-			lineVoltsTimeseries,
 			batteryVoltsGauge,
 			batteryVoltsTimeseries,
 		],

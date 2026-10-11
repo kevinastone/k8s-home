@@ -761,7 +761,7 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 3,
+                "w": 4,
                 "x": 0,
                 "y": 13
             },
@@ -868,7 +868,7 @@
             "gridPos": {
                 "h": 6,
                 "w": 10,
-                "x": 3,
+                "x": 4,
                 "y": 13
             },
             "options": {
@@ -958,8 +958,8 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 11,
-                "x": 13,
+                "w": 10,
+                "x": 14,
                 "y": 13
             },
             "options": {
@@ -1029,7 +1029,7 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 3,
+                "w": 4,
                 "x": 0,
                 "y": 20
             },
@@ -1127,7 +1127,7 @@
             "gridPos": {
                 "h": 6,
                 "w": 10,
-                "x": 3,
+                "x": 4,
                 "y": 20
             },
             "options": {
@@ -1212,8 +1212,8 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 11,
-                "x": 13,
+                "w": 10,
+                "x": 14,
                 "y": 20
             },
             "options": {
@@ -1293,7 +1293,7 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 3,
+                "w": 4,
                 "x": 0,
                 "y": 27
             },
@@ -1329,93 +1329,6 @@
                 }
             ],
             "title": "Line Volts",
-            "transparent": true
-        },
-        {
-            "type": "timeseries",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "unit": "volt",
-                    "min": 90,
-                    "max": 140,
-                    "mappings": [],
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
-                    "custom": {
-                        "axisBorderShow": false,
-                        "axisCenteredZero": false,
-                        "axisColorMode": "text",
-                        "axisPlacement": "auto",
-                        "drawStyle": "line",
-                        "fillOpacity": 50,
-                        "gradientMode": "opacity",
-                        "lineInterpolation": "linear",
-                        "lineWidth": 1,
-                        "pointSize": 5,
-                        "scaleDistribution": {
-                            "type": "linear"
-                        },
-                        "showPoints": "never",
-                        "spanNulls": false,
-                        "stacking": {
-                            "mode": "none"
-                        },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        },
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        }
-                    }
-                },
-                "overrides": []
-            },
-            "gridPos": {
-                "h": 6,
-                "w": 9,
-                "x": 3,
-                "y": 27
-            },
-            "options": {
-                "legend": {
-                    "displayMode": "list",
-                    "placement": "bottom",
-                    "showLegend": false,
-                    "calcs": []
-                },
-                "tooltip": {
-                    "mode": "multi",
-                    "sort": "none"
-                }
-            },
-            "targets": [
-                {
-                    "expr": "network_ups_tools_input_voltage{ups=\"$ups\"}",
-                    "legendFormat": "Input Voltage",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ],
             "transparent": true
         },
         {
@@ -1460,8 +1373,8 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 3,
-                "x": 12,
+                "w": 4,
+                "x": 4,
                 "y": 27
             },
             "options": {
@@ -1558,8 +1471,8 @@
             },
             "gridPos": {
                 "h": 6,
-                "w": 9,
-                "x": 15,
+                "w": 10,
+                "x": 8,
                 "y": 27
             },
             "options": {
