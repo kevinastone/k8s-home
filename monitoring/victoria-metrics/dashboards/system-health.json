@@ -1,7 +1,6 @@
 {
     "title": "System Health",
     "uid": "system-health",
-    "refresh": "",
     "time": {
         "from": "now-6h",
         "to": "now"
@@ -31,34 +30,11 @@
                 "defaults": {
                     "unit": "celsius",
                     "mappings": [],
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "custom": {
                         "drawStyle": "line",
-                        "lineInterpolation": "linear",
+                        "lineInterpolation": "smooth",
                         "spanNulls": 3600000,
-                        "fillOpacity": 0,
-                        "pointSize": 5,
-                        "showPoints": "auto",
-                        "axisPlacement": "auto",
-                        "axisColorMode": "text",
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        }
+                        "fillOpacity": 0
                     }
                 },
                 "overrides": []
@@ -71,13 +47,12 @@
             },
             "options": {
                 "legend": {
-                    "calcs": [],
                     "displayMode": "list",
                     "placement": "bottom",
-                    "showLegend": true
+                    "showLegend": true,
+                    "calcs": []
                 },
                 "tooltip": {
-                    "hideZeros": false,
                     "mode": "single",
                     "sort": "none"
                 }
@@ -102,34 +77,11 @@
                 "defaults": {
                     "unit": "percent",
                     "mappings": [],
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "custom": {
                         "drawStyle": "line",
-                        "lineInterpolation": "linear",
+                        "lineInterpolation": "smooth",
                         "spanNulls": 3600000,
-                        "fillOpacity": 0,
-                        "pointSize": 5,
-                        "showPoints": "auto",
-                        "axisPlacement": "auto",
-                        "axisColorMode": "text",
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        }
+                        "fillOpacity": 0
                     }
                 },
                 "overrides": []
@@ -142,13 +94,12 @@
             },
             "options": {
                 "legend": {
-                    "calcs": [],
                     "displayMode": "list",
                     "placement": "bottom",
-                    "showLegend": true
+                    "showLegend": true,
+                    "calcs": []
                 },
                 "tooltip": {
-                    "hideZeros": false,
                     "mode": "single",
                     "sort": "none"
                 }
@@ -172,34 +123,11 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "custom": {
                         "drawStyle": "line",
-                        "lineInterpolation": "linear",
+                        "lineInterpolation": "smooth",
                         "spanNulls": 3600000,
-                        "fillOpacity": 0,
-                        "pointSize": 5,
-                        "showPoints": "auto",
-                        "axisPlacement": "auto",
-                        "axisColorMode": "text",
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        }
+                        "fillOpacity": 0
                     }
                 },
                 "overrides": []
@@ -212,13 +140,12 @@
             },
             "options": {
                 "legend": {
-                    "calcs": [],
                     "displayMode": "list",
                     "placement": "bottom",
-                    "showLegend": true
+                    "showLegend": true,
+                    "calcs": []
                 },
                 "tooltip": {
-                    "hideZeros": false,
                     "mode": "single",
                     "sort": "none"
                 }
@@ -242,34 +169,11 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "custom": {
                         "drawStyle": "line",
-                        "lineInterpolation": "linear",
+                        "lineInterpolation": "smooth",
                         "spanNulls": 3600000,
-                        "fillOpacity": 0,
-                        "pointSize": 5,
-                        "showPoints": "auto",
-                        "axisPlacement": "auto",
-                        "axisColorMode": "text",
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        }
+                        "fillOpacity": 0
                     }
                 },
                 "overrides": []
@@ -282,13 +186,12 @@
             },
             "options": {
                 "legend": {
-                    "calcs": [],
                     "displayMode": "list",
                     "placement": "bottom",
-                    "showLegend": true
+                    "showLegend": true,
+                    "calcs": []
                 },
                 "tooltip": {
-                    "hideZeros": false,
                     "mode": "single",
                     "sort": "none"
                 }
@@ -338,19 +241,19 @@
                 "y": 19
             },
             "options": {
-                "minVizHeight": 75,
-                "minVizWidth": 75,
                 "orientation": "auto",
                 "reduceOptions": {
-                    "values": true,
+                    "values": false,
                     "calcs": [
-                        "last"
+                        "lastNotNull"
                     ],
                     "fields": ""
                 },
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
                 "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
                 "segmentCount": 1,
                 "segmentSpacing": 0.3,
                 "shape": "gauge",
@@ -363,7 +266,7 @@
                     "expr": "avg by(host) (telegraf_disk_used_percent{host=~\"$host\"})",
                     "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true
+                    "instant": false
                 }
             ],
             "title": "Disk Used"
