@@ -36,7 +36,7 @@ import (
 	title:        string | *""
 	description?: string
 	expr:         string
-	legend:       string | *""
+	legend?:      string
 	unit?:        string
 	noValue?:     string
 	thresholdSteps?: [...]
@@ -88,9 +88,11 @@ import (
 		}
 		targets: [
 			grafana.#PromTarget & {
-				expr:         S.expr
-				instant:      true
-				legendFormat: S.legend
+				expr:    S.expr
+				instant: true
+				if S.legend != _|_ {
+					legendFormat: S.legend
+				}
 			},
 		]
 	}
@@ -99,7 +101,7 @@ import (
 #NutGauge: G={
 	title:       string
 	expr:        string
-	legend:      string | *""
+	legend?:     string
 	unit?:       string
 	min?:        number
 	max?:        number
@@ -142,9 +144,11 @@ import (
 		}
 		targets: [
 			grafana.#PromTarget & {
-				expr:         G.expr
-				instant:      true
-				legendFormat: G.legend
+				expr:    G.expr
+				instant: true
+				if G.legend != _|_ {
+					legendFormat: G.legend
+				}
 			},
 		]
 	}
@@ -361,8 +365,7 @@ let statusTimeline = grafana.#StateTimelinePanel & {
 	transformations: statusTransformations
 	targets: [
 		grafana.#PromTarget & {
-			expr:         #"max(network_ups_tools_ups_status{ups="$ups", flag=~"OB|OL"} == 1) by (flag)"#
-			legendFormat: "__auto"
+			expr: #"max(network_ups_tools_ups_status{ups="$ups", flag=~"OB|OL"} == 1) by (flag)"#
 		},
 	]
 }
@@ -410,8 +413,7 @@ let statusBreakdownTimeline = grafana.#StateTimelinePanel & {
 	}
 	targets: [
 		grafana.#PromTarget & {
-			expr:         #"max(network_ups_tools_ups_status{ups="$ups"} == 1) by (flag)"#
-			legendFormat: "__auto"
+			expr: #"max(network_ups_tools_ups_status{ups="$ups"} == 1) by (flag)"#
 		},
 	]
 }
@@ -494,7 +496,6 @@ let loadGauge = #NutGauge & {
 	unit:           "percent"
 	calc:           "lastNotNull"
 	expr:           #"network_ups_tools_ups_load{ups="$ups"}"#
-	legend:         "__auto"
 	thresholdSteps: #GreenRed80Thresholds
 }
 

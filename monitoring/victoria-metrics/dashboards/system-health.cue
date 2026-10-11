@@ -7,7 +7,6 @@ import (
 #HealthTarget: {
 	expr: string
 	grafana.#PromTarget
-	legendFormat: "__auto"
 }
 
 // Reusable Host TimeSeries Panel for System Health

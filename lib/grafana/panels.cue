@@ -20,7 +20,7 @@ import (
 
 #PromTarget: {
 	expr:         string
-	legendFormat: string | *""
+	legendFormat: string | *"__auto"
 	format:       "time_series"
 	instant:      bool | *false
 	datasource?: {type: string, uid: string}

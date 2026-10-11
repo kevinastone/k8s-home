@@ -75,9 +75,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_device_info{ups=\"$ups\"}",
+                    "legendFormat": "{{mfr}}",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": "{{mfr}}"
+                    "instant": true
                 }
             ],
             "title": "Manufacturer",
@@ -137,9 +137,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_device_info{ups=\"$ups\"}",
+                    "legendFormat": "{{model}}",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": "{{model}}"
+                    "instant": true
                 }
             ],
             "title": "Model",
@@ -223,9 +223,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_ups_status{ups=\"$ups\", flag=~\"OB|OL\"} == 1",
+                    "legendFormat": "{{flag}}",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": "{{flag}}"
+                    "instant": true
                 }
             ],
             "title": "",
@@ -314,9 +314,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_ups_status{ups=\"$ups\", flag!~\"OB|OL\"} == 1",
+                    "legendFormat": "{{flag}}",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": "{{flag}}"
+                    "instant": true
                 }
             ],
             "title": "Flags",
@@ -398,9 +398,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_battery_runtime{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": ""
+                    "instant": true
                 }
             ],
             "title": "Battery Runtime",
@@ -469,9 +469,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_battery_charge{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": ""
+                    "instant": true
                 }
             ],
             "title": "Battery Charge",
@@ -528,9 +528,9 @@
             "targets": [
                 {
                     "expr": "(network_ups_tools_ups_load{ups=\"$ups\"} / 100) * network_ups_tools_ups_realpower_nominal{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": ""
+                    "instant": true
                 }
             ],
             "title": "Power Draw",
@@ -799,9 +799,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_battery_charge{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": ""
+                    "instant": true
                 }
             ],
             "title": "Battery Charge",
@@ -1068,9 +1068,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_ups_load{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": "__auto"
+                    "instant": true
                 }
             ],
             "title": "Load",
@@ -1330,9 +1330,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_input_voltage{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": ""
+                    "instant": true
                 }
             ],
             "title": "Line Volts",
@@ -1507,9 +1507,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_battery_voltage{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true,
-                    "legendFormat": ""
+                    "instant": true
                 }
             ],
             "title": "Battery Volts",
