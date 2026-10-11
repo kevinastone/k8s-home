@@ -16,7 +16,7 @@ while IFS= read -r -d $'\0' cue_file; do
   base=$(basename "$cue_file" .cue)
   target="$dir/$base.json"
   echo "  Exporting $cue_file -> $target"
-  cue export "$cue_file" -e out --out json >"$target"
+  cue export "$cue_file" -e out --out json --outfile "$target" --force
 done < <(find "$TARGET_DIR" -type f -not -path "*/cue.mod/*" -path "*/dashboards/*.cue" -print0)
 
 if [ "$found" -eq 0 ]; then
