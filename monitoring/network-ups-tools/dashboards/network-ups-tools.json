@@ -770,7 +770,7 @@
                 "reduceOptions": {
                     "values": false,
                     "calcs": [
-                        "last"
+                        "lastNotNull"
                     ],
                     "fields": ""
                 },
@@ -791,7 +791,7 @@
                     "expr": "network_ups_tools_battery_charge{ups=\"$ups\"}",
                     "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true
+                    "instant": false
                 }
             ],
             "title": "Battery Charge",
@@ -1060,7 +1060,7 @@
                     "expr": "network_ups_tools_ups_load{ups=\"$ups\"}",
                     "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true
+                    "instant": false
                 }
             ],
             "title": "Load",
@@ -1303,7 +1303,7 @@
                 "reduceOptions": {
                     "values": false,
                     "calcs": [
-                        "last"
+                        "lastNotNull"
                     ],
                     "fields": ""
                 },
@@ -1326,7 +1326,7 @@
                     "expr": "network_ups_tools_input_voltage{ups=\"$ups\"}",
                     "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true
+                    "instant": false
                 }
             ],
             "title": "Line Volts",
@@ -1470,7 +1470,7 @@
                 "reduceOptions": {
                     "values": false,
                     "calcs": [
-                        "last"
+                        "lastNotNull"
                     ],
                     "fields": ""
                 },
@@ -1493,7 +1493,7 @@
                     "expr": "network_ups_tools_battery_voltage{ups=\"$ups\"}",
                     "legendFormat": "__auto",
                     "format": "time_series",
-                    "instant": true
+                    "instant": false
                 }
             ],
             "title": "Battery Volts",

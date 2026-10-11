@@ -62,6 +62,7 @@ import (
 
 #NutGaugePanel: grafana.#GaugePanel & {
 	transparent: true
+	options: reduceOptions: calcs: ["lastNotNull"]
 	fieldConfig: defaults: color: mode: "thresholds"
 }
 
@@ -348,8 +349,7 @@ let batteryChargeGauge = #NutGaugePanel & {
 	}
 	targets: [
 		grafana.#PromTarget & {
-			expr:    #"network_ups_tools_battery_charge{ups="$ups"}"#
-			instant: true
+			expr: #"network_ups_tools_battery_charge{ups="$ups"}"#
 		},
 	]
 }
@@ -419,11 +419,9 @@ let loadGauge = #NutGaugePanel & {
 		unit:       "percent"
 		thresholds: #GreenRed80Thresholds
 	}
-	options: reduceOptions: calcs: ["lastNotNull"]
 	targets: [
 		grafana.#PromTarget & {
-			expr:    #"network_ups_tools_ups_load{ups="$ups"}"#
-			instant: true
+			expr: #"network_ups_tools_ups_load{ups="$ups"}"#
 		},
 	]
 }
@@ -491,8 +489,7 @@ let lineVoltsGauge = #NutGaugePanel & {
 	options: effects: gradient: false
 	targets: [
 		grafana.#PromTarget & {
-			expr:    #"network_ups_tools_input_voltage{ups="$ups"}"#
-			instant: true
+			expr: #"network_ups_tools_input_voltage{ups="$ups"}"#
 		},
 	]
 }
@@ -536,8 +533,7 @@ let batteryVoltsGauge = #NutGaugePanel & {
 	}
 	targets: [
 		grafana.#PromTarget & {
-			expr:    #"network_ups_tools_battery_voltage{ups="$ups"}"#
-			instant: true
+			expr: #"network_ups_tools_battery_voltage{ups="$ups"}"#
 		},
 	]
 }
