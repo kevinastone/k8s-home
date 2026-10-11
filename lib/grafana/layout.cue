@@ -50,13 +50,12 @@ import "list"
 				for p in r {
 					let _explicitW = [if p._w != _|_ {p._w}, if p.gridPos.w != _|_ && p.gridPos.w != 12 {p.gridPos.w}][0]
 					let _finalW = [if _explicitW != _|_ {_explicitW}, autoWidth][0]
-					let _h = p.gridPos.h
+					let _explicitH = [if p.gridPos.h != _|_ && p.gridPos.h != 9 {p.gridPos.h}][0]
+					let _finalH = [if _explicitH != _|_ {_explicitH}, defaultHeight][0]
 					p & {
 						gridPos: {
 							w: _finalW
-							if _h == _|_ {
-								h: defaultHeight
-							}
+							h: _finalH
 						}
 					}
 				},

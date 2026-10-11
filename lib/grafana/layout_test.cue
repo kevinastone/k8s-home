@@ -55,6 +55,18 @@ _testLayoutRows: {
 		assert: input.out & expected
 	}
 
+	// Test 4b: Default height is applied when panel specifies explicit width without explicit height
+	testDefaultHeightAppliedWithExplicitWidth: {
+		input: #LayoutRows & {
+			defaultHeight: 6
+			rows: [[#TimeSeriesPanel & {gridPos: w: 10}]]
+		}
+		expected: [{
+			gridPos: {h: 6, w: 10, x: 0, y: 0}
+		}]
+		assert: input.out & expected
+	}
+
 	// Test 5: Row with 3 panels divides 24 evenly into w: 8 each
 	testThreePanelsAutoWidth: {
 		input: #LayoutRows & {

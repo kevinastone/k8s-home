@@ -59,15 +59,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "name",
                 "orientation": "auto",
                 "reduceOptions": {
-                    "calcs": [
-                        "mean"
-                    ],
                     "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
                     "fields": ""
                 },
+                "textMode": "name",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -75,9 +75,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_device_info{ups=\"$ups\"}",
-                    "legendFormat": "{{mfr}}",
                     "format": "time_series",
-                    "instant": true
+                    "instant": true,
+                    "legendFormat": "{{mfr}}"
                 }
             ],
             "title": "Manufacturer",
@@ -121,15 +121,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "name",
                 "orientation": "auto",
                 "reduceOptions": {
-                    "calcs": [
-                        "mean"
-                    ],
                     "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
                     "fields": ""
                 },
+                "textMode": "name",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -137,9 +137,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_device_info{ups=\"$ups\"}",
-                    "legendFormat": "{{model}}",
                     "format": "time_series",
-                    "instant": true
+                    "instant": true,
+                    "legendFormat": "{{model}}"
                 }
             ],
             "title": "Model",
@@ -207,15 +207,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "value",
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "lastNotNull"
                     ],
-                    "values": false,
                     "fields": "/^Metric$/"
                 },
+                "textMode": "auto",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -223,12 +223,11 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_ups_status{ups=\"$ups\", flag=~\"OB|OL\"} == 1",
-                    "legendFormat": "{{flag}}",
                     "format": "time_series",
-                    "instant": true
+                    "instant": true,
+                    "legendFormat": "{{flag}}"
                 }
             ],
-            "title": "",
             "transformations": [
                 {
                     "id": "seriesToRows",
@@ -257,6 +256,9 @@
             "description": " * OL - On line (mains is present)\n * OB - On battery (mains is not present)\n * LB - Low battery\n * HB - High battery\n * RB - The battery needs to be replaced\n * CHRG - The battery is charging\n * DISCHRG - The battery is discharging (inverter is providing load power)\n * BYPASS - UPS bypass circuit is active -- no battery protection is available\n * CAL - UPS is currently performing runtime calibration (on battery)\n * OFF - UPS is offline and is not supplying power to the load\n * OVER - UPS is overloaded\n * TRIM - UPS is trimming incoming voltage (called \"buck\" in some hardware)\n * BOOST - UPS is boosting incoming voltage\n * FSD and SD - Forced Shutdown",
             "fieldConfig": {
                 "defaults": {
+                    "color": {
+                        "mode": "fixed"
+                    },
                     "mappings": [
                         {
                             "type": "value",
@@ -272,6 +274,7 @@
                             }
                         }
                     ],
+                    "noValue": "-­",
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -280,11 +283,7 @@
                                 "value": null
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "fixed"
-                    },
-                    "noValue": "-­"
+                    }
                 },
                 "overrides": []
             },
@@ -298,15 +297,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "value",
                 "orientation": "auto",
                 "reduceOptions": {
                     "calcs": [
                         "lastNotNull"
                     ],
-                    "values": true,
-                    "fields": "/^Metric$/"
+                    "fields": "/^Metric$/",
+                    "values": true
                 },
+                "textMode": "auto",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -314,9 +313,9 @@
             "targets": [
                 {
                     "expr": "network_ups_tools_ups_status{ups=\"$ups\", flag!~\"OB|OL\"} == 1",
-                    "legendFormat": "{{flag}}",
                     "format": "time_series",
-                    "instant": true
+                    "instant": true,
+                    "legendFormat": "{{flag}}"
                 }
             ],
             "title": "Flags",
@@ -357,7 +356,7 @@
                                 "value": null
                             },
                             {
-                                "color": "#EAB839",
+                                "color": "dark-orange",
                                 "value": 300
                             },
                             {
@@ -382,15 +381,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "value",
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "lastNotNull"
                     ],
-                    "values": false,
                     "fields": ""
                 },
+                "textMode": "auto",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -424,11 +423,11 @@
                                 "value": null
                             },
                             {
-                                "color": "orange",
+                                "color": "dark-orange",
                                 "value": 30
                             },
                             {
-                                "color": "#EAB839",
+                                "color": "dark-yellow",
                                 "value": 60
                             },
                             {
@@ -453,15 +452,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "value",
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
-                    "values": false,
                     "fields": ""
                 },
+                "textMode": "auto",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -487,15 +486,6 @@
                 "defaults": {
                     "unit": "watt",
                     "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "dark-red",
-                                "value": null
-                            }
-                        ]
-                    },
                     "color": {
                         "mode": "fixed"
                     }
@@ -512,15 +502,15 @@
                 "graphMode": "none",
                 "colorMode": "value",
                 "justifyMode": "auto",
-                "textMode": "value",
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
-                    "values": false,
                     "fields": ""
                 },
+                "textMode": "auto",
                 "wideLayout": true,
                 "showPercentChange": false,
                 "percentChangeColorMode": "standard"
@@ -742,9 +732,6 @@
                     "min": 0,
                     "max": 100,
                     "mappings": [],
-                    "color": {
-                        "mode": "thresholds"
-                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -765,6 +752,9 @@
                                 "value": 80
                             }
                         ]
+                    },
+                    "color": {
+                        "mode": "thresholds"
                     }
                 },
                 "overrides": []
@@ -818,29 +808,29 @@
                     "unit": "percent",
                     "min": 0,
                     "mappings": [],
+                    "color": {
+                        "mode": "thresholds"
+                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "red",
+                                "color": "dark-red",
                                 "value": null
                             },
                             {
-                                "color": "orange",
+                                "color": "dark-orange",
                                 "value": 30
                             },
                             {
-                                "color": "yellow",
+                                "color": "dark-yellow",
                                 "value": 60
                             },
                             {
-                                "color": "green",
+                                "color": "dark-green",
                                 "value": 80
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "thresholds"
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -915,26 +905,26 @@
                     "unit": "s",
                     "min": 0,
                     "mappings": [],
+                    "color": {
+                        "mode": "thresholds",
+                        "seriesBy": "last"
+                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "red",
+                                "color": "dark-red",
                                 "value": null
                             },
                             {
-                                "color": "orange",
+                                "color": "dark-orange",
                                 "value": 300
                             },
                             {
-                                "color": "green",
+                                "color": "dark-green",
                                 "value": 900
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "thresholds",
-                        "seriesBy": "last"
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -1019,9 +1009,6 @@
                 "defaults": {
                     "unit": "percent",
                     "mappings": [],
-                    "color": {
-                        "mode": "thresholds"
-                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -1034,6 +1021,9 @@
                                 "value": 80
                             }
                         ]
+                    },
+                    "color": {
+                        "mode": "thresholds"
                     }
                 },
                 "overrides": []
@@ -1088,6 +1078,9 @@
                     "min": 0,
                     "max": 100,
                     "mappings": [],
+                    "color": {
+                        "mode": "palette-classic"
+                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -1100,9 +1093,6 @@
                                 "value": 80
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "palette-classic"
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -1174,17 +1164,21 @@
                 "defaults": {
                     "unit": "watt",
                     "mappings": [],
+                    "color": {
+                        "mode": "palette-classic"
+                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "red",
+                                "color": "green",
                                 "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "palette-classic"
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -1271,9 +1265,6 @@
                     "min": 90,
                     "max": 140,
                     "mappings": [],
-                    "color": {
-                        "mode": "thresholds"
-                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -1294,6 +1285,9 @@
                                 "value": 135
                             }
                         ]
+                    },
+                    "color": {
+                        "mode": "thresholds"
                     }
                 },
                 "overrides": []
@@ -1350,6 +1344,9 @@
                     "min": 90,
                     "max": 140,
                     "mappings": [],
+                    "color": {
+                        "mode": "palette-classic"
+                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -1362,9 +1359,6 @@
                                 "value": 80
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "palette-classic"
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -1423,7 +1417,6 @@
                     "instant": false
                 }
             ],
-            "title": "",
             "transparent": true
         },
         {
@@ -1437,20 +1430,11 @@
                     "unit": "volt",
                     "min": 0,
                     "max": 16,
-                    "mappings": [
-                        {
-                            "type": "special",
-                            "options": {
-                                "match": "null",
-                                "result": {
-                                    "text": "N/A"
-                                }
-                            }
-                        }
-                    ],
+                    "mappings": [],
                     "color": {
                         "mode": "thresholds"
                     },
+                    "noValue": "N/A",
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -1526,6 +1510,9 @@
                     "unit": "volt",
                     "min": 0,
                     "mappings": [],
+                    "color": {
+                        "mode": "palette-classic"
+                    },
                     "thresholds": {
                         "mode": "absolute",
                         "steps": [
@@ -1538,9 +1525,6 @@
                                 "value": 80
                             }
                         ]
-                    },
-                    "color": {
-                        "mode": "palette-classic"
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -1599,7 +1583,6 @@
                     "instant": false
                 }
             ],
-            "title": "",
             "transparent": true
         }
     ],

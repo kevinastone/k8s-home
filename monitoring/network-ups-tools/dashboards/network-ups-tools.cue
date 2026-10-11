@@ -5,12 +5,34 @@ import (
 )
 
 // -----------------------------------------------------------------------------
-// Shared Threshold Presets
+// Shared Threshold Presets & Docs
 // -----------------------------------------------------------------------------
-#GreenRed80Thresholds: [
-	{color: "green", value: null},
-	{color: "red", value: 80},
-]
+#GreenRed80Thresholds: {
+	mode: "absolute"
+	steps: [
+		{color: "green", value: null},
+		{color: "red", value: 80},
+	]
+}
+
+#BatteryChargeThresholds: {
+	mode: "absolute"
+	steps: [
+		{color: "dark-red", value: null},
+		{color: "dark-orange", value: 30},
+		{color: "dark-yellow", value: 60},
+		{color: "dark-green", value: 80},
+	]
+}
+
+#BatteryRuntimeThresholds: {
+	mode: "absolute"
+	steps: [
+		{color: "dark-red", value: null},
+		{color: "dark-orange", value: 300},
+		{color: "dark-green", value: 900},
+	]
+}
 
 #NutStatusDescription: """
 	 * OL - On line (mains is present)
@@ -30,230 +52,82 @@ import (
 	"""
 
 // -----------------------------------------------------------------------------
-// Panel Templates
+// Panel Templates (direct panel schemas)
 // -----------------------------------------------------------------------------
-#NutStat: S={
-	title:        string | *""
-	description?: string
-	expr:         string
-	legend?:      string
-	unit?:        string
-	noValue?:     string
-	thresholdSteps?: [...]
-	colorMode:     string | *"fixed"
-	textMode?:     string
-	calc:          string | *"lastNotNull"
-	fieldsRegex?:  string
-	showAllValues: bool | *false
-	mappings: [...] | *[]
-	transformations: [...] | *[]
-
-	out: grafana.#StatPanel & {
-		title:       S.title
-		transparent: true
-		if S.description != _|_ {
-			description: S.description
-		}
-		fieldConfig: defaults: {
-			if S.unit != _|_ {
-				unit: S.unit
-			}
-			if S.noValue != _|_ {
-				noValue: S.noValue
-			}
-			color: mode: S.colorMode
-			if len(S.mappings) > 0 {
-				mappings: S.mappings
-			}
-			if S.thresholdSteps != _|_ {
-				thresholds: {
-					mode:  "absolute"
-					steps: S.thresholdSteps
-				}
-			}
-		}
-		options: {
-			graphMode: "none"
-			textMode: [if S.textMode != _|_ {S.textMode}, "value"][0]
-			reduceOptions: {
-				calcs: [S.calc]
-				if S.fieldsRegex != _|_ {
-					fields: S.fieldsRegex
-				}
-				values: S.showAllValues
-			}
-		}
-		if len(S.transformations) > 0 {
-			transformations: S.transformations
-		}
-		targets: [
-			grafana.#PromTarget & {
-				expr:    S.expr
-				instant: true
-				if S.legend != _|_ {
-					legendFormat: S.legend
-				}
-			},
-		]
-	}
+#NutStatPanel: grafana.#StatPanel & {
+	transparent: true
+	options: graphMode: "none"
+	fieldConfig: defaults: color: mode: *"fixed" | _
 }
 
-#NutGauge: G={
-	title:       string
-	expr:        string
-	legend?:     string
-	unit?:       string
-	min?:        number
-	max?:        number
-	calc:        string | *"last"
-	gradient:    bool | *true
-	orientation: "auto" | "horizontal" | *"auto"
-	thresholdSteps: [...]
-	mappings: [...] | *[]
-
-	out: grafana.#GaugePanel & {
-		title:       G.title
-		transparent: true
-		fieldConfig: defaults: {
-			if G.unit != _|_ {
-				unit: G.unit
-			}
-			if G.min != _|_ {
-				min: G.min
-			}
-			if G.max != _|_ {
-				max: G.max
-			}
-			color: mode: "thresholds"
-			if len(G.mappings) > 0 {
-				mappings: G.mappings
-			}
-			thresholds: {
-				mode:  "absolute"
-				steps: G.thresholdSteps
-			}
-		}
-		options: {
-			orientation: G.orientation
-			if !G.gradient {
-				effects: gradient: false
-			}
-			if G.calc != "last" {
-				reduceOptions: calcs: [G.calc]
-			}
-		}
-		targets: [
-			grafana.#PromTarget & {
-				expr:    G.expr
-				instant: true
-				if G.legend != _|_ {
-					legendFormat: G.legend
-				}
-			},
-		]
-	}
+#NutGaugePanel: grafana.#GaugePanel & {
+	transparent: true
+	fieldConfig: defaults: color: mode: "thresholds"
 }
 
-#NutTimeseries: T={
-	title:         string | *""
-	expr:          string
-	legend:        string
-	unit?:         string
-	min?:          number
-	max?:          number
-	softMin?:      number
-	softMax?:      number
-	thresholdMode: "off" | "area" | *"off"
-	thresholdSteps: [...] | *#GreenRed80Thresholds
-	colorMode: "palette-classic" | "thresholds" | *"palette-classic"
-	seriesBy?: string
-
-	out: grafana.#TimeSeriesPanel & {
-		title:       T.title
-		transparent: true
-		fieldConfig: defaults: {
-			if T.unit != _|_ {
-				unit: T.unit
-			}
-			if T.min != _|_ {
-				min: T.min
-			}
-			if T.max != _|_ {
-				max: T.max
-			}
-			if T.seriesBy != _|_ {
-				color: {
-					mode:     T.colorMode
-					seriesBy: T.seriesBy
-				}
-			}
-			if T.seriesBy == _|_ {
-				color: mode: T.colorMode
-			}
-			thresholds: {
-				mode:  "absolute"
-				steps: T.thresholdSteps
-			}
-			custom: {
-				axisBorderShow:   false
-				axisCenteredZero: false
-				axisColorMode:    "text"
-				axisPlacement:    "auto"
-				if T.softMin != _|_ {
-					axisSoftMin: T.softMin
-				}
-				if T.softMax != _|_ {
-					axisSoftMax: T.softMax
-				}
-				drawStyle:         "line"
-				fillOpacity:       50
-				gradientMode:      "opacity"
-				lineInterpolation: "linear"
-				lineWidth:         1
-				pointSize:         5
-				scaleDistribution: type: "linear"
-				showPoints: "never"
-				spanNulls:  false
-				stacking: mode:        "none"
-				thresholdsStyle: mode: T.thresholdMode
-				hideFrom: {legend: false, tooltip: false, viz: false}
-			}
+#NutTimeSeriesPanel: grafana.#TimeSeriesPanel & {
+	transparent: true
+	fieldConfig: defaults: {
+		color: mode: *"palette-classic" | _
+		thresholds: *#GreenRed80Thresholds | _
+		custom: {
+			axisBorderShow:    false
+			axisCenteredZero:  false
+			axisColorMode:     "text"
+			axisPlacement:     "auto"
+			drawStyle:         "line"
+			fillOpacity:       50
+			gradientMode:      "opacity"
+			lineInterpolation: "linear"
+			lineWidth:         1
+			pointSize:         5
+			scaleDistribution: type: "linear"
+			showPoints: "never"
+			spanNulls:  false
+			stacking: mode:        "none"
+			thresholdsStyle: mode: *"off" | _
+			hideFrom: {legend: false, tooltip: false, viz: false}
 		}
-		options: tooltip: mode: "multi"
-		targets: [
-			grafana.#PromTarget & {
-				expr:         T.expr
-				legendFormat: T.legend
-			},
-		]
 	}
+	options: tooltip: mode: "multi"
 }
 
 // -----------------------------------------------------------------------------
 // 1. Device Info
 // -----------------------------------------------------------------------------
-let mfrStat = #NutStat & {
-	title:          "Manufacturer"
-	expr:           #"network_ups_tools_device_info{ups="$ups"}"#
-	legend:         "{{mfr}}"
-	calc:           "mean"
-	textMode:       "name"
-	thresholdSteps: #GreenRed80Thresholds
+let mfrStat = #NutStatPanel & {
+	title: "Manufacturer"
+	gridPos: w: 8
+	fieldConfig: defaults: thresholds: #GreenRed80Thresholds
+	options: textMode: "name"
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_device_info{ups="$ups"}"#
+			instant:      true
+			legendFormat: "{{mfr}}"
+		},
+	]
 }
 
-let modelStat = #NutStat & {
-	title:          "Model"
-	expr:           #"network_ups_tools_device_info{ups="$ups"}"#
-	legend:         "{{model}}"
-	calc:           "mean"
-	textMode:       "name"
-	thresholdSteps: #GreenRed80Thresholds
+let modelStat = #NutStatPanel & {
+	title: "Model"
+	gridPos: w: 16
+	fieldConfig: defaults: thresholds: #GreenRed80Thresholds
+	options: textMode: "name"
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_device_info{ups="$ups"}"#
+			instant:      true
+			legendFormat: "{{model}}"
+		},
+	]
 }
 
-let deviceInfoSection = {
-	title: "Device Info"
+let deviceInfoSection = grafana.#RowSection & {
+	title:         "Device Info"
+	defaultHeight: 3
 	rows: [
-		[(mfrStat.out & {gridPos: {h: 3, w: 8}}), (modelStat.out & {gridPos: {h: 3, w: 16}})],
+		[mfrStat, modelStat],
 	]
 }
 
@@ -278,67 +152,100 @@ let statusMappings = [
 	},
 ]
 
-let statusStat = #NutStat & {
+let statusStat = #NutStatPanel & {
 	description: #NutStatusDescription
-	expr:        #"network_ups_tools_ups_status{ups="$ups", flag=~"OB|OL"} == 1"#
-	legend:      "{{flag}}"
-	fieldsRegex: "/^Metric$/"
-	mappings:    statusMappings
-	thresholdSteps: [{color: "green", value: null}]
+	gridPos: w: 3
+	fieldConfig: defaults: {
+		mappings: statusMappings
+		thresholds: {
+			mode: "absolute"
+			steps: [{color: "green", value: null}]
+		}
+	}
+	options: reduceOptions: fields: "/^Metric$/"
 	transformations: statusTransformations
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_ups_status{ups="$ups", flag=~"OB|OL"} == 1"#
+			instant:      true
+			legendFormat: "{{flag}}"
+		},
+	]
 }
 
-let flagsStat = #NutStat & {
-	title:         "Flags"
-	description:   #NutStatusDescription
-	noValue:       "-­"
-	expr:          #"network_ups_tools_ups_status{ups="$ups", flag!~"OB|OL"} == 1"#
-	legend:        "{{flag}}"
-	fieldsRegex:   "/^Metric$/"
-	showAllValues: true
-	mappings:      statusMappings
-	thresholdSteps: [{color: "green", value: null}]
+let flagsStat = #NutStatPanel & {
+	title:       "Flags"
+	description: #NutStatusDescription
+	gridPos: w: 5
+	fieldConfig: defaults: {
+		noValue:  "-­"
+		mappings: statusMappings
+		thresholds: {
+			mode: "absolute"
+			steps: [{color: "green", value: null}]
+		}
+	}
+	options: reduceOptions: {
+		fields: "/^Metric$/"
+		values: true
+	}
 	transformations: statusTransformations
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_ups_status{ups="$ups", flag!~"OB|OL"} == 1"#
+			instant:      true
+			legendFormat: "{{flag}}"
+		},
+	]
 }
 
-let batteryRuntimeStat = #NutStat & {
+let batteryRuntimeStat = #NutStatPanel & {
 	title: "Battery Runtime"
-	unit:  "s"
-	expr:  #"network_ups_tools_battery_runtime{ups="$ups"}"#
-	thresholdSteps: [
-		{color: "dark-red", value: null},
-		{color: "#EAB839", value: 300},
-		{color: "dark-green", value: 900},
+	gridPos: w: 5
+	fieldConfig: defaults: {
+		unit:       "s"
+		thresholds: #BatteryRuntimeThresholds
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"network_ups_tools_battery_runtime{ups="$ups"}"#
+			instant: true
+		},
 	]
 }
 
-let batteryChargeStat = #NutStat & {
+let batteryChargeStat = #NutStatPanel & {
 	title: "Battery Charge"
-	unit:  "percent"
-	calc:  "last"
-	expr:  #"network_ups_tools_battery_charge{ups="$ups"}"#
-	thresholdSteps: [
-		{color: "dark-red", value: null},
-		{color: "orange", value: 30},
-		{color: "#EAB839", value: 60},
-		{color: "dark-green", value: 80},
+	gridPos: w: 5
+	fieldConfig: defaults: {
+		unit:       "percent"
+		thresholds: #BatteryChargeThresholds
+	}
+	options: reduceOptions: calcs: ["last"]
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"network_ups_tools_battery_charge{ups="$ups"}"#
+			instant: true
+		},
 	]
 }
 
-let powerDrawStat = #NutStat & {
+let powerDrawStat = #NutStatPanel & {
 	title: "Power Draw"
-	unit:  "watt"
-	calc:  "last"
-	expr:  #"(network_ups_tools_ups_load{ups="$ups"} / 100) * network_ups_tools_ups_realpower_nominal{ups="$ups"}"#
-	thresholdSteps: [
-		{color: "dark-red", value: null},
+	gridPos: w: 6
+	fieldConfig: defaults: unit: "watt"
+	options: reduceOptions: calcs: ["last"]
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"(network_ups_tools_ups_load{ups="$ups"} / 100) * network_ups_tools_ups_realpower_nominal{ups="$ups"}"#
+			instant: true
+		},
 	]
 }
 
 let statusTimeline = grafana.#StateTimelinePanel & {
 	title:       ""
 	transparent: true
-	gridPos: {h: 3, w: 24}
 	fieldConfig: defaults: {
 		color: mode: "thresholds"
 		displayName: "­"
@@ -370,15 +277,16 @@ let statusTimeline = grafana.#StateTimelinePanel & {
 	]
 }
 
-let statusSection = {
-	title: "Status"
+let statusSection = grafana.#RowSection & {
+	title:         "Status"
+	defaultHeight: 3
 	rows: [
 		[
-			(statusStat.out & {gridPos: {h: 3, w: 3}}),
-			(flagsStat.out & {gridPos: {h: 3, w: 5}}),
-			(batteryRuntimeStat.out & {gridPos: {h: 3, w: 5}}),
-			(batteryChargeStat.out & {gridPos: {h: 3, w: 5}}),
-			(powerDrawStat.out & {gridPos: {h: 3, w: 6}}),
+			statusStat,
+			flagsStat,
+			batteryRuntimeStat,
+			batteryChargeStat,
+			powerDrawStat,
 		],
 		[statusTimeline],
 	]
@@ -389,7 +297,6 @@ let statusSection = {
 // -----------------------------------------------------------------------------
 let statusBreakdownTimeline = grafana.#StateTimelinePanel & {
 	title: ""
-	gridPos: {h: 7, w: 24}
 	fieldConfig: defaults: {
 		color: mode: "palette-classic"
 		thresholds: {
@@ -418,9 +325,10 @@ let statusBreakdownTimeline = grafana.#StateTimelinePanel & {
 	]
 }
 
-let statusBreakdownSection = {
-	title:     "Status Breakdown"
-	collapsed: true
+let statusBreakdownSection = grafana.#RowSection & {
+	title:         "Status Breakdown"
+	defaultHeight: 7
+	collapsed:     true
 	rows: [
 		[statusBreakdownTimeline],
 	]
@@ -429,61 +337,74 @@ let statusBreakdownSection = {
 // -----------------------------------------------------------------------------
 // 4. Runtime
 // -----------------------------------------------------------------------------
-let batteryChargeGauge = #NutGauge & {
+let batteryChargeGauge = #NutGaugePanel & {
 	title: "Battery Charge"
-	unit:  "percent"
-	min:   0
-	max:   100
-	expr:  #"network_ups_tools_battery_charge{ups="$ups"}"#
-	thresholdSteps: [
-		{color: "dark-red", value: null},
-		{color: "dark-orange", value: 30},
-		{color: "dark-yellow", value: 60},
-		{color: "dark-green", value: 80},
+	gridPos: w: 3
+	fieldConfig: defaults: {
+		unit:       "percent"
+		min:        0
+		max:        100
+		thresholds: #BatteryChargeThresholds
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"network_ups_tools_battery_charge{ups="$ups"}"#
+			instant: true
+		},
 	]
 }
 
-let batteryChargeTimeseries = #NutTimeseries & {
-	title:         "Battery Charge"
-	unit:          "percent"
-	min:           0
-	softMin:       0
-	softMax:       100
-	colorMode:     "thresholds"
-	thresholdMode: "area"
-	expr:          #"network_ups_tools_battery_charge{ups="$ups"}"#
-	legend:        "Charge"
-	thresholdSteps: [
-		{color: "red", value: null},
-		{color: "orange", value: 30},
-		{color: "yellow", value: 60},
-		{color: "green", value: 80},
+let batteryChargeTimeseries = #NutTimeSeriesPanel & {
+	title: "Battery Charge"
+	gridPos: w: 10
+	fieldConfig: defaults: {
+		unit: "percent"
+		min:  0
+		color: mode: "thresholds"
+		thresholds: #BatteryChargeThresholds
+		custom: {
+			axisSoftMin: 0
+			axisSoftMax: 100
+			thresholdsStyle: mode: "area"
+		}
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_battery_charge{ups="$ups"}"#
+			legendFormat: "Charge"
+		},
 	]
 }
 
-let batteryRuntimeTimeseries = #NutTimeseries & {
-	title:         "Battery Run Time Left"
-	unit:          "s"
-	min:           0
-	colorMode:     "thresholds"
-	seriesBy:      "last"
-	thresholdMode: "area"
-	expr:          #"network_ups_tools_battery_runtime{ups="$ups"}"#
-	legend:        "Runtime"
-	thresholdSteps: [
-		{color: "red", value: null},
-		{color: "orange", value: 300},
-		{color: "green", value: 900},
+let batteryRuntimeTimeseries = #NutTimeSeriesPanel & {
+	title: "Battery Run Time Left"
+	gridPos: w: 11
+	fieldConfig: defaults: {
+		unit: "s"
+		min:  0
+		color: {
+			mode:     "thresholds"
+			seriesBy: "last"
+		}
+		thresholds: #BatteryRuntimeThresholds
+		custom: thresholdsStyle: mode: "area"
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_battery_runtime{ups="$ups"}"#
+			legendFormat: "Runtime"
+		},
 	]
 }
 
-let runtimeSection = {
-	title: "Runtime"
+let runtimeSection = grafana.#RowSection & {
+	title:         "Runtime"
+	defaultHeight: 6
 	rows: [
 		[
-			(batteryChargeGauge.out & {gridPos: {h: 6, w: 3}}),
-			(batteryChargeTimeseries.out & {gridPos: {h: 6, w: 10}}),
-			(batteryRuntimeTimeseries.out & {gridPos: {h: 6, w: 11}}),
+			batteryChargeGauge,
+			batteryChargeTimeseries,
+			batteryRuntimeTimeseries,
 		],
 	]
 }
@@ -491,41 +412,58 @@ let runtimeSection = {
 // -----------------------------------------------------------------------------
 // 5. Load
 // -----------------------------------------------------------------------------
-let loadGauge = #NutGauge & {
-	title:          "Load"
-	unit:           "percent"
-	calc:           "lastNotNull"
-	expr:           #"network_ups_tools_ups_load{ups="$ups"}"#
-	thresholdSteps: #GreenRed80Thresholds
-}
-
-let loadTimeseries = #NutTimeseries & {
-	title:          "Load"
-	unit:           "percent"
-	min:            0
-	max:            100
-	expr:           #"network_ups_tools_ups_load{ups="$ups"}"#
-	legend:         "Load"
-	thresholdSteps: #GreenRed80Thresholds
-}
-
-let powerUsageTimeseries = #NutTimeseries & {
-	title:  "Power Usage"
-	unit:   "watt"
-	expr:   #"(network_ups_tools_ups_load{ups="$ups"} / 100) * network_ups_tools_ups_realpower_nominal{ups="$ups"}"#
-	legend: "Power"
-	thresholdSteps: [
-		{color: "red", value: null},
+let loadGauge = #NutGaugePanel & {
+	title: "Load"
+	gridPos: w: 3
+	fieldConfig: defaults: {
+		unit:       "percent"
+		thresholds: #GreenRed80Thresholds
+	}
+	options: reduceOptions: calcs: ["lastNotNull"]
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"network_ups_tools_ups_load{ups="$ups"}"#
+			instant: true
+		},
 	]
 }
 
-let loadSection = {
+let loadTimeseries = #NutTimeSeriesPanel & {
 	title: "Load"
+	gridPos: w: 10
+	fieldConfig: defaults: {
+		unit: "percent"
+		min:  0
+		max:  100
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_ups_load{ups="$ups"}"#
+			legendFormat: "Load"
+		},
+	]
+}
+
+let powerUsageTimeseries = #NutTimeSeriesPanel & {
+	title: "Power Usage"
+	gridPos: w: 11
+	fieldConfig: defaults: unit: "watt"
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"(network_ups_tools_ups_load{ups="$ups"} / 100) * network_ups_tools_ups_realpower_nominal{ups="$ups"}"#
+			legendFormat: "Power"
+		},
+	]
+}
+
+let loadSection = grafana.#RowSection & {
+	title:         "Load"
+	defaultHeight: 6
 	rows: [
 		[
-			(loadGauge.out & {gridPos: {h: 6, w: 3}}),
-			(loadTimeseries.out & {gridPos: {h: 6, w: 10}}),
-			(powerUsageTimeseries.out & {gridPos: {h: 6, w: 11}}),
+			loadGauge,
+			loadTimeseries,
+			powerUsageTimeseries,
 		],
 	]
 }
@@ -533,71 +471,100 @@ let loadSection = {
 // -----------------------------------------------------------------------------
 // 6. Power Health
 // -----------------------------------------------------------------------------
-let lineVoltsGauge = #NutGauge & {
-	title:    "Line Volts"
-	unit:     "volt"
-	min:      90
-	max:      140
-	gradient: false
-	expr:     #"network_ups_tools_input_voltage{ups="$ups"}"#
-	thresholdSteps: [
-		{color: "dark-red", value: null},
-		{color: "dark-green", value: 95},
-		{color: "dark-yellow", value: 125},
-		{color: "dark-red", value: 135},
-	]
-}
-
-let lineVoltsTimeseries = #NutTimeseries & {
-	unit:           "volt"
-	min:            90
-	max:            140
-	expr:           #"network_ups_tools_input_voltage{ups="$ups"}"#
-	legend:         "Input Voltage"
-	thresholdSteps: #GreenRed80Thresholds
-}
-
-let batteryVoltsGauge = #NutGauge & {
-	title:       "Battery Volts"
-	unit:        "volt"
-	min:         0
-	max:         16
-	gradient:    false
-	orientation: "horizontal"
-	expr:        #"network_ups_tools_battery_voltage{ups="$ups"}"#
-	mappings: [
-		{
-			type: "special"
-			options: {
-				match: "null"
-				result: text: "N/A"
-			}
+let lineVoltsGauge = #NutGaugePanel & {
+	title: "Line Volts"
+	gridPos: w: 3
+	fieldConfig: defaults: {
+		unit: "volt"
+		min:  90
+		max:  140
+		thresholds: {
+			mode: "absolute"
+			steps: [
+				{color: "dark-red", value: null},
+				{color: "dark-green", value: 95},
+				{color: "dark-yellow", value: 125},
+				{color: "dark-red", value: 135},
+			]
+		}
+	}
+	options: effects: gradient: false
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"network_ups_tools_input_voltage{ups="$ups"}"#
+			instant: true
 		},
 	]
-	thresholdSteps: [
-		{color: "dark-red", value: null},
-		{color: "dark-yellow", value: 10},
-		{color: "dark-green", value: 12},
-		{color: "dark-red", value: 14.4},
+}
+
+let lineVoltsTimeseries = #NutTimeSeriesPanel & {
+	gridPos: w: 9
+	fieldConfig: defaults: {
+		unit: "volt"
+		min:  90
+		max:  140
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_input_voltage{ups="$ups"}"#
+			legendFormat: "Input Voltage"
+		},
 	]
 }
 
-let batteryVoltsTimeseries = #NutTimeseries & {
-	unit:           "volt"
-	min:            0
-	expr:           #"network_ups_tools_battery_voltage{ups="$ups"}"#
-	legend:         "Battery Voltage"
-	thresholdSteps: #GreenRed80Thresholds
+let batteryVoltsGauge = #NutGaugePanel & {
+	title: "Battery Volts"
+	gridPos: w: 3
+	fieldConfig: defaults: {
+		unit:    "volt"
+		min:     0
+		max:     16
+		noValue: "N/A"
+		thresholds: {
+			mode: "absolute"
+			steps: [
+				{color: "dark-red", value: null},
+				{color: "dark-yellow", value: 10},
+				{color: "dark-green", value: 12},
+				{color: "dark-red", value: 14.4},
+			]
+		}
+	}
+	options: {
+		orientation: "horizontal"
+		effects: gradient: false
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:    #"network_ups_tools_battery_voltage{ups="$ups"}"#
+			instant: true
+		},
+	]
 }
 
-let powerHealthSection = {
-	title: "Power Health"
+let batteryVoltsTimeseries = #NutTimeSeriesPanel & {
+	gridPos: w: 9
+	fieldConfig: defaults: {
+		unit: "volt"
+		min:  0
+	}
+	targets: [
+		grafana.#PromTarget & {
+			expr:         #"network_ups_tools_battery_voltage{ups="$ups"}"#
+			legendFormat: "Battery Voltage"
+		},
+	]
+}
+
+let powerHealthSection = grafana.#RowSection & {
+	title:         "Power Health"
+	defaultHeight: 6
 	rows: [
 		[
-			(lineVoltsGauge.out & {gridPos: {h: 6, w: 3}}),
-			(lineVoltsTimeseries.out & {gridPos: {h: 6, w: 9}}),
-			(batteryVoltsGauge.out & {gridPos: {h: 6, w: 3}}),
-			(batteryVoltsTimeseries.out & {gridPos: {h: 6, w: 9}}),
+			lineVoltsGauge,
+			lineVoltsTimeseries,
+			batteryVoltsGauge,
+			batteryVoltsTimeseries,
 		],
 	]
 }
