@@ -9,6 +9,29 @@ import (
 	grafana.#PromTarget
 }
 
+// Common base for all UPS dashboard TimeSeries panels
+#NutTimeSeriesPanel: grafana.#TimeSeriesPanel & {
+	transparent: true
+	fieldConfig: defaults: custom: {
+		axisBorderShow:    false
+		axisCenteredZero:  false
+		axisColorMode:     "text"
+		axisPlacement:     "auto"
+		drawStyle:         "line"
+		fillOpacity:       50
+		gradientMode:      "opacity"
+		lineInterpolation: "linear"
+		lineWidth:         1
+		pointSize:         5
+		scaleDistribution: type: "linear"
+		showPoints: "never"
+		spanNulls:  false
+		stacking: mode: "none"
+		hideFrom: {legend: false, tooltip: false, viz: false}
+	}
+	options: tooltip: mode: "multi"
+}
+
 // -----------------------------------------------------------------------------
 // 1. Device Info
 // -----------------------------------------------------------------------------
@@ -27,19 +50,9 @@ let mfrStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
-		reduceOptions: {
-			calcs: ["mean"]
-			fields: ""
-			values: false
-		}
-		showPercentChange: false
-		textMode:          "name"
-		wideLayout:        true
+		graphMode: "none"
+		reduceOptions: calcs: ["mean"]
+		textMode: "name"
 	}
 	targets: [
 		#NutTarget & {
@@ -65,19 +78,9 @@ let modelStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
-		reduceOptions: {
-			calcs: ["mean"]
-			fields: ""
-			values: false
-		}
-		showPercentChange: false
-		textMode:          "name"
-		wideLayout:        true
+		graphMode: "none"
+		reduceOptions: calcs: ["mean"]
+		textMode: "name"
 	}
 	targets: [
 		#NutTarget & {
@@ -137,19 +140,9 @@ let statusStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
-		reduceOptions: {
-			calcs: ["lastNotNull"]
-			fields: "/^Metric$/"
-			values: false
-		}
-		showPercentChange: false
-		textMode:          "value"
-		wideLayout:        true
+		graphMode: "none"
+		reduceOptions: fields: "/^Metric$/"
+		textMode: "value"
 	}
 	transformations: [
 		{id: "seriesToRows", options: {}},
@@ -192,19 +185,12 @@ let flagsStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
+		graphMode: "none"
 		reduceOptions: {
-			calcs: ["lastNotNull"]
 			fields: "/^Metric$/"
 			values: true
 		}
-		showPercentChange: false
-		textMode:          "value"
-		wideLayout:        true
+		textMode: "value"
 	}
 	transformations: [
 		{id: "seriesToRows", options: {}},
@@ -238,19 +224,8 @@ let batteryRuntimeStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
-		reduceOptions: {
-			calcs: ["lastNotNull"]
-			fields: ""
-			values: false
-		}
-		showPercentChange: false
-		textMode:          "value"
-		wideLayout:        true
+		graphMode: "none"
+		textMode:  "value"
 	}
 	targets: [
 		#NutTarget & {
@@ -277,19 +252,9 @@ let batteryChargeStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
-		reduceOptions: {
-			calcs: ["last"]
-			fields: ""
-			values: false
-		}
-		showPercentChange: false
-		textMode:          "value"
-		wideLayout:        true
+		graphMode: "none"
+		reduceOptions: calcs: ["last"]
+		textMode: "value"
 	}
 	targets: [
 		#NutTarget & {
@@ -314,19 +279,9 @@ let powerDrawStat = grafana.#StatPanel & {
 		}
 	}
 	options: {
-		colorMode:              "value"
-		graphMode:              "none"
-		justifyMode:            "auto"
-		orientation:            "auto"
-		percentChangeColorMode: "standard"
-		reduceOptions: {
-			calcs: ["last"]
-			fields: ""
-			values: false
-		}
-		showPercentChange: false
-		textMode:          "value"
-		wideLayout:        true
+		graphMode: "none"
+		reduceOptions: calcs: ["last"]
+		textMode: "value"
 	}
 	targets: [
 		#NutTarget & {
@@ -337,7 +292,8 @@ let powerDrawStat = grafana.#StatPanel & {
 }
 
 let statusTimeline = grafana.#StateTimelinePanel & {
-	title: ""
+	title:       ""
+	transparent: true
 	gridPos: {h: 3, w: 24}
 	fieldConfig: defaults: {
 		color: mode: "thresholds"
@@ -370,12 +326,7 @@ let statusTimeline = grafana.#StateTimelinePanel & {
 		rowHeight:   0.9
 		showValue:   "auto"
 		mergeValues: true
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "single", sort: "none"}
+		legend: showLegend: false
 	}
 	transformations: [
 		{id: "seriesToRows", options: {}},
@@ -427,12 +378,7 @@ let statusBreakdownTimeline = grafana.#StateTimelinePanel & {
 		rowHeight:   0.9
 		showValue:   "never"
 		mergeValues: true
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "single", sort: "none"}
+		legend: showLegend: false
 	}
 	targets: [
 		#NutTarget & {
@@ -472,19 +418,6 @@ let batteryChargeGauge = grafana.#GaugePanel & {
 			]
 		}
 	}
-	options: {
-		minVizHeight:         75
-		minVizWidth:          75
-		orientation:          "auto"
-		showThresholdLabels:  false
-		showThresholdMarkers: true
-		sizing:               "auto"
-		reduceOptions: {
-			calcs: ["last"]
-			fields: ""
-			values: false
-		}
-	}
 	targets: [
 		#NutTarget & {
 			expr:    #"network_ups_tools_battery_charge{ups="$ups"}"#
@@ -493,9 +426,8 @@ let batteryChargeGauge = grafana.#GaugePanel & {
 	]
 }
 
-let batteryChargeTimeseries = grafana.#TimeSeriesPanel & {
-	title:       "Battery Charge"
-	transparent: true
+let batteryChargeTimeseries = #NutTimeSeriesPanel & {
+	title: "Battery Charge"
 	gridPos: {h: 6, w: 10}
 	fieldConfig: defaults: {
 		unit: "percent"
@@ -511,33 +443,10 @@ let batteryChargeTimeseries = grafana.#TimeSeriesPanel & {
 			]
 		}
 		custom: {
-			axisBorderShow:    false
-			axisCenteredZero:  false
-			axisColorMode:     "text"
-			axisPlacement:     "auto"
-			axisSoftMin:       0
-			axisSoftMax:       100
-			drawStyle:         "line"
-			fillOpacity:       50
-			gradientMode:      "opacity"
-			lineInterpolation: "linear"
-			lineWidth:         1
-			pointSize:         5
-			scaleDistribution: type: "linear"
-			showPoints: "never"
-			spanNulls:  false
-			stacking: mode:        "none"
+			axisSoftMin: 0
+			axisSoftMax: 100
 			thresholdsStyle: mode: "area"
-			hideFrom: {legend: false, tooltip: false, viz: false}
 		}
-	}
-	options: {
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "multi", sort: "none"}
 	}
 	targets: [
 		#NutTarget & {
@@ -547,9 +456,8 @@ let batteryChargeTimeseries = grafana.#TimeSeriesPanel & {
 	]
 }
 
-let batteryRuntimeTimeseries = grafana.#TimeSeriesPanel & {
-	title:       "Battery Run Time Left"
-	transparent: true
+let batteryRuntimeTimeseries = #NutTimeSeriesPanel & {
+	title: "Battery Run Time Left"
 	gridPos: {h: 6, w: 11}
 	fieldConfig: defaults: {
 		unit: "s"
@@ -566,32 +474,7 @@ let batteryRuntimeTimeseries = grafana.#TimeSeriesPanel & {
 				{color: "green", value: 900},
 			]
 		}
-		custom: {
-			axisBorderShow:    false
-			axisCenteredZero:  false
-			axisColorMode:     "text"
-			axisPlacement:     "auto"
-			drawStyle:         "line"
-			fillOpacity:       50
-			gradientMode:      "opacity"
-			lineInterpolation: "linear"
-			lineWidth:         1
-			pointSize:         5
-			scaleDistribution: type: "linear"
-			showPoints: "never"
-			spanNulls:  false
-			stacking: mode:        "none"
-			thresholdsStyle: mode: "area"
-			hideFrom: {legend: false, tooltip: false, viz: false}
-		}
-	}
-	options: {
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "multi", sort: "none"}
+		custom: thresholdsStyle: mode: "area"
 	}
 	targets: [
 		#NutTarget & {
@@ -626,19 +509,7 @@ let loadGauge = grafana.#GaugePanel & {
 			]
 		}
 	}
-	options: {
-		minVizHeight:         75
-		minVizWidth:          75
-		orientation:          "auto"
-		showThresholdLabels:  false
-		showThresholdMarkers: true
-		sizing:               "auto"
-		reduceOptions: {
-			calcs: ["lastNotNull"]
-			fields: ""
-			values: false
-		}
-	}
+	options: reduceOptions: calcs: ["lastNotNull"]
 	targets: [
 		#NutTarget & {
 			expr:         #"network_ups_tools_ups_load{ups="$ups"}"#
@@ -648,9 +519,8 @@ let loadGauge = grafana.#GaugePanel & {
 	]
 }
 
-let loadTimeseries = grafana.#TimeSeriesPanel & {
-	title:       "Load"
-	transparent: true
+let loadTimeseries = #NutTimeSeriesPanel & {
+	title: "Load"
 	gridPos: {h: 6, w: 10}
 	fieldConfig: defaults: {
 		unit: "percent"
@@ -664,32 +534,7 @@ let loadTimeseries = grafana.#TimeSeriesPanel & {
 				{color: "red", value: 80},
 			]
 		}
-		custom: {
-			axisBorderShow:    false
-			axisCenteredZero:  false
-			axisColorMode:     "text"
-			axisPlacement:     "auto"
-			drawStyle:         "line"
-			fillOpacity:       50
-			gradientMode:      "opacity"
-			lineInterpolation: "linear"
-			lineWidth:         1
-			pointSize:         5
-			scaleDistribution: type: "linear"
-			showPoints: "never"
-			spanNulls:  false
-			stacking: mode:        "none"
-			thresholdsStyle: mode: "off"
-			hideFrom: {legend: false, tooltip: false, viz: false}
-		}
-	}
-	options: {
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "multi", sort: "none"}
+		custom: thresholdsStyle: mode: "off"
 	}
 	targets: [
 		#NutTarget & {
@@ -699,9 +544,8 @@ let loadTimeseries = grafana.#TimeSeriesPanel & {
 	]
 }
 
-let powerUsageTimeseries = grafana.#TimeSeriesPanel & {
-	title:       "Power Usage"
-	transparent: true
+let powerUsageTimeseries = #NutTimeSeriesPanel & {
+	title: "Power Usage"
 	gridPos: {h: 6, w: 11}
 	fieldConfig: defaults: {
 		unit: "watt"
@@ -712,32 +556,7 @@ let powerUsageTimeseries = grafana.#TimeSeriesPanel & {
 				{color: "red", value: null},
 			]
 		}
-		custom: {
-			axisBorderShow:    false
-			axisCenteredZero:  false
-			axisColorMode:     "text"
-			axisPlacement:     "auto"
-			drawStyle:         "line"
-			fillOpacity:       50
-			gradientMode:      "opacity"
-			lineInterpolation: "linear"
-			lineWidth:         1
-			pointSize:         5
-			scaleDistribution: type: "linear"
-			showPoints: "never"
-			spanNulls:  false
-			stacking: mode:        "none"
-			thresholdsStyle: mode: "off"
-			hideFrom: {legend: false, tooltip: false, viz: false}
-		}
-	}
-	options: {
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "multi", sort: "none"}
+		custom: thresholdsStyle: mode: "off"
 	}
 	targets: [
 		#NutTarget & {
@@ -775,19 +594,7 @@ let lineVoltsGauge = grafana.#GaugePanel & {
 			]
 		}
 	}
-	options: {
-		minVizHeight:         75
-		minVizWidth:          75
-		orientation:          "auto"
-		showThresholdLabels:  false
-		showThresholdMarkers: true
-		sizing:               "auto"
-		reduceOptions: {
-			calcs: ["last"]
-			fields: ""
-			values: false
-		}
-	}
+	options: effects: gradient: false
 	targets: [
 		#NutTarget & {
 			expr:    #"network_ups_tools_input_voltage{ups="$ups"}"#
@@ -796,9 +603,8 @@ let lineVoltsGauge = grafana.#GaugePanel & {
 	]
 }
 
-let lineVoltsTimeseries = grafana.#TimeSeriesPanel & {
-	title:       ""
-	transparent: true
+let lineVoltsTimeseries = #NutTimeSeriesPanel & {
+	title: ""
 	gridPos: {h: 6, w: 9}
 	fieldConfig: defaults: {
 		unit: "volt"
@@ -812,32 +618,7 @@ let lineVoltsTimeseries = grafana.#TimeSeriesPanel & {
 				{color: "red", value: 80},
 			]
 		}
-		custom: {
-			axisBorderShow:    false
-			axisCenteredZero:  false
-			axisColorMode:     "text"
-			axisPlacement:     "auto"
-			drawStyle:         "line"
-			fillOpacity:       50
-			gradientMode:      "opacity"
-			lineInterpolation: "linear"
-			lineWidth:         1
-			pointSize:         5
-			scaleDistribution: type: "linear"
-			showPoints: "never"
-			spanNulls:  false
-			stacking: mode:        "none"
-			thresholdsStyle: mode: "off"
-			hideFrom: {legend: false, tooltip: false, viz: false}
-		}
-	}
-	options: {
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "multi", sort: "none"}
+		custom: thresholdsStyle: mode: "off"
 	}
 	targets: [
 		#NutTarget & {
@@ -875,17 +656,8 @@ let batteryVoltsGauge = grafana.#GaugePanel & {
 		}
 	}
 	options: {
-		minVizHeight:         75
-		minVizWidth:          75
-		orientation:          "horizontal"
-		showThresholdLabels:  false
-		showThresholdMarkers: true
-		sizing:               "auto"
-		reduceOptions: {
-			calcs: ["last"]
-			fields: ""
-			values: false
-		}
+		orientation: "horizontal"
+		effects: gradient: false
 	}
 	targets: [
 		#NutTarget & {
@@ -895,9 +667,8 @@ let batteryVoltsGauge = grafana.#GaugePanel & {
 	]
 }
 
-let batteryVoltsTimeseries = grafana.#TimeSeriesPanel & {
-	title:       ""
-	transparent: true
+let batteryVoltsTimeseries = #NutTimeSeriesPanel & {
+	title: ""
 	gridPos: {h: 6, w: 9}
 	fieldConfig: defaults: {
 		unit: "volt"
@@ -910,32 +681,7 @@ let batteryVoltsTimeseries = grafana.#TimeSeriesPanel & {
 				{color: "red", value: 80},
 			]
 		}
-		custom: {
-			axisBorderShow:    false
-			axisCenteredZero:  false
-			axisColorMode:     "text"
-			axisPlacement:     "auto"
-			drawStyle:         "line"
-			fillOpacity:       50
-			gradientMode:      "opacity"
-			lineInterpolation: "linear"
-			lineWidth:         1
-			pointSize:         5
-			scaleDistribution: type: "linear"
-			showPoints: "never"
-			spanNulls:  false
-			stacking: mode:        "none"
-			thresholdsStyle: mode: "off"
-			hideFrom: {legend: false, tooltip: false, viz: false}
-		}
-	}
-	options: {
-		legend: {
-			showLegend:  false
-			displayMode: "list"
-			placement:   "bottom"
-		}
-		tooltip: {mode: "multi", sort: "none"}
+		custom: thresholdsStyle: mode: "off"
 	}
 	targets: [
 		#NutTarget & {

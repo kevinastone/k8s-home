@@ -56,21 +56,21 @@
                 "y": 1
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "mean"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
-                "showPercentChange": false,
                 "textMode": "name",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -118,21 +118,21 @@
                 "y": 1
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "mean"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
-                "showPercentChange": false,
                 "textMode": "name",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -204,21 +204,21 @@
                 "y": 5
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "lastNotNull"
                     ],
-                    "fields": "/^Metric$/",
-                    "values": false
+                    "fields": "/^Metric$/"
                 },
-                "showPercentChange": false,
                 "textMode": "value",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -295,11 +295,10 @@
                 "y": 5
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
                     "calcs": [
                         "lastNotNull"
@@ -307,9 +306,10 @@
                     "fields": "/^Metric$/",
                     "values": true
                 },
-                "showPercentChange": false,
                 "textMode": "value",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -376,21 +376,21 @@
                 "y": 5
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "lastNotNull"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
-                "showPercentChange": false,
                 "textMode": "value",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -444,21 +444,21 @@
                 "y": 5
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
-                "showPercentChange": false,
                 "textMode": "value",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -503,21 +503,21 @@
                 "y": 5
             },
             "options": {
-                "colorMode": "value",
                 "graphMode": "none",
+                "colorMode": "value",
                 "justifyMode": "auto",
                 "orientation": "auto",
-                "percentChangeColorMode": "standard",
                 "reduceOptions": {
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
-                "showPercentChange": false,
                 "textMode": "value",
-                "wideLayout": true
+                "wideLayout": true,
+                "showPercentChange": false,
+                "percentChangeColorMode": "standard"
             },
             "targets": [
                 {
@@ -591,15 +591,15 @@
                 "mergeValues": true,
                 "rowHeight": 0.9,
                 "showValue": "auto",
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
                 "legend": {
                     "displayMode": "list",
                     "placement": "bottom",
                     "showLegend": false,
                     "calcs": []
-                },
-                "tooltip": {
-                    "mode": "single",
-                    "sort": "none"
                 }
             },
             "targets": [
@@ -627,7 +627,8 @@
                         }
                     }
                 }
-            ]
+            ],
+            "transparent": true
         },
         {
             "type": "row",
@@ -686,15 +687,15 @@
                         "mergeValues": true,
                         "rowHeight": 0.9,
                         "showValue": "never",
+                        "tooltip": {
+                            "mode": "single",
+                            "sort": "none"
+                        },
                         "legend": {
                             "displayMode": "list",
                             "placement": "bottom",
                             "showLegend": false,
                             "calcs": []
-                        },
-                        "tooltip": {
-                            "mode": "single",
-                            "sort": "none"
                         }
                     },
                     "targets": [
@@ -769,19 +770,19 @@
                 "y": 13
             },
             "options": {
-                "minVizHeight": 75,
-                "minVizWidth": 75,
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": true,
                     "calcs": [
                         "last"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
                 "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
                 "segmentCount": 1,
                 "segmentSpacing": 0.3,
                 "shape": "gauge",
@@ -856,13 +857,13 @@
                         "stacking": {
                             "mode": "none"
                         },
-                        "thresholdsStyle": {
-                            "mode": "area"
-                        },
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
+                        },
+                        "thresholdsStyle": {
+                            "mode": "area"
                         }
                     }
                 },
@@ -948,13 +949,13 @@
                         "stacking": {
                             "mode": "none"
                         },
-                        "thresholdsStyle": {
-                            "mode": "area"
-                        },
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
+                        },
+                        "thresholdsStyle": {
+                            "mode": "area"
                         }
                     }
                 },
@@ -1038,19 +1039,19 @@
                 "y": 20
             },
             "options": {
-                "minVizHeight": 75,
-                "minVizWidth": 75,
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": true,
                     "calcs": [
                         "lastNotNull"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
                 "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
                 "segmentCount": 1,
                 "segmentSpacing": 0.3,
                 "shape": "gauge",
@@ -1116,13 +1117,13 @@
                         "stacking": {
                             "mode": "none"
                         },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        },
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
                         }
                     }
                 },
@@ -1198,13 +1199,13 @@
                         "stacking": {
                             "mode": "none"
                         },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        },
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
                         }
                     }
                 },
@@ -1295,25 +1296,27 @@
                 "y": 27
             },
             "options": {
-                "minVizHeight": 75,
-                "minVizWidth": 75,
                 "orientation": "auto",
                 "reduceOptions": {
+                    "values": true,
                     "calcs": [
                         "last"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
                 "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
                 "segmentCount": 1,
                 "segmentSpacing": 0.3,
                 "shape": "gauge",
                 "barWidthFactor": 0.5,
                 "barShape": "flat",
-                "effects": {}
+                "effects": {
+                    "gradient": false
+                }
             },
             "targets": [
                 {
@@ -1373,13 +1376,13 @@
                         "stacking": {
                             "mode": "none"
                         },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        },
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
                         }
                     }
                 },
@@ -1467,25 +1470,27 @@
                 "y": 27
             },
             "options": {
-                "minVizHeight": 75,
-                "minVizWidth": 75,
                 "orientation": "horizontal",
                 "reduceOptions": {
+                    "values": true,
                     "calcs": [
                         "last"
                     ],
-                    "fields": "",
-                    "values": false
+                    "fields": ""
                 },
                 "showThresholdLabels": false,
                 "showThresholdMarkers": true,
                 "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
                 "segmentCount": 1,
                 "segmentSpacing": 0.3,
                 "shape": "gauge",
                 "barWidthFactor": 0.5,
                 "barShape": "flat",
-                "effects": {}
+                "effects": {
+                    "gradient": false
+                }
             },
             "targets": [
                 {
@@ -1544,13 +1549,13 @@
                         "stacking": {
                             "mode": "none"
                         },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        },
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
                         }
                     }
                 },
