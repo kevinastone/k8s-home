@@ -106,12 +106,8 @@ import (
 	#BasePanel
 	type: "gauge"
 	options: #CanonicalGaugeOptions & {
-		orientation: *"auto" | _
-		reduceOptions: {
-			values: *true | _
-			calcs: *["last"] | _
-			fields: *"" | _
-		}
+		orientation:   *"auto" | _
+		reduceOptions: #ReduceOptions
 	}
 }
 

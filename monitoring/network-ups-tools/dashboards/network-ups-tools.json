@@ -768,7 +768,7 @@
             "options": {
                 "orientation": "auto",
                 "reduceOptions": {
-                    "values": true,
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
@@ -1037,7 +1037,7 @@
             "options": {
                 "orientation": "auto",
                 "reduceOptions": {
-                    "values": true,
+                    "values": false,
                     "calcs": [
                         "lastNotNull"
                     ],
@@ -1301,7 +1301,7 @@
             "options": {
                 "orientation": "auto",
                 "reduceOptions": {
-                    "values": true,
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
@@ -1468,7 +1468,7 @@
             "options": {
                 "orientation": "horizontal",
                 "reduceOptions": {
-                    "values": true,
+                    "values": false,
                     "calcs": [
                         "last"
                     ],
