@@ -382,10 +382,7 @@ let batteryRuntimeTimeseries = #NutTimeSeriesPanel & {
 	fieldConfig: defaults: {
 		unit: "s"
 		min:  0
-		color: {
-			mode:     "thresholds"
-			seriesBy: "last"
-		}
+		color: mode: "thresholds"
 		thresholds: #BatteryRuntimeThresholds
 		custom: thresholdsStyle: mode: "area"
 	}

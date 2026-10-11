@@ -906,8 +906,7 @@
                     "min": 0,
                     "mappings": [],
                     "color": {
-                        "mode": "thresholds",
-                        "seriesBy": "last"
+                        "mode": "thresholds"
                     },
                     "thresholds": {
                         "mode": "absolute",
