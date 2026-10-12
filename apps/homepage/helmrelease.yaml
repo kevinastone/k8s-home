@@ -32,19 +32,7 @@ spec:
               HOMEPAGE_ALLOWED_HOSTS: "*"
             envFrom:
             - secretRef:
-                name: sabnzbd-secret
-                optional: true
-            - secretRef:
-                name: sonarr-secret
-                optional: true
-            - secretRef:
-                name: radarr-secret
-                optional: true
-            - secretRef:
-                name: prowlarr-secret
-                optional: true
-
-
+                name: homepage-secrets
             ports:
             - containerPort: 3000
               name: http

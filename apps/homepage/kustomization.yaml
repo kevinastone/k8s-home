@@ -7,6 +7,9 @@ resources:
 - rbac.yaml
 - helmrelease.yaml
 - http-route.yaml
+- kubernetes-store.yaml
+- secret.yaml
+- external-secret.yaml
 configMapGenerator:
 - name: homepage-config
   files:
