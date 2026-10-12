@@ -40,6 +40,12 @@ variable "sabnzbd_movie_category" {
   default     = "movies"
 }
 
+variable "NZBGEEK_API_KEY" {
+  type        = string
+  description = "NZBGeek API key"
+  sensitive   = true
+}
+
 
 variable "qbittorrent_host" {
   type        = string
