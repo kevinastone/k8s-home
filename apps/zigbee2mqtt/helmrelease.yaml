@@ -19,6 +19,10 @@ spec:
   values:
     controllers:
       main:
+        strategy: Recreate
+        pod:
+          nodeSelector:
+            hardware.device/zigbee: "true"
         containers:
           main:
             image:
