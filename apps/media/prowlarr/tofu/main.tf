@@ -42,12 +42,22 @@ resource "prowlarr_download_client_sabnzbd" "sabnzbd" {
   category = "*"
 }
 
+resource "terraform_data" "prowlarr_api_key" {
+  input = var.api_key
+}
+
 resource "prowlarr_application_radarr" "radarr" {
   name         = "Radarr"
   sync_level   = "fullSync"
   base_url     = var.radarr_url
   prowlarr_url = var.prowlarr_url
   api_key      = var.radarr_api_key
+
+  lifecycle {
+    replace_triggered_by = [
+      terraform_data.prowlarr_api_key
+    ]
+  }
 }
 
 resource "prowlarr_application_sonarr" "sonarr" {
@@ -56,5 +66,12 @@ resource "prowlarr_application_sonarr" "sonarr" {
   base_url     = var.sonarr_url
   prowlarr_url = var.prowlarr_url
   api_key      = var.sonarr_api_key
+
+  lifecycle {
+    replace_triggered_by = [
+      terraform_data.prowlarr_api_key
+    ]
+  }
 }
+
 
