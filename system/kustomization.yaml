@@ -15,7 +15,7 @@ resources:
 - k8tz
 - longhorn
 - metallb
-# - node-feature-discovery
+- node-feature-discovery
 - openebs
 - reflector
 - reloader

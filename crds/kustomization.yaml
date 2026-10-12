@@ -9,6 +9,7 @@ resources:
 - gateway-api
 - keda
 - metallb
+- node-feature-discovery
 - postgres
 - prometheus
 - redis-operator

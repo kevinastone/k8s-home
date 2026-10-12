@@ -24,6 +24,9 @@ spec:
     controllers:
       main:
         strategy: Recreate
+        pod:
+          nodeSelector:
+            hardware.device/ups: "true"
         containers:
           app:
             image:

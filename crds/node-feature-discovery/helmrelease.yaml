@@ -23,10 +23,12 @@ spec:
     kind: OCIRepository
     name: node-feature-discovery
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
   values:
@@ -34,6 +36,21 @@ spec:
       resources:
         limits: null
     worker:
+      config:
+        core:
+          featureSources:
+          - custom
+          - usb
+          labelSources:
+          - custom
+        sources:
+          usb:
+            deviceClassWhitelist:
+            - "03"
+            - "0e"
+            - "ef"
+            - "fe"
+            - "ff"
       resources:
         limits: null
     topologyUpdater:
