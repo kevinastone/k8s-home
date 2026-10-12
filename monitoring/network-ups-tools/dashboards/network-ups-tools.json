@@ -30,19 +30,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "color": {
                         "mode": "fixed"
                     }
@@ -92,19 +79,6 @@
             "fieldConfig": {
                 "defaults": {
                     "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "color": {
                         "mode": "fixed"
                     }
@@ -416,7 +390,7 @@
                     "unit": "percent",
                     "mappings": [],
                     "thresholds": {
-                        "mode": "absolute",
+                        "mode": "percentage",
                         "steps": [
                             {
                                 "color": "dark-red",
@@ -733,7 +707,7 @@
                     "max": 100,
                     "mappings": [],
                     "thresholds": {
-                        "mode": "absolute",
+                        "mode": "percentage",
                         "steps": [
                             {
                                 "color": "dark-red",
@@ -812,7 +786,7 @@
                         "mode": "thresholds"
                     },
                     "thresholds": {
-                        "mode": "absolute",
+                        "mode": "percentage",
                         "steps": [
                             {
                                 "color": "dark-red",
@@ -1080,19 +1054,6 @@
                     "color": {
                         "mode": "palette-classic"
                     },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
                     "custom": {
                         "axisBorderShow": false,
                         "axisCenteredZero": false,
@@ -1165,19 +1126,6 @@
                     "mappings": [],
                     "color": {
                         "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
                     },
                     "custom": {
                         "axisBorderShow": false,
@@ -1345,19 +1293,6 @@
                     "mappings": [],
                     "color": {
                         "mode": "palette-classic"
-                    },
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
                     },
                     "custom": {
                         "axisBorderShow": false,

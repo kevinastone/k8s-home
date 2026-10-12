@@ -16,7 +16,7 @@ import (
 }
 
 #BatteryChargeThresholds: {
-	mode: "absolute"
+	mode: "percentage"
 	steps: [
 		{color: "dark-red", value: null},
 		{color: "dark-orange", value: 30},
@@ -71,7 +71,6 @@ import (
 	transparent: true
 	fieldConfig: defaults: {
 		color: mode: *"palette-classic" | _
-		thresholds: *#GreenRed80Thresholds | _
 		custom: {
 			axisBorderShow:    false
 			axisCenteredZero:  false
@@ -99,8 +98,7 @@ import (
 // -----------------------------------------------------------------------------
 let mfrStat = #NutStatPanel & {
 	title: "Manufacturer"
-	gridPos: w: 8
-	fieldConfig: defaults: thresholds: #GreenRed80Thresholds
+	gridPos: w:        8
 	options: textMode: "name"
 	targets: [
 		grafana.#PromTarget & {
@@ -113,8 +111,7 @@ let mfrStat = #NutStatPanel & {
 
 let modelStat = #NutStatPanel & {
 	title: "Model"
-	gridPos: w: 16
-	fieldConfig: defaults: thresholds: #GreenRed80Thresholds
+	gridPos: w:        16
 	options: textMode: "name"
 	targets: [
 		grafana.#PromTarget & {
