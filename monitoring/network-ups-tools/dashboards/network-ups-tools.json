@@ -1261,85 +1261,6 @@
             "fieldConfig": {
                 "defaults": {
                     "unit": "volt",
-                    "min": 90,
-                    "max": 140,
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "dark-red",
-                                "value": null
-                            },
-                            {
-                                "color": "dark-green",
-                                "value": 95
-                            },
-                            {
-                                "color": "dark-yellow",
-                                "value": 125
-                            },
-                            {
-                                "color": "dark-red",
-                                "value": 135
-                            }
-                        ]
-                    },
-                    "color": {
-                        "mode": "thresholds"
-                    }
-                },
-                "overrides": []
-            },
-            "gridPos": {
-                "h": 6,
-                "w": 4,
-                "x": 0,
-                "y": 27
-            },
-            "options": {
-                "orientation": "auto",
-                "reduceOptions": {
-                    "values": false,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "fields": ""
-                },
-                "showThresholdLabels": false,
-                "showThresholdMarkers": true,
-                "sizing": "auto",
-                "minVizWidth": 75,
-                "minVizHeight": 75,
-                "segmentCount": 1,
-                "segmentSpacing": 0.3,
-                "shape": "gauge",
-                "barWidthFactor": 0.5,
-                "barShape": "flat",
-                "effects": {
-                    "gradient": false
-                }
-            },
-            "targets": [
-                {
-                    "expr": "network_ups_tools_input_voltage{ups=\"$ups\"}",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
-                }
-            ],
-            "title": "Line Volts",
-            "transparent": true
-        },
-        {
-            "type": "gauge",
-            "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "unit": "volt",
                     "min": 0,
                     "max": 16,
                     "mappings": [],
@@ -1374,7 +1295,7 @@
             "gridPos": {
                 "h": 6,
                 "w": 4,
-                "x": 4,
+                "x": 0,
                 "y": 27
             },
             "options": {
@@ -1472,7 +1393,7 @@
             "gridPos": {
                 "h": 6,
                 "w": 10,
-                "x": 8,
+                "x": 4,
                 "y": 27
             },
             "options": {
@@ -1495,6 +1416,164 @@
                     "instant": false
                 }
             ],
+            "transparent": true
+        },
+        {
+            "type": "gauge",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "volt",
+                    "min": 90,
+                    "max": 140,
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 95
+                            },
+                            {
+                                "color": "dark-yellow",
+                                "value": 125
+                            },
+                            {
+                                "color": "dark-red",
+                                "value": 135
+                            }
+                        ]
+                    },
+                    "color": {
+                        "mode": "thresholds"
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 4,
+                "x": 14,
+                "y": 27
+            },
+            "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {
+                    "gradient": false
+                }
+            },
+            "targets": [
+                {
+                    "expr": "network_ups_tools_input_voltage{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ],
+            "title": "Line Volts In",
+            "transparent": true
+        },
+        {
+            "type": "gauge",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "volt",
+                    "min": 90,
+                    "max": 140,
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 95
+                            },
+                            {
+                                "color": "dark-yellow",
+                                "value": 125
+                            },
+                            {
+                                "color": "dark-red",
+                                "value": 135
+                            }
+                        ]
+                    },
+                    "color": {
+                        "mode": "thresholds"
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 4,
+                "x": 18,
+                "y": 27
+            },
+            "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                    "values": false,
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": ""
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto",
+                "minVizWidth": 75,
+                "minVizHeight": 75,
+                "segmentCount": 1,
+                "segmentSpacing": 0.3,
+                "shape": "gauge",
+                "barWidthFactor": 0.5,
+                "barShape": "flat",
+                "effects": {
+                    "gradient": false
+                }
+            },
+            "targets": [
+                {
+                    "expr": "network_ups_tools_output_voltage{ups=\"$ups\"}",
+                    "legendFormat": "__auto",
+                    "format": "time_series",
+                    "instant": false
+                }
+            ],
+            "title": "Line Volts Out",
             "transparent": true
         }
     ],

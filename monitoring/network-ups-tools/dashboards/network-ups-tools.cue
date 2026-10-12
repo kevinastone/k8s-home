@@ -465,8 +465,7 @@ let loadSection = grafana.#RowSection & {
 // -----------------------------------------------------------------------------
 // 6. Power Health
 // -----------------------------------------------------------------------------
-let lineVoltsGauge = #NutGaugePanel & {
-	title: "Line Volts"
+#LineVoltageGaugePanel: #NutGaugePanel & {
 	fieldConfig: defaults: {
 		unit: "volt"
 		min:  90
@@ -482,9 +481,22 @@ let lineVoltsGauge = #NutGaugePanel & {
 		}
 	}
 	options: effects: gradient: false
+}
+
+let lineVoltsInGauge = #LineVoltageGaugePanel & {
+	title: "Line Volts In"
 	targets: [
 		grafana.#PromTarget & {
 			expr: #"network_ups_tools_input_voltage{ups="$ups"}"#
+		},
+	]
+}
+
+let lineVoltsOutGauge = #LineVoltageGaugePanel & {
+	title: "Line Volts Out"
+	targets: [
+		grafana.#PromTarget & {
+			expr: #"network_ups_tools_output_voltage{ups="$ups"}"#
 		},
 	]
 }
@@ -536,9 +548,10 @@ let powerHealthSection = grafana.#RowSection & {
 	defaultHeight: 6
 	rows: [
 		[
-			lineVoltsGauge,
 			batteryVoltsGauge,
 			batteryVoltsTimeseries,
+			lineVoltsInGauge,
+			lineVoltsOutGauge,
 		],
 	]
 }
