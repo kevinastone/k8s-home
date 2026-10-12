@@ -40,6 +40,12 @@ spec:
             evictFailedBarePods: true
             evictLocalStoragePods: true
             nodeFit: true
+        - name: RemoveFailedPods
+          args:
+            includingInitContainers: true
+            excludeOwnerKinds:
+            - "Job"
+            minPodLifetimeSeconds: 60
         - name: RemoveDuplicates
         - name: RemovePodsHavingTooManyRestarts
           args:
@@ -71,6 +77,7 @@ spec:
           - LowNodeUtilization
         deschedule:
           enabled:
+          - RemoveFailedPods
           - RemovePodsHavingTooManyRestarts
           - RemovePodsViolatingNodeTaints
           - RemovePodsViolatingNodeAffinity
