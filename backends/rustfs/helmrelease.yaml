@@ -27,7 +27,7 @@ spec:
           main:
             image:
               repository: docker.io/rustfs/rustfs
-              tag: 1.0.0-rc.1@sha256:f53d700fc16809070326f6ab3fb565d48e722364a7bd5a12e47d0a5abe079ce6
+              tag: 1.0.1@sha256:1803faef57627e2d9c2e7d89d655d712ddded5389040054987163043fecb6a3c
             env:
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
