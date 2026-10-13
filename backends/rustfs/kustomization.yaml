@@ -7,15 +7,9 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - terraform.yaml
-- postgres-password-generator.yaml
-- external-secret.yaml
+- rustfs-users.yaml
+- rustfs-root-secret.yaml
 - rustfs-kubernetes-store.yaml
-secretGenerator:
-- name: rustfs-root-secret
-  literals:
-  - RUSTFS_ACCESS_KEY=root
-  files:
-  - RUSTFS_SECRET_KEY=secrets/password.txt.encrypted
 configMapGenerator:
 - name: otel-config
   files:
