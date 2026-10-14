@@ -8,6 +8,22 @@ import "strings"
 	"false": 0
 }
 
+// Action to take on duplicate downloads:
+// off     (0) = Do not detect/block duplicates
+// discard (1) = Drop/ignore duplicate NZB
+// pause   (2) = Pause duplicate NZB in queue
+// fail    (3) = Mark duplicate NZB as failed
+#DupeAction: {
+	#Value: "off" | "discard" | "pause" | "fail"
+
+	#ToInt: {
+		"off":     0
+		"discard": 1
+		"pause":   2
+		"fail":    3
+	}
+}
+
 // Helper to format a string value according to Python ConfigObj quoting rules:
 // - Quotes if empty, contains commas, comments (#), or has leading/trailing whitespace
 // - Uses single quotes if string contains double quotes

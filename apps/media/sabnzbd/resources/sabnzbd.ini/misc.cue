@@ -22,8 +22,8 @@ package sabnzbd
 	host_whitelist_inspection:   bool | *true
 	api_key:                     string | *""
 	nzb_key:                     string | *""
-	no_dupes:                    bool | *false
-	no_smart_dupes:              bool | *false
+	no_dupes:                    #DupeAction.#Value | *"off"
+	no_smart_dupes:              #DupeAction.#Value | *"off"
 	notified_new_skin:           int | *0
 	helpful_warnings:            bool | *true
 	cache_limit:                 #DataSize | *""
@@ -52,8 +52,8 @@ package sabnzbd
 		host_whitelist_inspection = \(#BoolToInt["\(host_whitelist_inspection)"])
 		api_key = \((#QuoteIni & {"in": api_key}).out)
 		nzb_key = \((#QuoteIni & {"in": nzb_key}).out)
-		no_dupes = \(#BoolToInt["\(no_dupes)"])
-		no_smart_dupes = \(#BoolToInt["\(no_smart_dupes)"])
+		no_dupes = \(#DupeAction.#ToInt[no_dupes])
+		no_smart_dupes = \(#DupeAction.#ToInt[no_smart_dupes])
 		notified_new_skin = \(notified_new_skin)
 		helpful_warnings = \(#BoolToInt["\(helpful_warnings)"])
 		cache_limit = \((#QuoteIni & {"in": cache_limit}).out)
@@ -68,8 +68,8 @@ misc: #Misc & {
 	complete_free:        "1G"
 	direct_unpack:        false
 	direct_unpack_tested: true
-	no_dupes:             true
-	no_smart_dupes:       true
+	no_dupes:             "off"
+	no_smart_dupes:       "off"
 	notified_new_skin:    2
 	helpful_warnings:     false
 	ignore_samples:       true

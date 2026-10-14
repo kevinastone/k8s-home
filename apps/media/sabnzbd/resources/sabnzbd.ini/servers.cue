@@ -1,13 +1,13 @@
 package sabnzbd
 
 #SslVerify: {
-	#Value: "Disabled" | "Minimal" | "Medium" | "Strict"
+	#Value: "disabled" | "minimal" | "medium" | "strict"
 
 	#ToInt: {
-		"Disabled": 0
-		"Minimal":  1
-		"Medium":   2
-		"Strict":   3
+		"disabled": 0
+		"minimal":  1
+		"medium":   2
+		"strict":   3
 	}
 }
 
@@ -17,7 +17,7 @@ package sabnzbd
 	host:          string | *name
 	port:          int | *563
 	ssl:           bool | *true
-	ssl_verify:    #SslVerify.#Value | *"Strict"
+	ssl_verify:    #SslVerify.#Value | *"strict"
 	username_env?: #EnvKey
 	password_env?: #EnvKey
 
