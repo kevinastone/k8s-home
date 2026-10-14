@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=none
+apiVersion: 1
+datasources:
+- name: Loki
+  type: loki
+  access: proxy
+  uid: loki
+  url: http://loki.loki:3100
+  editable: false

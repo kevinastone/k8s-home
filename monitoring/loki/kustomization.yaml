@@ -6,10 +6,16 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - helmrelease-alloy.yaml
-- grafana-datasources.yaml
 configurations:
 - kustomizeconfig.yaml
 configMapGenerator:
 - name: alloy-config
   files:
   - resources/config.alloy
+secretGenerator:
+- name: loki-datasources
+  options:
+    labels:
+      grafana_datasource: "true"
+  files:
+  - loki.yaml=datasources/loki.yaml
