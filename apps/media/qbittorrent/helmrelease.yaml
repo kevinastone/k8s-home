@@ -104,6 +104,7 @@ spec:
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 3
+          ttlSecondsAfterFinished: 300
         pod:
           securityContext:
             fsGroup: 568
