@@ -7,4 +7,17 @@
     },
   },
   "load_direnv": "direct",
+  "lsp": {
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "customTags": [
+            "!env_var scalar",
+            "!secret scalar",
+            "!file scalar"
+          ]
+        }
+      }
+    }
+  }
 }
