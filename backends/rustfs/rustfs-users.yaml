@@ -8,6 +8,16 @@ spec:
   allowRepeat: true
   noUpper: false
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/generators.external-secrets.io/password_v1alpha1.json
+apiVersion: generators.external-secrets.io/v1alpha1
+kind: Password
+metadata:
+  name: rustfs-dragonfly-password
+spec:
+  length: 32
+  allowRepeat: true
+  noUpper: false
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/external-secrets.io/externalsecret_v1.json
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
@@ -21,10 +31,22 @@ spec:
     template:
       engineVersion: v2
       data:
-        postgres: "{{ .password }}"
+        postgres: "{{ .postgres_password }}"
+        dragonfly: "{{ .dragonfly_password }}"
   dataFrom:
   - sourceRef:
       generatorRef:
         apiVersion: generators.external-secrets.io/v1alpha1
         kind: Password
         name: rustfs-postgres-password
+    rewrite:
+    - transform:
+        template: postgres_password
+  - sourceRef:
+      generatorRef:
+        apiVersion: generators.external-secrets.io/v1alpha1
+        kind: Password
+        name: rustfs-dragonfly-password
+    rewrite:
+    - transform:
+        template: dragonfly_password

@@ -1,0 +1,20 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: dragonfly-s3-creds
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: rustfs-kubernetes-store
+  target:
+    name: dragonfly-s3-creds
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        AWS_ACCESS_KEY_ID: dragonfly
+        AWS_SECRET_ACCESS_KEY: "{{ .dragonfly }}"
+  dataFrom:
+  - extract:
+      key: rustfs-users

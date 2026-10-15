@@ -11,11 +11,20 @@ spec:
     requests:
       cpu: 100m
       memory: 256Mi
+  args:
+  - --s3_endpoint=rustfs.rustfs:9000
+  - --s3_use_https=false
+  env:
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: dragonfly-s3-creds
+        key: AWS_ACCESS_KEY_ID
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: dragonfly-s3-creds
+        key: AWS_SECRET_ACCESS_KEY
   snapshot:
     cron: "*/5 * * * *"
-    persistentVolumeClaimSpec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
+    dir: "s3://dragonfly/authelia"

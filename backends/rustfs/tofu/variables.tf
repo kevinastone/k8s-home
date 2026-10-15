@@ -21,3 +21,9 @@ variable "postgres" {
   description = "Postgres user password"
   sensitive   = true
 }
+
+variable "dragonfly" {
+  type        = string
+  description = "Dragonfly user password"
+  sensitive   = true
+}

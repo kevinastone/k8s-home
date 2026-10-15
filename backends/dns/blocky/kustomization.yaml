@@ -20,3 +20,5 @@ configMapGenerator:
   - lists/custom.txt
 configurations:
 - kustomizeconfig.yaml
+components:
+- ../../../components/dragonfly
