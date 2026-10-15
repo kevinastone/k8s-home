@@ -5,7 +5,7 @@ namespace: authelia
 resources:
 - namespace.yaml
 - postgres
-- dragonfly.yaml
+- dragonfly
 - helmrelease.yaml
 - http-route.yaml
 - reference-grant.yaml
@@ -14,8 +14,6 @@ resources:
 - client-secret-generator.yaml
 - rustfs-client-secret.yaml
 - grafana-client-secret.yaml
-components:
-- ../../components/dragonfly
 configurations:
 - kustomizeconfig.yaml
 configMapGenerator:
