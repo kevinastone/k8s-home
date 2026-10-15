@@ -38,11 +38,8 @@ session:
     authelia_url: https://auth.k8s.kevinastone.com
     default_redirection_url: https://home.k8s.kevinastone.com
   redis:
-    high_availability:
-      sentinel_name: myMaster
-      nodes:
-      - host: redis-sentinel
-        port: 26379
+    host: dragonfly
+    port: 6379
 
 storage:
   postgres:

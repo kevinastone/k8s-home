@@ -5,7 +5,7 @@ namespace: authelia
 resources:
 - namespace.yaml
 - postgres
-- redis.yaml
+- dragonfly.yaml
 - helmrelease.yaml
 - http-route.yaml
 - reference-grant.yaml
