@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    rustfs = {
-      source = "ethdevops/rustfs"
+    minio = {
+      source = "aminueza/minio"
     }
   }
 }
@@ -17,43 +17,33 @@ variable "secret" {
   sensitive   = true
 }
 
-resource "rustfs_bucket" "bucket" {
-  name = var.name
+resource "minio_s3_bucket" "bucket" {
+  bucket = var.name
 }
 
-resource "rustfs_policy" "policy" {
+resource "minio_iam_policy" "policy" {
   name = var.name
-  statement = [
-    {
-      action = ["s3:*"]
-      effect = "Allow"
-      # Necessary typo
-      ressource = [
-        "arn:aws:s3:::${var.name}",
-        "arn:aws:s3:::${var.name}/*"
-      ]
-    }
-  ]
-}
-
-resource "rustfs_user" "user" {
-  access_key = var.name
-  secret_key = var.secret
-  policy     = rustfs_policy.policy.name
-
-  lifecycle {
-    ignore_changes = [secret_key]
-    replace_triggered_by = [
-      terraform_data.secret_rotation,
-      terraform_data.user_replacement
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = ["s3:*"]
+        Effect = "Allow"
+        Resource = [
+          "arn:aws:s3:::${var.name}",
+          "arn:aws:s3:::${var.name}/*"
+        ]
+      }
     ]
-  }
+  })
 }
 
-resource "terraform_data" "secret_rotation" {
-  input = var.secret
+resource "minio_iam_user" "user" {
+  name   = var.name
+  secret = var.secret
 }
 
-resource "terraform_data" "user_replacement" {
-  input = var.name
+resource "minio_iam_user_policy_attachment" "attachment" {
+  user_name   = minio_iam_user.user.name
+  policy_name = minio_iam_policy.policy.name
 }

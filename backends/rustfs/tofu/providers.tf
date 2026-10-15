@@ -1,15 +1,15 @@
 terraform {
   required_providers {
-    rustfs = {
-      source  = "ethdevops/rustfs"
-      version = "0.1.1"
+    minio = {
+      source  = "aminueza/minio"
+      version = "3.4.1"
     }
   }
 }
 
-provider "rustfs" {
-  endpoint      = var.rustfs_server
-  access_key    = var.RUSTFS_ACCESS_KEY
-  access_secret = var.RUSTFS_SECRET_KEY
-  ssl           = false
+provider "minio" {
+  minio_server   = var.rustfs_server
+  minio_user     = var.RUSTFS_ACCESS_KEY
+  minio_password = var.RUSTFS_SECRET_KEY
+  minio_ssl      = false
 }
