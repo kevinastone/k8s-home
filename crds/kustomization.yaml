@@ -12,7 +12,6 @@ resources:
 - node-feature-discovery
 - postgres
 - prometheus
-- redis-operator
 # - rook-operator
 - tofu-controller
 - victoria-metrics-operator

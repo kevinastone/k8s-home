@@ -13,7 +13,6 @@ resources:
 - network-ups-tools
 - peanut
 - prometheus
-- redis-operator
 # Disabled due to preventing hdd hibernation
 # - synology
 - victoria-metrics

@@ -1,5 +1,0 @@
-#:schema ../../../scripts/dashboard-schema.json
-
-[redis-operator]
-url = "https://raw.githubusercontent.com/OT-CONTAINER-KIT/redis-operator/main/dashboards/redis-operator-cluster.json"
-datasource = { DS_PROMETHEUS = "prometheus" }

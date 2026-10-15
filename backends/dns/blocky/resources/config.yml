@@ -40,9 +40,7 @@ prometheus:
   path: /metrics
 
 redis:
-  address: myMaster
+  address: dragonfly:6379
   required: true
   connectionAttempts: 10
   connectionCooldown: 3s
-  sentinelAddresses:
-  - redis-sentinel:26379
