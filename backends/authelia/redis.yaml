@@ -21,7 +21,7 @@ spec:
   redisSentinelConfig:
     redisReplicationName: redis
   kubernetesConfig:
-    image: quay.io/opstree/redis-sentinel:v7.2.13
+    image: quay.io/opstree/redis-sentinel:v7.4.11
     imagePullPolicy: IfNotPresent
     resources:
       limits:
