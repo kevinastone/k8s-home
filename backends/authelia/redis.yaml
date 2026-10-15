@@ -2,8 +2,22 @@ apiVersion: redis.redis.opstreelabs.in/v1beta2
 kind: RedisReplication
 metadata:
   name: redis
+  annotations:
+    redis.opstreelabs.in/recreate-statefulset: "true"
 spec:
   clusterSize: 3
+  env:
+  - name: ANNOUNCE_HOSTNAMES
+    value: "yes"
+  - name: RESOLVE_HOSTNAMES
+    value: "yes"
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
   kubernetesConfig:
     image: quay.io/opstree/redis:v8.10.1
     imagePullPolicy: IfNotPresent
@@ -24,6 +38,8 @@ spec:
   clusterSize: 3
   redisSentinelConfig:
     redisReplicationName: redis
+    resolveHostnames: "yes"
+    announceHostnames: "yes"
   kubernetesConfig:
     image: quay.io/opstree/redis-sentinel:v8.10.1
     imagePullPolicy: IfNotPresent
