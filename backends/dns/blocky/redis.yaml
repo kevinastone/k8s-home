@@ -1,11 +1,21 @@
-apiVersion: databases.spotahome.com/v1
-kind: RedisFailover
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisReplication
 metadata:
   name: redis
 spec:
-  redis:
-    replicas: 3
+  clusterSize: 3
+  kubernetesConfig:
+    image: quay.io/opstree/redis:v7.2.13
     imagePullPolicy: IfNotPresent
-  sentinel:
-    replicas: 3
+---
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisSentinel
+metadata:
+  name: redis
+spec:
+  clusterSize: 3
+  redisSentinelConfig:
+    redisReplicationName: redis
+  kubernetesConfig:
+    image: quay.io/opstree/redis-sentinel:v7.2.13
     imagePullPolicy: IfNotPresent

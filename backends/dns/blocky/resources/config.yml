@@ -40,9 +40,9 @@ prometheus:
   path: /metrics
 
 redis:
-  address: mymaster
+  address: myMaster
   required: true
   connectionAttempts: 10
   connectionCooldown: 3s
   sentinelAddresses:
-  - rfs-redis:26379
+  - redis-sentinel:26379

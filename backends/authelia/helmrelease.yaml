@@ -3,6 +3,8 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: authelia
+  annotations:
+    reconcile.fluxcd.io/requestedAt: "2026-10-15T15:25:22Z"
 spec:
   interval: 30m
   chartRef:

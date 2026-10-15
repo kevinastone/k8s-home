@@ -48,10 +48,6 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["redis-operator"],
-      "allowedVersions": "!/3.3.0/"
-    },
-    {
       "matchPackageNames": ["kubernetes-dashboard"],
       "allowedVersions": "<7"
     },
