@@ -24,7 +24,7 @@ kind: ExternalSecret
 metadata:
   name: rustfs-users
 spec:
-  refreshInterval: "0"
+  refreshPolicy: OnChange
   target:
     name: rustfs-users
     creationPolicy: Owner
