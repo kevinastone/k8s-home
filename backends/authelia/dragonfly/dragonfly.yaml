@@ -12,6 +12,10 @@ spec:
       cpu: 100m
       memory: 256Mi
   args:
+  # Workaround for io_uring SQPOLL pinning an idle worker thread into iowait state on Core 0
+  # Fixed in Linux kernel 6.15+: https://github.com/axboe/liburing/issues/943
+  # Ref: https://github.com/dragonflydb/dragonfly/issues/2270#issuecomment-1845188470
+  - --force_epoll
   - --s3_endpoint=rustfs.rustfs:9000
   - --s3_use_https=false
   env:
