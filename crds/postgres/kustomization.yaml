@@ -6,4 +6,3 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - helmrelease-barman.yaml
-# - https://github.com/cloudnative-pg/plugin-barman-cloud/releases/download/v0.12.0/manifest.yaml
