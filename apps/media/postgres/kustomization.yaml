@@ -6,4 +6,4 @@ resources:
 - backup.yaml
 - objectstore.yaml
 components:
-- ../../../crds/postgres/component
+- ../../../components/postgres
