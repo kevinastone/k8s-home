@@ -27,6 +27,8 @@ spec:
   - --force_epoll
   - --s3_endpoint=rustfs.rustfs:9000
   - --s3_use_https=false
+  # Overwrite static snapshot file to prevent unbounded S3 storage accumulation
+  - --dbfilename=dump
   env:
   - name: AWS_ACCESS_KEY_ID
     valueFrom:
