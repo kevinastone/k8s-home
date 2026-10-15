@@ -1,0 +1,5 @@
+#:schema ../../../scripts/dashboard-schema.json
+
+[dragonfly]
+url = "https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/main/monitoring/grafana-dashboard.json"
+datasource = { DS_PROMETHEUS = "prometheus" }

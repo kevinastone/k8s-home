@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - argo
 - envoy-gateway
+- dragonfly
 - goldilocks
 - grafana
 - karma
