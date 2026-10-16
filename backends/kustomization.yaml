@@ -8,6 +8,5 @@ resources:
 - ldap
 - mqtt
 - one-password
-- postgres
 - rustfs
 - tailscale

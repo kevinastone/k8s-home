@@ -14,6 +14,7 @@ resources:
 - metrics-server
 - network-ups-tools
 - peanut
+- postgres
 - prometheus
 # Disabled due to preventing hdd hibernation
 # - synology
