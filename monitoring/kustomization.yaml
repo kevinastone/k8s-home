@@ -5,6 +5,7 @@ resources:
 - argo
 - envoy-gateway
 - dragonfly
+- fluxcd
 - goldilocks
 - grafana
 - karma
