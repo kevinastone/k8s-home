@@ -44,6 +44,7 @@
               build-dashboards
               crane
               cue
+              fluxcd
               kubectl
               kubectl-cnpg
               kubectl-rook-ceph
