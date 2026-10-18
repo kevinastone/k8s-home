@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/httpbox
-              tag: master@sha256:2abbdab0ec143e7430ff720a7de5c8617c7769eb6098d35f92eacaa3f982cb39
+              tag: master@sha256:fed101532c127c6b85e6195c5f4f6185246104b9bdef8350e523733214e92931
             env:
               PORT: &port 80
             ports:
