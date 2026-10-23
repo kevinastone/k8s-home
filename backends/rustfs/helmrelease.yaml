@@ -90,7 +90,7 @@ spec:
           otel-collector:
             image:
               repository: docker.io/otel/opentelemetry-collector-contrib
-              tag: 0.163.2
+              tag: 0.163.2@sha256:7f22d2a6748110ffb6a59bc0df448bccbf501cdb667d610ede4c61d3863d5849
             args:
             - "--config=/etc/otel/config.yaml"
             ports:
