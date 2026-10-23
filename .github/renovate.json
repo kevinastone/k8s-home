@@ -100,13 +100,18 @@
     {
       "description": ["Pin digests for docker container images"],
       "matchDatasources": ["docker"],
-      "pinDigests": true,
-      "automerge": true
+      "pinDigests": true
     },
     {
       "description": ["Don't pin digests for managers that don't need a digest"],
       "matchManagers": ["flux", "helmfile"],
       "pinDigests": false
+    },
+    {
+      "description": ["Automerge initial digest pinning for docker images"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["pinDigest"],
+      "automerge": true
     }
   ]
 }
