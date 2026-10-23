@@ -57,6 +57,14 @@ To run the Regal linter locally via the Nix development shell:
 nix develop --command regal lint apps/media/transcoder/policy
 ```
 
+### Validating Renovate Configuration Locally
+
+Whenever `.github/renovate.json` is modified, validate it using the Nix development shell before committing:
+
+```bash
+nix develop --command renovate-config-validator .github/renovate.json
+```
+
 ### OPA / Rego Style Guidelines
 
 - **Rule:** AI agents and developers must prefer string interpolation (`$""`) over `sprintf` for formatting strings in Rego policy files.

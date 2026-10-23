@@ -55,6 +55,7 @@
               pluto
               python3
               regal
+              renovate
               skopeo
               sops
               # keep-sorted end
