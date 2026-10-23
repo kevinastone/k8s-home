@@ -10,9 +10,6 @@ metadata:
     gethomepage.dev/name: Prowlarr
     gethomepage.dev/href: https://prowlarr.k8s.kevinastone.com/search
     gethomepage.dev/weight: 10
-    gethomepage.dev/widget.type: prowlarr
-    gethomepage.dev/widget.url: http://prowlarr.media.svc:9696
-    gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}"
 spec:
   parentRefs:
   - name: auth-gateway
