@@ -244,7 +244,7 @@ spec:
           path: /tmp/output_filepath.txt
           default: ""
     container:
-      image: openpolicyagent/opa:1.21.3-debug@sha256:9ddaf23fbe4c8bf72b4c05ffc833cd4a68aebf33a86883b4a1f510df1f1d878f
+      image: openpolicyagent/opa:1.21.4-debug@sha256:249d68cce8e26346f22318a7b17058fe6be9702bf8e78402a770d913029e943d
       command: [/bin/sh, -c]
       args:
       - |
