@@ -96,6 +96,10 @@
       "description": ["Use OpenTofu registry for terraform providers and modules"],
       "matchDatasources": ["terraform-provider", "terraform-module"],
       "registryUrls": ["https://registry.opentofu.org"]
+    },
+    {
+      "matchPackageNames": ["ghcr.io/kevinastone/ffmpeg"],
+      "versioning": "semver-coerced"
     }
   ]
 }
