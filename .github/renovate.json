@@ -11,6 +11,9 @@
     ":automergeDigest"
   ],
   "ignorePaths": ["**/resources/**"],
+  "pinDigest": {
+    "automerge": true
+  },
   "flux": {
     "managerFilePatterns": ["/\\.yaml$/"]
   },
@@ -106,12 +109,6 @@
       "description": ["Don't pin digests for managers that don't need a digest"],
       "matchManagers": ["flux", "helmfile"],
       "pinDigests": false
-    },
-    {
-      "description": ["Automerge initial digest pinning for docker images"],
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["pinDigest"],
-      "automerge": true
     }
   ]
 }
