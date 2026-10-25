@@ -67,9 +67,10 @@
       "matchPackageNames": ["ghcr.io/dmunozv04/isponsorblocktv"],
       "allowedVersions": "!/v2.5.2/"
     },
+    // Block broken ws4kp versions due to env parsing bug (https://github.com/netbymatt/ws4kp/issues/122)
     {
       "matchPackageNames": ["ghcr.io/netbymatt/ws4kp"],
-      "allowedVersions": "<5.25.2"
+      "allowedVersions": "<5.25.2 || >=6.0.0"
     },
     {
       "matchPackageNames": ["docker.io/dxflrs/garage", "dxflrs/garage"],
