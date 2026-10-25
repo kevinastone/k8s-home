@@ -75,6 +75,11 @@
       "matchPackageNames": ["docker.io/dxflrs/garage", "dxflrs/garage"],
       "allowedVersions": "!/v?2\\.4\\.0/"
     },
+    // Block Radarr v7+ until Recyclarr adds official support
+    {
+      "matchPackageNames": ["ghcr.io/home-operations/radarr"],
+      "allowedVersions": "<7"
+    },
     {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false

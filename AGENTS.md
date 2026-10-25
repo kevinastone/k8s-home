@@ -59,10 +59,10 @@ nix develop --command regal lint apps/media/transcoder/policy
 
 ### Validating Renovate Configuration Locally
 
-Whenever `.github/renovate.json` is modified, validate it using the Nix development shell before committing:
+Whenever `.github/renovate.jsonc` is modified, validate it using the Nix development shell before committing:
 
 ```bash
-nix develop --command renovate-config-validator .github/renovate.json
+nix develop --command renovate-config-validator .github/renovate.jsonc
 ```
 
 ### OPA / Rego Style Guidelines
