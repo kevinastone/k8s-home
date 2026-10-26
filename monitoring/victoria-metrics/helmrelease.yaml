@@ -51,16 +51,6 @@ spec:
           rules:
             Watchdog:
               enabled: false
-        vmcluster:
-          rules:
-            # Starting in VM v1.153.0, vmstorage exports vm_rows_inserted_total{type="promremotewrite"}=0.
-            # Upstream alert rules divide vmstorage metrics by vm_rows_inserted_total grouped by(job),
-            # which divides by 0 (+Inf) and causes persistent false positives in cluster setups.
-            # Ref: https://github.com/VictoriaMetrics/VictoriaMetrics/issues/11670
-            TooHighChurnRate:
-              enabled: false
-            TooHighSlowInsertsRate:
-              enabled: false
 
     vmsingle:
       enabled: false
