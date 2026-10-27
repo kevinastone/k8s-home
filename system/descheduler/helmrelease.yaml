@@ -61,14 +61,15 @@ spec:
         - name: RemovePodsViolatingTopologySpreadConstraint
         - name: LowNodeUtilization
           args:
+            useDeviationThresholds: true
             thresholds:
-              cpu: 20
-              memory: 20
-              pods: 20
+              cpu: 15
+              memory: 15
+              pods: 15
             targetThresholds:
-              cpu: 50
-              memory: 50
-              pods: 50
+              cpu: 15
+              memory: 15
+              pods: 15
       plugins:
         balance:
           enabled:
