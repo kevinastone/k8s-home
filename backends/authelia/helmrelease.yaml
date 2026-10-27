@@ -25,6 +25,8 @@ spec:
       main:
         strategy: RollingUpdate
         replicas: 2
+        podDisruptionBudget:
+          minAvailable: 1
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -81,6 +83,13 @@ spec:
                 memory: 128Mi
         pod:
           enableServiceLinks: false
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: authelia
           securityContext:
             runAsUser: 568
             runAsGroup: 568

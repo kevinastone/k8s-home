@@ -23,6 +23,8 @@ spec:
       main:
         strategy: RollingUpdate
         replicas: 2
+        podDisruptionBudget:
+          minAvailable: 1
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -73,3 +75,12 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /data
+
+    defaultPodOptions:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: lldap

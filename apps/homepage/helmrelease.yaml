@@ -22,6 +22,9 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         strategy: RollingUpdate
+        replicas: 2
+        podDisruptionBudget:
+          minAvailable: 1
         containers:
           main:
             image:
@@ -89,3 +92,10 @@ spec:
       homepage: {}
     defaultPodOptions:
       automountServiceAccountToken: true
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: homepage
