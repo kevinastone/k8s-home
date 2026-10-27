@@ -32,6 +32,7 @@ spec:
     serviceMonitor:
       enabled: true
     deschedulerPolicy:
+      maxNoOfPodsToEvictPerNode: 5
       profiles:
       - name: Default
         pluginConfig:
@@ -63,26 +64,26 @@ spec:
           args:
             useDeviationThresholds: true
             thresholds:
-              cpu: 15
-              memory: 15
-              pods: 15
+              cpu: 8
+              memory: 8
+              pods: 8
             targetThresholds:
-              cpu: 15
-              memory: 15
-              pods: 15
-      plugins:
-        balance:
-          enabled:
-          - RemoveDuplicates
-          - RemovePodsViolatingTopologySpreadConstraint
-          - LowNodeUtilization
-        deschedule:
-          enabled:
-          - RemoveFailedPods
-          - RemovePodsHavingTooManyRestarts
-          - RemovePodsViolatingNodeTaints
-          - RemovePodsViolatingNodeAffinity
-          - RemovePodsViolatingInterPodAntiAffinity
+              cpu: 8
+              memory: 8
+              pods: 8
+        plugins:
+          balance:
+            enabled:
+            - RemoveDuplicates
+            - RemovePodsViolatingTopologySpreadConstraint
+            - LowNodeUtilization
+          deschedule:
+            enabled:
+            - RemoveFailedPods
+            - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingNodeTaints
+            - RemovePodsViolatingNodeAffinity
+            - RemovePodsViolatingInterPodAntiAffinity
   postRenderers:
   - kustomize:
       patches:
