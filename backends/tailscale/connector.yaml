@@ -2,10 +2,11 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: home-network
-  namespace: tailscale
+  name: &name home-network
 spec:
   proxyClass: tailscale-connector-class
+  replicas: 2
+  hostnamePrefix: *name
   exitNode: true
   subnetRouter:
     advertiseRoutes:

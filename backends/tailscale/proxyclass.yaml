@@ -8,6 +8,13 @@ spec:
     pod:
       annotations:
         config.cilium.io/disable-source-ip-verification: "true"
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            tailscale.com/parent-resource: home-network
       tailscaleContainer:
         env:
         - name: TS_USERSPACE
