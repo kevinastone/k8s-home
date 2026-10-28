@@ -109,7 +109,7 @@ spec:
       #   connections:
       #     requireMsgr2: true
       cephVersion:
-        image: quay.io/ceph/ceph:v21.1.2@sha256:153b57ecde590eec9405d9882adcec1f08fa1f4fa8f1b1e162aa5318f2127aa8
+        image: quay.io/ceph/ceph:v21.2.0@sha256:c9e6ed4ac3fcf67b28f38358bb9619dee4d1dfb96ddd4b9b583eee316a15f04d
       storage:
         # Set to true to make the operator discover and use all nodes in the cluster.
         useAllNodes: true
