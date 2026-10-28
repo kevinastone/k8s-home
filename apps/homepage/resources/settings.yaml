@@ -26,6 +26,7 @@ layout:
     icon: mdi-gamepad-variant
 
 quicklaunch:
+  disabled: true
   searchDescription: true
   hideInternetSearch: true
   hideVisitURL: true
