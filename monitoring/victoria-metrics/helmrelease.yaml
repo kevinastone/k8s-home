@@ -38,6 +38,11 @@ spec:
         enabled: false
         # labels:
         #   grafana_dashboard: "true"
+      dashboards:
+        prometheus:
+          enabled: false
+        prometheus-remote-write:
+          enabled: false
 
     defaultRules:
       create: true
