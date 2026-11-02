@@ -1,17 +1,3 @@
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: OCIRepository
-metadata:
-  name: dragonfly-operator
-spec:
-  interval: 12h
-  layerSelector:
-    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
-    operation: copy
-  url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
-  ref:
-    tag: v1.7.1
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -19,9 +5,13 @@ metadata:
   name: dragonfly-operator
 spec:
   interval: 30m
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: dragonfly-operator
+    spec:
+      interval: 12h
+      url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
+      ref:
+        tag: v1.7.1
   install:
     remediation:
       retries: 3
