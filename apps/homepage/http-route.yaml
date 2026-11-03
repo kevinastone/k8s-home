@@ -19,10 +19,10 @@ spec:
     # Sticky sessions prevent unnecessary re-renders on page loads and tab focusing when replica count > 1
     # https://gethomepage.dev/installation/k8s/#multiple-replicas
     sessionPersistence:
-      sessionName: homepage_session
       type: Cookie
-      cookieConfig:
+      cookie:
         lifetimeType: Session
+        name: homepage_session
     backendRefs:
     - name: homepage
       port: 80
