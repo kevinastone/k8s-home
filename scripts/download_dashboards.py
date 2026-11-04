@@ -2,11 +2,9 @@
 import pathlib
 import re
 import sys
-import typing as t
+import tomllib
 import urllib.request
 from dataclasses import InitVar, dataclass
-
-import tomllib
 
 
 @dataclass
@@ -25,7 +23,7 @@ class Dashboard:
                 raise ValueError("Either url or id must be set")
 
 
-def fetch(url: str, destination: pathlib.Path, datasource: t.Optional[dict | str] = None):
+def fetch(url: str, destination: pathlib.Path, datasource: dict | str | None = None):
     print(f"Downloading {destination} from {url}")
     with (
         open(destination, "w", encoding="utf-8") as output,
