@@ -48,6 +48,19 @@
         "https://github\\.com/(?<depName>[^/\\s]+/[^/\\s]+)/releases/download/(?<currentValue>[^/\\s]+)/"
       ],
       "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "Track CloudNativePG Cluster images",
+      "managerFilePatterns": [
+        "/(^|/)cluster.*\\.ya?ml$",
+        "/postgres/.*\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "imageName:\\s*[\"']?(?<depName>[^\\s\"':@]+):(?<currentValue>[^\\s\"':@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\"']?"
+      ],
+      "autoReplaceStringTemplate": "imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}",
+      "datasourceTemplate": "docker"
     }
   ],
   "packageRules": [

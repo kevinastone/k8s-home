@@ -16,8 +16,8 @@ Currently, `.github/workflows/ci.yaml` only runs `nix flake check` (which execut
 - [ ] **Add Kubernetes & Flux Manifest Validation in CI**:
   - [ ] Integrate `flate` (or `kubeconform` + `kustomize build`) into GitHub Actions to offline-render and validate all Flux `Kustomization` paths (`repos`, `crds`, `system`, `monitoring`, `backends`, `apps`) and `HelmRelease` manifests before merging.
   - [ ] Add a PR review/diff workflow using `konflate` (built on `flate`) on pull requests so Renovate and manual PRs show the exact rendered Kubernetes manifest diff.
-- [ ] **Pin Digest for CNPG PostgreSQL Images in Renovate (`.github/renovate.jsonc`)**:
-  - [ ] CloudNativePG `Cluster` manifests (`spec.imageName: ghcr.io/cloudnative-pg/postgresql:17.5-10`) are currently missing `@sha256:...` digests or a custom Renovate regex manager if not picked up by the standard Kubernetes manager.
+- [x] **Pin Digest for CNPG PostgreSQL Images in Renovate (`.github/renovate.jsonc`)**:
+  - [x] CloudNativePG `Cluster` manifests (`spec.imageName: ghcr.io/cloudnative-pg/postgresql:17.5-10`) now tracked via a custom Renovate regex manager with automatic digest pinning.
 
 ______________________________________________________________________
 
