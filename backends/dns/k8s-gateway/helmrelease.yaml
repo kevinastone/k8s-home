@@ -45,5 +45,6 @@ spec:
       labels:
         ip-pool: static
       annotations:
+        lbipam.cilium.io/ips: 192.168.120.54
         io.cilium/lb-ipam-ips: 192.168.120.54
         metallb.universe.tf/loadBalancerIPs: 192.168.120.54

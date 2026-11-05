@@ -9,7 +9,6 @@ resources:
 - flux-operator
 - gateway-api
 - keda
-- metallb
 - node-feature-discovery
 - postgres
 - prometheus

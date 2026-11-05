@@ -15,7 +15,6 @@ resources:
 # - intel-gpu-plugin
 - k8tz
 - longhorn
-- metallb
 - node-feature-discovery
 - openebs
 - reflector

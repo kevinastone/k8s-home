@@ -1,5 +1,0 @@
-#:schema ../../../scripts/dashboard-schema.json
-
-[metallb]
-id = 14127
-datasource = { DS_PROMETHEUS = "prometheus" }

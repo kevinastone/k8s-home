@@ -1,6 +1,0 @@
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/metallb.io/bgpadvertisement_v1beta1.json
-apiVersion: metallb.io/v1beta1
-kind: BGPAdvertisement
-metadata:
-  name: primary-advertisement
-  namespace: metallb-system
