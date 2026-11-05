@@ -69,8 +69,8 @@ ______________________________________________________________________
 
 ## 5. Networking, Security & Policy
 
-- [ ] **Tighten CORS on Envoy Gateway `SecurityPolicy` (`backends/envoy-gateway/security-policy.yaml`)**:
-  - [ ] Both `auth-gateway-policy` and `public-gateway-policy` set `allowOrigins: ["*"]` alongside `allowCredentials: true`. Restrict `allowOrigins` to `["https://*.k8s.kevinastone.com"]` (or remove global CORS unless specific cross-origin routes require it).
+- [x] **Tighten CORS on Envoy Gateway `SecurityPolicy` (`backends/envoy-gateway/security-policy.yaml`)**:
+  - [x] Restricted `allowOrigins` from `*` to `["https://*.k8s.kevinastone.com"]` on `auth-gateway-policy` and `public-gateway-policy`.
 - [ ] **Consolidate MetalLB vs. Cilium BGP**:
   - [ ] `system/cilium/helmrelease.yaml` has `bgpControlPlane.enabled: true` and `kubeProxyReplacement: true`, while `system/metallb` is also deployed running BGP (`bgp-peer.yaml`, `bgp-advertisement.yaml`). Migrate `LoadBalancer` IP pools and BGP peering natively to `CiliumLoadBalancerIPPool` and `CiliumBGPClusterConfig` so `metallb` can be removed entirely.
 - [ ] **Enforce Pod Security Standards & Hardening**:

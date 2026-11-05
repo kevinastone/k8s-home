@@ -9,7 +9,7 @@ spec:
     name: auth-gateway
   cors:
     allowOrigins:
-    - "*"
+    - "https://*.k8s.kevinastone.com"
     allowCredentials: true
   extAuth:
     failOpen: false
@@ -39,7 +39,7 @@ spec:
     name: public-gateway
   cors:
     allowOrigins:
-    - "*"
+    - "https://*.k8s.kevinastone.com"
     allowCredentials: true
 ---
 # Overwrite the gateway policy for https-redirect routes
