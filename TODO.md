@@ -33,8 +33,8 @@ The top-level Flux `Kustomization` resources (`crds.yaml`, `system.yaml`, `monit
   - [ ] `driftDetection.mode: enabled` is configured on 18 `HelmRelease`s (mostly `app-template` releases) but omitted on the remaining ~39 `HelmRelease`s. Standardize `driftDetection: { mode: enabled }` across all `HelmRelease` manifests (using `ignore` rules only where operators mutate their own resources).
 - [ ] **Complete OCI Repository Migration**:
   - [ ] Most charts use `OCIRepository`, but several still rely on legacy HTTP `HelmRepository` definitions in `repos/helm/` (`external-dns`, `metrics-server`, `descheduler`, `grafana/loki`, `fairwinds`, `longhorn`). Where upstream publishes OCI artifacts, migrate them to `OCIRepository` for faster, cached pulls and fewer `repos/helm/` definitions.
-- [ ] **Clean Up Ephemeral Annotations in Git**:
-  - [ ] Remove imperative `reconcile.fluxcd.io/requestedAt` annotations committed to Git (e.g., in `backends/authelia/helmrelease.yaml`).
+- [x] **Clean Up Ephemeral Annotations in Git**:
+  - [x] Removed imperative `reconcile.fluxcd.io/requestedAt` annotations from `backends/authelia/helmrelease.yaml`, `apps/media/sabnzbd/helmrelease.yaml`, and `apps/media/radarr/helmrelease.yaml`.
 
 ______________________________________________________________________
 
@@ -106,7 +106,5 @@ Several directories and manifests exist on disk but are commented out or unrefer
   - [ ] `monitoring/synology/` — Commented out in `monitoring/kustomization.yaml`.
   - [ ] `apps/home-assistant/postgres/cluster3.yaml` — Commented out in `apps/home-assistant/postgres/kustomization.yaml`.
   - [ ] `repos/git/kustomization.yaml` — Empty `resources: []` list (`gateway-api` defines its `GitRepository` directly in `crds/gateway-api/gateway-api.yaml`). Either move `GitRepository` sources into `repos/git/` or remove `repos/git/`.
-- [ ] **Replace `apps/unifi/deployment.yaml` Pause Pod with Direct EndpointSlice**:
-  - [ ] `apps/unifi/` deploys a dummy `registry.k8s.io/pause:3.10` `Deployment` alongside an Envoy Gateway `Backend` pointing to an external IP (`192.168.1.1`). If the pause pod only exists for uptime checks or service discovery, document why it is needed or replace it with a static `Service` + `EndpointSlice` / blackbox probe.
 - [ ] **Update `README.md` to Reflect Current Architecture**:
   - [ ] Update `README.md` to mention External Secrets + 1Password (currently only mentions SOPS), Envoy Gateway, VictoriaMetrics, CloudNativePG, and OpenTofu (`tofu-controller`).
