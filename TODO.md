@@ -1,0 +1,112 @@
+# Homelab FluxCD Improvement Recommendations (`TODO.md`)
+
+This document outlines architectural, operational, security, and maintainability improvements for the `k8s-home` GitOps repository. Items are grouped by domain and roughly ordered by impact.
+
+______________________________________________________________________
+
+## 1. CI/CD, Validation & Developer Experience
+
+Currently, `.github/workflows/ci.yaml` only runs `nix flake check` (which executes `treefmt`). While formatting is enforced, broken Kustomizations, invalid CUE schemas, or Rego policy regressions are not caught in CI.
+
+- [ ] **Expand Nix Flake Checks (`flake.nix`)**:
+  - [ ] Add `cue vet -c ./lib/grafana/` to `checks` in `flake.nix` so Grafana dashboard schema tests run automatically on every PR.
+  - [ ] Add `opa test apps/media/transcoder/policy/ -v` and `regal lint apps/media/transcoder/policy` to `checks` in `flake.nix`.
+  - [ ] Add `renovate-config-validator .github/renovate.jsonc` to `checks` in `flake.nix`.
+  - [ ] Add a check verifying that compiled dashboard `.json` files are in sync with their `.cue` sources (`build-dashboards . && git diff --exit-code`).
+- [ ] **Add Kubernetes & Flux Manifest Validation in CI**:
+  - [ ] Integrate `flate` (or `kubeconform` + `kustomize build`) into GitHub Actions to offline-render and validate all Flux `Kustomization` paths (`repos`, `crds`, `system`, `monitoring`, `backends`, `apps`) and `HelmRelease` manifests before merging.
+  - [ ] Add a PR review/diff workflow using `konflate` (built on `flate`) on pull requests so Renovate and manual PRs show the exact rendered Kubernetes manifest diff.
+- [ ] **Pin Digest for CNPG PostgreSQL Images in Renovate (`.github/renovate.jsonc`)**:
+  - [ ] CloudNativePG `Cluster` manifests (`spec.imageName: ghcr.io/cloudnative-pg/postgresql:17.5-10`) are currently missing `@sha256:...` digests or a custom Renovate regex manager if not picked up by the standard Kubernetes manager.
+
+______________________________________________________________________
+
+## 2. FluxCD Architecture & Reconciliation
+
+The top-level Flux `Kustomization` resources (`crds.yaml`, `system.yaml`, `monitoring.yaml`, `backends.yaml`, `apps.yaml`) use a coarse dependency chain without explicit health checks or failure isolation.
+
+- [ ] **Enable `wait: true` on Core Infrastructure Kustomizations**:
+  - [ ] In `crds.yaml`, `system.yaml`, and `backends.yaml`, set `spec.wait: true` (and adjust `spec.timeout` as needed). Currently, `dependsOn` only waits for Flux to *apply* the manifests in `crds` and `system`, not for all CRDs, admission webhooks (`cert-manager`, `envoy-gateway`, `external-secrets`, `cnpg`), and `ClusterSecretStore`s to actually become `Ready`.
+- [ ] **Decouple Sub-Kustomizations to Prevent Blast-Radius Blocking**:
+  - [ ] Because `apps/kustomization.yaml` is a single monolithic Kustomize overlay applied by `apps.yaml`, a single syntax or SOPS error in a low-priority app (e.g., `super-sudoku` or `dao-2048`) blocks reconciliation for critical apps like `home-assistant` and `zigbee2mqtt`. Consider splitting `apps/` (and `backends/`) into per-app Flux `Kustomization` objects or grouping critical vs. non-critical workloads.
+- [ ] **Standardize HelmRelease Drift Detection**:
+  - [ ] `driftDetection.mode: enabled` is configured on 18 `HelmRelease`s (mostly `app-template` releases) but omitted on the remaining ~39 `HelmRelease`s. Standardize `driftDetection: { mode: enabled }` across all `HelmRelease` manifests (using `ignore` rules only where operators mutate their own resources).
+- [ ] **Complete OCI Repository Migration**:
+  - [ ] Most charts use `OCIRepository`, but several still rely on legacy HTTP `HelmRepository` definitions in `repos/helm/` (`external-dns`, `metrics-server`, `descheduler`, `grafana/loki`, `fairwinds`, `longhorn`). Where upstream publishes OCI artifacts, migrate them to `OCIRepository` for faster, cached pulls and fewer `repos/helm/` definitions.
+- [ ] **Clean Up Ephemeral Annotations in Git**:
+  - [ ] Remove imperative `reconcile.fluxcd.io/requestedAt` annotations committed to Git (e.g., in `backends/authelia/helmrelease.yaml`).
+
+______________________________________________________________________
+
+## 3. Secrets Management Consolidation
+
+The repository currently splits secrets across three patterns: SOPS-encrypted files committed to Git, `ExternalSecret`s backed by 1Password (`one-password-sdk`), and `ExternalSecret`s backed by an in-cluster `kubernetes` store (`rustfs-kubernetes-store`).
+
+- [ ] **Migrate Remaining Static SOPS Secrets to 1Password (`ExternalSecret`)**:
+  - [ ] Migrate `system/cert-manager/cloudflare-api-token-secret.yaml` and `system/external-dns/cloudflare-api-token-secret.yaml` (which duplicate the Cloudflare token in SOPS) to a single 1Password item fetched via `ExternalSecret` (or replicated via `reflector`).
+  - [ ] Migrate app/backend SOPS secrets (`apps/media/vpn-secret.yaml`, `apps/media/nzbgeek-secret.yaml`, `apps/ws4kp/secrets/*`, `apps/zigbee2mqtt/secrets/*`, `apps/home-assistant/secrets/*`, `backends/ldap/lldap-secret.yaml`, `backends/authelia/*-secret.yaml`) to 1Password `ExternalSecret`s.
+  - [ ] Keep SOPS strictly for the bootstrap secrets (`backends/one-password/secrets/*` and `system/fluxcd/webhook/secrets/*`) so only one secret backend is needed for day-to-day operations, and remove `spec.decryption` from Flux `Kustomization`s that no longer contain SOPS files.
+- [ ] **Remove Unused `ClusterSecretStore`**:
+  - [ ] Both `backends/one-password/cluster-secret-store.yaml` (`one-password` Connect server) and `backends/one-password/cluster-secret-store-sdk.yaml` (`one-password-sdk`) are deployed. If all `ExternalSecret`s use one store, decommission the redundant store.
+
+______________________________________________________________________
+
+## 4. Storage, Backups & Disaster Recovery
+
+While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rustfs` S3 service, several stateful workloads and the S3 store itself represent single points of failure.
+
+- [ ] **Off-Cluster / 3-2-1 Backup Strategy for `rustfs` and Longhorn**:
+  - [ ] `postgres` (Barman) and `dragonfly` back up to `s3.k8s.kevinastone.com` (`rustfs`), which itself runs on a Longhorn PVC inside the same cluster. Add an off-cluster replication job (e.g., `rclone` CronJob or Backblaze B2 / Synology NAS sync) for `rustfs` buckets.
+  - [ ] Configure a Longhorn `backupTarget` (e.g., SMB/NFS share on the Synology NAS or external S3) and add a `RecurringJob` with `task: backup` in `monitoring/longhorn/recurringjob.yaml` (currently only `snapshot-cleanup` and `filesystem-trim` exist).
+- [ ] **Stateful PVC Backups for Non-Postgres Apps**:
+  - [ ] Critical stateful configurations on Longhorn PVCs (`home-assistant` `/config`, `zigbee2mqtt`, `radarr`, `sonarr`, `prowlarr`, `qbittorrent`) rely solely on Longhorn volume replicas. Add either Longhorn scheduled volume backups or [VolSync](https://volsync.readthedocs.io/) replication to external storage.
+- [ ] **Fix `home-assistant` PVC Access Mode**:
+  - [ ] `apps/home-assistant/helmrelease.yaml` uses a `statefulset` with `replicas: 1` (default) and `accessMode: ReadWriteMany` on Longhorn (`persistence.config`). `ReadWriteMany` on Longhorn spins up an intermediate NFSv4 server pod (`share-manager`), adding latency and SQLite/file-locking risks without needing multi-node mounts. Switch `accessMode` to `ReadWriteOnce`.
+- [ ] **Standardize CNPG Restore Runbooks / Templates**:
+  - [ ] `apps/home-assistant/postgres/cluster3.yaml` is a Barman recovery test manifest (`bootstrap.recovery` from `postgres2`). Document a standard CNPG point-in-time recovery (PITR) procedure or move recovery templates to `components/postgres/` rather than keeping commented-out test clusters in app directories.
+
+______________________________________________________________________
+
+## 5. Networking, Security & Policy
+
+- [ ] **Tighten CORS on Envoy Gateway `SecurityPolicy` (`backends/envoy-gateway/security-policy.yaml`)**:
+  - [ ] Both `auth-gateway-policy` and `public-gateway-policy` set `allowOrigins: ["*"]` alongside `allowCredentials: true`. Restrict `allowOrigins` to `["https://*.k8s.kevinastone.com"]` (or remove global CORS unless specific cross-origin routes require it).
+- [ ] **Consolidate MetalLB vs. Cilium BGP**:
+  - [ ] `system/cilium/helmrelease.yaml` has `bgpControlPlane.enabled: true` and `kubeProxyReplacement: true`, while `system/metallb` is also deployed running BGP (`bgp-peer.yaml`, `bgp-advertisement.yaml`). Migrate `LoadBalancer` IP pools and BGP peering natively to `CiliumLoadBalancerIPPool` and `CiliumBGPClusterConfig` so `metallb` can be removed entirely.
+- [ ] **Enforce Pod Security Standards & Hardening**:
+  - [ ] Only ~50% of `HelmRelease`s define `securityContext` or `resources`. Audit `apps/` and `backends/` (e.g., `home-assistant`, `ws4kp`, `httpbox`, `dao-2048`) to add `runAsNonRoot`, `readOnlyRootFilesystem`, dropped capabilities, and memory requests/limits (leveraging the already-deployed `goldilocks` / VPA recommendations).
+  - [ ] Consider adding Pod Security Admission (`pod-security.kubernetes.io/enforce: baseline` or `restricted`) labels to application `namespace.yaml` files.
+- [ ] **Scope `tf-runner` RBAC in `backends/rustfs/terraform.yaml`**:
+  - [ ] The `tf-runner` `Role` grants `verbs: ["*"]` on all `secrets` in the `rustfs` namespace. Scope write permissions (`update`, `patch`, `delete`) using `resourceNames` to only the state secret and output secrets managed by OpenTofu, and grant `get` on input secrets (`rustfs-root-secret`, `rustfs-users`).
+
+______________________________________________________________________
+
+## 6. Observability & Alerting
+
+- [ ] **Add Alerting Rules for Critical Homelab Failure Modes**:
+  - [ ] While VictoriaMetrics (`vmalert` + `alertmanager`) and `karma` are deployed, custom alerting rules are sparse (mostly Flux, cert-manager, and Longhorn). Add `VMRule` / `PrometheusRule` definitions for:
+    - [ ] **UPS / Power events**: Alert on `network_ups_tools` battery state (`OB` / On Battery) or low battery charge.
+    - [ ] **CloudNativePG**: Alert on failed `ScheduledBackup`s, replication lag, or WAL archiving failures (`cnpg_collector_last_failed_backup_timestamp`).
+    - [ ] **External Secrets**: Alert when any `ExternalSecret` or `ClusterSecretStore` is `Ready=False` (`externalsecret_status_condition`).
+    - [ ] **OpenTofu (`tofu-controller`)**: Alert on `Terraform` resource reconciliation or plan/apply failures.
+- [ ] **Migrate Remaining JSON Dashboards to CUE (`lib/grafana/`)**:
+  - [ ] Several dashboards still use legacy `grafana_dashboards.toml` + raw JSON downloads (`monitoring/synology`, `backends/airflow`, etc.) rather than the typed CUE library in `lib/grafana/`. Continue migrating dashboards to CUE for consistency and automated layout validation.
+
+______________________________________________________________________
+
+## 7. Repository Hygiene & Dead Code Cleanup
+
+Several directories and manifests exist on disk but are commented out or unreferenced by any `kustomization.yaml`. Either remove them (relying on Git history if needed later) or document their status:
+
+- [ ] **Remove or Archive Unreferenced Directories**:
+  - [ ] `backends/airflow/` and `repos/helm/airflow.yaml` — `airflow` is not listed in `backends/kustomization.yaml`, though `repos/helm/airflow.yaml` is still actively reconciled in `flux-system`.
+  - [ ] `system/rook-cluster/` and `crds/rook-operator/` — Commented out in `crds/kustomization.yaml` and unreferenced in `system/kustomization.yaml`.
+  - [ ] `system/intel-gpu-plugin/` — Commented out in `system/kustomization.yaml`.
+  - [ ] `apps/media/transmission/` — Commented out in `apps/media/kustomization.yaml` (superseded by `qbittorrent`).
+  - [ ] `monitoring/synology/` — Commented out in `monitoring/kustomization.yaml`.
+  - [ ] `apps/home-assistant/postgres/cluster3.yaml` — Commented out in `apps/home-assistant/postgres/kustomization.yaml`.
+  - [ ] `repos/git/kustomization.yaml` — Empty `resources: []` list (`gateway-api` defines its `GitRepository` directly in `crds/gateway-api/gateway-api.yaml`). Either move `GitRepository` sources into `repos/git/` or remove `repos/git/`.
+- [ ] **Replace `apps/unifi/deployment.yaml` Pause Pod with Direct EndpointSlice**:
+  - [ ] `apps/unifi/` deploys a dummy `registry.k8s.io/pause:3.10` `Deployment` alongside an Envoy Gateway `Backend` pointing to an external IP (`192.168.1.1`). If the pause pod only exists for uptime checks or service discovery, document why it is needed or replace it with a static `Service` + `EndpointSlice` / blackbox probe.
+- [ ] **Update `README.md` to Reflect Current Architecture**:
+  - [ ] Update `README.md` to mention External Secrets + 1Password (currently only mentions SOPS), Envoy Gateway, VictoriaMetrics, CloudNativePG, and OpenTofu (`tofu-controller`).
