@@ -105,6 +105,6 @@ Several directories and manifests exist on disk but are commented out or unrefer
   - [ ] `apps/media/transmission/` — Commented out in `apps/media/kustomization.yaml` (superseded by `qbittorrent`).
   - [ ] `monitoring/synology/` — Commented out in `monitoring/kustomization.yaml`.
   - [ ] `apps/home-assistant/postgres/cluster3.yaml` — Commented out in `apps/home-assistant/postgres/kustomization.yaml`.
-  - [ ] `repos/git/kustomization.yaml` — Empty `resources: []` list (`gateway-api` defines its `GitRepository` directly in `crds/gateway-api/gateway-api.yaml`). Either move `GitRepository` sources into `repos/git/` or remove `repos/git/`.
+  - [x] `repos/git/kustomization.yaml` — Removed empty `repos/git/` directory and unlinked from `repos/kustomization.yaml`.
 - [ ] **Update `README.md` to Reflect Current Architecture**:
   - [ ] Update `README.md` to mention External Secrets + 1Password (currently only mentions SOPS), Envoy Gateway, VictoriaMetrics, CloudNativePG, and OpenTofu (`tofu-controller`).
