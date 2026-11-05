@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: tofu-controller-rules
+  namespace: flux-system
+spec:
+  groups:
+  - name: tofu-controller
+    rules:
+    - alert: TerraformReconciliationFailed
+      annotations:
+        summary: "OpenTofu / Terraform reconciliation failing"
+        description: "Terraform resource {{ $labels.namespace }}/{{ $labels.name }} reconciliation has been failing."
+      expr: gotk_reconcile_condition{kind="Terraform", type="Ready", status="False"} == 1
+      for: 15m
+      labels:
+        severity: warning
+    - alert: TofuControllerDown
+      annotations:
+        summary: "Tofu-controller is down"
+        description: "Prometheus cannot scrape the tofu-controller metrics endpoint."
+      expr: absent(up{job=~".*tofu-controller.*"} == 1)
+      for: 10m
+      labels:
+        severity: warning

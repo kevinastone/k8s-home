@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: postgres
 resources:
 - helmrelease-dashboards.yaml
+- prometheus-rule.yaml

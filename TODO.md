@@ -83,12 +83,12 @@ ______________________________________________________________________
 
 ## 6. Observability & Alerting
 
-- [ ] **Add Alerting Rules for Critical Homelab Failure Modes**:
-  - [ ] While VictoriaMetrics (`vmalert` + `alertmanager`) and `karma` are deployed, custom alerting rules are sparse (mostly Flux, cert-manager, and Longhorn). Add `VMRule` / `PrometheusRule` definitions for:
-    - [ ] **UPS / Power events**: Alert on `network_ups_tools` battery state (`OB` / On Battery) or low battery charge.
-    - [ ] **CloudNativePG**: Alert on failed `ScheduledBackup`s, replication lag, or WAL archiving failures (`cnpg_collector_last_failed_backup_timestamp`).
-    - [ ] **External Secrets**: Alert when any `ExternalSecret` or `ClusterSecretStore` is `Ready=False` (`externalsecret_status_condition`).
-    - [ ] **OpenTofu (`tofu-controller`)**: Alert on `Terraform` resource reconciliation or plan/apply failures.
+- [x] **Add Alerting Rules for Critical Homelab Failure Modes**:
+  - [x] While VictoriaMetrics (`vmalert` + `alertmanager`) and `karma` are deployed, custom alerting rules are sparse (mostly Flux, cert-manager, and Longhorn). Add `VMRule` / `PrometheusRule` definitions for:
+    - [x] **UPS / Power events**: Alert on `network_ups_tools` battery state (`OB` / On Battery) or low battery charge (`monitoring/network-ups-tools/prometheus-rule.yaml`).
+    - [x] **CloudNativePG**: Alert on failed `ScheduledBackup`s, replication lag, or WAL archiving failures (`monitoring/postgres/prometheus-rule.yaml`).
+    - [x] **External Secrets**: Alert when any `ExternalSecret` or `ClusterSecretStore` is `Ready=False` (`monitoring/external-secrets/prometheus-rule.yaml`).
+    - [x] **OpenTofu (`tofu-controller`)**: Alert on `Terraform` resource reconciliation or plan/apply failures (`monitoring/tofu-controller/prometheus-rule.yaml`).
 - [ ] **Migrate Remaining JSON Dashboards to CUE (`lib/grafana/`)**:
   - [ ] Several dashboards still use legacy `grafana_dashboards.toml` + raw JSON downloads (`monitoring/synology`, `backends/airflow`, etc.) rather than the typed CUE library in `lib/grafana/`. Continue migrating dashboards to CUE for consistency and automated layout validation.
 

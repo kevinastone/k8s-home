@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: external-secrets-rules
+  namespace: external-secrets
+spec:
+  groups:
+  - name: external-secrets
+    rules:
+    - alert: ExternalSecretSyncError
+      annotations:
+        summary: "ExternalSecret synchronization failed"
+        description: "ExternalSecret {{ $labels.exported_namespace }}/{{ $labels.name }} has failed to synchronize."
+      expr: externalsecret_status_condition{condition="Ready", status="False"} == 1
+      for: 10m
+      labels:
+        severity: warning
+    - alert: ClusterSecretStoreNotReady
+      annotations:
+        summary: "SecretStore or ClusterSecretStore not ready"
+        description: "SecretStore {{ $labels.name }} is reporting Ready=False."
+      expr: clustersecretstore_status_condition{condition="Ready", status="False"} == 1 or secretstore_status_condition{condition="Ready", status="False"} == 1
+      for: 10m
+      labels:
+        severity: warning

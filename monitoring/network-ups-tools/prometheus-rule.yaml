@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: network-ups-tools-rules
+  namespace: network-ups-tools
+spec:
+  groups:
+  - name: network-ups-tools
+    rules:
+    - alert: UPSOnBattery
+      annotations:
+        summary: "UPS is running on battery power"
+        description: "UPS {{ $labels.ups }} is running on battery power (utility power lost)."
+      expr: network_ups_tools_ups_status{flag="OB"} == 1
+      for: 1m
+      labels:
+        severity: warning
+    - alert: UPSBatteryLow
+      annotations:
+        summary: "UPS battery is critically low"
+        description: "UPS {{ $labels.ups }} battery is reporting low battery status."
+      expr: network_ups_tools_ups_status{flag="LB"} == 1
+      for: 30s
+      labels:
+        severity: critical
+    - alert: UPSBatteryChargeCritical
+      annotations:
+        summary: "UPS battery charge is below 20%"
+        description: "UPS {{ $labels.ups }} charge is at {{ $value }}%."
+      expr: network_ups_tools_battery_charge < 20
+      for: 1m
+      labels:
+        severity: critical
+    - alert: UPSOffline
+      annotations:
+        summary: "UPS is offline"
+        description: "UPS {{ $labels.ups }} is not reporting online status."
+      expr: network_ups_tools_ups_status{flag="OL"} == 0
+      for: 2m
+      labels:
+        severity: warning

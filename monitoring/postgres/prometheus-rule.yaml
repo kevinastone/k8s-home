@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cloudnative-pg-rules
+  namespace: postgres
+spec:
+  groups:
+  - name: cloudnative-pg
+    rules:
+    - alert: CNPGClusterDown
+      annotations:
+        summary: "PostgreSQL cluster is down"
+        description: "All instances in PostgreSQL cluster {{ $labels.cluster }} are unreachable."
+      expr: sum by (cluster) (cnpg_collector_up) == 0
+      for: 2m
+      labels:
+        severity: critical
+    - alert: CNPGInstanceDown
+      annotations:
+        summary: "PostgreSQL instance down"
+        description: "PostgreSQL instance {{ $labels.pod }} in cluster {{ $labels.cluster }} is down."
+      expr: cnpg_collector_up == 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: CNPGBackupFailed
+      annotations:
+        summary: "PostgreSQL backup failed"
+        description: "Last attempted backup for cluster {{ $labels.cluster }} failed."
+      expr: cnpg_collector_last_failed_backup_timestamp > cnpg_collector_last_available_backup_timestamp
+      for: 5m
+      labels:
+        severity: warning
+    - alert: CNPGWALArchivingFailing
+      annotations:
+        summary: "PostgreSQL WAL archiving is failing"
+        description: "WAL archiving has been failing for cluster {{ $labels.cluster }}."
+      expr: cnpg_collector_first_failed_wal_archive_time > 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: CNPGReplicationLag
+      annotations:
+        summary: "PostgreSQL replication lag high"
+        description: "Standby replica in cluster {{ $labels.cluster }} is lagging behind primary by {{ $value }}s."
+      expr: cnpg_pg_replication_lag > 30
+      for: 5m
+      labels:
+        severity: warning

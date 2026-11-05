@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - argo
 - envoy-gateway
+- external-secrets
 - dragonfly
 - fluxcd
 - goldilocks
@@ -19,4 +20,5 @@ resources:
 - prometheus
 # Disabled due to preventing hdd hibernation
 # - synology
+- tofu-controller
 - victoria-metrics

@@ -5,6 +5,7 @@ namespace: network-ups-tools
 resources:
 - namespace.yaml
 - helmrelease.yaml
+- prometheus-rule.yaml
 configMapGenerator:
 - name: network-ups-tools-config
   files:
