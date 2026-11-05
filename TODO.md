@@ -75,7 +75,6 @@ ______________________________________________________________________
   - [ ] `system/cilium/helmrelease.yaml` has `bgpControlPlane.enabled: true` and `kubeProxyReplacement: true`, while `system/metallb` is also deployed running BGP (`bgp-peer.yaml`, `bgp-advertisement.yaml`). Migrate `LoadBalancer` IP pools and BGP peering natively to `CiliumLoadBalancerIPPool` and `CiliumBGPClusterConfig` so `metallb` can be removed entirely.
 - [ ] **Enforce Pod Security Standards & Hardening**:
   - [ ] Only ~50% of `HelmRelease`s define `securityContext` or `resources`. Audit `apps/` and `backends/` (e.g., `home-assistant`, `ws4kp`, `httpbox`, `dao-2048`) to add `runAsNonRoot`, `readOnlyRootFilesystem`, dropped capabilities, and memory requests/limits (leveraging the already-deployed `goldilocks` / VPA recommendations).
-  - [ ] Consider adding Pod Security Admission (`pod-security.kubernetes.io/enforce: baseline` or `restricted`) labels to application `namespace.yaml` files.
 - [ ] **Scope `tf-runner` RBAC in `backends/rustfs/terraform.yaml`**:
   - [ ] The `tf-runner` `Role` grants `verbs: ["*"]` on all `secrets` in the `rustfs` namespace. Scope write permissions (`update`, `patch`, `delete`) using `resourceNames` to only the state secret and output secrets managed by OpenTofu, and grant `get` on input secrets (`rustfs-root-secret`, `rustfs-users`).
 
