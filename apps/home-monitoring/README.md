@@ -28,4 +28,4 @@ Whenever you update [`dashboards/home.cue`](dashboards/home.cue), re-generate th
 build-dashboards apps/home-monitoring/dashboards
 ```
 
-See the [main repository README](../../Readme.md#grafana-dashboards-cue) for full instructions on building CUE dashboards and formatting.
+See the [main repository README](../../README.md#grafana-dashboards-cue) for full instructions on building CUE dashboards and formatting.
