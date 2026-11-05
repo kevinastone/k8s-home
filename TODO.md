@@ -13,9 +13,8 @@ Currently, `.github/workflows/ci.yaml` only runs `nix flake check` (which execut
   - [ ] Add `opa test apps/media/transcoder/policy/ -v` and `regal lint apps/media/transcoder/policy` to `checks` in `flake.nix`.
   - [ ] Add `renovate-config-validator .github/renovate.jsonc` to `checks` in `flake.nix`.
   - [ ] Add a check verifying that compiled dashboard `.json` files are in sync with their `.cue` sources (`build-dashboards . && git diff --exit-code`).
-- [ ] **Add Kubernetes & Flux Manifest Validation in CI**:
-  - [ ] Integrate `flate` (or `kubeconform` + `kustomize build`) into GitHub Actions to offline-render and validate all Flux `Kustomization` paths (`repos`, `crds`, `system`, `monitoring`, `backends`, `apps`) and `HelmRelease` manifests before merging.
-  - [ ] Add a PR review/diff workflow using `konflate` (built on `flate`) on pull requests so Renovate and manual PRs show the exact rendered Kubernetes manifest diff.
+- [x] **Add Kubernetes & Flux Manifest Validation in CI**:
+  - [x] Integrated `home-operations/flate` into GitHub Actions (`.github/workflows/ci.yaml`) with `flate test all` for manifest validation and `flate diff` on pull requests for rendered diffs in job summaries.
 - [x] **Pin Digest for CNPG PostgreSQL Images in Renovate (`.github/renovate.jsonc`)**:
   - [x] CloudNativePG `Cluster` manifests (`spec.imageName: ghcr.io/cloudnative-pg/postgresql:17.5-10`) now tracked via a custom Renovate regex manager with automatic digest pinning.
 
