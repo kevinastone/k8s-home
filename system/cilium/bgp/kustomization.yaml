@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ipam-primary-pool.yaml
+- ipam-static-pool.yaml
+- bgp-advertisement.yaml
+- bgp-peer-config.yaml
+- bgp-cluster-config.yaml

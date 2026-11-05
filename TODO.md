@@ -72,7 +72,8 @@ ______________________________________________________________________
 - [x] **Tighten CORS on Envoy Gateway `SecurityPolicy` (`backends/envoy-gateway/security-policy.yaml`)**:
   - [x] Restricted `allowOrigins` from `*` to `["https://*.k8s.kevinastone.com"]` on `auth-gateway-policy` and `public-gateway-policy`.
 - [ ] **Consolidate MetalLB vs. Cilium BGP**:
-  - [ ] `system/cilium/helmrelease.yaml` has `bgpControlPlane.enabled: true` and `kubeProxyReplacement: true`, while `system/metallb` is also deployed running BGP (`bgp-peer.yaml`, `bgp-advertisement.yaml`). Migrate `LoadBalancer` IP pools and BGP peering natively to `CiliumLoadBalancerIPPool` and `CiliumBGPClusterConfig` so `metallb` can be removed entirely.
+  - [x] Phase 1: Draft native Cilium BGP Control Plane and LB IPAM manifests (`system/cilium/bgp/`).
+  - [ ] Phase 2: Cut over active traffic from MetalLB to Cilium BGP (wire `system/cilium/bgp` into `system/cilium/kustomization.yaml`, decommission `system/metallb`, and update service annotations).
 - [ ] **Enforce Pod Security Standards & Hardening**:
   - [ ] Only ~50% of `HelmRelease`s define `securityContext` or `resources`. Audit `apps/` and `backends/` (e.g., `home-assistant`, `ws4kp`, `httpbox`, `dao-2048`) to add `runAsNonRoot`, `readOnlyRootFilesystem`, dropped capabilities, and memory requests/limits (leveraging the already-deployed `goldilocks` / VPA recommendations).
 - [ ] **Scope `tf-runner` RBAC in `backends/rustfs/terraform.yaml`**:

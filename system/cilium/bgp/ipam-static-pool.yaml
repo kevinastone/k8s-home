@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumloadbalancerippool_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: static-pool
+spec:
+  blocks:
+  - start: 192.168.120.10
+    stop: 192.168.120.254
+  serviceSelector:
+    matchLabels:
+      ip-pool: static

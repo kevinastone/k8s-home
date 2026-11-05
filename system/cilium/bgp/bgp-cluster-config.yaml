@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumbgpclusterconfig_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  bgpInstances:
+  - name: instance-65020
+    localASN: 65020
+    peers:
+    - name: upstream
+      peerASN: 65000
+      autoDiscovery:
+        mode: DefaultGateway
+        defaultGateway:
+          addressFamily: ipv4
+      peerConfigRef:
+        name: upstream-peer-config
