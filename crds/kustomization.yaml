@@ -6,6 +6,7 @@ resources:
 - cert-manager
 - dragonfly-operator
 - external-secrets
+- flux-operator
 - gateway-api
 - keda
 - metallb
