@@ -73,7 +73,7 @@ ______________________________________________________________________
   - [x] Restricted `allowOrigins` from `*` to `["https://*.k8s.kevinastone.com"]` on `auth-gateway-policy` and `public-gateway-policy`.
 - [x] **Consolidate MetalLB vs. Cilium BGP**:
   - [x] Phase 1: Draft native Cilium BGP Control Plane and LB IPAM manifests (`system/cilium/bgp/`).
-  - [x] Phase 2: Cut over active traffic from MetalLB to Cilium BGP (wired `system/cilium/bgp` into `system/cilium/kustomization.yaml`, decommissioned MetalLB, preserved dual service annotations).
+  - [x] Phase 2: Cut over active traffic from MetalLB to Cilium BGP (wired `system/cilium/bgp` into `system/cilium/kustomization.yaml`, decommissioned MetalLB, cleaned up deprecated annotations).
 - [ ] **Enforce Pod Security Standards & Hardening**:
   - [ ] Only ~50% of `HelmRelease`s define `securityContext` or `resources`. Audit `apps/` and `backends/` (e.g., `home-assistant`, `ws4kp`, `httpbox`, `dao-2048`) to add `runAsNonRoot`, `readOnlyRootFilesystem`, dropped capabilities, and memory requests/limits (leveraging the already-deployed `goldilocks` / VPA recommendations).
 - [ ] **Scope `tf-runner` RBAC in `backends/rustfs/terraform.yaml`**:

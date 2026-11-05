@@ -53,8 +53,6 @@ spec:
         annotations:
           coredns.io/hostname: "ups.k8s.kevinastone.com"
           lbipam.cilium.io/ips: 192.168.120.93
-          io.cilium/lb-ipam-ips: 192.168.120.93
-          metallb.universe.tf/loadBalancerIPs: 192.168.120.93
         labels:
           ip-pool: static
         ports:

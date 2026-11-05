@@ -71,8 +71,6 @@ spec:
           ip-pool: static
         annotations:
           lbipam.cilium.io/ips: 192.168.120.53
-          io.cilium/lb-ipam-ips: 192.168.120.53
-          metallb.universe.tf/loadBalancerIPs: 192.168.120.53
         ports:
           http:
             port: 80
