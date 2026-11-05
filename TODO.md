@@ -43,7 +43,7 @@ ______________________________________________________________________
 The repository currently splits secrets across three patterns: SOPS-encrypted files committed to Git, `ExternalSecret`s backed by 1Password (`one-password-sdk`), and `ExternalSecret`s backed by an in-cluster `kubernetes` store (`rustfs-kubernetes-store`).
 
 - [ ] **Migrate Remaining Static SOPS Secrets to 1Password (`ExternalSecret`)**:
-  - [ ] Migrate `system/cert-manager/cloudflare-api-token-secret.yaml` and `system/external-dns/cloudflare-api-token-secret.yaml` (which duplicate the Cloudflare token in SOPS) to a single 1Password item fetched via `ExternalSecret` (or replicated via `reflector`).
+  - [x] Consolidate `system/cert-manager/cloudflare-api-token-secret.yaml` and `system/external-dns/cloudflare-api-token-secret.yaml` to fetch from a single 1Password item (`"Cloudflare DNS API Token"`).
   - [ ] Migrate app/backend SOPS secrets (`apps/media/vpn-secret.yaml`, `apps/media/nzbgeek-secret.yaml`, `apps/ws4kp/secrets/*`, `apps/zigbee2mqtt/secrets/*`, `apps/home-assistant/secrets/*`, `backends/ldap/lldap-secret.yaml`, `backends/authelia/*-secret.yaml`) to 1Password `ExternalSecret`s.
   - [ ] Keep SOPS strictly for the bootstrap secrets (`backends/one-password/secrets/*` and `system/fluxcd/webhook/secrets/*`) so only one secret backend is needed for day-to-day operations, and remove `spec.decryption` from Flux `Kustomization`s that no longer contain SOPS files.
 - [ ] **Remove Unused `ClusterSecretStore`**:
