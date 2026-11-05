@@ -106,5 +106,5 @@ Several directories and manifests exist on disk but are commented out or unrefer
   - [ ] `monitoring/synology/` — Commented out in `monitoring/kustomization.yaml`.
   - [ ] `apps/home-assistant/postgres/cluster3.yaml` — Commented out in `apps/home-assistant/postgres/kustomization.yaml`.
   - [x] `repos/git/kustomization.yaml` — Removed empty `repos/git/` directory and unlinked from `repos/kustomization.yaml`.
-- [ ] **Update `README.md` to Reflect Current Architecture**:
-  - [ ] Update `README.md` to mention External Secrets + 1Password (currently only mentions SOPS), Envoy Gateway, VictoriaMetrics, CloudNativePG, and OpenTofu (`tofu-controller`).
+- [x] **Update `README.md` to Reflect Current Architecture**:
+  - [x] Updated `README.md` to reflect current architecture: Cilium native BGP & LB IPAM, Envoy Gateway, External Secrets + 1Password, VictoriaMetrics, CloudNativePG, OpenTofu (`tofu-controller`), and developer workflows.
