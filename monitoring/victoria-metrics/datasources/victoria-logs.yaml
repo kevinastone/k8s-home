@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=none
+apiVersion: 1
+datasources:
+- name: VictoriaLogs
+  type: victoriametrics-logs-datasource
+  access: proxy
+  uid: victorialogs
+  url: http://vlsingle-vm-stack.victoria-metrics:9428
+  editable: false

@@ -31,7 +31,7 @@ The top-level Flux `Kustomization` resources (`crds.yaml`, `system.yaml`, `monit
 - [ ] **Standardize HelmRelease Drift Detection**:
   - [ ] `driftDetection.mode: enabled` is configured on 18 `HelmRelease`s (mostly `app-template` releases) but omitted on the remaining ~39 `HelmRelease`s. Standardize `driftDetection: { mode: enabled }` across all `HelmRelease` manifests (using `ignore` rules only where operators mutate their own resources).
 - [x] **Complete OCI Repository Migration**:
-  - [x] Migrated all eligible charts to inline `OCIRepository` definitions (including `loki` to `ghcr.io/grafana/helm-charts/loki`). Remaining charts in `repos/helm/` (`external-dns`, `metrics-server`, `descheduler`, `fairwinds`, `longhorn`, `tailscale`, `eraser`, `csi-driver-smb`, `dao-2048`, and `grafana` for Alloy) do not currently have official upstream OCI equivalents.
+  - [x] Migrated all eligible charts to inline `OCIRepository` definitions, migrated logging to VictoriaLogs + Vector, and removed `repos/helm/grafana.yaml`. Remaining charts in `repos/helm/` (`external-dns`, `metrics-server`, `descheduler`, `fairwinds`, `longhorn`, `tailscale`, `eraser`, `csi-driver-smb`, `dao-2048`) do not currently have official upstream OCI equivalents.
 - [x] **Clean Up Ephemeral Annotations in Git**:
   - [x] Removed imperative `reconcile.fluxcd.io/requestedAt` annotations from `backends/authelia/helmrelease.yaml`, `apps/media/sabnzbd/helmrelease.yaml`, and `apps/media/radarr/helmrelease.yaml`.
 

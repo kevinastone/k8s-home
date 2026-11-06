@@ -19,6 +19,7 @@ configMapGenerator:
       grafana_datasource: "true"
   files:
   - victoria-metrics.yaml=datasources/victoria-metrics.yaml
+  - victoria-logs.yaml=datasources/victoria-logs.yaml
   - alertmanager.yaml=datasources/alertmanager.yaml
 - name: vm-dashboards
   options:

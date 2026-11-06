@@ -20,6 +20,8 @@ spec:
     remediation:
       retries: 3
   values:
+    plugins:
+    - victoriametrics-logs-datasource
     grafana.ini:
       auth:
         oauth_auto_login: true

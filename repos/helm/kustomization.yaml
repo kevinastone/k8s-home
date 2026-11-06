@@ -10,7 +10,6 @@ resources:
 - eraser.yaml
 - external-dns.yaml
 - fairwinds.yaml
-- grafana.yaml
 - longhorn.yaml
 - metrics-server.yaml
 - tailscale.yaml

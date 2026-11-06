@@ -45,7 +45,7 @@ flowchart TD
             VM["VictoriaMetrics (vmagent, vmalert, vmcluster)"]
             AM["Alertmanager & Karma"]
             Grafana["Grafana (CUE Dashboards)"]
-            Loki["Grafana Loki (Logs)"]
+            VLogs["VictoriaLogs & Vector (Logs)"]
         end
 
         subgraph Apps ["Workloads"]
@@ -101,7 +101,7 @@ ______________________________________________________________________
 
 - **Metrics**: [VictoriaMetrics](https://victoriametrics.com/) Operator (`vmcluster`, `vmalert`, `vmagent`) scraping targets via `PodMonitor` and evaluating `PrometheusRule` manifests.
 - **Alerting**: Alertmanager with [Karma](https://github.com/prymitive/karma) dashboard UI.
-- **Logging**: [Grafana Loki](https://grafana.com/oss/loki/).
+- **Logging**: [VictoriaLogs](https://victoriametrics.com/products/victorialogs/) with [Vector](https://vector.dev/) log shipper agent.
 - **Dashboards**: Grafana dashboards generated via **CUE** (`lib/grafana/`).
 
 ______________________________________________________________________
@@ -114,7 +114,7 @@ The deployment flow is defined by the top-level Flux `Kustomization` manifests:
 ├── repos/          # Helm repository & OCI source definitions
 ├── crds/           # Custom Resource Definitions & CRD controllers
 ├── system/         # Core infrastructure (Cilium, Envoy Gateway, Storage, Cert-Manager)
-├── monitoring/     # Observability stack (VictoriaMetrics, Grafana, Alerting Rules, Loki)
+├── monitoring/     # Observability stack (VictoriaMetrics, VictoriaLogs, Grafana, Alerting Rules, Vector)
 ├── backends/       # Foundational shared services (DNS, Authelia, LDAP, MQTT, RustFS)
 ├── apps/           # User-facing applications (Home Assistant, Media stack, IoT)
 └── lib/grafana/    # Shared CUE library for typed Grafana dashboards
