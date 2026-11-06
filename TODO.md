@@ -8,11 +8,11 @@ ______________________________________________________________________
 
 Currently, `.github/workflows/ci.yaml` only runs `nix flake check` (which executes `treefmt`). While formatting is enforced, broken Kustomizations, invalid CUE schemas, or Rego policy regressions are not caught in CI.
 
-- [ ] **Expand Nix Flake Checks (`flake.nix`)**:
-  - [ ] Add `cue vet -c ./lib/grafana/` to `checks` in `flake.nix` so Grafana dashboard schema tests run automatically on every PR.
-  - [ ] Add `opa test apps/media/transcoder/policy/ -v` and `regal lint apps/media/transcoder/policy` to `checks` in `flake.nix`.
+- [x] **Expand Nix Flake Checks (`flake.nix`)**:
+  - [x] Add `cue vet -c ./lib/grafana/` to `checks` in `flake.nix` so Grafana dashboard schema tests run automatically on every PR.
+  - [x] Add `opa test apps/media/transcoder/policy/ -v` and `regal lint apps/media/transcoder/policy` to `checks` in `flake.nix`.
   - [x] Add `renovate-config-validator .github/renovate.jsonc` to `checks` in `flake.nix`.
-  - [ ] Add a check verifying that compiled dashboard `.json` files are in sync with their `.cue` sources (`build-dashboards . && git diff --exit-code`).
+  - [x] Add a check verifying that compiled dashboard `.json` files are in sync with their `.cue` sources (`build-dashboards`).
 - [x] **Add Kubernetes & Flux Manifest Validation in CI**:
   - [x] Integrated `home-operations/flate` into GitHub Actions (`.github/workflows/ci.yaml`) with `flate test all` for manifest validation and `flate diff` on pull requests for rendered diffs in job summaries.
 - [x] **Pin Digest for CNPG PostgreSQL Images in Renovate (`.github/renovate.jsonc`)**:

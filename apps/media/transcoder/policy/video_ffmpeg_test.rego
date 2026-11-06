@@ -38,22 +38,32 @@ test_ffmpeg_is_copying if {
 }
 
 test_ffmpeg_args_software if {
-	ffmpeg.args(false, 0) == ["-c:v", "libx265", "-crf", "24", "-pix_fmt", "yuv420p10le"] with input as {"encoder": "software"}
+	expected := ["-c:v", "libx265", "-crf", "24", "-pix_fmt", "yuv420p10le"]
+	ffmpeg.args(false, 0) == expected with input as {"encoder": "software"}
 	ffmpeg.pre_input_args(false) == [] with input as {"encoder": "software"}
 }
 
 test_ffmpeg_args_hardware if {
-	ffmpeg.args(false, 0) == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18", "-vf", "scale_vaapi=format=p010"] with input as {"encoder": "hardware", "quality": 18}
+	expected_args := [
+		"-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18",
+		"-vf", "scale_vaapi=format=p010",
+	]
+	ffmpeg.args(false, 0) == expected_args with input as {"encoder": "hardware", "quality": 18}
 	expected := ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "vaapi"]
 	ffmpeg.pre_input_args(false) == expected with input as {"encoder": "hardware"}
 }
 
 test_ffmpeg_args_software_4k if {
-	ffmpeg.args(false, 1080) == ["-c:v", "libx265", "-crf", "24", "-pix_fmt", "yuv420p10le", "-vf", "scale=-2:1080"] with input as {"encoder": "software"}
+	expected := ["-c:v", "libx265", "-crf", "24", "-pix_fmt", "yuv420p10le", "-vf", "scale=-2:1080"]
+	ffmpeg.args(false, 1080) == expected with input as {"encoder": "software"}
 }
 
 test_ffmpeg_args_hardware_4k if {
-	ffmpeg.args(false, 1080) == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18", "-vf", "scale_vaapi=w=-2:h=1080:format=p010"] with input as {"encoder": "hardware", "quality": 18}
+	expected := [
+		"-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18",
+		"-vf", "scale_vaapi=w=-2:h=1080:format=p010",
+	]
+	ffmpeg.args(false, 1080) == expected with input as {"encoder": "hardware", "quality": 18}
 }
 
 test_ffmpeg_args_copy_identical_codec if {

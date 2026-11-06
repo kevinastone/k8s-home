@@ -208,7 +208,11 @@ test_video_integration_args_software if {
 }
 
 test_video_integration_args_hardware if {
-	video.args == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18", "-vf", "scale_vaapi=format=p010"] with input as {
+	expected := [
+		"-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "18",
+		"-vf", "scale_vaapi=format=p010",
+	]
+	video.args == expected with input as {
 		"encoder": "hardware",
 		"quality": 18,
 		"media_info": {"streams": [{"codec_type": "video", "codec_name": "h264", "height": 1080}]},
@@ -242,7 +246,11 @@ test_video_args_copy_equivalent_h265 if {
 }
 
 test_video_args_no_copy_when_scaling if {
-	video.args == ["-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "24", "-vf", "scale_vaapi=w=-2:h=1080:format=p010"] with input as {
+	expected := [
+		"-c:v", "hevc_vaapi", "-profile:v", "main10", "-q:v", "24",
+		"-vf", "scale_vaapi=w=-2:h=1080:format=p010",
+	]
+	video.args == expected with input as {
 		"target_codec": "h265",
 		"encoder": "hardware",
 		"media_info": {"streams": [{"codec_type": "video", "codec_name": "hevc", "height": 2160}]},

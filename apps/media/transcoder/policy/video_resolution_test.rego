@@ -39,7 +39,7 @@ test_is_vr if {
 
 	# Fallback aspect ratio computation when display_aspect_ratio is missing or invalid
 	resolution_rules.is_vr({"width": 3840, "height": 1920}) # computed 2:1
-	resolution_rules.is_vr({"width": 1920, "height": 960})  # computed 2:1, small width
+	resolution_rules.is_vr({"width": 1920, "height": 960}) # computed 2:1, small width
 	resolution_rules.is_vr({"width": 3840, "height": 3840}) # computed 1:1, massive width
 	not resolution_rules.is_vr({"width": 1920, "height": 1920}) # computed 1:1, too small
 	resolution_rules.is_vr({"display_aspect_ratio": "N/A", "width": 3840, "height": 1920})
