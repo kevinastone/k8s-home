@@ -2,6 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+# keep-sorted start
 - cert-manager
 - cilium
 - cloudflared
@@ -21,3 +22,4 @@ resources:
 - reloader
 - tailscale-operator
 - vertical-pod-autoscaler
+# keep-sorted end
