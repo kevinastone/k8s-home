@@ -54,7 +54,7 @@ spec:
         retain: true
         size: 10Gi
         storageClass: longhorn
-        accessMode: ReadWriteMany
+        accessMode: ReadWriteOnce
         globalMounts:
         - path: /config
       config-data:

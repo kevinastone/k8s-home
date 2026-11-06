@@ -59,8 +59,8 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
   - [ ] Configure a Longhorn `backupTarget` (e.g., SMB/NFS share on the Synology NAS or external S3) and add a `RecurringJob` with `task: backup` in `monitoring/longhorn/recurringjob.yaml` (currently only `snapshot-cleanup` and `filesystem-trim` exist).
 - [ ] **Stateful PVC Backups for Non-Postgres Apps**:
   - [ ] Critical stateful configurations on Longhorn PVCs (`home-assistant` `/config`, `zigbee2mqtt`, `radarr`, `sonarr`, `prowlarr`, `qbittorrent`) rely solely on Longhorn volume replicas. Add either Longhorn scheduled volume backups or [VolSync](https://volsync.readthedocs.io/) replication to external storage.
-- [ ] **Fix `home-assistant` PVC Access Mode**:
-  - [ ] `apps/home-assistant/helmrelease.yaml` uses a `statefulset` with `replicas: 1` (default) and `accessMode: ReadWriteMany` on Longhorn (`persistence.config`). `ReadWriteMany` on Longhorn spins up an intermediate NFSv4 server pod (`share-manager`), adding latency and SQLite/file-locking risks without needing multi-node mounts. Switch `accessMode` to `ReadWriteOnce`.
+- [x] **Fix `home-assistant` PVC Access Mode**:
+  - [x] Switched `persistence.config.accessMode` from `ReadWriteMany` to `ReadWriteOnce` in `apps/home-assistant/helmrelease.yaml`. With `controllers.main.type: statefulset` (single replica), `ReadWriteOnce` eliminates the Longhorn `share-manager` NFSv4 pod overhead and prevents SQLite file-locking issues.
 - [ ] **Standardize CNPG Restore Runbooks / Templates**:
   - [ ] `apps/home-assistant/postgres/cluster3.yaml` is a Barman recovery test manifest (`bootstrap.recovery` from `postgres2`). Document a standard CNPG point-in-time recovery (PITR) procedure or move recovery templates to `components/postgres/` rather than keeping commented-out test clusters in app directories.
 
