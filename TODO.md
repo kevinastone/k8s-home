@@ -89,7 +89,7 @@ ______________________________________________________________________
     - [x] **External Secrets**: Alert when any `ExternalSecret` or `ClusterSecretStore` is `Ready=False` (`monitoring/external-secrets/prometheus-rule.yaml`).
     - [x] **OpenTofu (`tofu-controller`)**: Alert on `Terraform` resource reconciliation or plan/apply failures (`monitoring/tofu-controller/prometheus-rule.yaml`).
 - [ ] **Migrate Remaining JSON Dashboards to CUE (`lib/grafana/`)**:
-  - [ ] Several dashboards still use legacy `grafana_dashboards.toml` + raw JSON downloads (`monitoring/synology`, `backends/airflow`, etc.) rather than the typed CUE library in `lib/grafana/`. Continue migrating dashboards to CUE for consistency and automated layout validation.
+  - [ ] Several dashboards still use legacy `grafana_dashboards.toml` + raw JSON downloads (`monitoring/synology`, etc.) rather than the typed CUE library in `lib/grafana/`. Continue migrating dashboards to CUE for consistency and automated layout validation.
 
 ______________________________________________________________________
 
@@ -98,7 +98,7 @@ ______________________________________________________________________
 Several directories and manifests exist on disk but are commented out or unreferenced by any `kustomization.yaml`. Either remove them (relying on Git history if needed later) or document their status:
 
 - [ ] **Remove or Archive Unreferenced Directories**:
-  - [ ] `backends/airflow/` and `repos/helm/airflow.yaml` — `airflow` is not listed in `backends/kustomization.yaml`, though `repos/helm/airflow.yaml` is still actively reconciled in `flux-system`.
+  - [x] Removed `backends/airflow/` and `repos/helm/airflow.yaml` (and unlinked from `repos/helm/kustomization.yaml`).
   - [ ] `system/rook-cluster/` and `crds/rook-operator/` — Commented out in `crds/kustomization.yaml` and unreferenced in `system/kustomization.yaml`.
   - [ ] `system/intel-gpu-plugin/` — Commented out in `system/kustomization.yaml`.
   - [ ] `apps/media/transmission/` — Commented out in `apps/media/kustomization.yaml` (superseded by `qbittorrent`).
