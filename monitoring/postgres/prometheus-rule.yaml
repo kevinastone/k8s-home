@@ -27,16 +27,24 @@ spec:
     - alert: CNPGBackupFailed
       annotations:
         summary: "PostgreSQL backup failed"
-        description: "Last attempted backup for cluster {{ $labels.cluster }} failed."
-      expr: cnpg_collector_last_failed_backup_timestamp > cnpg_collector_last_available_backup_timestamp
+        description: "Last attempted backup for {{ $labels.job }} in namespace {{ $labels.namespace }} failed."
+      expr: barman_cloud_cloudnative_pg_io_last_failed_backup_timestamp > barman_cloud_cloudnative_pg_io_last_available_backup_timestamp
       for: 5m
+      labels:
+        severity: warning
+    - alert: CNPGBackupMissing
+      annotations:
+        summary: "PostgreSQL backup missing"
+        description: "No successful backup has completed for {{ $labels.job }} in the last 30 hours."
+      expr: (time() - barman_cloud_cloudnative_pg_io_last_available_backup_timestamp) > 108000
+      for: 15m
       labels:
         severity: warning
     - alert: CNPGWALArchivingFailing
       annotations:
         summary: "PostgreSQL WAL archiving is failing"
-        description: "WAL archiving has been failing for cluster {{ $labels.cluster }}."
-      expr: cnpg_collector_first_failed_wal_archive_time > 0
+        description: "WAL archiving is failing or backlog is accumulating on {{ $labels.pod }} in {{ $labels.namespace }}."
+      expr: cnpg_collector_pg_wal_archive_status{value="ready"} > 32
       for: 5m
       labels:
         severity: warning
