@@ -61,8 +61,8 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
   - [ ] Critical stateful configurations on Longhorn PVCs (`home-assistant` `/config`, `zigbee2mqtt`, `radarr`, `sonarr`, `prowlarr`, `qbittorrent`) rely solely on Longhorn volume replicas. Add either Longhorn scheduled volume backups or [VolSync](https://volsync.readthedocs.io/) replication to external storage.
 - [x] **Fix `home-assistant` PVC Access Mode**:
   - [x] Switched `persistence.config.accessMode` from `ReadWriteMany` to `ReadWriteOnce` in `apps/home-assistant/helmrelease.yaml`. With `controllers.main.type: statefulset` (single replica), `ReadWriteOnce` eliminates the Longhorn `share-manager` NFSv4 pod overhead and prevents SQLite file-locking issues.
-- [ ] **Standardize CNPG Restore Runbooks / Templates**:
-  - [ ] `apps/home-assistant/postgres/cluster3.yaml` is a Barman recovery test manifest (`bootstrap.recovery` from `postgres2`). Document a standard CNPG point-in-time recovery (PITR) procedure or move recovery templates to `components/postgres/` rather than keeping commented-out test clusters in app directories.
+- [x] **Standardize CNPG Restore Runbooks / Templates**:
+  - [x] Removed ad-hoc test manifest `apps/home-assistant/postgres/cluster3.yaml` and created standardized disaster recovery / PITR runbook and recovery template in `components/postgres/`.
 
 ______________________________________________________________________
 
@@ -88,8 +88,6 @@ ______________________________________________________________________
     - [x] **CloudNativePG**: Alert on failed `ScheduledBackup`s, replication lag, or WAL archiving failures (`monitoring/postgres/prometheus-rule.yaml`).
     - [x] **External Secrets**: Alert when any `ExternalSecret` or `ClusterSecretStore` is `Ready=False` (`monitoring/external-secrets/prometheus-rule.yaml`).
     - [x] **OpenTofu (`tofu-controller`)**: Alert on `Terraform` resource reconciliation or plan/apply failures (`monitoring/tofu-controller/prometheus-rule.yaml`).
-- [ ] **Migrate Remaining JSON Dashboards to CUE (`lib/grafana/`)**:
-  - [ ] Several dashboards still use legacy `grafana_dashboards.toml` + raw JSON downloads (`monitoring/synology`, etc.) rather than the typed CUE library in `lib/grafana/`. Continue migrating dashboards to CUE for consistency and automated layout validation.
 
 ______________________________________________________________________
 
@@ -103,7 +101,7 @@ Several directories and manifests exist on disk but are commented out or unrefer
   - [ ] `system/intel-gpu-plugin/` — Commented out in `system/kustomization.yaml`.
   - [ ] `apps/media/transmission/` — Commented out in `apps/media/kustomization.yaml` (superseded by `qbittorrent`).
   - [ ] `monitoring/synology/` — Commented out in `monitoring/kustomization.yaml`.
-  - [ ] `apps/home-assistant/postgres/cluster3.yaml` — Commented out in `apps/home-assistant/postgres/kustomization.yaml`.
+  - [x] `apps/home-assistant/postgres/cluster3.yaml` — Removed ad-hoc recovery test manifest and unlinked from `apps/home-assistant/postgres/kustomization.yaml`.
   - [x] `repos/git/kustomization.yaml` — Removed empty `repos/git/` directory and unlinked from `repos/kustomization.yaml`.
 - [x] **Update `README.md` to Reflect Current Architecture**:
   - [x] Updated `README.md` to reflect current architecture: Cilium native BGP & LB IPAM, Envoy Gateway, External Secrets + 1Password, VictoriaMetrics, CloudNativePG, OpenTofu (`tofu-controller`), and developer workflows.
