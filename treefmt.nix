@@ -1,4 +1,5 @@
-_: {
+{ pkgs, ... }:
+{
   projectRootFile = ".git/config";
 
   settings.global.excludes = [
@@ -42,5 +43,9 @@ _: {
     deadnix.priority = 1;
     statix.priority = 2;
     nixfmt.priority = 3;
+    nufmt = {
+      command = "${pkgs.nufmt}/bin/nufmt";
+      includes = [ "*.nu" ];
+    };
   };
 }

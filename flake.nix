@@ -20,13 +20,37 @@
         pkgs = import nixpkgs { inherit system; };
         treefmtConfig = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
 
-        build-dashboards =
-          with pkgs;
-          writeShellApplication {
-            name = "build-dashboards";
-            runtimeInputs = [ cue ];
-            text = builtins.readFile ./scripts/build_dashboards.sh;
-          };
+        writeNuBin =
+          {
+            name ? pkgs.lib.removeSuffix ".nu" (baseNameOf script),
+            script,
+            runtimeInputs ? [ ],
+          }:
+          let
+            writer = pkgs.writers.makeScriptWriter (
+              {
+                interpreter = "${pkgs.nushell}/bin/nu";
+              }
+              // (pkgs.lib.optionalAttrs (runtimeInputs != [ ]) {
+                makeWrapperArgs = [
+                  "--prefix"
+                  "PATH"
+                  ":"
+                  (pkgs.lib.makeBinPath runtimeInputs)
+                ];
+              })
+            );
+          in
+          writer "/bin/${name}" (builtins.readFile script);
+
+        build-dashboards = writeNuBin {
+          name = "build-dashboards";
+          script = ./scripts/build_dashboards.nu;
+          runtimeInputs = with pkgs; [
+            cue
+            diffutils
+          ];
+        };
 
       in
       {
@@ -72,20 +96,10 @@
           dashboards-in-sync =
             pkgs.runCommandLocal "dashboards-in-sync"
               {
-                nativeBuildInputs = [
-                  pkgs.cue
-                  pkgs.diffutils
-                  pkgs.fd
-                ];
+                nativeBuildInputs = [ build-dashboards ];
               }
               ''
-                fd --base-directory ${self} --extension cue --exclude 'cue.mod' --full-path 'dashboards/' \
-                  --exec bash -c '
-                    set -o pipefail
-                    json="''${1%.cue}.json"
-                    echo "Validating $1 against $json..."
-                    cue --chdir ${self} export "$1" --expression out --out json | diff --unified "${self}/$json" -
-                  ' _ {}
+                build-dashboards --check ${self}
                 touch $out
               '';
         };
@@ -99,12 +113,14 @@
               build-dashboards
               crane
               cue
+              fd
               fluxcd
               kubectl
               kubectl-cnpg
               kubectl-rook-ceph
               kubent
               kustomize
+              nushell
               open-policy-agent
               oras
               pluto
