@@ -34,13 +34,13 @@
         checks = {
           formatting = treefmtConfig.config.build.check self;
           renovate-config =
-            pkgs.runCommand "renovate-config-validator"
+            pkgs.runCommandLocal "renovate-config-validator"
               {
                 nativeBuildInputs = [ pkgs.renovate ];
               }
               ''
-                renovate-config-validator ${./.github/renovate.jsonc}
-                touch $out
+                set -o pipefail
+                renovate-config-validator ${./.github/renovate.jsonc} | tee $out
               '';
         };
         devShells.default =
