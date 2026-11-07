@@ -35,8 +35,11 @@ spec:
     - alert: UPSOffline
       annotations:
         summary: "UPS is offline"
-        description: "UPS {{ $labels.ups }} is not reporting online status."
-      expr: network_ups_tools_ups_status{flag="OL"} == 0
+        description: "UPS {{ $labels.ups }} is offline or not reporting status."
+      expr: |
+        absent(network_ups_tools_ups_status) == 1
+          or
+        max by (ups) (network_ups_tools_ups_status{flag=~"OL|OB"}) == 0
       for: 2m
       labels:
         severity: warning

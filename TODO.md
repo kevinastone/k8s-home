@@ -8,8 +8,6 @@ ______________________________________________________________________
 
 Several alerting rules and dashboards have subtle metric or datasource mismatches following recent migrations (Flux v2.1+ metric changes, Loki to VictoriaLogs, and Synology SNMP removal).
 
-- [ ] **Fix `UPSOffline` Alert Logic in [`monitoring/network-ups-tools/prometheus-rule.yaml`](./monitoring/network-ups-tools/prometheus-rule.yaml)**:
-  - [ ] `UPSOffline` currently triggers on `network_ups_tools_ups_status{flag="OL"} == 0`. Whenever utility power fails and the UPS switches to battery (`OB`), `flag="OL"` becomes `0`, causing `UPSOffline` to fire redundantly alongside `UPSOnBattery`. Conversely, if the NUT exporter loses connection to the UPS, the metric disappears entirely. Update `UPSOffline` to check `absent(network_ups_tools_ups_status{flag="OL"})` or `up{job=~".*network-ups-tools.*"} == 0`.
 - [ ] **Add Longhorn Volume Health & Storage Capacity Alerts ([`system/longhorn/prometheus-rule.yaml`](./system/longhorn/prometheus-rule.yaml))**:
   - [ ] Currently [`system/longhorn/prometheus-rule.yaml`](./system/longhorn/prometheus-rule.yaml) only alerts on `LonghornExcessInstanceManagers`. Add alerts for degraded/faulted volumes (`longhorn_volume_robustness == 2` or `== 3`), volume capacity exhaustion (`(longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes) > 0.85`), and node disk pressure (`(longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) > 0.85`).
 - [ ] **Migrate or Remove Broken Loki Dashboard ([`monitoring/fluxcd/dashboards/`](./monitoring/fluxcd/dashboards/))**:
