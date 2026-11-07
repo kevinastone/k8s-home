@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: rustfs-rules
+  namespace: rustfs
+spec:
+  groups:
+  - name: rustfs
+    rules:
+    - alert: RustFSClusterDown
+      annotations:
+        summary: "RustFS storage cluster is down"
+        description: "All RustFS storage pods are unreachable or down."
+      expr: absent(up{job="rustfs"} == 1) or sum(up{job="rustfs"}) == 0
+      for: 2m
+      labels:
+        severity: critical
+    - alert: RustFSErasureSetQuorumLost
+      annotations:
+        summary: "RustFS storage quorum lost"
+        description: "RustFS erasure set has lost read or write quorum (fewer than 2 drives online). S3 operations cannot be served."
+      expr: |
+        rustfs_cluster_erasure_set_health == 0
+        or rustfs_cluster_erasure_set_read_health == 0
+        or rustfs_cluster_erasure_set_write_health == 0
+        or (rustfs_cluster_erasure_set_online_drives_count < rustfs_cluster_erasure_set_read_quorum)
+      for: 2m
+      labels:
+        severity: critical
+    - alert: RustFSNodeOffline
+      annotations:
+        summary: "RustFS node offline"
+        description: "{{ $value }} RustFS peer node(s) are offline. Cluster is operating with degraded redundancy."
+      expr: max by (namespace) (rustfs_cluster_servers_offline_total) > 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: RustFSDriveOffline
+      annotations:
+        summary: "RustFS drive offline"
+        description: "{{ $value }} RustFS drive(s) are offline in erasure set."
+      expr: max by (namespace) (rustfs_cluster_health_drives_offline_count) > 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: RustFSErasureSetDegraded
+      annotations:
+        summary: "RustFS erasure set degraded"
+        description: "RustFS erasure set drive count is below total size ({{ $value }} drives online). Quorum is intact but parity is reduced."
+      expr: |
+        (rustfs_cluster_erasure_set_online_drives_count < rustfs_cluster_erasure_set_size)
+        and (rustfs_cluster_erasure_set_online_drives_count >= rustfs_cluster_erasure_set_read_quorum)
+      for: 5m
+      labels:
+        severity: warning
+    - alert: RustFSInternodeNetworkFailing
+      annotations:
+        summary: "RustFS internode network connections failing"
+        description: "RustFS pod {{ $labels.pod }} is failing to connect to cluster peers over the network."
+      expr: sum by (namespace, pod) (rate(rustfs_system_network_internode_dial_errors_total[5m])) > 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: RustFSStorageSpaceLow
+      annotations:
+        summary: "RustFS storage space low"
+        description: "RustFS cluster free usable storage space is below 15% (currently {{ $value | humanizePercentage }})."
+      expr: min by (namespace) (rustfs_cluster_capacity_free_bytes / rustfs_cluster_capacity_usable_total_bytes) < 0.15
+      for: 15m
+      labels:
+        severity: warning
+    - alert: RustFSStorageSpaceCritical
+      annotations:
+        summary: "RustFS storage space critically low"
+        description: "RustFS cluster free usable storage space is below 5% (currently {{ $value | humanizePercentage }})."
+      expr: min by (namespace) (rustfs_cluster_capacity_free_bytes / rustfs_cluster_capacity_usable_total_bytes) < 0.05
+      for: 5m
+      labels:
+        severity: critical

@@ -10,6 +10,7 @@ resources:
 - rustfs-users.yaml
 - rustfs-root-secret.yaml
 - rustfs-kubernetes-store.yaml
+- prometheus-rule.yaml
 configMapGenerator:
 - name: otel-config
   files:
