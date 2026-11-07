@@ -13,4 +13,3 @@ configMapGenerator:
   files:
   - dashboards/fluxcd-cluster.json
   - dashboards/fluxcd-control-plane.json
-  - dashboards/fluxcd-logs.json

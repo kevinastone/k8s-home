@@ -8,8 +8,6 @@ ______________________________________________________________________
 
 Several alerting rules and dashboards have subtle metric or datasource mismatches following recent migrations (Flux v2.1+ metric changes, Loki to VictoriaLogs, and Synology SNMP removal).
 
-- [ ] **Migrate or Remove Broken Loki Dashboard ([`monitoring/fluxcd/dashboards/`](./monitoring/fluxcd/dashboards/))**:
-  - [ ] [`monitoring/fluxcd/kustomization.yaml`](./monitoring/fluxcd/kustomization.yaml) deploys `dashboards/fluxcd-logs.json`, which queries `datasource: "loki"` (`DS_LOKI`). Since logging was migrated from Loki/Alloy to VictoriaLogs + Vector, this dashboard is broken in Grafana. Additionally, `monitoring/fluxcd/dashboards/logs.json` is an unreferenced duplicate file on disk. Either replace `fluxcd-logs.json` with a VictoriaLogs dashboard or remove `fluxcd-logs.json` and `logs.json`.
 - [ ] **Decommission Idle `snmp-exporter` ([`monitoring/prometheus/helmrelease-snmp-exporter.yaml`](./monitoring/prometheus/helmrelease-snmp-exporter.yaml))**:
   - [ ] With Synology SNMP polling disabled (`params: []`), `snmp-exporter` runs an idle deployment in the `prometheus` namespace with zero targets. Remove `helmrelease-snmp-exporter.yaml` (and clean up the stale commented-out exporter lines in [`monitoring/victoria-metrics/kustomization.yaml`](./monitoring/victoria-metrics/kustomization.yaml)).
 
