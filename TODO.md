@@ -17,3 +17,11 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
     - [`apps/zigbee2mqtt/helmrelease.yaml`](./apps/zigbee2mqtt/helmrelease.yaml) (`/data` PVC — `database.db` device pairings and `coordinator_backup.json`)
     - [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`60Gi` PVC — 365-day retention of home-monitoring sensor metrics)
   - [ ] Add Longhorn scheduled backups or [VolSync](https://volsync.readthedocs.io/) replication for these PVCs.
+
+______________________________________________________________________
+
+## 2. CI/CD & Automation
+
+- [ ] **Rendered Manifest Diff as Pull Request Comment**:
+  - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) to post rendered manifest diffs directly to PR discussion threads instead of relying solely on the GitHub Actions `$GITHUB_STEP_SUMMARY` page.
+  - [ ] Use `flate diff all -o github > diff.patch` paired with `peter-evans/find-comment` and `peter-evans/create-or-update-comment` using `body-path: diff.patch` and a unique identifier (e.g. `<!-- flate-diff -->`) to upsert a single comment across PR updates and Renovate rebases.
