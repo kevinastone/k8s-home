@@ -25,8 +25,7 @@ spec:
   # Fixed in Linux kernel 6.15+: https://github.com/axboe/liburing/issues/943
   # Ref: https://github.com/dragonflydb/dragonfly/issues/2270#issuecomment-1845188470
   - --force_epoll
-  - --s3_endpoint=rustfs-main.rustfs:9000
-  - --s3_use_https=false
+  - --s3_endpoint=s3.k8s.kevinastone.com
   # Overwrite static snapshot file to prevent unbounded S3 storage accumulation
   - --dbfilename=dump
   env:
