@@ -142,7 +142,7 @@ spec:
     service:
       main:
         controller: main
-        forceRename: rustfs
+        suffix: ''
         type: ClusterIP
         ports:
           api:
@@ -156,7 +156,6 @@ spec:
             targetPort: metrics
       headless:
         controller: main
-        forceRename: rustfs-headless
         type: ClusterIP
         clusterIP: None
         publishNotReadyAddresses: true
