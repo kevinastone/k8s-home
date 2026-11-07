@@ -64,16 +64,8 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["kubernetes-dashboard"],
-      "allowedVersions": "<7"
-    },
-    {
       "matchPackageNames": ["csi-driver-smb"],
       "allowedVersions": "!/v1.15.0/"
-    },
-    {
-      "matchPackageNames": ["promtail"],
-      "allowedVersions": "!/6.16.0/"
     },
     {
       "matchPackageNames": ["ghcr.io/dmunozv04/isponsorblocktv"],
@@ -83,10 +75,6 @@
     {
       "matchPackageNames": ["ghcr.io/netbymatt/ws4kp"],
       "allowedVersions": "<5.25.2 || >=6.0.0"
-    },
-    {
-      "matchPackageNames": ["docker.io/dxflrs/garage", "dxflrs/garage"],
-      "allowedVersions": "!/v?2\\.4\\.0/"
     },
     {
       "description": ["qbit_manage is not yet compatible with qbittorrent > 5.2.4"],

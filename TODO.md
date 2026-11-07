@@ -49,8 +49,6 @@ ______________________________________________________________________
 
 ## 3. CI/CD, Renovate & Repository Hygiene
 
-- [ ] **Clean Up Stale Package Rules in [`.github/renovate.jsonc`](./.github/renovate.jsonc)**:
-  - [ ] Remove obsolete `packageRules` for decommissioned components: `kubernetes-dashboard`, `promtail`, and `docker.io/dxflrs/garage` (`dxflrs/garage`).
 - [ ] **Remove Remaining Unreferenced Directories (`blocky` and `mosquitto`)**:
   - [ ] `backends/dns/blocky/` — Commented out in [`backends/dns/kustomization.yaml`](./backends/dns/kustomization.yaml) (`# - blocky`), yet Renovate continues updating its image and [`README.md`](./README.md) still lists Blocky in the architecture diagram and DNS section.
   - [ ] `backends/mqtt/mosquitto/` — Commented out in [`backends/mqtt/kustomization.yaml`](./backends/mqtt/kustomization.yaml) (`# - mosquitto`, superseded by `pgmqtt`), yet Renovate continues updating its image.
