@@ -11,8 +11,8 @@ spec:
     - alert: TerraformReconciliationFailed
       annotations:
         summary: "OpenTofu / Terraform reconciliation failing"
-        description: "Terraform resource {{ $labels.namespace }}/{{ $labels.name }} reconciliation has been failing."
-      expr: gotk_reconcile_condition{kind="Terraform", type="Ready", status="False"} == 1
+        description: "Terraform resource {{ $labels.exported_namespace }}/{{ $labels.name }} reconciliation has been failing."
+      expr: gotk_resource_info{customresource_kind="Terraform", ready="False"} == 1
       for: 15m
       labels:
         severity: warning
