@@ -136,7 +136,7 @@ spec:
               readiness: *probes
               startup: *probes
     defaultPodOptions:
-      automountServiceAccountToken: true
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         # rustfs requires the user to be in the group 10001
@@ -177,34 +177,6 @@ spec:
           interval: 30s
     serviceAccount:
       rustfs: {}
-    rbac:
-      roles:
-        service-reader:
-          forceRename: service-reader
-          type: Role
-          rules:
-          - apiGroups:
-            - ""
-            resources:
-            - pods
-            - services
-            - jobs
-            verbs:
-            - get
-            - list
-            - watch
-      bindings:
-        service-reader:
-          forceRename: service-reader
-          type: RoleBinding
-          roleRef:
-            apiGroup: rbac.authorization.k8s.io
-            kind: Role
-            name: service-reader
-          subjects:
-          - kind: ServiceAccount
-            name: *app
-            namespace: "{{ .Release.Namespace }}"
     persistence:
       home:
         type: emptyDir
