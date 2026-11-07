@@ -4,5 +4,4 @@ kind: Kustomization
 namespace: mqtt
 resources:
 - namespace.yaml
-# - mosquitto
 - pgmqtt

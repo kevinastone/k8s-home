@@ -1,6 +1,0 @@
-#:schema ../../../../scripts/dashboard-schema.json
-
-[blocky]
-id = 13768
-revision = 3
-datasource = { DS_PROMETHEUS = "prometheus" }

@@ -5,4 +5,3 @@ namespace: dns
 resources:
 - namespace.yaml
 - k8s-gateway
-# - blocky

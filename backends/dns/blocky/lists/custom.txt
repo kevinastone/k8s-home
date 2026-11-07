@@ -1,6 +1,0 @@
-*.googleapis.com
-*.googleadservices.com
-*.foxentertainment.hb.omtrdc.net
-*.api.nova.foxsports.com
-*.sw88.espn.com
-*.espndotcom.tt.omtrdc.net

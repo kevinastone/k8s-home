@@ -19,7 +19,7 @@ flowchart TD
         subgraph Networking ["Networking & Gateway API"]
             Cilium["Cilium CNI (eBPF, KPR, LB-IPAM, BGP)"]
             Envoy["Envoy Gateway (Gateway API / HTTPRoute)"]
-            Blocky["Blocky & k8s-gateway (Internal DNS)"]
+            K8sGateway["k8s-gateway (Internal DNS)"]
             ExternalDNS["external-dns"]
         end
 
@@ -76,7 +76,7 @@ ______________________________________________________________________
 
 - **CNI & BGP**: [Cilium](https://cilium.io/) with eBPF, `kubeProxyReplacement: true`, native BGP Control Plane peering with upstream FRR, and LoadBalancer IPAM (`CiliumLoadBalancerIPPool`).
 - **Ingress & Gateway API**: [Envoy Gateway](https://gateway.envoyproxy.io/) implementing the Kubernetes Gateway API (`Gateway`, `HTTPRoute`, `SecurityPolicy`).
-- **DNS**: [Blocky](https://0xerr0r.github.io/blocky/) ad-blocking DNS combined with [k8s-gateway](https://github.com/ori-edge/k8s_gateway) for cluster services, and [external-dns](https://github.com/kubernetes-sigs/external-dns) for Cloudflare public records.
+- **DNS**: [k8s-gateway](https://github.com/ori-edge/k8s_gateway) for internal cluster service discovery, and [external-dns](https://github.com/kubernetes-sigs/external-dns) for Cloudflare public records.
 - **Certificates**: [cert-manager](https://cert-manager.io/) with Cloudflare ACME DNS-01 validation.
 
 ### GitOps & Automation

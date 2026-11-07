@@ -49,8 +49,5 @@ ______________________________________________________________________
 
 ## 3. CI/CD, Renovate & Repository Hygiene
 
-- [ ] **Remove Remaining Unreferenced Directories (`blocky` and `mosquitto`)**:
-  - [ ] `backends/dns/blocky/` — Commented out in [`backends/dns/kustomization.yaml`](./backends/dns/kustomization.yaml) (`# - blocky`), yet Renovate continues updating its image and [`README.md`](./README.md) still lists Blocky in the architecture diagram and DNS section.
-  - [ ] `backends/mqtt/mosquitto/` — Commented out in [`backends/mqtt/kustomization.yaml`](./backends/mqtt/kustomization.yaml) (`# - mosquitto`, superseded by `pgmqtt`), yet Renovate continues updating its image.
 - [ ] **Fix Malformed `yaml-language-server` Schema Comments in Root Kustomizations**:
   - [ ] All 6 top-level Flux Kustomization manifests ([`apps.yaml`](./apps.yaml), [`backends.yaml`](./backends.yaml), [`crds.yaml`](./crds.yaml), [`monitoring.yaml`](./monitoring.yaml), [`repos.yaml`](./repos.yaml), [`system.yaml`](./system.yaml)) have a double comment prefix `# # yaml-language-server: $schema=...` on line 1, which prevents `yaml-language-server` from activating schema validation in editors.
