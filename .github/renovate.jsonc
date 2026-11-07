@@ -5,7 +5,6 @@
     ":disableRateLimiting",
     ":semanticCommits",
     ":rebaseStalePrs",
-    ":skipStatusChecks",
     "docker:enableMajor",
     ":automergeMinor",
     ":automergeDigest"

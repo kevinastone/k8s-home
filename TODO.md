@@ -49,8 +49,6 @@ ______________________________________________________________________
 
 ## 3. CI/CD, Renovate & Repository Hygiene
 
-- [ ] **Require CI Status Checks Before Renovate Automerge ([`.github/renovate.jsonc`](./.github/renovate.jsonc))**:
-  - [ ] [`.github/renovate.jsonc`](./.github/renovate.jsonc) extends `":skipStatusChecks"`, which instructs Renovate to automerge minor and digest PRs (`:automergeMinor`, `:automergeDigest`) immediately without waiting for GitHub Actions (`nix flake check` and `flate test all`) to pass. Remove `":skipStatusChecks"` so broken chart or manifest updates caught by CI cannot automerge.
 - [ ] **Clean Up Stale Package Rules in [`.github/renovate.jsonc`](./.github/renovate.jsonc)**:
   - [ ] Remove obsolete `packageRules` for decommissioned components: `kubernetes-dashboard`, `promtail`, and `docker.io/dxflrs/garage` (`dxflrs/garage`).
 - [ ] **Remove Remaining Unreferenced Directories (`blocky` and `mosquitto`)**:
