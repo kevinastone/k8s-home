@@ -142,6 +142,7 @@ spec:
     service:
       main:
         controller: main
+        forceRename: rustfs
         type: ClusterIP
         ports:
           api:
