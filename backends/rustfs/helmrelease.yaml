@@ -23,10 +23,15 @@ spec:
       main:
         type: statefulset
         replicas: 3
+        strategy: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
         annotations:
           reloader.stakater.com/auto: "true"
         statefulset:
           podManagementPolicy: Parallel
+          serviceName:
+            identifier: headless
           volumeClaimTemplates:
           - name: data
             accessMode: ReadWriteOnce
