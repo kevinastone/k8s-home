@@ -76,8 +76,6 @@ spec:
                 name: rustfs-client-secret
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
-            args:
-            - "http://rustfs-{0...2}.rustfs.rustfs.svc.cluster.local:9000/data"
             ports:
             - containerPort: &s3Port 9000
               name: s3
