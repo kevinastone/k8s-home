@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
+      with:
+        fetch-depth: 0
     - uses: home-operations/flate/action@v0.6.5
     - name: Run flate test
       run: flate test all
