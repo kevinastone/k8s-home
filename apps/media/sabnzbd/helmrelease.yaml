@@ -23,6 +23,7 @@ spec:
   values:
     controllers:
       main:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
