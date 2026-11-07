@@ -7,31 +7,11 @@ receivers:
         endpoint: "0.0.0.0:4318"
 
 processors:
-  # batch: efficient processing
-  batch:
+  # memory_limiter MUST be first in the pipeline
   memory_limiter:
     check_interval: 1s
     limit_mib: 512
-  k8sattributes:
-    auth_type: "serviceAccount"
-    passthrough: true
-    extract:
-      metadata:
-      - k8s.pod.name
-      - k8s.pod.uid
-      - k8s.deployment.name
-      - k8s.namespace.name
-      - k8s.node.name
-    # Associate the incoming IP with the Pod
-    pod_association:
-    - sources:
-      - from: resource_attribute
-        name: k8s.pod.ip
-    - sources:
-      - from: resource_attribute
-        name: k8s.pod.uid
-    - sources:
-      - from: connection
+  batch:
 
 exporters:
   prometheus:
@@ -39,7 +19,7 @@ exporters:
     send_timestamps: true
     metric_expiration: 5m
     resource_to_telemetry_conversion:
-      enabled: true
+      enabled: false
   nop:
 
 extensions:
@@ -52,14 +32,13 @@ service:
   pipelines:
     metrics:
       receivers: [otlp]
-      # ORDER MATTERS: k8sattributes first, then batch
-      processors: [k8sattributes, memory_limiter, batch]
+      processors: [memory_limiter, batch]
       exporters: [prometheus]
     logs:
       receivers: [otlp]
-      processors: [k8sattributes, memory_limiter, batch]
+      processors: [memory_limiter, batch]
       exporters: [nop]
     traces:
       receivers: [otlp]
-      processors: [k8sattributes, memory_limiter, batch]
+      processors: [memory_limiter, batch]
       exporters: [nop]
