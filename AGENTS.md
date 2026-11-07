@@ -69,3 +69,13 @@ nix develop --command renovate-config-validator .github/renovate.jsonc
 
 - **Rule:** AI agents and developers must prefer string interpolation (`$""`) over `sprintf` for formatting strings in Rego policy files.
   - *Example:* Use `$"Unsupported target_codec: {target_codec}."` instead of `sprintf("Unsupported target_codec: %s.", [target_codec])`.
+
+______________________________________________________________________
+
+## Secrets Management Architecture
+
+This repository intentionally maintains two distinct secret management patterns:
+
+- **SOPS / Age:** Used strictly for static, immutable, or one-way configuration secrets (e.g., Zigbee network coordinator keys, weather station coordinates, Home Assistant local config, bootstrap credentials). These are versioned directly in Git alongside the code and must **not** be migrated to 1Password.
+- **1Password (`ExternalSecret`):** Used for external, dynamic, or rotating credentials (e.g., Cloudflare API tokens, Tailscale auth keys, VPN credentials, NZBGeek API keys, SMB credentials).
+- **1Password Stores:** Both `one-password` (Connect server) and `one-password-sdk` (Service Account SDK) are deployed; active `ExternalSecret` manifests currently point to `one-password`. Deciding between Connect and the SDK is deferred.
