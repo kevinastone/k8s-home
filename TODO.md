@@ -18,5 +18,3 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
     - [`apps/media/qbittorrent/helmrelease.yaml`](./apps/media/qbittorrent/helmrelease.yaml) (`/config` PVC — `BT_backup` active torrent state)
     - [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`60Gi` PVC — 365-day retention of home-monitoring sensor metrics)
   - [ ] Add Longhorn scheduled backups or [VolSync](https://volsync.readthedocs.io/) replication for these PVCs, and add `retain: true` to the `qbittorrent` and `sabnzbd` `/config` PVCs.
-- [ ] **Eliminate Unnecessary Longhorn `ReadWriteMany` (`share-manager`) Overhead**:
-  - [ ] In [`apps/media/radarr/helmrelease.yaml`](./apps/media/radarr/helmrelease.yaml) and [`apps/media/sonarr/helmrelease.yaml`](./apps/media/sonarr/helmrelease.yaml), the `media-cover` PVC (`/config/MediaCover`) uses `accessMode: ReadWriteMany` even though only the single-replica `main` controller mounts it (`recyclarr` does not mount `media-cover`). Switch `media-cover` to `ReadWriteOnce` with `strategy: Recreate` on `controllers.main` to eliminate two Longhorn NFSv4 `share-manager` pods.

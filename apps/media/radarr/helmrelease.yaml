@@ -21,6 +21,7 @@ spec:
   values:
     controllers:
       main:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -181,7 +182,7 @@ spec:
       media-cover:
         type: persistentVolumeClaim
         storageClass: longhorn
-        accessMode: ReadWriteMany
+        accessMode: ReadWriteOnce
         size: 5Gi
         advancedMounts:
           main:
