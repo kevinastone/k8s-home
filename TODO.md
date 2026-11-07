@@ -8,8 +8,6 @@ ______________________________________________________________________
 
 Several alerting rules and dashboards have subtle metric or datasource mismatches following recent migrations (Flux v2.1+ metric changes, Loki to VictoriaLogs, and Synology SNMP removal).
 
-- [ ] **Add Longhorn Volume Health & Storage Capacity Alerts ([`system/longhorn/prometheus-rule.yaml`](./system/longhorn/prometheus-rule.yaml))**:
-  - [ ] Currently [`system/longhorn/prometheus-rule.yaml`](./system/longhorn/prometheus-rule.yaml) only alerts on `LonghornExcessInstanceManagers`. Add alerts for degraded/faulted volumes (`longhorn_volume_robustness == 2` or `== 3`), volume capacity exhaustion (`(longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes) > 0.85`), and node disk pressure (`(longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) > 0.85`).
 - [ ] **Migrate or Remove Broken Loki Dashboard ([`monitoring/fluxcd/dashboards/`](./monitoring/fluxcd/dashboards/))**:
   - [ ] [`monitoring/fluxcd/kustomization.yaml`](./monitoring/fluxcd/kustomization.yaml) deploys `dashboards/fluxcd-logs.json`, which queries `datasource: "loki"` (`DS_LOKI`). Since logging was migrated from Loki/Alloy to VictoriaLogs + Vector, this dashboard is broken in Grafana. Additionally, `monitoring/fluxcd/dashboards/logs.json` is an unreferenced duplicate file on disk. Either replace `fluxcd-logs.json` with a VictoriaLogs dashboard or remove `fluxcd-logs.json` and `logs.json`.
 - [ ] **Decommission Idle `snmp-exporter` ([`monitoring/prometheus/helmrelease-snmp-exporter.yaml`](./monitoring/prometheus/helmrelease-snmp-exporter.yaml))**:

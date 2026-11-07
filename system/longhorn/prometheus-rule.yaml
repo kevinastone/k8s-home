@@ -2,10 +2,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: longhorn-instance-manager-alerts
+  name: longhorn-rules
 spec:
   groups:
-  - name: longhorn-instance-manager
+  - name: longhorn
     rules:
     - alert: LonghornExcessInstanceManagers
       expr: |
@@ -16,3 +16,39 @@ spec:
       annotations:
         summary: "Multiple Longhorn instance managers running on a single node"
         description: "Node {{ $labels.node }} has {{ $value }} instance managers running. This typically indicates that old engine versions are still active and hogging CPU resources. Please upgrade the engine images of your volumes to clean them up."
+    - alert: LonghornVolumeDegraded
+      expr: |
+        longhorn_volume_robustness == 2
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Longhorn volume is degraded"
+        description: "Longhorn volume {{ $labels.volume }} robustness is degraded (some replicas are unavailable)."
+    - alert: LonghornVolumeFaulted
+      expr: |
+        longhorn_volume_robustness == 3
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Longhorn volume is faulted"
+        description: "Longhorn volume {{ $labels.volume }} robustness is faulted (volume is offline or all replicas are unavailable)."
+    - alert: LonghornVolumeCapacityCritical
+      expr: |
+        (longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes) > 0.85
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Longhorn volume capacity is above 85%"
+        description: "Longhorn volume {{ $labels.volume }} actual usage is at {{ $value | humanizePercentage }}."
+    - alert: LonghornNodeStorageUsageCritical
+      expr: |
+        (longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) > 0.85
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Longhorn node storage usage is above 85%"
+        description: "Longhorn node {{ $labels.node }} storage usage is at {{ $value | humanizePercentage }}."
