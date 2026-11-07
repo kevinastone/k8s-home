@@ -44,4 +44,3 @@ spec:
     isWALArchiver: true
     parameters:
       barmanObjectName: postgres2
-  backup: {}

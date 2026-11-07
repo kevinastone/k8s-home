@@ -24,6 +24,9 @@ spec:
       memory: 1Gi
   monitoring:
     enablePodMonitor: true
+  replicationSlots:
+    highAvailability:
+      enabled: true
   postgresql:
     parameters:
       max_slot_wal_keep_size: 96MB
