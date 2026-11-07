@@ -36,7 +36,7 @@ jobs:
     - uses: home-operations/flate/action@v0.6.5
     - name: Generate rendered diff
       run: |
-        flate diff --base origin/main -o github >> $GITHUB_STEP_SUMMARY
+        flate diff all -o github >> $GITHUB_STEP_SUMMARY
 
   fix-format:
     runs-on: ubuntu-latest
