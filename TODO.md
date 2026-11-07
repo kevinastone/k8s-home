@@ -8,7 +8,7 @@ ______________________________________________________________________
 
 Currently, `rustfs` runs as a single-replica `Deployment` backed by one `100Gi` Longhorn PVC (~3.4 GiB used), meaning S3 availability depends on a single pod and Longhorn network block replication. Migrating to a 3-node distributed `StatefulSet` on local `openebs-hostpath` storage removes Longhorn overhead and allows `rustfs` to handle redundancy natively via Reed-Solomon erasure coding while tolerating the complete loss of any 1 node (out of 3).
 
-- [ ] **1. Erasure Coding & Drive Topology (3 Nodes × 1 Drive = 3 Drives Total)**:
+- [x] **1. Erasure Coding & Drive Topology (3 Nodes × 1 Drive = 3 Drives Total)**:
   - RustFS supports erasure sets from 2 to 16 drives. For 3 nodes ($N = 3$), a 1-drive-per-node layout matches the physical disk topology (each node has 1 NVMe), avoiding artificial subpath splitting on the same device.
   - Provision **1 `openebs-hostpath` PVC per pod** (`data`) across **3 StatefulSet replicas** (3 nodes × 1 drive/node = 3 drives total, `N = 3`).
   - Configure **2-data / 1-parity (`EC:1`)** via `RUSTFS_ERASURE_SET_DRIVE_COUNT: "3"` and `RUSTFS_STORAGE_CLASS_STANDARD: "EC:1"`:
@@ -16,7 +16,7 @@ Currently, `rustfs` runs as a single-replica `Deployment` backed by one `100Gi` 
     - **Write Quorum:** `K = 2` drives.
     - **Single-Node Failure Tolerance:** Losing 1 full node takes 1 drive offline, leaving **exactly 2 drives online** across the remaining 2 nodes—satisfying both read quorum (2) and write quorum (2) for continuous operations.
     - **Sizing:** One `50Gi` PVC per pod (3 × `50Gi` = `150Gi` raw across the cluster) provides **`100Gi` usable S3 capacity** at 66.7% `EC:1` efficiency (compared to ~1.3 GiB currently used).
-- [ ] **2. Manifest Changes in [`backends/rustfs/helmrelease.yaml`](./backends/rustfs/helmrelease.yaml)**:
+- [x] **2. Manifest Changes in [`backends/rustfs/helmrelease.yaml`](./backends/rustfs/helmrelease.yaml)**:
   - [x] **StatefulSet Controller:** Change `controllers.main` to `type: statefulset`, `replicas: 3`, and set `statefulset.podManagementPolicy: Parallel` (required so all 3 pods start concurrently and discover peers without deadlocking on `OrderedReady` quorum checks).
   - [x] **Strict Node Anti-Affinity:** Add `pod.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution` on `topologyKey: kubernetes.io/hostname` so `rustfs-0`, `rustfs-1`, and `rustfs-2` are guaranteed to schedule onto the 3 distinct cluster nodes. Because `openebs-hostpath` uses `volumeBindingMode: WaitForFirstConsumer`, each pod's local PV automatically binds to its assigned node.
   - [x] **Peer Discovery & Networking:** Set `publishNotReadyAddresses: true` on the `rustfs` service exposing port `9000` (`s3`) so pods can resolve `rustfs-{0...2}.rustfs.rustfs.svc.cluster.local` during initial cluster formation before readiness probes succeed.
@@ -27,10 +27,9 @@ Currently, `rustfs` runs as a single-replica `Deployment` backed by one `100Gi` 
     ```
     and add `RUSTFS_ERASURE_SET_DRIVE_COUNT: "3"` and `RUSTFS_STORAGE_CLASS_STANDARD: "EC:1"` under `env`.
   - [x] **Volume Claim Templates:** Replace `persistence.data` with one `statefulset.volumeClaimTemplates` (`data` mounted at `/data`) using `storageClass: openebs-hostpath`, `accessMode: ReadWriteOnce`, and `size: 50Gi`.
-- [ ] **3. Migration & Cutover Plan**:
+- [x] **3. Migration & Cutover Plan**:
   - RustFS cannot convert a standalone single-disk `/data` directory into a multi-node erasure-coded format in-place.
-  - [ ] **Option A (In-Place Re-initialize + Fresh Base Backups):** Deploy the 3-node StatefulSet, re-run the [`backends/rustfs/terraform.yaml`](./backends/rustfs/terraform.yaml) OpenTofu job to provision the `postgres` and `dragonfly` buckets/users on the new cluster, bump `serverName` (or trigger `kubectl cnpg backup`) on the 5 CNPG clusters to start a fresh Barman WAL timeline, and delete the old `100Gi` Longhorn PVC (`rustfs`).
-  - [ ] **Option B (Zero-History-Loss Mirror):** Temporarily copy the 3.4 GiB of existing S3 bucket contents (`postgres` and `dragonfly`) out using `rclone` or `mc mirror`, switch `rustfs` to the 3-node StatefulSet + re-apply OpenTofu buckets, mirror the objects back in so existing Barman WAL timelines remain contiguous, and delete the old Longhorn PVC.
+  - [x] **Executed Option B (Zero-History-Loss Mirror):** Copied 1.28 GiB of existing S3 bucket contents (`postgres` and `dragonfly`) locally using `rclone`, deployed the 3-node StatefulSet, reconciled OpenTofu buckets and policies, and restored objects back in so Barman WAL timelines remained uninterrupted. Old `100Gi` Longhorn PVC (`rustfs`) is ready for decommission.
 
 ______________________________________________________________________
 
