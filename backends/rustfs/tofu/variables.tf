@@ -1,7 +1,7 @@
 variable "rustfs_server" {
   type        = string
   description = "RustFS server endpoint"
-  default     = "rustfs:9000"
+  default     = "rustfs-main:9000"
 }
 
 variable "RUSTFS_ACCESS_KEY" {

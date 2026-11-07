@@ -18,7 +18,7 @@ spec:
   - rustfs.k8s.kevinastone.com
   rules:
   - backendRefs:
-    - name: rustfs
+    - name: rustfs-main
       port: 9001
     matches:
     - path:
@@ -38,7 +38,7 @@ spec:
   - s3.k8s.kevinastone.com
   rules:
   - backendRefs:
-    - name: rustfs
+    - name: rustfs-main
       port: 9000
     matches:
     - path:

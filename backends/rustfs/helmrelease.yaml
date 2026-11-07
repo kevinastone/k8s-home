@@ -147,7 +147,6 @@ spec:
     service:
       main:
         controller: main
-        suffix: ''
         type: ClusterIP
         ports:
           api:
@@ -171,7 +170,8 @@ spec:
     serviceMonitor:
       main:
         enabled: true
-        serviceName: *app
+        service:
+          identifier: main
         endpoints:
         - port: metrics
           interval: 30s
