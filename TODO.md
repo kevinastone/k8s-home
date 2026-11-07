@@ -8,8 +8,6 @@ ______________________________________________________________________
 
 The top-level Flux `Kustomization` resources (`crds.yaml`, `system.yaml`, `monitoring.yaml`, `backends.yaml`, `apps.yaml`) use a coarse dependency chain without explicit health checks or failure isolation.
 
-- [ ] **Enable `wait: true` on Core Infrastructure Kustomizations**:
-  - [ ] In `crds.yaml`, `system.yaml`, and `backends.yaml`, set `spec.wait: true` (and adjust `spec.timeout` as needed). Currently, `dependsOn` only waits for Flux to *apply* the manifests in `crds` and `system`, not for all CRDs, admission webhooks (`cert-manager`, `envoy-gateway`, `external-secrets`, `cnpg`), and `ClusterSecretStore`s to actually become `Ready`.
 - [ ] **Decouple Sub-Kustomizations to Prevent Blast-Radius Blocking**:
   - [ ] Because `apps/kustomization.yaml` is a single monolithic Kustomize overlay applied by `apps.yaml`, a single syntax or SOPS error in a low-priority app (e.g., `super-sudoku` or `dao-2048`) blocks reconciliation for critical apps like `home-assistant` and `zigbee2mqtt`. Consider splitting `apps/` (and `backends/`) into per-app Flux `Kustomization` objects or grouping critical vs. non-critical workloads.
 - [ ] **Standardize HelmRelease Drift Detection**:
