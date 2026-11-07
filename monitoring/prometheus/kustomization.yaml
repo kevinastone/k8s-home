@@ -5,7 +5,6 @@ namespace: prometheus
 resources:
 - namespace.yaml
 - helmrelease-blackbox-exporter.yaml
-- helmrelease-snmp-exporter.yaml
 - helmrelease-json-exporter.yaml
 configMapGenerator:
 - name: prometheus-dashboards

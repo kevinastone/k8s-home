@@ -4,16 +4,7 @@ This document outlines architectural, operational, reliability, and maintainabil
 
 ______________________________________________________________________
 
-## 1. Observability, Alerting & Dashboards
-
-Several alerting rules and dashboards have subtle metric or datasource mismatches following recent migrations (Flux v2.1+ metric changes, Loki to VictoriaLogs, and Synology SNMP removal).
-
-- [ ] **Decommission Idle `snmp-exporter` ([`monitoring/prometheus/helmrelease-snmp-exporter.yaml`](./monitoring/prometheus/helmrelease-snmp-exporter.yaml))**:
-  - [ ] With Synology SNMP polling disabled (`params: []`), `snmp-exporter` runs an idle deployment in the `prometheus` namespace with zero targets. Remove `helmrelease-snmp-exporter.yaml` (and clean up the stale commented-out exporter lines in [`monitoring/victoria-metrics/kustomization.yaml`](./monitoring/victoria-metrics/kustomization.yaml)).
-
-______________________________________________________________________
-
-## 2. Storage, Backups & Volume Reliability
+## 1. Storage, Backups & Volume Reliability
 
 While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rustfs` S3 service, several stateful workloads and the S3 store itself represent single points of failure or have suboptimal volume mount configurations.
 
