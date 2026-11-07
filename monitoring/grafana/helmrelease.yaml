@@ -12,6 +12,8 @@ spec:
       url: oci://ghcr.io/grafana-community/helm-charts/grafana
       ref:
         tag: 14.3.0
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

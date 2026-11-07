@@ -10,8 +10,6 @@ The top-level Flux `Kustomization` resources (`crds.yaml`, `system.yaml`, `monit
 
 - [ ] **Decouple Sub-Kustomizations to Prevent Blast-Radius Blocking**:
   - [ ] Because `apps/kustomization.yaml` is a single monolithic Kustomize overlay applied by `apps.yaml`, a single syntax or SOPS error in a low-priority app (e.g., `super-sudoku` or `dao-2048`) blocks reconciliation for critical apps like `home-assistant` and `zigbee2mqtt`. Consider splitting `apps/` (and `backends/`) into per-app Flux `Kustomization` objects or grouping critical vs. non-critical workloads.
-- [ ] **Standardize HelmRelease Drift Detection**:
-  - [ ] `driftDetection.mode: enabled` is configured on 18 `HelmRelease`s (mostly `app-template` releases) but omitted on the remaining ~39 `HelmRelease`s. Standardize `driftDetection: { mode: enabled }` across all `HelmRelease` manifests (using `ignore` rules only where operators mutate their own resources).
 
 ______________________________________________________________________
 

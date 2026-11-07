@@ -12,6 +12,8 @@ spec:
       url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
       ref:
         tag: v1.7.1
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

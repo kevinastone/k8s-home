@@ -12,6 +12,8 @@ spec:
       url: oci://ghcr.io/prometheus-community/charts/prometheus-snmp-exporter
       ref:
         tag: 9.19.0
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

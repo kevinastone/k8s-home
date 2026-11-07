@@ -15,6 +15,8 @@ spec:
   dependsOn:
   - name: cert-manager
     namespace: cert-manager
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

@@ -12,6 +12,8 @@ spec:
       url: oci://ghcr.io/cloudnative-pg/grafana-dashboards/cluster
       ref:
         tag: 0.0.5
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

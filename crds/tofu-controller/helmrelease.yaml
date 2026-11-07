@@ -15,6 +15,8 @@ spec:
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
     remediation:

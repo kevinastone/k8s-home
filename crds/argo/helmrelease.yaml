@@ -16,6 +16,8 @@ spec:
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3
@@ -51,6 +53,8 @@ spec:
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

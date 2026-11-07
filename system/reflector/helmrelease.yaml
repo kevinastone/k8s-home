@@ -12,6 +12,8 @@ spec:
       ref:
         tag: 10.0.70
   interval: 5m
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

@@ -12,6 +12,8 @@ spec:
       url: oci://ghcr.io/prometheus-community/charts/prometheus-json-exporter
       ref:
         tag: 0.20.2
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3

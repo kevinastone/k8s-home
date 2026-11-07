@@ -12,6 +12,8 @@ spec:
       url: oci://ghcr.io/bo0tzz/charts/pgmqtt
       ref:
         tag: 0.2.0
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3
