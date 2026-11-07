@@ -12,7 +12,6 @@ resources:
 - postgres
 - qbittorrent
 - sabnzbd
-# - transmission
 - sonarr
 - radarr
 - prowlarr

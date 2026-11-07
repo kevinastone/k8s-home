@@ -13,7 +13,6 @@ resources:
 - external-dns
 - fluxcd
 - generic-device-plugin
-# - intel-gpu-plugin
 - k8tz
 - longhorn
 - node-feature-discovery

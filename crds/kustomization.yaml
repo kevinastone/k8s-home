@@ -13,7 +13,6 @@ resources:
 - node-feature-discovery
 - postgres
 - prometheus
-# - rook-operator
 - tofu-controller
 - victoria-metrics-operator
 # keep-sorted end

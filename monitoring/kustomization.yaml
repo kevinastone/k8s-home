@@ -18,8 +18,6 @@ resources:
 - peanut
 - postgres
 - prometheus
-# Disabled due to preventing hdd hibernation
-# - synology
 - tofu-controller
 - vector
 - victoria-metrics
