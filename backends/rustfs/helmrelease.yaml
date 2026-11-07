@@ -21,9 +21,27 @@ spec:
   values:
     controllers:
       main:
-        strategy: Recreate
+        type: statefulset
+        replicas: 3
         annotations:
           reloader.stakater.com/auto: "true"
+        statefulset:
+          podManagementPolicy: Parallel
+          volumeClaimTemplates:
+          - name: data
+            accessMode: ReadWriteOnce
+            size: 50Gi
+            storageClass: openebs-hostpath
+            globalMounts:
+            - path: /data
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: rustfs
+                topologyKey: kubernetes.io/hostname
         containers:
           main:
             image:
@@ -50,13 +68,16 @@ spec:
               RUSTFS_IDENTITY_OPENID_SCOPES: openid,profile,email
               RUSTFS_OUTBOUND_ALLOW_ORIGINS: "https://auth.k8s.kevinastone.com"
               RUSTFS_BROWSER_REDIRECT_URL: https://rustfs.k8s.kevinastone.com
+              RUSTFS_VOLUMES: "http://rustfs-{0...2}.rustfs.rustfs.svc.cluster.local:9000/data"
+              RUSTFS_ERASURE_SET_DRIVE_COUNT: "3"
+              RUSTFS_STORAGE_CLASS_STANDARD: "EC:1"
             envFrom:
             - secretRef:
                 name: rustfs-client-secret
             - secretRef:
                 name: rustfs-root-secret # overriden by kustomizeconfig
             args:
-            - /data
+            - "http://rustfs-{0...2}.rustfs.rustfs.svc.cluster.local:9000/data"
             ports:
             - containerPort: &s3Port 9000
               name: s3
@@ -124,6 +145,7 @@ spec:
       main:
         controller: main
         type: ClusterIP
+        publishNotReadyAddresses: true
         ports:
           api:
             port: *s3Port
@@ -174,16 +196,6 @@ spec:
     persistence:
       home:
         type: emptyDir
-      data:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        retain: true
-        size: 100Gi
-        storageClass: longhorn
-        advancedMounts:
-          main:
-            main:
-            - path: /data
       otel-config:
         type: configMap
         name: otel-config # overriden by kustomizeconfig
