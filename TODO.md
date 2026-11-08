@@ -23,5 +23,6 @@ ______________________________________________________________________
 ## 2. CI/CD & Automation
 
 - [ ] **Rendered Manifest Diff as Pull Request Comment**:
-  - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) to post rendered manifest diffs directly to PR discussion threads instead of relying solely on the GitHub Actions `$GITHUB_STEP_SUMMARY` page.
-  - [ ] Use `flate diff all -o github > diff.patch` paired with `peter-evans/find-comment` and `peter-evans/create-or-update-comment` using `body-path: diff.patch` and a unique identifier (e.g. `<!-- flate-diff -->`) to upsert a single comment across PR updates and Renovate rebases.
+  - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) with `pull-requests: write` permissions to post rendered manifest diffs directly to PR discussion threads alongside `$GITHUB_STEP_SUMMARY`.
+  - [ ] Pipe `flate diff all -o github` to both `$GITHUB_STEP_SUMMARY` (supports up to 1MB) and a truncated `diff.patch` artifact (~60,000 chars max) so large chart bumps don't fail the GitHub API's 65,536-character comment limit.
+  - [ ] Use `marocchino/sticky-pull-request-comment@v3` with `header: flate-diff` and `path: diff.patch` to upsert a single sticky comment across PR updates and Renovate rebases.
