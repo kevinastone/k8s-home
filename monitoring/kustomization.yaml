@@ -15,6 +15,7 @@ resources:
 - longhorn
 - metrics-server
 - network-ups-tools
+- openebs
 - peanut
 - postgres
 - prometheus
