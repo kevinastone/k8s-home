@@ -36,7 +36,7 @@ spec:
           - name: data
             accessMode: ReadWriteOnce
             size: 50Gi
-            storageClass: openebs-hostpath
+            storageClass: openebs-rawfile
             globalMounts:
             - path: /data
         pod:
