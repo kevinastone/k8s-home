@@ -126,6 +126,17 @@
         "https://github.com/envoyproxy/gateway"
       ],
       "groupName": "envoy-gateway"
+    },
+    {
+      "description": ["Group cert-manager controller and CRD updates"],
+      "matchPackageNames": [
+        "quay.io/jetstack/charts/cert-manager",
+        "jetstack/charts/cert-manager",
+        "cert-manager-crds",
+        "cert-manager/cert-manager",
+        "https://github.com/cert-manager/cert-manager"
+      ],
+      "groupName": "cert-manager"
     }
   ]
 }
