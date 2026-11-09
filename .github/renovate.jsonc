@@ -115,6 +115,16 @@
       "description": ["Don't pin digests for managers that don't need a digest"],
       "matchManagers": ["flux", "helmfile"],
       "pinDigests": false
+    },
+    {
+      "description": ["Group Envoy Gateway controller and CRD charts"],
+      "matchPackageNames": [
+        "docker.io/envoyproxy/gateway-helm",
+        "docker.io/envoyproxy/gateway-crds-helm",
+        "envoyproxy/gateway-helm",
+        "envoyproxy/gateway-crds-helm"
+      ],
+      "groupName": "envoy-gateway"
     }
   ]
 }
