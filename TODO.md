@@ -73,8 +73,8 @@ ______________________________________________________________________
   - [x] [`apps/media/transcoder/`](./apps/media/transcoder/): Remove unreferenced [`scripts/probe.sh`](./apps/media/transcoder/scripts/probe.sh), remove obsolete `kustomizeconfig.yaml` and stale `# replaced by kustomizeconfig` comments from [`workflow-template.yaml`](./apps/media/transcoder/workflow-template.yaml) (since ConfigMap suffix hashing is disabled to prevent workflow failures).
 - [x] ~~**Replace Dummy `unifi-health` Pause Pod with Homepage Ping ([`apps/unifi/`](./apps/unifi/))**~~:
   - *Reverted*: Homepage ping check against external IP `https://192.168.20.1` failed. The `registry.k8s.io/pause` pod in [`apps/unifi/deployment.yaml`](./apps/unifi/deployment.yaml) is required to satisfy `gethomepage.dev/pod-selector: "app.kubernetes.io/name=unifi"` on [`apps/unifi/http-route.yaml`](./apps/unifi/http-route.yaml).
-- [x] **Simplify `homepage-secrets` Ownership ([`apps/homepage/`](./apps/homepage/))**:
-  - [x] [`apps/homepage/secret.yaml`](./apps/homepage/secret.yaml) creates an empty `Secret/homepage-secrets` so [`apps/homepage/external-secret.yaml`](./apps/homepage/external-secret.yaml) can use `creationPolicy: Merge`. Since `media-homepage-secrets` is the sole writer to `homepage-secrets`, switch `creationPolicy: Owner` and remove `apps/homepage/secret.yaml`.
+- [x] ~~**Simplify `homepage-secrets` Ownership ([`apps/homepage/`](./apps/homepage/))**~~:
+  - *Declined*: Retained `creationPolicy: Merge` and base [`apps/homepage/secret.yaml`](./apps/homepage/secret.yaml) so additional secrets can be merged into `homepage-secrets` from multiple sources.
 - [x] **Minor Schema, DevShell & Documentation Polish**:
   - [x] Update the legacy schema URL in [`system/reflector/helmrelease.yaml`](./system/reflector/helmrelease.yaml) from `k8s-schemas.freckle.systems` to `k8s-schemas.home-operations.com`.
   - [x] Remove unused `kubectl-rook-ceph` from `devShells.default.packages` in [`flake.nix`](./flake.nix).
