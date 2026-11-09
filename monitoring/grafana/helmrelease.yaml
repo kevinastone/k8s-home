@@ -82,7 +82,7 @@ spec:
         enabled: true
         searchNamespace: ALL
         provider:
-          disableDelete: true
+          disableDelete: false
           foldersFromFilesStructure: true
       datasources:
         enabled: true

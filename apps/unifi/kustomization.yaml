@@ -5,4 +5,5 @@ namespace: unifi
 resources:
 - namespace.yaml
 - backend.yaml
+- deployment.yaml
 - http-route.yaml
