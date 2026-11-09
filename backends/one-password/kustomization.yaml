@@ -10,8 +10,17 @@ resources:
 configurations:
 - kustomizeconfig.yaml
 secretGenerator:
-- name: one-password-secret
+- name: one-password-credentials
   files:
   - 1password-credentials.json=secrets/1password-credentials.json.encrypted
-  - token=secrets/token.encrypted
   - service-account.token=secrets/service-account.token.encrypted
+- name: onepassword-connect-token
+  options:
+    disableNameSuffixHash: true
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "ldap"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "ldap"
+  files:
+  - token=secrets/token.encrypted
