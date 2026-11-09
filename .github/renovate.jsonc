@@ -117,12 +117,13 @@
       "pinDigests": false
     },
     {
-      "description": ["Group Envoy Gateway controller and CRD charts"],
+      "description": ["Group Envoy Gateway controller and CRD updates"],
       "matchPackageNames": [
         "docker.io/envoyproxy/gateway-helm",
-        "docker.io/envoyproxy/gateway-crds-helm",
         "envoyproxy/gateway-helm",
-        "envoyproxy/gateway-crds-helm"
+        "envoy-gateway-crds",
+        "envoyproxy/gateway",
+        "https://github.com/envoyproxy/gateway"
       ],
       "groupName": "envoy-gateway"
     }

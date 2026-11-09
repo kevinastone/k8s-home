@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: envoy
 resources:
 - namespace.yaml
-- helmrelease.yaml
+- crds.yaml
