@@ -39,7 +39,10 @@ variable "ldap_groups" {
   description = "Set of LLDAP group display names to manage"
 }
 
-variable "ldap_user_items" {
-  type        = list(string)
-  description = "Explicit list of 1Password item titles representing LDAP users"
+variable "ldap_users" {
+  type = map(object({
+    onepassword_item = string
+    groups           = optional(list(string), [])
+  }))
+  description = "Map of LDAP users with their 1Password item title and group assignments"
 }

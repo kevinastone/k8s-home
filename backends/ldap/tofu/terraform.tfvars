@@ -2,6 +2,9 @@ ldap_groups = [
   "media",
 ]
 
-ldap_user_items = [
-  "Home LDAP",
-]
+ldap_users = {
+  "kstone" = {
+    onepassword_item = "Home LDAP"
+    groups           = ["media", "lldap_admin"]
+  }
+}

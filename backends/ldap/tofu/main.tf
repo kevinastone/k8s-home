@@ -4,10 +4,10 @@ data "onepassword_vault" "homelab" {
 
 # Fetch each user item directly by title using the Connect API
 data "onepassword_item" "users" {
-  for_each = toset(var.ldap_user_items)
+  for_each = var.ldap_users
 
   vault = data.onepassword_vault.homelab.uuid
-  title = each.key
+  title = each.value.onepassword_item
 }
 
 resource "lldap_group" "groups" {
@@ -16,16 +16,16 @@ resource "lldap_group" "groups" {
 }
 
 resource "lldap_user" "users" {
-  for_each = data.onepassword_item.users
+  for_each = var.ldap_users
 
-  username            = each.value.username
-  password_wo         = each.value.password
-  password_wo_version = each.value.updated_at
+  username            = data.onepassword_item.users[each.key].username
+  password_wo         = data.onepassword_item.users[each.key].password
+  password_wo_version = data.onepassword_item.users[each.key].updated_at
   # Utilizing v3+ section_map / field_map syntax
-  email        = try(each.value.section_map["ldap"].field_map["email"].value, "${each.value.username}@k8s.kevinastone.com")
-  display_name = try(each.value.section_map["ldap"].field_map["display_name"].value, each.value.title)
-  first_name   = try(each.value.section_map["ldap"].field_map["first_name"].value, null)
-  last_name    = try(each.value.section_map["ldap"].field_map["last_name"].value, null)
+  email        = try(data.onepassword_item.users[each.key].section_map["ldap"].field_map["email"].value, "${data.onepassword_item.users[each.key].username}@k8s.kevinastone.com")
+  display_name = try(data.onepassword_item.users[each.key].section_map["ldap"].field_map["display_name"].value, data.onepassword_item.users[each.key].title)
+  first_name   = try(data.onepassword_item.users[each.key].section_map["ldap"].field_map["first_name"].value, null)
+  last_name    = try(data.onepassword_item.users[each.key].section_map["ldap"].field_map["last_name"].value, null)
 }
 
 # Read built-in LLDAP admin group (ID 1)
@@ -43,13 +43,13 @@ locals {
 
 resource "lldap_user_memberships" "memberships" {
   for_each = {
-    for k, v in data.onepassword_item.users : k => v
-    if can(v.section_map["ldap"].field_map["groups"].value)
+    for k, v in var.ldap_users : k => v
+    if length(v.groups) > 0
   }
 
   user_id = lldap_user.users[each.key].id
   group_ids = toset([
-    for g in split(",", each.value.section_map["ldap"].field_map["groups"].value) :
+    for g in each.value.groups :
     tostring(local.all_groups[trimspace(g)])
     if contains(keys(local.all_groups), trimspace(g))
   ])
