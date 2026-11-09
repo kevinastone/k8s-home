@@ -12,16 +12,15 @@ spec:
       url: oci://ghcr.io/external-secrets/charts/external-secrets
       ref:
         tag: 2.14.0
-  dependsOn:
-  - name: cert-manager
-    namespace: cert-manager
   driftDetection:
     mode: enabled
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
   uninstall:
@@ -33,9 +32,6 @@ spec:
 
     serviceMonitor:
       enabled: true
-
-    # certManager:
-    #   enabled: true
 
     grafanaDashboard:
       enabled: true
