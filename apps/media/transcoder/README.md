@@ -41,27 +41,27 @@ The rule engine makes decisions based on the following criteria:
 
 ______________________________________________________________________
 
-## 🧪 Testing the Policy
+## 🧪 Testing and Linting the Policy
 
 Testing is fully automated and written in `policy/main_test.rego`.
 
-### Running Tests Locally
+### Running Tests Locally via Nix (Recommended)
 
-Because standard OPA container images do not package a shell, we use the official `-debug` image variant to run tests and verification scripts.
-
-#### 🐳 Using Colima (macOS standard)
-
-If you are developing on macOS using Colima as your container runtime, run:
+Run the policy tests directly using the repository's Nix development shell:
 
 ```bash
-docker --context colima run --rm \
-  -v $(pwd)/policy:/policy \
-  openpolicyagent/opa:1.16.2-debug test /policy/ -v
+nix develop --command opa test apps/media/transcoder/policy/ -v
 ```
 
-#### 🐳 Using Standard Docker (Linux / standard setup)
+To run Regal policy linter:
 
-For regular Docker daemon installations:
+```bash
+nix develop --command regal lint apps/media/transcoder/policy
+```
+
+### Running Tests via Docker / Colima (Alternative)
+
+If developing outside the Nix development shell, use the official OPA container image:
 
 ```bash
 docker run --rm \

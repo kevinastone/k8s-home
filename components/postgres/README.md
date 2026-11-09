@@ -25,7 +25,7 @@ In CloudNativePG, **a cluster's bootstrap method cannot be modified in-place** a
 Use this scenario if storage was lost, nodes failed irrecoverably, or the active database cluster needs to be rebuilt from the latest WAL state.
 
 1. **Copy the recovery template**:
-   Copy \[`recovery-cluster.yaml.example`\](file:///Users/kstone/Documents/k8s-home/components/postgres/recovery-cluster.yaml.example) into the application's postgres directory (e.g., `apps/<app>/postgres/cluster-restored.yaml`).
+   Copy [`recovery-cluster.yaml.example`](./recovery-cluster.yaml.example) into the application's postgres directory (e.g., `apps/<app>/postgres/cluster-restored.yaml`).
 
 1. **Configure the new cluster**:
 

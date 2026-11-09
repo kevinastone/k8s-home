@@ -117,7 +117,6 @@
               fluxcd
               kubectl
               kubectl-cnpg
-              kubectl-rook-ceph
               kubent
               kustomize
               nushell
