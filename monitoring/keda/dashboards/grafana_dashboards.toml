@@ -1,4 +1,0 @@
-#:schema ../../../scripts/dashboard-schema.json
-
-[keda]
-url = "https://raw.githubusercontent.com/kedacore/keda/refs/heads/main/config/grafana/keda-dashboard.json"

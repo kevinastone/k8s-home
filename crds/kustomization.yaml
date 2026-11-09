@@ -9,7 +9,6 @@ resources:
 - external-secrets
 - flux-operator
 - gateway-api
-- keda
 - node-feature-discovery
 - postgres
 - prometheus
