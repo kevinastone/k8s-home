@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/group: Servers
     gethomepage.dev/icon: /assets/icons/svg/unifi.svg
     gethomepage.dev/name: UniFi
-    gethomepage.dev/pod-selector: "app.kubernetes.io/name=unifi"
+    gethomepage.dev/ping: "https://192.168.20.1"
 spec:
   parentRefs:
   - name: auth-gateway
