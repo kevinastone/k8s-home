@@ -1,13 +1,4 @@
 nameReference:
-- kind: Secret
-  version: v1
-  fieldSpecs:
-  - path: spec/values/controllers/main/containers/main/envFrom/secretRef/name
-    kind: HelmRelease
-  - path: spec/backup/barmanObjectStore/s3Credentials/accessKeyId/name
-    kind: Cluster
-  - path: spec/backup/barmanObjectStore/s3Credentials/secretAccessKey/name
-    kind: Cluster
 - kind: ConfigMap
   version: v1
   fieldSpecs:
