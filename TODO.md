@@ -17,9 +17,6 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
     - [`apps/zigbee2mqtt/helmrelease.yaml`](./apps/zigbee2mqtt/helmrelease.yaml) (`/data` PVC — `database.db` device pairings and `coordinator_backup.json`)
     - [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`60Gi` PVC — 365-day retention of home-monitoring sensor metrics)
   - [ ] Add Longhorn scheduled backups or [VolSync](https://volsync.readthedocs.io/) replication for these PVCs.
-- [ ] **Harden `dragonfly-operator` CRD Lifecycle & Pin Dragonfly Engine Image**:
-  - [ ] [`crds/dragonfly-operator/helmrelease.yaml`](./crds/dragonfly-operator/helmrelease.yaml) sets `values.crds.keep: false` and omits `install.crds: CreateReplace` / `upgrade.crds: CreateReplace`. Set `keep: true` and `crds: CreateReplace` so chart upgrades update CRDs and an accidental chart uninstall cannot cascade-delete `Dragonfly` custom resources.
-  - [ ] [`backends/authelia/dragonfly/dragonfly.yaml`](./backends/authelia/dragonfly/dragonfly.yaml) omits `spec.image`, relying on the DragonflyDB version hardcoded in the operator binary. Explicitly pin `spec.image` (and track it via Renovate) so engine updates are managed declaratively.
 
 ______________________________________________________________________
 
