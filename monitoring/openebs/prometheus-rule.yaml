@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: openebs-rules
+  namespace: openebs
+spec:
+  groups:
+  - name: openebs-rawfile
+    rules:
+    - alert: OpenEBSRawfilePoolSpaceLow
+      expr: |
+        (rawfile_pool_remaining_capacity_bytes / rawfile_pool_capacity_bytes) < 0.15
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "OpenEBS Rawfile storage pool free space is below 15%"
+        description: "Storage pool {{ $labels.pool }} on node {{ $labels.node }} has only {{ $value | humanizePercentage }} free space remaining."
+    - alert: OpenEBSRawfilePoolSpaceCritical
+      expr: |
+        (rawfile_pool_remaining_capacity_bytes / rawfile_pool_capacity_bytes) < 0.05
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "OpenEBS Rawfile storage pool free space is critically low"
+        description: "Storage pool {{ $labels.pool }} on node {{ $labels.node }} has only {{ $value | humanizePercentage }} free space remaining. Storage pool is near exhaustion."
+    - alert: OpenEBSRawfilePoolOvercommitted
+      expr: |
+        (rawfile_pool_volumes_logical_bytes / rawfile_pool_capacity_bytes) > 1.0
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "OpenEBS Rawfile storage pool is thin-provisioning overcommitted"
+        description: "Storage pool {{ $labels.pool }} on node {{ $labels.node }} logical volume allocation is at {{ $value | humanizePercentage }} of pool capacity."
+    - alert: OpenEBSRawfileVolumeUsageHigh
+      expr: |
+        (rawfile_volume_used_bytes / rawfile_volume_total_bytes) > 0.85
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "OpenEBS Rawfile volume filesystem usage is above 85%"
+        description: "OpenEBS Rawfile volume {{ $labels.volume }} on node {{ $labels.node }} filesystem usage is at {{ $value | humanizePercentage }}."
+    - alert: OpenEBSRawfileVolumeUsageCritical
+      expr: |
+        (rawfile_volume_used_bytes / rawfile_volume_total_bytes) > 0.95
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "OpenEBS Rawfile volume filesystem usage is above 95%"
+        description: "OpenEBS Rawfile volume {{ $labels.volume }} on node {{ $labels.node }} filesystem usage is critically high at {{ $value | humanizePercentage }}."
