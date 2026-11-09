@@ -57,8 +57,8 @@ ______________________________________________________________________
 
 - [x] **Update Deprecated Flux CRD API Versions in `kube-state-metrics` ([`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml))**:
   - [x] Under `kube-state-metrics.customResourceState.config`, `OCIRepository`, `ImageRepository`, and `ImagePolicy` still target `version: v1beta2` instead of `v1`. Update them to `v1` to match the active Flux v2 API versions.
-- [ ] **Exclude Intentionally Suspended Resources from Flux & OpenTofu Failure Alerts**:
-  - [ ] In [`monitoring/fluxcd/prometheus-rule.yaml`](./monitoring/fluxcd/prometheus-rule.yaml) (`FluxReconciliationFailure`) and [`monitoring/tofu-controller/prometheus-rule.yaml`](./monitoring/tofu-controller/prometheus-rule.yaml) (`TerraformReconciliationFailed`), add `suspended!="true"` to the `gotk_resource_info{..., ready="False"}` query so intentionally suspended resources do not page when `ready="False"`.
+- [x] **Exclude Intentionally Suspended Resources from Flux & OpenTofu Failure Alerts**:
+  - [x] In [`monitoring/fluxcd/prometheus-rule.yaml`](./monitoring/fluxcd/prometheus-rule.yaml) (`FluxReconciliationFailure`) and [`monitoring/tofu-controller/prometheus-rule.yaml`](./monitoring/tofu-controller/prometheus-rule.yaml) (`TerraformReconciliationFailed`), add `suspended!="true"` to the `gotk_resource_info{..., ready="False"}` query so intentionally suspended resources do not page when `ready="False"`.
 - [ ] **Allow Grafana Sidecar to Prune Deleted Dashboards ([`monitoring/grafana/helmrelease.yaml`](./monitoring/grafana/helmrelease.yaml))**:
   - [ ] `sidecar.dashboards.provider.disableDelete: true` prevents Grafana from removing dashboards from its database when their `ConfigMap`s are deleted in Git. Set `disableDelete: false` so deleted dashboard `ConfigMap`s are automatically pruned without requiring a Grafana pod restart.
 

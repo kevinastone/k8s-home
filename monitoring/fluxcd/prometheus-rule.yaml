@@ -20,7 +20,7 @@ spec:
         summary: >-
           {{ $labels.customresource_kind }} {{ $labels.exported_namespace }}/{{ $labels.name }} reconciliation has been failing for more than 15 minutes.
       expr: |
-        gotk_resource_info{customresource_group=~".*\\.toolkit\\.fluxcd\\.io", ready="False"} == 1
+        gotk_resource_info{customresource_group=~".*\\.toolkit\\.fluxcd\\.io", ready="False", suspended!="true"} == 1
       for: 15m
       labels:
         severity: critical
