@@ -115,7 +115,7 @@ spec:
         - path: *configDir
       secrets:
         type: secret
-        name: one-password-secret # overriden by kustomizeconfig
+        name: one-password-credentials # overriden by kustomizeconfig
         globalMounts:
         - path: *session
           subPath: 1password-credentials.json

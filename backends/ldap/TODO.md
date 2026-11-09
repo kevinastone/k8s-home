@@ -242,9 +242,10 @@ resource "lldap_group" "groups" {
 resource "lldap_user" "users" {
   for_each = data.onepassword_item.users
 
-  username     = each.value.username
-  password     = each.value.password
-  email        = try(each.value.section_map["ldap"].field_map["email"].value, "${each.value.username}@kevinastone.com")
+  username            = each.value.username
+  password_wo         = each.value.password
+  password_wo_version = each.value.updated_at
+  email        = try(each.value.section_map["ldap"].field_map["email"].value, "${each.value.username}@k8s.kevinastone.com")
   display_name = try(each.value.section_map["ldap"].field_map["display_name"].value, each.value.title)
   first_name   = try(each.value.section_map["ldap"].field_map["first_name"].value, null)
   last_name    = try(each.value.section_map["ldap"].field_map["last_name"].value, null)
