@@ -58,11 +58,11 @@ spec:
     emptyDir: {}
   - name: scripts
     configMap:
-      name: transcoder-scripts # replaced by kustomizeconfig
+      name: transcoder-scripts
       defaultMode: 0755
   - name: policy
     configMap:
-      name: transcoder-policy # replaced by kustomizeconfig
+      name: transcoder-policy
 
   templates:
   # DAG orchestrator: probe first, then evaluate, then transcode if eligible, then optionally delete the original
