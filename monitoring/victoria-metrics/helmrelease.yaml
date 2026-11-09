@@ -109,6 +109,8 @@ spec:
               memory: 2Gi
         vmselect:
           replicaCount: 1
+          storage:
+            emptyDir: {}
           resources:
             requests:
               cpu: 200m

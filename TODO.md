@@ -18,7 +18,6 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
     - [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`60Gi` PVC — 365-day retention of home-monitoring sensor metrics; can also use `vmbackup` to `s3://victoria-metrics` on `rustfs`)
   - [ ] Add Longhorn scheduled backups to `rustfs` (or [VolSync](https://volsync.readthedocs.io/) replication) for these PVCs.
 - [ ] **Optimize VictoriaMetrics & VictoriaLogs Storage Classes**:
-  - [ ] **Switch `vmselect` Cache from Longhorn PVC to `emptyDir`**: [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) currently provisions a `2Gi` replicated Longhorn PVC (`vmselect-cachedir-vmselect-vm-stack-0`) for ephemeral query rollup cache. Configure `vmselect.spec.storage: { emptyDir: {} }` to eliminate unnecessary network block replication I/O.
   - [ ] **Switch `vlsingle` (VictoriaLogs) from Longhorn to `openebs-rawfile`**: [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) stores 30-day logs on a `50Gi` Longhorn PVC (`vlsingle-vm-stack`). Because logs are reconstructible/non-critical and write-heavy, switching `vlsingle.spec.storage.storageClassName` to `openebs-rawfile` avoids network block replication overhead.
 
 ______________________________________________________________________
