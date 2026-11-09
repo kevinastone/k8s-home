@@ -74,7 +74,7 @@ ______________________________________________________________________
 - [x] ~~**Replace Dummy `unifi-health` Pause Pod with Homepage Ping ([`apps/unifi/`](./apps/unifi/))**~~:
   - *Reverted*: Homepage ping check against external IP `https://192.168.20.1` failed. The `registry.k8s.io/pause` pod in [`apps/unifi/deployment.yaml`](./apps/unifi/deployment.yaml) is required to satisfy `gethomepage.dev/pod-selector: "app.kubernetes.io/name=unifi"` on [`apps/unifi/http-route.yaml`](./apps/unifi/http-route.yaml) (see [`apps/unifi/README.md`](./apps/unifi/README.md) for architectural details and upstream Gateway API dependencies).
 - [x] ~~**Simplify `homepage-secrets` Ownership ([`apps/homepage/`](./apps/homepage/))**~~:
-  - *Declined*: Retained `creationPolicy: Merge` and base [`apps/homepage/secret.yaml`](./apps/homepage/secret.yaml) so additional secrets can be merged into `homepage-secrets` from multiple sources.
+  - *Declined*: Retained `creationPolicy: Merge` and base [`apps/homepage/secret.yaml`](./apps/homepage/secret.yaml) so additional secrets can be merged into `homepage-secrets` from multiple sources (see [`apps/homepage/README.md`](./apps/homepage/README.md) for cross-namespace secret aggregation details).
 - [x] **Minor Schema, DevShell & Documentation Polish**:
   - [x] Update the legacy schema URL in [`system/reflector/helmrelease.yaml`](./system/reflector/helmrelease.yaml) from `k8s-schemas.freckle.systems` to `k8s-schemas.home-operations.com`.
   - [x] Remove unused `kubectl-rook-ceph` from `devShells.default.packages` in [`flake.nix`](./flake.nix).
