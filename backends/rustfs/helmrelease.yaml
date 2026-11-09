@@ -80,7 +80,7 @@ spec:
             - secretRef:
                 name: rustfs-client-secret
             - secretRef:
-                name: rustfs-root-secret # overriden by kustomizeconfig
+                name: rustfs-root-secret
             ports:
             - containerPort: &s3Port 9000
               name: s3
@@ -175,8 +175,6 @@ spec:
         endpoints:
         - port: metrics
           interval: 30s
-    serviceAccount:
-      rustfs: {}
     persistence:
       home:
         type: emptyDir
@@ -187,8 +185,3 @@ spec:
           main:
             otel-collector:
             - path: /etc/otel
-      secrets:
-        type: secret
-        name: rustfs-root-secret # overriden by kustomizeconfig
-        globalMounts:
-        - path: /secrets

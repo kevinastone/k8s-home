@@ -1,13 +1,4 @@
 nameReference:
-- kind: Secret
-  version: v1
-  fieldSpecs:
-  - path: spec/values/controllers/main/containers/main/envFrom/secretRef/name
-    kind: HelmRelease
-  - path: spec/values/persistence/secrets/name
-    kind: HelmRelease
-  - path: spec/varsFrom/name
-    kind: Terraform
 - kind: ConfigMap
   version: v1
   fieldSpecs:
