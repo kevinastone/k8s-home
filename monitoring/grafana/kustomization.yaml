@@ -6,5 +6,3 @@ resources:
 - namespace.yaml
 - helmrelease.yaml
 - http-route.yaml
-configurations:
-- kustomizeconfig.yaml
