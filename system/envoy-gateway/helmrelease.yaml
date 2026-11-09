@@ -15,15 +15,17 @@ spec:
   driftDetection:
     mode: enabled
   install:
-    crds: CreateReplace
+    crds: Skip
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
+    crds: Skip
     remediation:
       retries: 3
   values:
+    crds:
+      enabled: false
     config:
       envoyGateway:
         extensionApis:

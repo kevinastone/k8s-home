@@ -6,9 +6,9 @@ resources:
 - argo
 - cert-manager
 - dragonfly-operator
+- envoy-gateway
 - external-secrets
 - flux-operator
-- gateway-api
 - node-feature-discovery
 - postgres
 - prometheus
