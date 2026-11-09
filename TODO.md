@@ -17,8 +17,11 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
     - [`apps/zigbee2mqtt/helmrelease.yaml`](./apps/zigbee2mqtt/helmrelease.yaml) (`/data` PVC — `database.db` device pairings and `coordinator_backup.json`)
     - [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`60Gi` PVC — 365-day retention of home-monitoring sensor metrics; can also use `vmbackup` to `s3://victoria-metrics` on `rustfs`)
   - [ ] Add Longhorn scheduled backups to `rustfs` (or [VolSync](https://volsync.readthedocs.io/) replication) for these PVCs.
-- [ ] **Optimize VictoriaMetrics & VictoriaLogs Storage Classes**:
-  - [ ] **Switch `vlsingle` (VictoriaLogs) from Longhorn to `openebs-rawfile`**: [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) stores 30-day logs on a `50Gi` Longhorn PVC (`vlsingle-vm-stack`). Because logs are reconstructible/non-critical and write-heavy, switching `vlsingle.spec.storage.storageClassName` to `openebs-rawfile` avoids network block replication overhead.
+- [ ] **Optimize VictoriaLogs Storage & High Availability**:
+  - [ ] **Migrate VictoriaLogs from `vlsingle` (Longhorn) to Clustered / Replicated HA on `openebs-rawfile`**:
+    - [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) currently runs `vlsingle` with a single `50Gi` replicated Longhorn PVC (`vlsingle-vm-stack`).
+    - Because `openebs-rawfile` binds PVs to a single physical host (`nodeAffinity`), running a single instance on `openebs-rawfile` would cause VictoriaLogs to be unavailable whenever that node is drained or offline.
+    - To combine local NVMe speed (`openebs-rawfile`) with resilience, migrate from `vlsingle` to **`vlcluster`** (using `vlinsert`, `vlselect`, and multi-node `vlstorage` on `openebs-rawfile`) or run **dual mirrored `vlsingle` instances** paired with dual-write in [`monitoring/vector/helmrelease.yaml`](./monitoring/vector/helmrelease.yaml) (`sinks.vlogs`) and `vmauth` failover, so log ingestion and search remain available across host restarts.
 
 ______________________________________________________________________
 
