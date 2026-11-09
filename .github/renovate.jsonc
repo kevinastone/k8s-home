@@ -123,7 +123,8 @@
         "envoyproxy/gateway-helm",
         "envoy-gateway-crds",
         "envoyproxy/gateway",
-        "https://github.com/envoyproxy/gateway"
+        "https://github.com/envoyproxy/gateway",
+        "/envoyproxy/gateway/"
       ],
       "groupName": "envoy-gateway"
     },
@@ -134,7 +135,8 @@
         "jetstack/charts/cert-manager",
         "cert-manager-crds",
         "cert-manager/cert-manager",
-        "https://github.com/cert-manager/cert-manager"
+        "https://github.com/cert-manager/cert-manager",
+        "/cert-manager/"
       ],
       "groupName": "cert-manager"
     }
