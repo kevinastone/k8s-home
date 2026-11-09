@@ -10,7 +10,6 @@ resources:
 - fluxcd
 - goldilocks
 - grafana
-- karma
 - longhorn
 - metrics-server
 - network-ups-tools

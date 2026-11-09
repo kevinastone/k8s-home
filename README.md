@@ -43,7 +43,7 @@ flowchart TD
 
         subgraph Observability ["Observability & Alerting"]
             VM["VictoriaMetrics (vmagent, vmalert, vmcluster)"]
-            AM["Alertmanager & Karma"]
+            AM["VMAlertmanager"]
             Grafana["Grafana (CUE Dashboards)"]
             VLogs["VictoriaLogs & Vector (Logs)"]
         end
@@ -100,7 +100,7 @@ ______________________________________________________________________
 ### Observability & Alerting
 
 - **Metrics**: [VictoriaMetrics](https://victoriametrics.com/) Operator (`vmcluster`, `vmalert`, `vmagent`) scraping targets via `PodMonitor` and evaluating `PrometheusRule` manifests.
-- **Alerting**: Alertmanager with [Karma](https://github.com/prymitive/karma) dashboard UI.
+- **Alerting**: [VMAlertmanager](https://docs.victoriametrics.com/operator/design/#vmalertmanager) (VictoriaMetrics Operator managed Alertmanager).
 - **Logging**: [VictoriaLogs](https://victoriametrics.com/products/victorialogs/) with [Vector](https://vector.dev/) log shipper agent.
 - **Dashboards**: Grafana dashboards generated via **CUE** (`lib/grafana/`).
 
