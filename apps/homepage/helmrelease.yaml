@@ -86,7 +86,7 @@ spec:
           path: /app/config/widgets.yaml
       assets:
         type: image
-        image: ghcr.io/kevinastone/homer-assets:main@sha256:a59b407b5afc7c052173ea9af0711c65f18ad68db469de1d8539ebfc877e5dc8
+        image: ghcr.io/kevinastone/homepage-assets:main
         pullPolicy: IfNotPresent
         globalMounts:
         - path: /app/public/assets
