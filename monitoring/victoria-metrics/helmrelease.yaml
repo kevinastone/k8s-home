@@ -374,7 +374,7 @@ spec:
                   chart_version: [spec, version]
             - groupVersionKind:
                 group: source.toolkit.fluxcd.io
-                version: v1beta2
+                version: v1
                 kind: OCIRepository
               metricNamePrefix: gotk
               metrics:
@@ -443,7 +443,7 @@ spec:
                   webhook_path: [status, webhookPath]
             - groupVersionKind:
                 group: image.toolkit.fluxcd.io
-                version: v1beta2
+                version: v1
                 kind: ImageRepository
               metricNamePrefix: gotk
               metrics:
@@ -461,7 +461,7 @@ spec:
                   image: [spec, image]
             - groupVersionKind:
                 group: image.toolkit.fluxcd.io
-                version: v1beta2
+                version: v1
                 kind: ImagePolicy
               metricNamePrefix: gotk
               metrics:
