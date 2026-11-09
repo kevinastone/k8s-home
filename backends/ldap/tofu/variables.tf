@@ -37,11 +37,9 @@ variable "onepassword_vault" {
 variable "ldap_groups" {
   type        = set(string)
   description = "Set of LLDAP group display names to manage"
-  default     = ["media"]
 }
 
 variable "ldap_user_items" {
   type        = list(string)
   description = "Explicit list of 1Password item titles representing LDAP users"
-  default     = ["Home LDAP"]
 }
