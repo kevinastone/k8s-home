@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: vector
 resources:
 # keep-sorted start
-- helmrelease.yaml
+- helmrelease-agent.yaml
 - namespace.yaml
 # keep-sorted end
 configMapGenerator:

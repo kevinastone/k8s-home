@@ -21,7 +21,7 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
   - [ ] **Migrate VictoriaLogs from `vlsingle` (Longhorn) to Clustered / Replicated HA on `openebs-rawfile`**:
     - [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) currently runs `vlsingle` with a single `50Gi` replicated Longhorn PVC (`vlsingle-vm-stack`).
     - Because `openebs-rawfile` binds PVs to a single physical host (`nodeAffinity`), running a single instance on `openebs-rawfile` would cause VictoriaLogs to be unavailable whenever that node is drained or offline.
-    - To combine local NVMe speed (`openebs-rawfile`) with resilience, migrate from `vlsingle` to **`vlcluster`** (using `vlinsert`, `vlselect`, and multi-node `vlstorage` on `openebs-rawfile`) or run **dual mirrored `vlsingle` instances** paired with dual-write in [`monitoring/vector/helmrelease.yaml`](./monitoring/vector/helmrelease.yaml) (`sinks.vlogs`) and `vmauth` failover, so log ingestion and search remain available across host restarts.
+    - To combine local NVMe speed (`openebs-rawfile`) with resilience, migrate from `vlsingle` to **`vlcluster`** (using `vlinsert`, `vlselect`, and multi-node `vlstorage` on `openebs-rawfile`) or run **dual mirrored `vlsingle` instances** paired with dual-write in [`monitoring/vector/helmrelease-agent.yaml`](./monitoring/vector/helmrelease-agent.yaml) (`sinks.vlogs`) and `vmauth` failover, so log ingestion and search remain available across host restarts.
 
 ______________________________________________________________________
 
@@ -53,7 +53,7 @@ ______________________________________________________________________
 
 - [ ] **Migrate InfluxDB Line-Protocol Ingestion from VMAgent to Vector Aggregator**:
   - [ ] **Deploy Dedicated `vector-aggregator` Workload**:
-    - The current `vector` deployment in [`monitoring/vector/helmrelease.yaml`](./monitoring/vector/helmrelease.yaml) runs as a `role: Agent` DaemonSet solely for node-local container log collection (`kubernetes_logs`).
+    - The current `vector` deployment in [`monitoring/vector/helmrelease-agent.yaml`](./monitoring/vector/helmrelease-agent.yaml) runs as a `role: Agent` DaemonSet solely for node-local container log collection (`kubernetes_logs`).
     - Deploy a separate `vector-aggregator` `HelmRelease` configured as `role: Aggregator` (stateless `Deployment` with 2+ replicas, pod anti-affinity, and a dedicated ClusterIP `Service`), ensuring inbound metric ingestion is highly available and isolated from node log collection.
   - [ ] **Ingestion Pipeline & Storage Routing**:
     - Configure an `influxdb` source (`type: influxdb` on port `8086`) to receive sensor writes from Home Assistant ([`apps/home-assistant/resources/configuration.yaml`](./apps/home-assistant/resources/configuration.yaml)).
