@@ -17,3 +17,5 @@ resources:
 - prowlarr
 - transcoder
 - http-route.yaml
+components:
+- ../../components/tf-runner

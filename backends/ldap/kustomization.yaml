@@ -9,3 +9,5 @@ resources:
 - lldap-secret.yaml
 - postgres
 - terraform.yaml
+components:
+- ../../components/tf-runner
