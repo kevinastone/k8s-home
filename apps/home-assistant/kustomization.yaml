@@ -18,8 +18,8 @@ configMapGenerator:
   - resources/secrets.example.yaml
   - resources/ui-lovelace.yaml
   - resources/zone.yaml
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig
 secretGenerator:
 - name: home-assistant-secret
   files:

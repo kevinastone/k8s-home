@@ -178,7 +178,7 @@ spec:
     persistence:
       home:
         type: emptyDir
-      otel-config:
+      config:
         type: configMap
         name: otel-config # overriden by kustomizeconfig
         advancedMounts:

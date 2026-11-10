@@ -170,7 +170,7 @@ spec:
             app:
             - path: /downloads
               subPath: sabnzbd
-      recyclarr-config:
+      config-file:
         type: configMap
         name: radarr-recyclarr-config
         advancedMounts:

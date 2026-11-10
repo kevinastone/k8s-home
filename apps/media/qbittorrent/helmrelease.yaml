@@ -150,7 +150,7 @@ spec:
             - path: /config
             app:
             - path: /config
-      settings:
+      config-file:
         type: configMap
         name: qbittorrent-config
         advancedMounts:
@@ -162,10 +162,6 @@ spec:
             - path: /config/preferences.jsonc
               subPath: preferences.jsonc
               readOnly: true
-      qbit-manage-config:
-        type: configMap
-        name: qbit-manage-config
-        advancedMounts:
           orphan-cleanup:
             app:
             - path: /config-src

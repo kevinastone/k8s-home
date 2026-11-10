@@ -9,5 +9,5 @@ configMapGenerator:
 - name: isponsorblocktv-config
   files:
   - resources/config.json
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig

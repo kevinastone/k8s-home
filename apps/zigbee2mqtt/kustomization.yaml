@@ -10,8 +10,8 @@ configMapGenerator:
 - name: zigbee2mqtt-config
   files:
   - resources/devices.yaml
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig
 secretGenerator:
 - name: zigbee2mqtt-secret
   files:

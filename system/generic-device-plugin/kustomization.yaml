@@ -8,5 +8,5 @@ configMapGenerator:
 - name: generic-device-plugin-configmap
   files:
   - resources/config.yaml
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig

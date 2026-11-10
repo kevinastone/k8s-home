@@ -10,5 +10,5 @@ configMapGenerator:
 - name: peanut-config
   files:
   - resources/settings.yml
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig

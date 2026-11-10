@@ -14,8 +14,8 @@ resources:
 - client-secret-generator.yaml
 - rustfs-client-secret.yaml
 - grafana-client-secret.yaml
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig
 configMapGenerator:
 - name: authelia-config
   files:

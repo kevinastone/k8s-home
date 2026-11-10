@@ -74,7 +74,7 @@ spec:
         - path: /etc/cloudflared/config/config.yaml
           subPath: config.yaml
           readOnly: true
-      creds:
+      secrets:
         type: secret
         name: cloudflared-tunnel-creds # overriden by kustomizeconfig
         globalMounts:

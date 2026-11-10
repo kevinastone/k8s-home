@@ -57,7 +57,7 @@ spec:
         accessMode: ReadWriteOnce
         globalMounts:
         - path: /config
-      config-data:
+      config-file:
         enabled: true
         type: configMap
         name: home-assistant-config # overriden by kustomizeconfig

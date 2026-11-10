@@ -22,5 +22,5 @@ configMapGenerator:
   - resources/sabnzbd.ini/shows.yaml
   - resources/sabnzbd.ini/types.cue
 
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../../components/kustomizeconfig

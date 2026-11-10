@@ -21,5 +21,5 @@ configMapGenerator:
   - resources/services.yaml
   - resources/settings.yaml
   - resources/widgets.yaml
-configurations:
-- kustomizeconfig.yaml
+components:
+- ../../components/kustomizeconfig

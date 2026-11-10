@@ -21,7 +21,6 @@ configMapGenerator:
       grafana_dashboard: "true"
   files:
   - dashboards/rustfs.json
-configurations:
-- kustomizeconfig.yaml
 components:
 - ../../components/tf-runner
+- ../../components/kustomizeconfig
