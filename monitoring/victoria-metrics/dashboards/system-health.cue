@@ -2,7 +2,7 @@ package vm_monitoring
 
 import (
 	"time"
-	"k8s-home.internal/lib/grafana"
+	"k8s-home.internal/cue/grafana"
 )
 
 // Reusable Host TimeSeries Panel for System Health

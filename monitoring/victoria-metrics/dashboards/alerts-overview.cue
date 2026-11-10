@@ -1,7 +1,7 @@
 package vm_monitoring
 
 import (
-	"k8s-home.internal/lib/grafana"
+	"k8s-home.internal/cue/grafana"
 )
 
 // Reusable alert counter stat tile

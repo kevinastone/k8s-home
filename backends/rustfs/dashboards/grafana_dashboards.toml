@@ -1,4 +1,4 @@
-#:schema ../../../scripts/dashboard-schema.json
+#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
 
 [rustfs]
 url = "https://raw.githubusercontent.com/rustfs/rustfs/refs/heads/main/.docker/observability/grafana/dashboards/rustfs.json"

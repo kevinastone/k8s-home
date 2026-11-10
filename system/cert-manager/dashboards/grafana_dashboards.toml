@@ -1,4 +1,4 @@
-#:schema ../../../scripts/dashboard-schema.json
+#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
 
 [cert-manager]
 # url = "https://raw.githubusercontent.com/imusmanmalik/cert-manager-mixin/refs/heads/main/dashboards/overview.json"

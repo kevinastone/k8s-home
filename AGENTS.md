@@ -38,7 +38,7 @@ nix develop --command build-dashboards <path-to-dashboards-dir>
 To run unit tests and constraint validation for the Grafana CUE library:
 
 ```bash
-nix develop --command cue vet -c ./lib/grafana/
+nix develop --command cue vet -c ./cue/grafana/
 ```
 
 ### Running OPA Tests Locally

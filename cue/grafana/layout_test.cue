@@ -1,7 +1,7 @@
 package grafana
 
 // Tests for layout engine behaviors and width computations.
-// Run with: cue vet -c ./lib/grafana/
+// Run with: cue vet -c ./cue/grafana/
 _testLayoutRows: {
 	// Test 1: Single panel row auto-expands to full width (w: 24)
 	testSinglePanelAutoWidth: {

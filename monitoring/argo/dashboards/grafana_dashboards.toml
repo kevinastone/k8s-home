@@ -1,4 +1,4 @@
-#:schema ../../../scripts/dashboard-schema.json
+#:schema ../../grafana/scripts/dashboard-schema.json
 
 [argo-workflows]
 id = 21393

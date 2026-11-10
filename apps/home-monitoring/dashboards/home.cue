@@ -1,7 +1,7 @@
 package monitoring
 
 import (
-	"k8s-home.internal/lib/grafana"
+	"k8s-home.internal/cue/grafana"
 )
 
 // Reusable Room Card: Stat panel with sparklines + temperature trend graph

@@ -22,6 +22,7 @@
         ./nix/devshell.nix
         ./apps/media/transcoder
         ./apps/media/sabnzbd
+        ./monitoring/grafana
       ];
 
       perSystem =
@@ -30,39 +31,6 @@
           pkgs,
           ...
         }:
-        let
-          writeNuBin =
-            {
-              name ? pkgs.lib.removeSuffix ".nu" (baseNameOf script),
-              script,
-              runtimeInputs ? [ ],
-            }:
-            let
-              writer = pkgs.writers.makeScriptWriter (
-                {
-                  interpreter = "${pkgs.nushell}/bin/nu";
-                }
-                // (pkgs.lib.optionalAttrs (runtimeInputs != [ ]) {
-                  makeWrapperArgs = [
-                    "--prefix"
-                    "PATH"
-                    ":"
-                    (pkgs.lib.makeBinPath runtimeInputs)
-                  ];
-                })
-              );
-            in
-            writer "/bin/${name}" (builtins.readFile script);
-
-          build-dashboards = writeNuBin {
-            name = "build-dashboards";
-            script = ./scripts/build_dashboards.nu;
-            runtimeInputs = with pkgs; [
-              cue
-              diffutils
-            ];
-          };
-        in
         {
           treefmt = import ./treefmt.nix { inherit pkgs; };
 
@@ -76,24 +44,6 @@
                   set -o pipefail
                   renovate-config-validator ${./.github/renovate.jsonc} | tee $out
                 '';
-            cue-vet =
-              pkgs.runCommandLocal "cue-vet"
-                {
-                  nativeBuildInputs = [ pkgs.cue ];
-                }
-                ''
-                  set -o pipefail
-                  cue --chdir ${inputs.self} vet --concrete ./lib/grafana/ | tee $out
-                '';
-            dashboards-in-sync =
-              pkgs.runCommandLocal "dashboards-in-sync"
-                {
-                  nativeBuildInputs = [ build-dashboards ];
-                }
-                ''
-                  build-dashboards --check ${inputs.self}
-                  touch $out
-                '';
           };
 
           devShells.default = pkgs.mkShell {
@@ -103,19 +53,15 @@
               [
                 # keep-sorted start
                 age
-                build-dashboards
                 crane
-                cue
                 fd
                 fluxcd
                 kubectl
                 kubectl-cnpg
                 kubent
                 kustomize
-                nushell
                 oras
                 pluto
-                python3
                 renovate
                 skopeo
                 sops

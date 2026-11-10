@@ -1,4 +1,4 @@
-#:schema ../../../scripts/dashboard-schema.json
+#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
 
 [longhorn]
 id = 17626

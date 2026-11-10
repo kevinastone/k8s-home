@@ -2,7 +2,7 @@
 
 This directory contains vendored official CUE definitions from [`grafana/grafana`](https://github.com/grafana/grafana).
 
-These schemas are imported by [`lib/grafana`](../lib/grafana) to validate dashboard structures, variables, links, and panel configurations against official Grafana specifications.
+These schemas are imported by [`cue/grafana`](../cue/grafana) to validate dashboard structures, variables, links, and panel configurations against official Grafana specifications.
 
 ______________________________________________________________________
 

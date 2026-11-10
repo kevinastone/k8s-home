@@ -1,0 +1,78 @@
+{ self, ... }:
+{
+  perSystem =
+    { pkgs, ... }:
+    let
+      writeNuBin =
+        {
+          name ? pkgs.lib.removeSuffix ".nu" (baseNameOf script),
+          script,
+          runtimeInputs ? [ ],
+        }:
+        let
+          writer = pkgs.writers.makeScriptWriter (
+            {
+              interpreter = "${pkgs.nushell}/bin/nu";
+            }
+            // (pkgs.lib.optionalAttrs (runtimeInputs != [ ]) {
+              makeWrapperArgs = [
+                "--prefix"
+                "PATH"
+                ":"
+                (pkgs.lib.makeBinPath runtimeInputs)
+              ];
+            })
+          );
+        in
+        writer "/bin/${name}" (builtins.readFile script);
+
+      build-dashboards = writeNuBin {
+        name = "build-dashboards";
+        script = ./scripts/build_dashboards.nu;
+        runtimeInputs = with pkgs; [
+          cue
+          diffutils
+        ];
+      };
+
+      download-dashboards = pkgs.writeShellApplication {
+        name = "download-dashboards";
+        runtimeInputs = [ pkgs.python3 ];
+        text = ''
+          python3 "${./scripts/download_dashboards.py}" "$@"
+        '';
+      };
+    in
+    {
+      packages = {
+        inherit build-dashboards download-dashboards;
+      };
+
+      checks = {
+        cue-vet =
+          pkgs.runCommandLocal "cue-vet"
+            {
+              nativeBuildInputs = [ pkgs.cue ];
+            }
+            ''
+              set -o pipefail
+              cue --chdir ${self} vet --concrete ./cue/grafana/ | tee $out
+            '';
+
+        dashboards-in-sync =
+          pkgs.runCommandLocal "dashboards-in-sync"
+            {
+              nativeBuildInputs = [ build-dashboards ];
+            }
+            ''
+              build-dashboards --check ${self}
+              touch $out
+            '';
+      };
+
+      devShellPackages = [
+        build-dashboards
+        download-dashboards
+      ];
+    };
+}

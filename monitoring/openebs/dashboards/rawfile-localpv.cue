@@ -1,7 +1,7 @@
 package openebs
 
 import (
-	"k8s-home.internal/lib/grafana"
+	"k8s-home.internal/cue/grafana"
 )
 
 #PoolThresholds: {

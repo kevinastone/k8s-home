@@ -1,4 +1,4 @@
-#:schema ../../../scripts/dashboard-schema.json
+#:schema ../../grafana/scripts/dashboard-schema.json
 
 [blackbox-exporter]
 # id = 14928

@@ -102,7 +102,7 @@ ______________________________________________________________________
 - **Metrics**: [VictoriaMetrics](https://victoriametrics.com/) Operator (`vmcluster`, `vmalert`, `vmagent`) scraping targets via `PodMonitor` and evaluating `PrometheusRule` manifests.
 - **Alerting**: [VMAlertmanager](https://docs.victoriametrics.com/operator/design/#vmalertmanager) (VictoriaMetrics Operator managed Alertmanager).
 - **Logging**: [VictoriaLogs](https://victoriametrics.com/products/victorialogs/) with [Vector](https://vector.dev/) log shipper agent.
-- **Dashboards**: Grafana dashboards generated via **CUE** (`lib/grafana/`).
+- **Dashboards**: Grafana dashboards generated via **CUE** (`cue/grafana/`).
 
 ______________________________________________________________________
 
@@ -117,7 +117,8 @@ The deployment flow is defined by the top-level Flux `Kustomization` manifests:
 ├── monitoring/     # Observability stack (VictoriaMetrics, VictoriaLogs, Grafana, Alerting Rules, Vector)
 ├── backends/       # Foundational shared services (DNS, Authelia, LDAP, MQTT, RustFS)
 ├── apps/           # User-facing applications (Home Assistant, Media stack, IoT)
-└── lib/grafana/    # Shared CUE library for typed Grafana dashboards
+├── cue/
+│   └── grafana/    # Shared CUE library for typed Grafana dashboards
 ```
 
 ______________________________________________________________________
@@ -143,14 +144,14 @@ nix fmt
 
 ### Grafana Dashboards (CUE)
 
-Dashboards across the repository are authored in **[CUE](https://cuelang.org/)** using shared definitions in `lib/grafana/`.
+Dashboards across the repository are authored in **[CUE](https://cuelang.org/)** using shared definitions in `cue/grafana/`.
 
 ```bash
 # Compile all dashboards in the repo to JSON
 nix develop --command build-dashboards .
 
 # Run unit tests and schema constraint validation
-nix develop --command cue vet -c ./lib/grafana/
+nix develop --command cue vet -c ./cue/grafana/
 ```
 
 ### OPA Policy Testing & Linting
