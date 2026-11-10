@@ -25,23 +25,7 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
 
 ______________________________________________________________________
 
-## 2. Monorepo Tooling, Nix Modularization & Testing Encapsulation
-
-Currently, [`flake.nix`](./flake.nix) defines all domain-specific checks (`opa-test`, `regal-lint`, `cue-vet`, `dashboards-in-sync`, `renovate-config`), custom script wrappers (`build-dashboards`), and a monolithic 20-package `devShells.default` in a single root file. Encapsulating checks and tools into their respective sub-directories will keep the root flake minimal and make sub-projects self-contained.
-
-- [x] **Adopt Per-Directory Nix Modules (`flake-parts` or Sub-Directory `default.nix` Discovery)**:
-  - [x] Refactor [`flake.nix`](./flake.nix) into a thin root aggregator (~60 lines) that configures `treefmt`, provides core cluster CLI tools (`kubectl`, `fluxcd`, `kustomize`, `sops`, `age`, `kubectl-cnpg`), and merges `{ checks, packages, devShells }` imported from domain sub-directories:
-    - [x] **`apps/media/transcoder/default.nix`**: Encapsulate `open-policy-agent`, `regal`, `shellcheck`, and `jq`. Export `checks.transcoder-opa-test`, `checks.transcoder-regal-lint`, and a new `checks.transcoder-shellcheck` (validating [`apps/media/transcoder/scripts/*.sh`](./apps/media/transcoder/scripts/transcode.sh)), with required packages automatically aggregated into the root devShell.
-    - [x] **`apps/media/sabnzbd/default.nix`**: [`apps/media/sabnzbd/resources/sabnzbd.ini/`](./apps/media/sabnzbd/resources/sabnzbd.ini/main.cue) defines an 8-file CUE package (`package sabnzbd`) evaluated at pod startup by an `init-config` container, but it is currently untested in CI. Add a `checks.sabnzbd-config-vet` target that runs `cue export` with mock `-t` tag variables (`NZBGEEK_API_KEY`, `NEWSHOSTING_USERNAME`, `NEWSHOSTING_PASSWORD`) to catch schema and YAML errors before deployment.
-    - [x] **`monitoring/grafana/default.nix` & `cue/grafana` (Dashboard Subsystem)**: Encapsulate `build-dashboards` (`writeNuBin`), `download-dashboards` (wrapping [`monitoring/grafana/scripts/download_dashboards.py`](./monitoring/grafana/scripts/download_dashboards.py)), `checks.cue-vet` (validating [`cue/grafana/`](./cue/grafana/)), and `checks.dashboards-in-sync`, with tools automatically aggregated into the root devShell.
-    - [x] **`.github/default.nix` (Isolate Renovate Closure)**: Move `checks.renovate-config` and `pkgs.renovate` out of the root `devShells.default` into `.github/default.nix` so entering the repo root does not pull the heavy Node.js closure on every `nixpkgs` update.
-    - [x] **OpenTofu Validation Module (`nix/tofu.nix`)**: Create a `checks.tofu-lint` flake check that statically validates all 5 OpenTofu directories (`backends/rustfs/tofu`, `backends/ldap/tofu`, `apps/media/prowlarr/tofu`, `apps/media/radarr/tofu`, `apps/media/sonarr/tofu`) using `tflint --recursive`.
-- [x] **Prune Unused Vendored Schemas in `cue.mod/`**:
-  - [x] [`cue.mod/pkg/github.com/grafana/grafana/`](./cue.mod/README.md) currently tracks 212 files, ~174 of which are unused upstream Grafana `apps/*` (`advisor`, `iam`, `shorturl`, etc.), `datasource/*` (`azuremonitor`, `cloudwatch`), and `pkg/**/testdata/*` schemas. Prune `cue.mod/` down to the ~38 files actually imported by [`cue/grafana/`](./cue/grafana/dashboards.cue) (`kinds/dashboard`, `packages/grafana-schema/src/common`, and `public/app/plugins/panel/*`) and tighten the tarball extraction globs in [`cue.mod/README.md`](./cue.mod/README.md).
-
-______________________________________________________________________
-
-## 3. Repository Organization & Kustomize Architecture
+## 2. Repository Organization & Kustomize Architecture
 
 - [ ] **Extract Duplicated Manifests into Reusable Kustomize `components/`**:
   - [ ] **`components/tf-runner` (OpenTofu RBAC)**: The 28-line `tf-runner` RBAC block (`ServiceAccount`, `Role`, `RoleBinding`) is duplicated across [`backends/rustfs/terraform.yaml`](./backends/rustfs/terraform.yaml), [`backends/ldap/terraform.yaml`](./backends/ldap/terraform.yaml), and the bottom of [`apps/media/sonarr/terraform.yaml`](./apps/media/sonarr/terraform.yaml) (making `prowlarr` and `radarr` implicitly depend on `sonarr`'s manifest for their shared runner `ServiceAccount` in the `media` namespace). Extract `tf-runner` into `components/tf-runner/` and include it at the namespace level (`apps/media/kustomization.yaml`, `backends/rustfs/kustomization.yaml`, `backends/ldap/kustomization.yaml`).
@@ -56,7 +40,7 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
-## 4. CI/CD, Validation & Automation
+## 3. CI/CD, Validation & Automation
 
 - [ ] **Rendered Manifest Diff as Pull Request Comment**:
   - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) with `pull-requests: write` permissions to post rendered manifest diffs directly to PR discussion threads alongside `$GITHUB_STEP_SUMMARY`.
