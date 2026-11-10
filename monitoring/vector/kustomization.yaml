@@ -5,6 +5,7 @@ namespace: vector
 resources:
 # keep-sorted start
 - helmrelease-agent.yaml
+- helmrelease-aggregator.yaml
 - namespace.yaml
 # keep-sorted end
 configMapGenerator:
