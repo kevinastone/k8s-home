@@ -1,3 +1,12 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/helmrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: eraser
+spec:
+  interval: 24h
+  url: https://eraser-dev.github.io/eraser/charts
+---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -12,7 +21,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: eraser
-        namespace: flux-system
       interval: 15m
   driftDetection:
     mode: enabled

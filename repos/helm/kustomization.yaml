@@ -4,13 +4,5 @@ kind: Kustomization
 resources:
 # keep-sorted start
 - bjw-s-labs.yaml
-- csi-driver-smb.yaml
-- dao-2048.yaml
-- descheduler.yaml
-- eraser.yaml
-- external-dns.yaml
 - fairwinds.yaml
-- longhorn.yaml
-- metrics-server.yaml
-- tailscale.yaml
 # keep-sorted end
