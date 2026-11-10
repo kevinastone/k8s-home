@@ -171,7 +171,7 @@ nix develop --command regal lint apps/media/transcoder/policy
 Whenever `.github/renovate.jsonc` is modified, validate it locally:
 
 ```bash
-nix develop --command renovate-config-validator .github/renovate.jsonc
+nix flake check -L
 ```
 
 ### GitOps Workflow Rules

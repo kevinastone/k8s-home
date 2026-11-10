@@ -20,6 +20,7 @@
       imports = [
         inputs.treefmt-nix.flakeModule
         ./nix/devshell.nix
+        ./.github
         ./apps/media/transcoder
         ./apps/media/sabnzbd
         ./monitoring/grafana
@@ -33,18 +34,6 @@
         }:
         {
           treefmt = import ./treefmt.nix { inherit pkgs; };
-
-          checks = {
-            renovate-config =
-              pkgs.runCommandLocal "renovate-config-validator"
-                {
-                  nativeBuildInputs = [ pkgs.renovate ];
-                }
-                ''
-                  set -o pipefail
-                  renovate-config-validator ${./.github/renovate.jsonc} | tee $out
-                '';
-          };
 
           devShells.default = pkgs.mkShell {
             nativeBuildInputs = [ config.treefmt.build.wrapper ];
@@ -62,7 +51,6 @@
                 kustomize
                 oras
                 pluto
-                renovate
                 skopeo
                 sops
                 # keep-sorted end
