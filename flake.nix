@@ -21,6 +21,7 @@
         inputs.treefmt-nix.flakeModule
         ./nix/devshell.nix
         ./apps/media/transcoder
+        ./apps/media/sabnzbd
       ];
 
       perSystem =
