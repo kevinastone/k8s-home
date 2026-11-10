@@ -25,8 +25,8 @@ spec:
     role: Agent
     service:
       enabled: false
-    serviceMonitor:
-      enabled: false
+    podMonitor:
+      enabled: true
     customConfig:
       data_dir: /vector-data-dir
       api:
@@ -34,7 +34,14 @@ spec:
       sources:
         kubernetes_logs:
           type: kubernetes_logs
+        internal_metrics:
+          type: internal_metrics
       sinks:
+        prom_exporter:
+          type: prometheus_exporter
+          inputs:
+          - internal_metrics
+          address: 0.0.0.0:9090
         vlogs:
           type: elasticsearch
           inputs:

@@ -7,3 +7,10 @@ resources:
 - helmrelease.yaml
 - namespace.yaml
 # keep-sorted end
+configMapGenerator:
+- name: vector-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/vector.json

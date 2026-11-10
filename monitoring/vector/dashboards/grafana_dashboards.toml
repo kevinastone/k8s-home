@@ -1,0 +1,5 @@
+#:schema ../../grafana/scripts/dashboard-schema.json
+
+[vector]
+id = 19514
+datasource = { ds = "prometheus" }
