@@ -46,3 +46,21 @@ ______________________________________________________________________
   - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) with `pull-requests: write` permissions to post rendered manifest diffs directly to PR discussion threads alongside `$GITHUB_STEP_SUMMARY`.
   - [ ] Pipe `flate diff all -o github` to both `$GITHUB_STEP_SUMMARY` (supports up to 1MB) and a truncated `diff.patch` artifact (~60,000 chars max) so large chart bumps don't fail the GitHub API's 65,536-character comment limit.
   - [ ] Use `marocchino/sticky-pull-request-comment@v3` with `header: flate-diff` and `path: diff.patch` to upsert a single sticky comment across PR updates and Renovate rebases.
+
+______________________________________________________________________
+
+## 4. Observability & Telemetry Architecture
+
+- [ ] **Migrate InfluxDB Line-Protocol Ingestion from VMAgent to Vector Aggregator**:
+  - [ ] **Deploy Dedicated `vector-aggregator` Workload**:
+    - The current `vector` deployment in [`monitoring/vector/helmrelease.yaml`](./monitoring/vector/helmrelease.yaml) runs as a `role: Agent` DaemonSet solely for node-local container log collection (`kubernetes_logs`).
+    - Deploy a separate `vector-aggregator` `HelmRelease` configured as `role: Aggregator` (stateless `Deployment` with 2+ replicas, pod anti-affinity, and a dedicated ClusterIP `Service`), ensuring inbound metric ingestion is highly available and isolated from node log collection.
+  - [ ] **Ingestion Pipeline & Storage Routing**:
+    - Configure an `influxdb` source (`type: influxdb` on port `8086`) to receive sensor writes from Home Assistant ([`apps/home-assistant/resources/configuration.yaml`](./apps/home-assistant/resources/configuration.yaml)).
+    - Optionally apply Vector Remap Language (VRL) transforms to normalize, sanitize, or filter metric names and labels before storage.
+    - Configure a `prometheus_remote_write` sink to forward parsed metrics directly to [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`http://vminsert-vmcluster-influx.victoria-metrics.svc:8480/insert/0/prometheus/api/v1/write`).
+    - Update `HTTPRoute/influxdb` in [`monitoring/victoria-metrics/http-route.yaml`](./monitoring/victoria-metrics/http-route.yaml) to target the `vector-aggregator` Service instead of `vmagent-vm-stack`.
+  - [ ] **Modular Configuration Architecture for Scale**:
+    - Avoid monolithic inline `customConfig` blocks in Helm values by leveraging Vector's multi-file configuration merging (`--config-dir`).
+    - Split configuration into domain-specific files (`sources/`, `transforms/`, `sinks/`) and externalize `.vrl` transform scripts into dedicated files (`file!/etc/vector/vrl/...`).
+    - Package configuration and VRL scripts into Kubernetes ConfigMaps using Kustomize `configMapGenerator` and mount them via `existingConfigMaps`, ensuring automatic rolling pod restarts upon configuration changes via content-hashed ConfigMap names.
