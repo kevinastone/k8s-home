@@ -47,16 +47,3 @@ variable "NZBGEEK_API_KEY" {
   sensitive   = true
 }
 
-
-variable "qbittorrent_host" {
-  type        = string
-  description = "qBittorrent hostname or service name"
-  default     = "qbittorrent"
-}
-
-variable "qbittorrent_port" {
-  type        = number
-  description = "qBittorrent port"
-  default     = 8080
-}
-

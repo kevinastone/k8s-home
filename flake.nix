@@ -20,6 +20,7 @@
       imports = [
         inputs.treefmt-nix.flakeModule
         ./nix/devshell.nix
+        ./nix/tofu.nix
         ./.github
         ./apps/media/transcoder
         ./apps/media/sabnzbd
