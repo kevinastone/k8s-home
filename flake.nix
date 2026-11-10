@@ -1,10 +1,18 @@
 {
+  nixConfig = {
+    extra-substituters = [ "https://nkl-sofka.cachix.org" ];
+    extra-trusted-public-keys = [
+      "nkl-sofka.cachix.org-1:hLg9frFNJynrxe7SSBb/p6pbawlpZmG10bw+wLsTufw="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sofka.url = "github:nklmilojevic/sofka/v0.34.0";
   };
 
   outputs =
@@ -30,9 +38,13 @@
       perSystem =
         {
           config,
+          inputs',
           pkgs,
           ...
         }:
+        let
+          sofka = inputs'.sofka.packages.default;
+        in
         {
           treefmt = import ./treefmt.nix { inherit pkgs; };
 
@@ -53,6 +65,7 @@
                 oras
                 pluto
                 skopeo
+                sofka
                 sops
                 # keep-sorted end
               ]
