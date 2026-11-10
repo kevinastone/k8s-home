@@ -13,4 +13,8 @@ configMapGenerator:
     labels:
       grafana_dashboard: "true"
   files:
-  - dashboards/vector.json
+  # keep-sorted start
+  - dashboards/vector-cluster.json
+  - dashboards/vector-logging.json
+  - dashboards/vector-stats.json
+  # keep-sorted end

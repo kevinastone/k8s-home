@@ -1,5 +1,13 @@
 #:schema ../../grafana/scripts/dashboard-schema.json
 
-[vector]
+[vector-logging]
 id = 19514
+datasource = { ds = "prometheus" }
+
+[vector-cluster]
+id = 21954
+datasource = { DS_PROMETHEUS = "prometheus" }
+
+[vector-stats]
+id = 15105
 datasource = { ds = "prometheus" }
