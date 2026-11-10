@@ -47,7 +47,7 @@ Testing is fully automated and written in `policy/main_test.rego`.
 
 ### Running Tests Locally via Nix (Recommended)
 
-Run the policy tests directly using the repository's Nix development shell:
+Run the policy tests directly using the Nix development shell:
 
 ```bash
 nix develop --command opa test apps/media/transcoder/policy/ -v

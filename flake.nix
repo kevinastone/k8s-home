@@ -1,136 +1,127 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      utils,
-      treefmt-nix,
-      ...
-    }:
-    utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        treefmtConfig = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
 
-        writeNuBin =
-          {
-            name ? pkgs.lib.removeSuffix ".nu" (baseNameOf script),
-            script,
-            runtimeInputs ? [ ],
-          }:
-          let
-            writer = pkgs.writers.makeScriptWriter (
-              {
-                interpreter = "${pkgs.nushell}/bin/nu";
-              }
-              // (pkgs.lib.optionalAttrs (runtimeInputs != [ ]) {
-                makeWrapperArgs = [
-                  "--prefix"
-                  "PATH"
-                  ":"
-                  (pkgs.lib.makeBinPath runtimeInputs)
-                ];
-              })
-            );
-          in
-          writer "/bin/${name}" (builtins.readFile script);
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        ./nix/devshell.nix
+        ./apps/media/transcoder
+      ];
 
-        build-dashboards = writeNuBin {
-          name = "build-dashboards";
-          script = ./scripts/build_dashboards.nu;
-          runtimeInputs = with pkgs; [
-            cue
-            diffutils
-          ];
-        };
+      perSystem =
+        {
+          config,
+          pkgs,
+          ...
+        }:
+        let
+          writeNuBin =
+            {
+              name ? pkgs.lib.removeSuffix ".nu" (baseNameOf script),
+              script,
+              runtimeInputs ? [ ],
+            }:
+            let
+              writer = pkgs.writers.makeScriptWriter (
+                {
+                  interpreter = "${pkgs.nushell}/bin/nu";
+                }
+                // (pkgs.lib.optionalAttrs (runtimeInputs != [ ]) {
+                  makeWrapperArgs = [
+                    "--prefix"
+                    "PATH"
+                    ":"
+                    (pkgs.lib.makeBinPath runtimeInputs)
+                  ];
+                })
+              );
+            in
+            writer "/bin/${name}" (builtins.readFile script);
 
-      in
-      {
-        formatter = treefmtConfig.config.build.wrapper;
-        checks = {
-          formatting = treefmtConfig.config.build.check self;
-          renovate-config =
-            pkgs.runCommandLocal "renovate-config-validator"
-              {
-                nativeBuildInputs = [ pkgs.renovate ];
-              }
-              ''
-                set -o pipefail
-                renovate-config-validator ${./.github/renovate.jsonc} | tee $out
-              '';
-          cue-vet =
-            pkgs.runCommandLocal "cue-vet"
-              {
-                nativeBuildInputs = [ pkgs.cue ];
-              }
-              ''
-                set -o pipefail
-                cue --chdir ${self} vet --concrete ./lib/grafana/ | tee $out
-              '';
-          opa-test =
-            pkgs.runCommandLocal "opa-test"
-              {
-                nativeBuildInputs = [ pkgs.open-policy-agent ];
-              }
-              ''
-                set -o pipefail
-                opa test ${self}/apps/media/transcoder/policy --verbose | tee $out
-              '';
-          regal-lint =
-            pkgs.runCommandLocal "regal-lint"
-              {
-                nativeBuildInputs = [ pkgs.regal ];
-              }
-              ''
-                set -o pipefail
-                regal lint ${self}/apps/media/transcoder/policy | tee $out
-              '';
-          dashboards-in-sync =
-            pkgs.runCommandLocal "dashboards-in-sync"
-              {
-                nativeBuildInputs = [ build-dashboards ];
-              }
-              ''
-                build-dashboards --check ${self}
-                touch $out
-              '';
-        };
-        devShells.default =
-          with pkgs;
-          mkShell {
-            nativeBuildInputs = [ treefmtConfig.config.build.wrapper ];
-            packages = [
-              # keep-sorted start
-              age
-              build-dashboards
-              crane
+          build-dashboards = writeNuBin {
+            name = "build-dashboards";
+            script = ./scripts/build_dashboards.nu;
+            runtimeInputs = with pkgs; [
               cue
-              fd
-              fluxcd
-              kubectl
-              kubectl-cnpg
-              kubent
-              kustomize
-              nushell
-              open-policy-agent
-              oras
-              pluto
-              python3
-              regal
-              renovate
-              skopeo
-              sops
-              # keep-sorted end
+              diffutils
             ];
           };
-      }
-    );
+        in
+        {
+          treefmt = import ./treefmt.nix { inherit pkgs; };
+
+          checks = {
+            renovate-config =
+              pkgs.runCommandLocal "renovate-config-validator"
+                {
+                  nativeBuildInputs = [ pkgs.renovate ];
+                }
+                ''
+                  set -o pipefail
+                  renovate-config-validator ${./.github/renovate.jsonc} | tee $out
+                '';
+            cue-vet =
+              pkgs.runCommandLocal "cue-vet"
+                {
+                  nativeBuildInputs = [ pkgs.cue ];
+                }
+                ''
+                  set -o pipefail
+                  cue --chdir ${inputs.self} vet --concrete ./lib/grafana/ | tee $out
+                '';
+            dashboards-in-sync =
+              pkgs.runCommandLocal "dashboards-in-sync"
+                {
+                  nativeBuildInputs = [ build-dashboards ];
+                }
+                ''
+                  build-dashboards --check ${inputs.self}
+                  touch $out
+                '';
+          };
+
+          devShells.default = pkgs.mkShell {
+            nativeBuildInputs = [ config.treefmt.build.wrapper ];
+            packages =
+              with pkgs;
+              [
+                # keep-sorted start
+                age
+                build-dashboards
+                crane
+                cue
+                fd
+                fluxcd
+                kubectl
+                kubectl-cnpg
+                kubent
+                kustomize
+                nushell
+                oras
+                pluto
+                python3
+                renovate
+                skopeo
+                sops
+                # keep-sorted end
+              ]
+              ++ config.devShellPackages;
+          };
+        };
+    };
 }
