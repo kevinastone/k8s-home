@@ -1,9 +1,71 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-- cluster2.yaml
-- backup2.yaml
-- objectstore.yaml
 components:
 - ../../../components/postgres
+patches:
+- target:
+    kind: Cluster
+    name: postgres
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: postgres2
+- patch: |-
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Cluster
+    metadata:
+      name: postgres2
+    spec:
+      storage:
+        size: 10Gi
+      walStorage:
+        size: 1Gi
+      bootstrap:
+        initdb:
+          database: home-assistant
+          owner: app
+      postgresql:
+        parameters:
+          shared_buffers: 256MB
+          max_connections: "20"
+          max_slot_wal_keep_size: 256MB
+          max_wal_size: 256MB
+      plugins:
+      - name: barman-cloud.cloudnative-pg.io
+        isWALArchiver: true
+        parameters:
+          barmanObjectName: postgres2
+- target:
+    kind: ScheduledBackup
+    name: postgres
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: postgres2
+- patch: |-
+    apiVersion: postgresql.cnpg.io/v1
+    kind: ScheduledBackup
+    metadata:
+      name: postgres2
+    spec:
+      schedule: "0 30 4 * * *"
+      cluster:
+        name: postgres2
+- target:
+    kind: ObjectStore
+    name: postgres
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: postgres2
+- patch: |-
+    apiVersion: barmancloud.cnpg.io/v1
+    kind: ObjectStore
+    metadata:
+      name: postgres2
+    spec:
+      configuration:
+        destinationPath: s3://postgres/home-assistant
+        wal:
+          maxParallel: 8
