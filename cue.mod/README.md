@@ -41,7 +41,7 @@ curl -sL "https://github.com/grafana/grafana/tarball/${GRAFANA_REF}" | tar -xz \
   '*/cue.mod/module.cue'
 
 # 3. Verify dashboard export compiles cleanly
-nix develop --command build-dashboards monitoring/ apps/
+nix develop --command build-dashboards .
 
 # 4. Format files
 nix fmt
