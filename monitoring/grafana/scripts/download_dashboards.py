@@ -29,7 +29,7 @@ def fetch(url: str, destination: pathlib.Path, datasource: dict | str | None = N
         open(destination, "w", encoding="utf-8") as output,
         urllib.request.urlopen(url) as request,
     ):
-        charset = request.info().get_content_charset()
+        charset = request.info().get_content_charset() or "utf-8"
         data = request.read().decode(charset)
         if isinstance(datasource, str):
             data = re.sub(r'"datasource":.*,', rf'"datasource": "{datasource}",', data)
