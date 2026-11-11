@@ -23,6 +23,8 @@ spec:
   parentRefs:
   - name: vector-gateway
     sectionName: otlp-http
+  - name: vector-gateway
+    sectionName: https
   hostnames:
   - otlp.k8s.kevinastone.com
   rules:

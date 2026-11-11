@@ -17,13 +17,8 @@ spec:
       namespaces:
         from: Same
   - name: otlp-grpc
-    protocol: HTTPS
-    hostname: "*.k8s.kevinastone.com"
+    protocol: HTTP
     port: 4317
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - name: vector-tls
     allowedRoutes:
       kinds:
       - kind: GRPCRoute
@@ -31,9 +26,17 @@ spec:
       namespaces:
         from: Same
   - name: otlp-http
+    protocol: HTTP
+    port: 4318
+    allowedRoutes:
+      kinds:
+      - kind: HTTPRoute
+      namespaces:
+        from: Same
+  - name: https
     protocol: HTTPS
     hostname: "*.k8s.kevinastone.com"
-    port: 4318
+    port: 443
     tls:
       mode: Terminate
       certificateRefs:
