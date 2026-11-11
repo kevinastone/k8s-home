@@ -13,3 +13,35 @@ spec:
   - backendRefs:
     - name: vector-aggregator
       port: 8086
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: otlp-http
+spec:
+  parentRefs:
+  - name: vector-gateway
+    sectionName: otlp-http
+  hostnames:
+  - otlp.k8s.kevinastone.com
+  rules:
+  - backendRefs:
+    - name: vector-aggregator
+      port: 4318
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/grpcroute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: otlp-grpc
+spec:
+  parentRefs:
+  - name: vector-gateway
+    sectionName: otlp-grpc
+  hostnames:
+  - otlp.k8s.kevinastone.com
+  rules:
+  - backendRefs:
+    - name: vector-aggregator
+      port: 4317
