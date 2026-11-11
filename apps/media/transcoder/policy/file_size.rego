@@ -18,7 +18,7 @@ GB := 1024 * MB
 # regal ignore:prefer-snake-case
 TB := 1024 * GB
 
-format_val(val) := sprintf("%d.00", [val]) if {
+format_val(val) := $"{floor(val)}.00" if {
 	floor(val) == val
 } else := sprintf("%.2f", [val])
 

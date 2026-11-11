@@ -13,11 +13,11 @@ raw_video(codec, width, height, rate, size, bitrate) := {"media_info": {
 		"width": width,
 		"height": height,
 		"r_frame_rate": rate,
-		"bit_rate": sprintf("%d", [bitrate]),
+		"bit_rate": $"{bitrate}",
 	}],
 	"format": {
-		"size": sprintf("%d", [size]),
-		"bit_rate": sprintf("%d", [bitrate]),
+		"size": $"{size}",
+		"bit_rate": $"{bitrate}",
 	},
 }}
 
