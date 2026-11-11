@@ -33,6 +33,7 @@
         ./apps/media/transcoder
         ./apps/media/sabnzbd
         ./monitoring/grafana
+        ./monitoring/vector
       ];
 
       perSystem =
