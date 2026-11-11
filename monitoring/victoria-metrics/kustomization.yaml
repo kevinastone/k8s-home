@@ -5,7 +5,6 @@ namespace: victoria-metrics
 resources:
 - namespace.yaml
 - helmrelease.yaml
-- influx-gateway.yaml
 - http-route.yaml
 - vmrules.yaml
 - vmcluster-influx.yaml

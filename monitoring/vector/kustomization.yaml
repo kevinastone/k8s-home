@@ -6,6 +6,8 @@ resources:
 # keep-sorted start
 - helmrelease-agent.yaml
 - helmrelease-aggregator.yaml
+- http-route.yaml
+- influx-gateway.yaml
 - namespace.yaml
 # keep-sorted end
 configMapGenerator:
