@@ -31,6 +31,12 @@ spec:
     - name: &promPort prom-exporter
       containerPort: 9090
       protocol: TCP
+    - name: otlp-grpc
+      containerPort: &otlpGrpcPort 4317
+      protocol: TCP
+    - name: otlp-http
+      containerPort: &otlpHttpPort 4318
+      protocol: TCP
     podMonitor:
       enabled: true
       port: *promPort
@@ -41,6 +47,14 @@ spec:
       - name: influxdb
         port: *influxPort
         targetPort: *influxPort
+        protocol: TCP
+      - name: otlp-grpc
+        port: *otlpGrpcPort
+        targetPort: *otlpGrpcPort
+        protocol: TCP
+      - name: otlp-http
+        port: *otlpHttpPort
+        targetPort: *otlpHttpPort
         protocol: TCP
     affinity:
       podAntiAffinity:
@@ -79,6 +93,12 @@ spec:
             codec: bytes
         internal_metrics:
           type: internal_metrics
+        opentelemetry:
+          type: opentelemetry
+          grpc:
+            address: 0.0.0.0:4317
+          http:
+            address: 0.0.0.0:4318
       transforms:
         parse_and_tag:
           type: remap
@@ -118,6 +138,7 @@ spec:
           type: remap
           inputs:
           - influxdb
+          - opentelemetry.metrics
           source: |
             if exists(.tags.db) {
               .name = to_string!(.tags.db) + "_" + to_string!(.name)
