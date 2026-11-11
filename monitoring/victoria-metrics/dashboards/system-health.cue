@@ -19,7 +19,7 @@ let cpuTemp = #HealthTimeseries & {
 	fieldConfig: defaults: unit: "celsius"
 	targets: [
 		grafana.#PromTarget & {
-			expr: #"avg by(host) (telegraf_temp_temp{host=~"$host"})"#
+			expr: #"avg by(host) (host.temperature_celsius{host=~"$host"})"#
 		},
 	]
 }
@@ -29,7 +29,7 @@ let cpuUsage = #HealthTimeseries & {
 	fieldConfig: defaults: unit: "percent"
 	targets: [
 		grafana.#PromTarget & {
-			expr: #"avg by(host) (telegraf_cpu_usage_active{host=~"$host"})"#
+			expr: #"100 * (sum by(host) (rate(host.cpu_seconds_total{host=~"$host",mode!~"idle|iowait"}[$__rate_interval])) / sum by(host) (rate(host.cpu_seconds_total{host=~"$host"}[$__rate_interval])))"#
 		},
 	]
 }
@@ -39,7 +39,7 @@ let load1 = #HealthTimeseries & {
 	title: "Load 1"
 	targets: [
 		grafana.#PromTarget & {
-			expr: #"avg by(host) (telegraf_system_load1{host=~"$host"})"#
+			expr: #"avg by(host) (host.load1{host=~"$host"})"#
 		},
 	]
 }
@@ -48,7 +48,7 @@ let load5 = #HealthTimeseries & {
 	title: "Load 5"
 	targets: [
 		grafana.#PromTarget & {
-			expr: #"avg by(host) (telegraf_system_load5{host=~"$host"})"#
+			expr: #"avg by(host) (host.load5{host=~"$host"})"#
 		},
 	]
 }
@@ -71,7 +71,7 @@ let diskGauge = grafana.#GaugePanel & {
 	}
 	targets: [
 		grafana.#PromTarget & {
-			expr: #"avg by(host) (telegraf_disk_used_percent{host=~"$host"})"#
+			expr: #"100 * avg by(host) (host.filesystem_used_ratio{host=~"$host"})"#
 		},
 	]
 }
@@ -94,7 +94,7 @@ out: grafana.#Dashboard & {
 		grafana.#QueryVariable & {
 			name:  "host"
 			label: "Host"
-			query: query: #"label_values({__name__=~"telegraf_.*"}, host)"#
+			query: query: #"label_values({__name__=~"host.*"}, host)"#
 			multi:      true
 			includeAll: true
 		},
