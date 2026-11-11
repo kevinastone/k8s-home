@@ -57,15 +57,10 @@
                 # keep-sorted start
                 age
                 crane
-                fd
                 fluxcd
                 kubectl
                 kubectl-cnpg
-                kubent
                 kustomize
-                oras
-                pluto
-                skopeo
                 sofka
                 sops
                 # keep-sorted end
