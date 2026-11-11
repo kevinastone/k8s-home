@@ -4,10 +4,10 @@ kind: Kustomization
 namespace: vector
 resources:
 # keep-sorted start
+- gateway.yaml
 - helmrelease-agent.yaml
 - helmrelease-aggregator.yaml
 - http-route.yaml
-- influx-gateway.yaml
 - namespace.yaml
 # keep-sorted end
 configMapGenerator:

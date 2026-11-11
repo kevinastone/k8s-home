@@ -5,8 +5,8 @@ metadata:
   name: influxdb
 spec:
   parentRefs:
-  - name: influx-gateway
-    sectionName: http
+  - name: vector-gateway
+    sectionName: influxdb
   hostnames:
   - influxdb.k8s.kevinastone.com
   rules:
