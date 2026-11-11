@@ -22,7 +22,6 @@ spec:
     allowedRoutes:
       kinds:
       - kind: GRPCRoute
-      - kind: HTTPRoute
       namespaces:
         from: Same
   - name: otlp-http
