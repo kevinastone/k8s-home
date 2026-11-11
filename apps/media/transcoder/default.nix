@@ -2,6 +2,8 @@ _: {
   perSystem =
     { pkgs, ... }:
     {
+      treefmt.programs.opa.enable = true;
+
       checks = {
         transcoder-opa-test =
           pkgs.runCommandLocal "transcoder-opa-test"

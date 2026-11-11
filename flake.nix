@@ -27,6 +27,7 @@
 
       imports = [
         inputs.treefmt-nix.flakeModule
+        ./nix/treefmt.nix
         ./nix/devshell.nix
         ./nix/tofu.nix
         ./.github
@@ -47,8 +48,6 @@
           sofka = inputs'.sofka.packages.default;
         in
         {
-          treefmt = import ./treefmt.nix { inherit pkgs; };
-
           devShells.default = pkgs.mkShell {
             nativeBuildInputs = [ config.treefmt.build.wrapper ];
             packages =

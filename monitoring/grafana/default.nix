@@ -44,6 +44,14 @@
       };
     in
     {
+      treefmt = {
+        programs.cue.enable = true;
+        settings.formatter.nufmt = {
+          command = "${pkgs.nufmt}/bin/nufmt";
+          includes = [ "*.nu" ];
+        };
+      };
+
       packages = {
         inherit build-dashboards download-dashboards;
       };

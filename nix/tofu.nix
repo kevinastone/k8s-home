@@ -4,6 +4,8 @@
   perSystem =
     { pkgs, ... }:
     {
+      treefmt.programs.terraform.enable = true;
+
       checks.tofu-lint =
         pkgs.runCommandLocal "tofu-lint"
           {
