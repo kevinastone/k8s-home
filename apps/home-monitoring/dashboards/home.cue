@@ -9,9 +9,9 @@ import (
 	room:   string
 	prefix: string
 
-	let _tempExpr = #"last_over_time({entity_id="\#(R.prefix)_temperature",__name__=~".*_value"}[2h])"#
-	let _humidityExpr = #"last_over_time({entity_id="\#(R.prefix)_humidity",__name__=~".*_value"}[2h])"#
-	let _pressureExpr = #"last_over_time({entity_id="\#(R.prefix)_pressure",__name__=~".*_value"}[2h])"#
+	let _tempExpr = #"max by (entity_id) (last_over_time({entity_id="\#(R.prefix)_temperature",__name__=~".*_value"}[2h]))"#
+	let _humidityExpr = #"max by (entity_id) (last_over_time({entity_id="\#(R.prefix)_humidity",__name__=~".*_value"}[2h]))"#
+	let _pressureExpr = #"max by (entity_id) (last_over_time({entity_id="\#(R.prefix)_pressure",__name__=~".*_value"}[2h]))"#
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
 	statPanel: grafana.#StatPanel & {
@@ -71,7 +71,7 @@ import (
 	name:      string
 	entity_id: string
 
-	let _powerExpr = #"last_over_time({entity_id="\#(P.entity_id)",__name__=~".*_value"}[2h])"#
+	let _powerExpr = #"max by (entity_id) (last_over_time({entity_id="\#(P.entity_id)",__name__=~".*_value"}[2h]))"#
 
 	out: grafana.#StatPanel & {
 		gridPos: {h: 3, w: 6}
@@ -107,7 +107,7 @@ import (
 	entity_id: string
 	threshold: number
 
-	let _applianceExpr = #"last_over_time({entity_id="\#(T.entity_id)",__name__=~".*_value"}[2h]) > bool \#(T.threshold)"#
+	let _applianceExpr = #"max by (entity_id) (last_over_time({entity_id="\#(T.entity_id)",__name__=~".*_value"}[2h])) > bool \#(T.threshold)"#
 
 	out: grafana.#StatPanel & {
 		title: T.name
