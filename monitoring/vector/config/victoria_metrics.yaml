@@ -1,0 +1,36 @@
+data_dir: /vector-data-dir
+
+api:
+  enabled: false
+
+sources:
+  internal_metrics:
+    type: internal_metrics
+
+transforms:
+  prefix_db_influx:
+    type: remap
+    inputs:
+    - influxdb
+    - opentelemetry.metrics
+    source: |
+      if exists(.tags.db) {
+        .name = to_string!(.tags.db) + "_" + to_string!(.name)
+        del(.tags.db)
+      }
+
+sinks:
+  vmcluster_influx:
+    type: prometheus_remote_write
+    inputs:
+    - prefix_db_influx
+    endpoint: http://vminsert-vmcluster-influx.victoria-metrics.svc.cluster.local:8480/insert/0/prometheus/api/v1/write
+    healthcheck:
+      enabled: false
+    acknowledgements:
+      enabled: true
+  prom_exporter:
+    type: prometheus_exporter
+    inputs:
+    - internal_metrics
+    address: 0.0.0.0:9090

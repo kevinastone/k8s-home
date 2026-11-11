@@ -1,0 +1,14 @@
+sources:
+  opentelemetry:
+    type: opentelemetry
+    grpc:
+      address: 0.0.0.0:4317
+    http:
+      address: 0.0.0.0:4318
+
+sinks:
+  discard_unused_otlp:
+    type: blackhole
+    inputs:
+    - opentelemetry.logs
+    - opentelemetry.traces

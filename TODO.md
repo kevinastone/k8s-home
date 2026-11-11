@@ -51,7 +51,7 @@ ______________________________________________________________________
 
 ## 4. Observability & Telemetry Architecture
 
-- [ ] **Migrate InfluxDB Line-Protocol & OTLP Ingestion from VMAgent to Vector Aggregator**:
+- [x] **Migrate InfluxDB Line-Protocol & OTLP Ingestion from VMAgent to Vector Aggregator**:
   - [x] **Deploy Dedicated `vector-aggregator` Workload**:
     - The current `vector` deployment in [`monitoring/vector/helmrelease-agent.yaml`](./monitoring/vector/helmrelease-agent.yaml) runs as a `role: Agent` DaemonSet solely for node-local container log collection (`kubernetes_logs`).
     - Deployed a separate `vector-aggregator` `HelmRelease` in [`monitoring/vector/helmrelease-aggregator.yaml`](./monitoring/vector/helmrelease-aggregator.yaml) configured as `role: Stateless-Aggregator` (Deployment with 2 replicas, anti-affinity, and ClusterIP Service), isolating inbound metric ingestion from node log collection.
@@ -61,8 +61,8 @@ ______________________________________________________________________
     - Configured `prometheus_remote_write` sink with end-to-end acknowledgements to [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml).
     - Deployed `vector-gateway` and routes in [`monitoring/vector/`](./monitoring/vector/) for `influxdb.k8s.kevinastone.com` and `otlp.k8s.kevinastone.com`.
   - [x] **Clean Up Obsolete VMAgent Relabeling & Remote-Write**:
-    - Remove the deprecated `inlineRelabelConfig` block (`retention="influx-365d"`, `$db_$name`, `labeldrop db`) and the secondary `vminsert-vmcluster-influx` remoteWrite target from [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) now that Vector handles ingestion directly.
-  - [ ] **Modular Configuration Architecture for Scale**:
-    - Avoid monolithic inline `customConfig` blocks in Helm values by leveraging Vector's multi-file configuration merging (`--config-dir`).
-    - Split configuration into domain-specific files (`sources/`, `transforms/`, `sinks/`) and externalize `.vrl` transform scripts into dedicated files (`file!/etc/vector/vrl/...`).
-    - Package configuration and VRL scripts into Kubernetes ConfigMaps using Kustomize `configMapGenerator` and mount them via `existingConfigMaps`, ensuring automatic rolling pod restarts upon configuration changes via content-hashed ConfigMap names.
+    - Removed the deprecated `inlineRelabelConfig` block (`retention="influx-365d"`, `$db_$name`, `labeldrop db`) and the secondary `vminsert-vmcluster-influx` remoteWrite target from [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) now that Vector handles ingestion directly.
+  - [x] **Modular Configuration Architecture for Scale**:
+    - Avoided monolithic inline `customConfig` blocks in Helm values by leveraging Vector's multi-file configuration merging (`--config-dir`).
+    - Split configuration into domain-specific pipeline files ([`config/influxdb.yaml`](./monitoring/vector/config/influxdb.yaml), [`config/otlp.yaml`](./monitoring/vector/config/otlp.yaml), [`config/victoria_metrics.yaml`](./monitoring/vector/config/victoria_metrics.yaml)) validated via `vector validate` in Nix flake checks.
+    - Packaged configuration into Kubernetes ConfigMaps using Kustomize `configMapGenerator` and mounted them via `existingConfigMaps`, ensuring automatic rolling pod restarts upon configuration changes via content-hashed ConfigMap names.

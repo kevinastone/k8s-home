@@ -10,7 +10,16 @@ resources:
 - http-route.yaml
 - namespace.yaml
 # keep-sorted end
+components:
+- ../../components/kustomizeconfig
 configMapGenerator:
+- name: vector-aggregator-config
+  files:
+  # keep-sorted start
+  - config/influxdb.yaml
+  - config/otlp.yaml
+  - config/victoria_metrics.yaml
+  # keep-sorted end
 - name: vector-dashboard
   options:
     labels:

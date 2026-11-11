@@ -1,0 +1,49 @@
+sources:
+  raw_influxdb:
+    type: http_server
+    address: 0.0.0.0:8086
+    path: /write
+    response_code: 204
+    log_namespace: true
+    query_parameters:
+    - db
+    framing:
+      method: newline_delimited
+    decoding:
+      codec: bytes
+
+transforms:
+  parse_and_tag:
+    type: remap
+    inputs:
+    - raw_influxdb
+    source: |
+      db_name = %http_server.query_parameters.db
+      msg = string!(.)
+      if contains(msg, "\"") {
+        msg = replace(msg, r'(,|\s)(?:\\.|[^, =\\])+="(?:[^"\\]|\\.)*"', "$1")
+        msg = replace(msg, r',+', ",")
+        msg = replace(msg, r'\s,', " ")
+        msg = replace(msg, r',(\s|$)', "$1")
+      }
+      metrics, err = parse_influxdb(msg)
+      if err != null {
+        . = []
+      } else {
+        if is_string(db_name) && db_name != "" {
+          metrics = map_values(metrics) -> |m| {
+            if !is_object(m.tags) {
+              m.tags = {}
+            }
+            m.tags.db = db_name
+            m
+          }
+        }
+        . = metrics
+      }
+  influxdb:
+    type: log_to_metric
+    inputs:
+    - parse_and_tag
+    all_metrics: true
+    metrics: []
