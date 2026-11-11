@@ -62,6 +62,8 @@ lovelace:
 # InfluxDB
 influxdb:
   host: influxdb.k8s.kevinastone.com
+  tags:
+    db: home_assistant
   max_retries: 3
 
 recorder:
