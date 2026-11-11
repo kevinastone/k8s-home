@@ -60,7 +60,7 @@ ______________________________________________________________________
     - Applied VRL transforms to normalize string fields, map `db` tags, and prefix `.name = $db_$name` before storage.
     - Configured `prometheus_remote_write` sink with end-to-end acknowledgements to [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml).
     - Deployed `vector-gateway` and routes in [`monitoring/vector/`](./monitoring/vector/) for `influxdb.k8s.kevinastone.com` and `otlp.k8s.kevinastone.com`.
-  - [ ] **Clean Up Obsolete VMAgent Relabeling & Remote-Write**:
+  - [x] **Clean Up Obsolete VMAgent Relabeling & Remote-Write**:
     - Remove the deprecated `inlineRelabelConfig` block (`retention="influx-365d"`, `$db_$name`, `labeldrop db`) and the secondary `vminsert-vmcluster-influx` remoteWrite target from [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) now that Vector handles ingestion directly.
   - [ ] **Modular Configuration Architecture for Scale**:
     - Avoid monolithic inline `customConfig` blocks in Helm values by leveraging Vector's multi-file configuration merging (`--config-dir`).

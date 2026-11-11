@@ -132,32 +132,8 @@ spec:
           requests:
             cpu: 500m
             memory: 100Mi
-        inlineRelabelConfig:
-        # Tag influx metrics before stripping db label so remoteWrite can route them
-        - if: '{db=~".+"}'
-          target_label: "retention"
-          replacement: "influx-365d"
-        # Convert influx metrics to "$db_$name"
-        - if: '{db=~".+"}'
-          source_labels: [db, __name__]
-          target_label: __name__
-          separator: "_"
-        - if: '{db=~".+"}'
-          action: labeldrop
-          regex: "db"
         remoteWrite:
-        # Default metrics -> 30d cluster (drop metrics tagged for influx-365d)
         - url: "http://vminsert-vm-stack.victoria-metrics.svc:8480/insert/0/prometheus/api/v1/write"
-          inlineUrlRelabelConfig:
-          - if: '{retention="influx-365d"}'
-            action: drop
-        # Influx metrics -> 365d cluster (keep only metrics tagged for influx-365d)
-        - url: "http://vminsert-vmcluster-influx.victoria-metrics.svc:8480/insert/0/prometheus/api/v1/write"
-          inlineUrlRelabelConfig:
-          - if: '{retention="influx-365d"}'
-            action: keep
-          - action: labeldrop
-            regex: "retention"
 
     alertmanager:
       enabled: true
