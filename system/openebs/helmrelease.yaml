@@ -64,6 +64,9 @@ spec:
         csi.storage.k8s.io/fstype: ext4
         thinProvision: "true"
         storagePool: default
+    capabilities:
+      apiServer:
+        enabled: false
     metrics:
       enabled: true
       serviceMonitor:
