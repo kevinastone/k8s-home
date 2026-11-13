@@ -8,6 +8,20 @@ resources:
 - http-route.yaml
 - vmrules.yaml
 - vmcluster-influx.yaml
+components:
+- ../../components/kopiur
+patches:
+- target:
+    group: kopiur.home-operations.com
+    version: v1alpha1
+    kind: SnapshotPolicy
+    name: kopiur-backup
+  patch: |-
+    - op: replace
+      path: /spec/retention
+      value:
+        keepLatest: 3
+        keepDaily: 3
 configMapGenerator:
 - name: vm-datasources
   options:

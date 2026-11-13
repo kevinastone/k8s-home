@@ -17,12 +17,12 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
     - **[VolSync](https://volsync.readthedocs.io/)**: Battle-tested and mature, but lacks a native Kopia mover (`restic`, `rclone`, `rsync`, `syncthing` only) and is object-store-first. Targeting NFS with `restic` requires per-namespace `moverVolumes` / NFS PVCs and risks Restic lock contention, though it remains a solid fallback if `copyMethod: Direct` (no CSI snapshots) is needed or if backing up to `rustfs` S3 instead of NFS.
   - [x] Deploy `snapshot-controller` CRDs/controller and a Longhorn `VolumeSnapshotClass` so PVC backups can take consistent point-in-time CSI `VolumeSnapshot`s.
   - [x] Deploy `kopiur` (`crds/kopiur/`, `system/kopiur/`) and configure a `ClusterRepository` targeting the NAS SMB share (`storage-kopiur` `StorageClass` / `kopiur-repo` PVC) with repository encryption credentials via `ExternalSecret`.
-- [ ] **Stateful PVC Backups for Non-Postgres Workloads**:
-  - [ ] While `radarr`, `sonarr`, and `prowlarr` store their state in CNPG PostgreSQL + OpenTofu/Recyclarr, critical non-Postgres Longhorn PVCs still rely solely on in-cluster Longhorn volume replicas:
+- [x] **Stateful PVC Backups for Non-Postgres Workloads**:
+  - [x] While `radarr`, `sonarr`, and `prowlarr` store their state in CNPG PostgreSQL + OpenTofu/Recyclarr, critical non-Postgres Longhorn PVCs still rely solely on in-cluster Longhorn volume replicas:
     - [`apps/home-assistant/helmrelease.yaml`](./apps/home-assistant/helmrelease.yaml) (`/config` PVC — `.storage/` integrations and custom components; can also use Home Assistant's native S3 backup integration targeting `rustfs`)
     - [`apps/zigbee2mqtt/helmrelease.yaml`](./apps/zigbee2mqtt/helmrelease.yaml) (`/data` PVC — `database.db` device pairings and `coordinator_backup.json`)
     - [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) (`60Gi` PVC — 365-day retention of home-monitoring sensor metrics; can also use `vmbackup` to `s3://victoria-metrics` on `rustfs`)
-  - [ ] Create `kopiur` `SnapshotPolicy` resources (or Longhorn scheduled backups to `rustfs`) for these PVCs.
+  - [x] Create `kopiur` `SnapshotPolicy` resources (`components/kopiur/`) for these PVCs.
 - [ ] **Optimize VictoriaLogs Storage & High Availability**:
   - [ ] **Migrate VictoriaLogs from `vlsingle` (Longhorn) to Clustered / Replicated HA on `openebs-rawfile`**:
     - [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) currently runs `vlsingle` with a single `50Gi` replicated Longhorn PVC (`vlsingle-vm-stack`).

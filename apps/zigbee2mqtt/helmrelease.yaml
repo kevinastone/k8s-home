@@ -76,6 +76,8 @@ spec:
         retain: true
         size: 1Gi
         accessMode: ReadWriteOnce
+        labels:
+          kopiur.home-operations.com/backup: "true"
         globalMounts:
         - path: /data
       config:

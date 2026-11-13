@@ -16,6 +16,9 @@ spec:
     storageDataPath: /vm-data
     storage:
       volumeClaimTemplate:
+        metadata:
+          labels:
+            kopiur.home-operations.com/backup: "true"
         spec:
           accessModes:
           - ReadWriteOnce

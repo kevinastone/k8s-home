@@ -55,6 +55,8 @@ spec:
         size: 10Gi
         storageClass: longhorn
         accessMode: ReadWriteOnce
+        labels:
+          kopiur.home-operations.com/backup: "true"
         globalMounts:
         - path: /config
       config-file:
