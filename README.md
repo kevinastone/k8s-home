@@ -93,6 +93,7 @@ ______________________________________________________________________
 ### Storage & Databases
 
 - **Block Storage**: [Longhorn](https://longhorn.io/) distributed block storage with snapshotting, and [OpenEBS](https://openebs.io/) LocalPV for high-performance node-local data.
+- **PVC Backups**: [Kopiur](https://github.com/home-operations/kopiur) with CSI `snapshot-controller` backing up stateful Longhorn PVCs to the NAS over SMB (`components/kopiur/`).
 - **Databases**: [CloudNativePG](https://cloudnative-pg.io/) managing high-availability PostgreSQL clusters with Barman Cloud backups to S3.
 - **Object Storage**: [rustfs](https://github.com/rustfs) S3-compatible in-cluster object storage.
 - **Key-Value Store**: [Dragonfly](https://dragonflydb.io/) Operator high-performance Redis-compatible cache.
