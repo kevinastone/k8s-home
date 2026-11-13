@@ -25,7 +25,7 @@ spec:
           main:
             image:
               repository: ghcr.io/netbymatt/ws4kp
-              tag: 8.2.2@sha256:04b606d64d00711ab49502ed126700d5a31b4e11ef8be6955f0e828b599e2268
+              tag: 8.2.3@sha256:bc8caaade5e49bfc14c12786b86f52bd10ae4a47575b5e209cd27ab42c9f1688
             env:
               WSQS_wide: "true"
             envFrom:
