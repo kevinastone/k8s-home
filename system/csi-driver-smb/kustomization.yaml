@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: smb
 resources:
 - helmrelease.yaml
-- storage-class.yaml
 - external-secret.yaml
 components:
 - ../../components/namespace
