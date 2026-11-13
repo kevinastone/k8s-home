@@ -14,6 +14,7 @@ resources:
 - fluxcd
 - generic-device-plugin
 - k8tz
+- kopiur
 - longhorn
 - node-feature-discovery
 - openebs

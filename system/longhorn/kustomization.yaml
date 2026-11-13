@@ -6,6 +6,7 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - prometheus-rule.yaml
+- volume-snapshot-class.yaml
 configMapGenerator:
 - name: longhorn-dashboard
   options:

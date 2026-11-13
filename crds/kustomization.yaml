@@ -9,9 +9,11 @@ resources:
 - envoy-gateway
 - external-secrets
 - flux-operator
+- kopiur
 - node-feature-discovery
 - postgres
 - prometheus
+- snapshot-controller
 - tofu-controller
 - victoria-metrics-operator
 # keep-sorted end
