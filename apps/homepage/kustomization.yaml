@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: homepage
 resources:
-- namespace.yaml
 - rbac.yaml
 - helmrelease.yaml
 - http-route.yaml
@@ -22,4 +21,6 @@ configMapGenerator:
   - resources/settings.yaml
   - resources/widgets.yaml
 components:
+- ../../components/namespace
+- ../../components/goldilocks
 - ../../components/kustomizeconfig

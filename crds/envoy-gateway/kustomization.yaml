@@ -3,5 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: envoy
 resources:
-- namespace.yaml
 - crds.yaml
+components:
+- ../../components/namespace
+- ../../components/goldilocks

@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: network-ups-tools
 resources:
-- namespace.yaml
 - helmrelease.yaml
 - prometheus-rule.yaml
 configMapGenerator:
@@ -20,4 +19,5 @@ configMapGenerator:
   files:
   - dashboards/network-ups-tools.json
 components:
+- ../../components/namespace
 - ../../components/kustomizeconfig

@@ -8,9 +8,9 @@ resources:
 - helmrelease-agent.yaml
 - helmrelease-aggregator.yaml
 - http-route.yaml
-- namespace.yaml
 # keep-sorted end
 components:
+- ../../components/namespace
 - ../../components/kustomizeconfig
 configMapGenerator:
 - name: vector-aggregator-config

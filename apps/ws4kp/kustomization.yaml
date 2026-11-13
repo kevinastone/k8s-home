@@ -3,10 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: weather
 resources:
-- namespace.yaml
 - helmrelease.yaml
 - http-route.yaml
 components:
+- ../../components/namespace
 - ../../components/kustomizeconfig
 secretGenerator:
 - name: ws4kp-secrets

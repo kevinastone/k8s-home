@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: rustfs
 resources:
-- namespace.yaml
 - helmrelease.yaml
 - http-route.yaml
 - terraform.yaml
@@ -22,5 +21,7 @@ configMapGenerator:
   files:
   - dashboards/rustfs.json
 components:
+- ../../components/namespace
+- ../../components/goldilocks
 - ../../components/tf-runner
 - ../../components/kustomizeconfig

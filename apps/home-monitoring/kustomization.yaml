@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: home-monitoring
 resources:
-- namespace.yaml
 configMapGenerator:
 - name: home-monitoring-dashboard
   options:
@@ -11,3 +10,5 @@ configMapGenerator:
       grafana_dashboard: "true"
   files:
   - dashboards/home.json
+components:
+- ../../components/namespace

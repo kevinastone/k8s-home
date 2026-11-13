@@ -22,9 +22,6 @@ ______________________________________________________________________
 
 ## 2. Kustomize Components, Templating & DRY Opportunities
 
-- [ ] **Eliminate 45 Boilerplate `namespace.yaml` Files via `components/namespace` (and `components/goldilocks`)**:
-  - [ ] Following the standardization of `namespace.yaml` files to `metadata.name: _` (relying on Kustomize's `namespace:` transformer), 45 of the 46 `namespace.yaml` manifests across `apps/`, `backends/`, `crds/`, `monitoring/`, and `system/` are completely identical except for the `goldilocks.fairwinds.com/enabled: "true"` label (26 with the label, 19 without; only [`system/tailscale-operator/namespace.yaml`](./system/tailscale-operator/namespace.yaml) has a custom Cilium annotation).
-  - [ ] Create a reusable `components/namespace/` Kustomize `Component` (and an optional `components/goldilocks/` label component, or enable Goldilocks by default in `components/namespace/`) to delete 45 duplicate `namespace.yaml` files.
 - [ ] **DRY Root Flux `Kustomization` Stage Manifests (`apps.yaml`, `backends.yaml`, `crds.yaml`, `monitoring.yaml`, `repos.yaml`, `system.yaml`)**:
   - [ ] All 6 top-level Flux `Kustomization` files in [`kustomization.yaml`](./kustomization.yaml) repeat identical `interval: 10m`, `retryInterval: 1m`, `timeout: 10m`, `prune: true`, `sourceRef` (`GitRepository/fluxcd-sync`), and `decryption` (`sops-age`) blocks.
   - [ ] Apply a common Kustomize patch in the root [`kustomization.yaml`](./kustomization.yaml) targeting `group: kustomize.toolkit.fluxcd.io, kind: Kustomization` for the shared defaults so each stage file only declares `metadata.name`, `spec.path`, and `spec.dependsOn`.
