@@ -11,6 +11,7 @@ resources:
 - envoy-gateway
 - eraser
 - external-dns
+- external-secrets
 - fluxcd
 - generic-device-plugin
 - k8tz
