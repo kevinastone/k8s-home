@@ -7,7 +7,3 @@ datasource = { ds = "prometheus" }
 [vector-cluster]
 id = 21954
 datasource = { DS_PROMETHEUS = "prometheus" }
-
-[vector-stats]
-id = 15105
-datasource = { ds = "prometheus" }
