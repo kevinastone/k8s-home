@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: cloudnative-pg-dashboards
 spec:
-  interval: 30m
+  interval: 5m
   chart:
     kind: OCIRepository
     spec:
@@ -12,15 +12,6 @@ spec:
       url: oci://ghcr.io/cloudnative-pg/grafana-dashboards/cluster
       ref:
         tag: 0.0.5
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:

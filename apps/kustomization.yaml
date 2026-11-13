@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+components:
+- ../components/helmrelease
 resources:
 # keep-sorted start
 - dao-2048
@@ -15,3 +17,17 @@ resources:
 - ws4kp
 - zigbee2mqtt
 # keep-sorted end
+patches:
+- target:
+    group: helm.toolkit.fluxcd.io
+    kind: HelmRelease
+    name: sabnzbd
+  patch: |-
+    apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    metadata:
+      name: sabnzbd
+    spec:
+      upgrade:
+        remediation:
+          retries: 0

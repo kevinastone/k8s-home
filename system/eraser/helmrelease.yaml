@@ -13,7 +13,7 @@ kind: HelmRelease
 metadata:
   name: eraser
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: eraser
@@ -22,17 +22,10 @@ spec:
         kind: HelmRepository
         name: eraser
       interval: 15m
-  driftDetection:
-    mode: enabled
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
-    cleanupOnFail: true
     crds: CreateReplace
-    remediation:
-      retries: 3
   values:
     runtimeConfig:
       manager:

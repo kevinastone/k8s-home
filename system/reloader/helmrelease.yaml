@@ -12,15 +12,9 @@ spec:
       url: oci://ghcr.io/stakater/charts/reloader
       ref:
         tag: 2.2.19
-  driftDetection:
-    mode: enabled
   install:
     remediation:
       retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     fullnameOverride: reloader
     reloader:

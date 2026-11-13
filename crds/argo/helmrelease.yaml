@@ -5,6 +5,7 @@ metadata:
   name: argo-events
   namespace: argo-events
 spec:
+  interval: 5m
   chart:
     kind: OCIRepository
     spec:
@@ -12,21 +13,13 @@ spec:
       url: oci://ghcr.io/argoproj/argo-helm/argo-events
       ref:
         tag: 2.4.27
-  interval: 5m
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
-  driftDetection:
-    mode: enabled
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
-    cleanupOnFail: true
     crds: CreateReplace
-    remediation:
-      retries: 3
   values:
     controller:
       metrics:
@@ -44,6 +37,7 @@ metadata:
   name: argo-workflows
   namespace: argo
 spec:
+  interval: 5m
   chart:
     kind: OCIRepository
     spec:
@@ -51,21 +45,13 @@ spec:
       url: oci://ghcr.io/argoproj/argo-helm/argo-workflows
       ref:
         tag: 2.0.15
-  interval: 5m
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
-  driftDetection:
-    mode: enabled
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
-    cleanupOnFail: true
     crds: CreateReplace
-    remediation:
-      retries: 3
   values:
     crds:
       install: true

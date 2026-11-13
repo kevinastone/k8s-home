@@ -12,15 +12,6 @@ spec:
       url: oci://ghcr.io/prometheus-community/charts/prometheus-blackbox-exporter
       ref:
         tag: 11.20.2
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     serviceMonitor:
       enabled: true

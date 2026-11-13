@@ -14,15 +14,6 @@ spec:
         name: fairwinds
         namespace: flux-system
       interval: 5m
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     dashboard:
       replicaCount: 1

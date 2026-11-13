@@ -11,15 +11,8 @@ spec:
     namespace: flux-system
   install:
     timeout: 1m
-    remediation:
-      retries: 3
   upgrade:
     timeout: 1m
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  driftDetection:
-    mode: enabled
   values:
     controllers:
       main:

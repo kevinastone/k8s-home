@@ -12,17 +12,10 @@ spec:
       url: oci://docker.io/envoyproxy/gateway-helm
       ref:
         tag: 1.9.3
-  driftDetection:
-    mode: enabled
   install:
     crds: Skip
-    remediation:
-      retries: 3
   upgrade:
-    cleanupOnFail: true
     crds: Skip
-    remediation:
-      retries: 3
   values:
     crds:
       enabled: false

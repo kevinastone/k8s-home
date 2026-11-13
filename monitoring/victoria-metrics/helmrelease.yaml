@@ -12,15 +12,6 @@ spec:
       url: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
       ref:
         tag: 0.97.1
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     fullnameOverride: vm-stack
     defaultDashboards:

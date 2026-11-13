@@ -23,15 +23,6 @@ spec:
         kind: HelmRepository
         name: tailscale
       interval: 5m
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     installCRDs: true
     operatorConfig:

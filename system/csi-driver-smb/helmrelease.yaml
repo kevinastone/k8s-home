@@ -22,13 +22,4 @@ spec:
         kind: HelmRepository
         name: csi-driver-smb
       interval: 5m
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:

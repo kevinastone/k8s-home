@@ -13,7 +13,7 @@ kind: HelmRelease
 metadata:
   name: snapshot-controller
 spec:
-  interval: 30m
+  interval: 5m
   chart:
     spec:
       chart: snapshot-controller
@@ -25,17 +25,10 @@ spec:
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
-  driftDetection:
-    mode: enabled
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
-    cleanupOnFail: true
     crds: CreateReplace
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:

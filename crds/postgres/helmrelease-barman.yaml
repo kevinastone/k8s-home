@@ -12,16 +12,9 @@ spec:
       url: oci://ghcr.io/cloudnative-pg/charts/plugin-barman-cloud
       ref:
         tag: 0.8.1
-  driftDetection:
-    mode: enabled
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
     crds: CreateReplace
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
