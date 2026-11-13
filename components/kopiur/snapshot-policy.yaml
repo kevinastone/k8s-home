@@ -9,6 +9,10 @@ spec:
     name: nas-smb
   credentialProjection:
     enabled: true
+  mover:
+    securityContext:
+      runAsNonRoot: false
+      runAsUser: 0
   retention:
     keepLatest: 7
     keepDaily: 7

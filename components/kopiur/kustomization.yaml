@@ -5,3 +5,12 @@ resources:
 - pvc.yaml
 - snapshot-policy.yaml
 - snapshot-schedule.yaml
+patches:
+- target:
+    version: v1
+    kind: Namespace
+  patch: |-
+    - op: add
+      path: /metadata/annotations
+      value:
+        kopiur.home-operations.com/privileged-movers: "true"
