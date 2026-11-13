@@ -11,6 +11,7 @@ resources:
 - authelia-secret.yaml
 - ldap-secret.yaml
 - client-secret-generator.yaml
+- kubernetes-store.yaml
 - rustfs-client-secret.yaml
 - grafana-client-secret.yaml
 components:

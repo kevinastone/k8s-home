@@ -5,6 +5,7 @@ namespace: grafana
 resources:
 - helmrelease.yaml
 - http-route.yaml
+- authelia-client-secret.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks

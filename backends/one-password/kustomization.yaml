@@ -6,6 +6,7 @@ resources:
 - helmrelease.yaml
 - cluster-secret-store.yaml
 - cluster-secret-store-sdk.yaml
+- kubernetes-store.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks
@@ -18,10 +19,5 @@ secretGenerator:
 - name: onepassword-connect-token
   options:
     disableNameSuffixHash: true
-    annotations:
-      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "ldap"
-      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "ldap"
   files:
   - token=secrets/token.encrypted

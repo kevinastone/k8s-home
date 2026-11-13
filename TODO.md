@@ -30,9 +30,6 @@ ______________________________________________________________________
 
 ## 3. Secrets Management & FluxCD Lifecycle Architecture
 
-- [ ] **Replace `system/reflector` with External Secrets Operator (`ClusterSecretStore` / `PushSecret`)**:
-  - [ ] [`system/reflector/`](./system/reflector/helmrelease.yaml) runs an entire operator deployment solely to reflect 3 secrets across namespaces (`onepassword-connect-token` -> `ldap`, `grafana-client-secret` -> `grafana`, `rustfs-client-secret` -> `rustfs`), while the rest of the cluster already uses ESO's `kubernetes` provider (`ClusterSecretStore/rustfs-kubernetes-store` and `ClusterSecretStore/media-kubernetes-store`) for cross-namespace secret distribution.
-  - [ ] Migrate those 3 secrets to ESO `ExternalSecret` / `ClusterSecretStore` (or `PushSecret`) and remove `system/reflector/`.
 - [ ] **Fix Cold-Bootstrap Dependency Inversion Between `system` `ExternalSecret`s and `backends/one-password`**:
   - [ ] [`backends.yaml`](./backends.yaml) depends on [`system.yaml`](./system.yaml) (`dependsOn: [system]`), yet 5 directories in `system/` (`cert-manager`, `external-dns`, `csi-driver-smb`, `kopiur`, `tailscale-operator`) create `ExternalSecret`s targeting `ClusterSecretStore/one-password`, which is deployed later in [`backends/one-password/`](./backends/one-password/kustomization.yaml).
   - [ ] Move `one-password` into `system/one-password/` (or a dedicated stage between `crds` and `system`) so `ClusterSecretStore/one-password` is ready before `system` workloads reconcile, and deduplicate the byte-for-byte identical [`system/cert-manager/cloudflare-api-token-secret.yaml`](./system/cert-manager/cloudflare-api-token-secret.yaml) and [`system/external-dns/cloudflare-api-token-secret.yaml`](./system/external-dns/cloudflare-api-token-secret.yaml).

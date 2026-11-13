@@ -21,7 +21,6 @@ resources:
 - longhorn
 - node-feature-discovery
 - openebs
-- reflector
 - reloader
 - tailscale-operator
 - vertical-pod-autoscaler

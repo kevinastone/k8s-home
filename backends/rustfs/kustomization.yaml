@@ -9,6 +9,7 @@ resources:
 - rustfs-users.yaml
 - rustfs-root-secret.yaml
 - rustfs-kubernetes-store.yaml
+- authelia-client-secret.yaml
 - prometheus-rule.yaml
 configMapGenerator:
 - name: otel-config
