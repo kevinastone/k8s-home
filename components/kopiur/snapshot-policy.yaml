@@ -18,6 +18,12 @@ spec:
     keepDaily: 7
     keepWeekly: 4
     keepMonthly: 12
+  verification:
+    verifyFilesPercent: 5
+    quick:
+      schedule:
+        cron: "H 4 * * 0"
+        timezone: "America/Los_Angeles"
   sources:
   - pvcSelector:
       labelSelector:

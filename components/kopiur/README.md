@@ -10,7 +10,7 @@ ______________________________________________________________________
 - **Repository:** `ClusterRepository/nas-smb` (`system/kopiur/`) backed by the `storage-kopiur` SMB `StorageClass` (`subDir: "kopiur"`, `reclaimPolicy: Retain`) and encrypted with `KOPIA_PASSWORD` from 1Password (`ExternalSecret/kopiur-repository-secret`).
 - **Component Resources (`components/kopiur/`):**
   - `pvc.yaml`: Provisions `kopiur-repo` (`ReadWriteMany`, `storageClassName: storage-kopiur`) in the consuming namespace so mover Jobs can mount the shared repository.
-  - `snapshot-policy.yaml`: `SnapshotPolicy/kopiur-backup` selecting PVCs labeled `kopiur.home-operations.com/backup: "true"` in the namespace (`sourcePathStrategy: PvcNamespacedName`, `credentialProjection.enabled: true`, `mover.securityContext.runAsUser: 0`).
+  - `snapshot-policy.yaml`: `SnapshotPolicy/kopiur-backup` selecting PVCs labeled `kopiur.home-operations.com/backup: "true"` in the namespace (`sourcePathStrategy: PvcNamespacedName`, `credentialProjection.enabled: true`, `mover.securityContext.runAsUser: 0`), with weekly `quick` verification (`H 4 * * 0`, `verifyFilesPercent: 5`).
   - `snapshot-schedule.yaml`: `SnapshotSchedule/kopiur-daily` running daily at `H 2 * * *` (`America/Los_Angeles`, `concurrencyPolicy: Forbid`).
   - `kustomization.yaml`: Patches the consuming `Namespace` with `kopiur.home-operations.com/privileged-movers: "true"` so movers can read `0600` app files (e.g. Home Assistant `.storage/*`).
 
