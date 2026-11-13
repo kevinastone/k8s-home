@@ -63,8 +63,6 @@ ______________________________________________________________________
 - [ ] **Unify `cert-manager` & `envoy-gateway` CRD Management with Other Operators**:
   - [ ] Unlike all other operators in `crds/`, [`crds/cert-manager/crds.yaml`](./crds/cert-manager/crds.yaml) and [`crds/envoy-gateway/crds.yaml`](./crds/envoy-gateway/crds.yaml) clone full upstream Git repositories via `GitRepository` + nested Flux `Kustomization`s while their `HelmRelease`s run in `system/` with `crds: Skip`, requiring custom `groupName` rules in [`.github/renovate.jsonc`](./.github/renovate.jsonc) to prevent version skew.
   - [ ] Move the `cert-manager` and `envoy-gateway` controller `HelmRelease`s into `crds/` with `crds: CreateReplace` (leaving `ClusterIssuer`, `GatewayClass`, and `Gateway` CRs in `system/`) to eliminate 2 `GitRepository` clones, 2 extra Flux `Kustomization`s, and 24 lines of Renovate grouping rules.
-- [ ] **Migrate `fairwinds` Charts (`goldilocks`, `vpa`) to Inline `OCIRepository`**:
-  - [ ] [`repos/helm/fairwinds.yaml`](./repos/helm/fairwinds.yaml) is only consumed by [`monitoring/goldilocks/helmrelease.yaml`](./monitoring/goldilocks/helmrelease.yaml) and [`system/vertical-pod-autoscaler/helmrelease.yaml`](./system/vertical-pod-autoscaler/helmrelease.yaml), both of which publish official OCI artifacts (`oci://ghcr.io/fairwindsops/charts/goldilocks` and `oci://ghcr.io/fairwindsops/charts/vpa`). Migrating them to inline `OCIRepository` specs allows removing `repos/helm/fairwinds.yaml`, leaving `app-template` as the sole shared chart in `repos/`.
 
 ______________________________________________________________________
 
