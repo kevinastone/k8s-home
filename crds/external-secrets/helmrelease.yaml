@@ -12,6 +12,9 @@ spec:
       url: oci://ghcr.io/external-secrets/charts/external-secrets
       ref:
         tag: 2.14.0
+  dependsOn:
+  - name: prometheus-crds
+    namespace: prometheus
   driftDetection:
     mode: enabled
   install:

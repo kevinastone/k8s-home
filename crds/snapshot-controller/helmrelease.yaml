@@ -22,6 +22,9 @@ spec:
         kind: HelmRepository
         name: piraeus-charts
       interval: 12h
+  dependsOn:
+  - name: prometheus-crds
+    namespace: prometheus
   driftDetection:
     mode: enabled
   install:

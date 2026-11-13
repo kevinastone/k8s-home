@@ -12,6 +12,9 @@ spec:
       url: oci://registry.k8s.io/nfd/charts/node-feature-discovery
       ref:
         tag: 0.20.1
+  dependsOn:
+  - name: prometheus-crds
+    namespace: prometheus
   driftDetection:
     mode: enabled
   install:
