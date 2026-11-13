@@ -6,10 +6,12 @@ ______________________________________________________________________
 
 ## 1. Off-Cluster Backups & Storage Reliability
 
-While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rustfs` S3 service, several stateful workloads and the S3 store itself represent single points of failure without off-cluster copies.
+While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rustfs` S3 service and `kopiur` backs up key Longhorn PVCs to the NAS over SMB, several storage paths can be hardened further.
 
-- [ ] **Off-Cluster / 3-2-1 Backup Strategy for `rustfs` and Longhorn**:
-  - [ ] `postgres` (Barman) and `dragonfly` back up to `s3.k8s.kevinastone.com` (`rustfs`), which now runs as a 3-node distributed erasure-coded cluster on `openebs-rawfile`. Add an off-cluster replication job (e.g., `rclone` CronJob or Backblaze B2 / Synology NAS sync) for `rustfs` buckets to satisfy the 3-2-1 backup rule.
+- [ ] **Off-Cluster / 3-2-1 Backup Strategy for `rustfs`**:
+  - [ ] `postgres` (Barman) and `dragonfly` back up to `s3.k8s.kevinastone.com` (`rustfs`), which runs as a 3-node distributed erasure-coded cluster on `openebs-rawfile`. Add an off-cluster replication job (e.g., `rclone` CronJob to the NAS SMB share or Backblaze B2) for `rustfs` buckets to satisfy the 3-2-1 backup rule.
+- [ ] **Extend `components/kopiur` Backups to Remaining Stateful Media PVCs**:
+  - [ ] Include [`components/kopiur`](./components/kopiur/kustomization.yaml) in [`apps/media/kustomization.yaml`](./apps/media/kustomization.yaml) and add the `kopiur.home-operations.com/backup: "true"` label to the `config` PVCs in [`apps/media/qbittorrent/helmrelease.yaml`](./apps/media/qbittorrent/helmrelease.yaml) (which holds `/config/qBittorrent/BT_backup` `.torrent` and `.fastresume` state) and [`apps/media/sabnzbd/helmrelease.yaml`](./apps/media/sabnzbd/helmrelease.yaml) (queue/history state).
 - [ ] **Optimize VictoriaLogs Storage & High Availability**:
   - [ ] **Migrate VictoriaLogs from `vlsingle` (Longhorn) to Clustered / Replicated HA on `openebs-rawfile`**:
     - [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) currently runs `vlsingle` with a single `50Gi` replicated Longhorn PVC (`vlsingle-vm-stack`).
@@ -18,7 +20,55 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
 
 ______________________________________________________________________
 
-## 2. Repository Organization & Kustomize Architecture
+## 2. Kustomize Components, Templating & DRY Opportunities
+
+- [ ] **Eliminate 45 Boilerplate `namespace.yaml` Files via `components/namespace` (and `components/goldilocks`)**:
+  - [ ] Following the standardization of `namespace.yaml` files to `metadata.name: _` (relying on Kustomize's `namespace:` transformer), 45 of the 46 `namespace.yaml` manifests across `apps/`, `backends/`, `crds/`, `monitoring/`, and `system/` are completely identical except for the `goldilocks.fairwinds.com/enabled: "true"` label (26 with the label, 19 without; only [`system/tailscale-operator/namespace.yaml`](./system/tailscale-operator/namespace.yaml) has a custom Cilium annotation).
+  - [ ] Create a reusable `components/namespace/` Kustomize `Component` (and an optional `components/goldilocks/` label component, or enable Goldilocks by default in `components/namespace/`) to delete 45 duplicate `namespace.yaml` files.
+- [ ] **DRY Root Flux `Kustomization` Stage Manifests (`apps.yaml`, `backends.yaml`, `crds.yaml`, `monitoring.yaml`, `repos.yaml`, `system.yaml`)**:
+  - [ ] All 6 top-level Flux `Kustomization` files in [`kustomization.yaml`](./kustomization.yaml) repeat identical `interval: 10m`, `retryInterval: 1m`, `timeout: 10m`, `prune: true`, `sourceRef` (`GitRepository/fluxcd-sync`), and `decryption` (`sops-age`) blocks.
+  - [ ] Apply a common Kustomize patch in the root [`kustomization.yaml`](./kustomization.yaml) targeting `group: kustomize.toolkit.fluxcd.io, kind: Kustomization` for the shared defaults so each stage file only declares `metadata.name`, `spec.path`, and `spec.dependsOn`.
+  - [ ] Scope `spec.decryption` strictly to stages that contain SOPS-encrypted files (`apps`, `backends`, `system`), removing unnecessary SOPS decryption overhead from `crds`, `repos`, and `monitoring`.
+- [ ] **Generalize `components/kustomizeconfig` with Wildcard FieldSpecs & `WorkflowTemplate` Support**:
+  - [ ] [`components/kustomizeconfig/kustomizeconfig.yaml`](./components/kustomizeconfig/kustomizeconfig.yaml) hardcodes specific persistence keys (`spec/values/persistence/config/name`, `config-file`, `secrets`) and container paths (`spec/values/controllers/main/containers/main/envFrom/secretRef/name`), missing `HelmRelease`s that name their container `app` (`radarr`, `sonarr`, `prowlarr`, `sabnzbd`, `qbittorrent`, `network-ups-tools`) or use `initContainers` / custom persistence keys.
+  - [ ] Replace hardcoded keys with Kustomize wildcard fieldSpecs (`spec/values/persistence/*/name`, `spec/values/controllers/*/containers/*/envFrom/secretRef/name`, `spec/values/controllers/*/initContainers/*/envFrom/secretRef/name`).
+  - [ ] Add a `nameReference` fieldSpec for `kind: WorkflowTemplate` (`spec/volumes/configMap/name`) and include `components/kustomizeconfig` in [`apps/media/transcoder/kustomization.yaml`](./apps/media/transcoder/kustomization.yaml), allowing `transcoder-scripts` and `transcoder-policy` to drop `disableNameSuffixHash: true` so in-flight Argo Workflows are not mutated mid-execution when scripts or Rego policies change.
+- [ ] **Deduplicate Media `*arr` Stack (`radarr`, `sonarr`, `prowlarr`) & Consolidate `recyclarr` / OpenTofu**:
+  - [ ] **Extract Shared `*arr` Component / Templates**: [`apps/media/radarr/`](./apps/media/radarr/), [`apps/media/sonarr/`](./apps/media/sonarr/), and [`apps/media/prowlarr/`](./apps/media/prowlarr/) maintain nearly identical `databases.yaml` (`<app>-main-db` with `retain` and `<app>-log-db` with `delete`), `external-secret.yaml`, `terraform.yaml`, and `helmrelease.yaml` (`*ARR__POSTGRES__*` env vars, `/ping` probes, `securityContext`, `defaultPodOptions`, and persistence mounts). Extract a reusable Kustomize component or base overlay for `*arr` workloads.
+  - [ ] **Consolidate Dual Always-On `recyclarr` Deployments into a Single `CronJob`**: [`apps/media/radarr/helmrelease.yaml`](./apps/media/radarr/helmrelease.yaml) and [`apps/media/sonarr/helmrelease.yaml`](./apps/media/sonarr/helmrelease.yaml) each run an always-on `recyclarr` Deployment controller sleeping on `CRON_SCHEDULE: "@daily"`. Because Recyclarr natively syncs multiple `radarr:` and `sonarr:` instances from a single config file, consolidate both into a single Kubernetes `CronJob` (`type: cronjob`, matching `orphan-cleanup` in `qbittorrent`) to eliminate two idle long-running pods.
+  - [ ] **Consolidate Media OpenTofu Modules (`prowlarr`, `radarr`, `sonarr`)**: Currently 3 separate `Terraform` CRs in [`apps/media/`](./apps/media/) spawn 3 `tf-runner` pods every 10 minutes with duplicated `varsFrom` (`sabnzbd-secret`, `nzbgeek-secret`) and duplicated NZBGeek/SABnzbd resources across [`radarr/tofu/main.tf`](./apps/media/radarr/tofu/main.tf) and [`sonarr/tofu/main.tf`](./apps/media/sonarr/tofu/main.tf). Consolidate into a single `apps/media/tofu/` module (or use `prowlarr_application_radarr` / `prowlarr_application_sonarr` to sync indexers from Prowlarr) to cut `tofu-controller` runner pods and state secrets from 3 to 1.
+- [ ] **Deduplicate Static SMB Volumes in `apps/media/` & Clean Up Unused `StorageClass`**:
+  - [ ] [`apps/media/volume-downloads.yaml`](./apps/media/volume-downloads.yaml), [`apps/media/volume-incoming.yaml`](./apps/media/volume-incoming.yaml), and [`apps/media/volume-media.yaml`](./apps/media/volume-media.yaml) repeat 41-line static SMB `PersistentVolume` + `PersistentVolumeClaim` pairs that differ only by name and share path (`Downloads`, `Incoming`, `Media`).
+  - [ ] Remove the unused [`system/csi-driver-smb/storage-class.yaml`](./system/csi-driver-smb/storage-class.yaml) (`StorageClass/storage-incoming` with `reclaimPolicy: Delete` on `//storage.home.kevinastone.com/Incoming`), which is superseded by the static `media-incoming` PV (`storageClassName: ""`).
+- [ ] **Standardize `HelmRelease` & `Gateway` Boilerplate**:
+  - [ ] Nearly all `HelmRelease` manifests repeat the same 12-line lifecycle block (`interval: 5m`, `driftDetection: { mode: enabled }`, `install.remediation.retries: 3`, `upgrade.cleanupOnFail: true`, `upgrade.remediation.retries: 3`). Centralize these defaults via a Kustomize component or stage-level patch targeting `kind: HelmRelease`.
+  - [ ] Deduplicate the identical 30-line `http`/`https` listener and TLS specs between `auth-gateway` and `public-gateway` in [`system/envoy-gateway/gateway.yaml`](./system/envoy-gateway/gateway.yaml) using YAML anchors (`&listeners` / `*listeners`).
+  - [ ] Add `disableNameSuffixHash: true` to all 16 `grafana_dashboard: "true"` and `grafana_datasource: "true"` `configMapGenerator` blocks (or via a shared dashboard component). Because Grafana's `k8s-sidecar` watches ConfigMaps via the Kubernetes Watch API (`MODIFIED` events) rather than pod volume rollouts, hashed ConfigMap names cause unnecessary object churn and risk a `k8s-sidecar` (`disableDelete: false`) race condition when `DELETED` for the old hash arrives after `ADDED` for the new hash.
+
+______________________________________________________________________
+
+## 3. Secrets Management & FluxCD Lifecycle Architecture
+
+- [ ] **Replace `system/reflector` with External Secrets Operator (`ClusterSecretStore` / `PushSecret`)**:
+  - [ ] [`system/reflector/`](./system/reflector/helmrelease.yaml) runs an entire operator deployment solely to reflect 3 secrets across namespaces (`onepassword-connect-token` -> `ldap`, `grafana-client-secret` -> `grafana`, `rustfs-client-secret` -> `rustfs`), while the rest of the cluster already uses ESO's `kubernetes` provider (`ClusterSecretStore/rustfs-kubernetes-store` and `ClusterSecretStore/media-kubernetes-store`) for cross-namespace secret distribution.
+  - [ ] Migrate those 3 secrets to ESO `ExternalSecret` / `ClusterSecretStore` (or `PushSecret`) and remove `system/reflector/`.
+- [ ] **Consolidate 8 Identical ESO `Password` Generators into a Shared `ClusterGenerator`**:
+  - [ ] Identical `generators.external-secrets.io/v1alpha1` `Password` CRs (`length: 32, allowRepeat: true, noUpper: false, symbols: 0`) are defined in [`apps/media/prowlarr/external-secret.yaml`](./apps/media/prowlarr/external-secret.yaml), [`apps/media/radarr/external-secret.yaml`](./apps/media/radarr/external-secret.yaml), [`apps/media/sonarr/external-secret.yaml`](./apps/media/sonarr/external-secret.yaml), [`apps/media/sabnzbd/external-secret.yaml`](./apps/media/sabnzbd/external-secret.yaml), [`backends/rustfs/rustfs-root-secret.yaml`](./backends/rustfs/rustfs-root-secret.yaml), and twice in [`backends/rustfs/rustfs-users.yaml`](./backends/rustfs/rustfs-users.yaml).
+  - [ ] Because ESO generators are stateless (producing a fresh random secret per `ExternalSecret`), replace all per-app `Password` resources with a single cluster-wide `ClusterGenerator` (`kind: ClusterGenerator`).
+- [ ] **Fix Cold-Bootstrap Dependency Inversion Between `system` `ExternalSecret`s and `backends/one-password`**:
+  - [ ] [`backends.yaml`](./backends.yaml) depends on [`system.yaml`](./system.yaml) (`dependsOn: [system]`), yet 5 directories in `system/` (`cert-manager`, `external-dns`, `csi-driver-smb`, `kopiur`, `tailscale-operator`) create `ExternalSecret`s targeting `ClusterSecretStore/one-password`, which is deployed later in [`backends/one-password/`](./backends/one-password/kustomization.yaml).
+  - [ ] Move `one-password` into `system/one-password/` (or a dedicated stage between `crds` and `system`) so `ClusterSecretStore/one-password` is ready before `system` workloads reconcile, and deduplicate the byte-for-byte identical [`system/cert-manager/cloudflare-api-token-secret.yaml`](./system/cert-manager/cloudflare-api-token-secret.yaml) and [`system/external-dns/cloudflare-api-token-secret.yaml`](./system/external-dns/cloudflare-api-token-secret.yaml).
+- [ ] **Add Missing `dependsOn: [prometheus-crds]` in `crds/` Stage `HelmRelease`s**:
+  - [ ] While `argo`, `kopiur`, and `tofu-controller` in [`crds/`](./crds/kustomization.yaml) declare `dependsOn: [{ name: prometheus-crds, namespace: prometheus }]`, [`crds/external-secrets/helmrelease.yaml`](./crds/external-secrets/helmrelease.yaml), [`crds/postgres/helmrelease.yaml`](./crds/postgres/helmrelease.yaml), [`crds/node-feature-discovery/helmrelease.yaml`](./crds/node-feature-discovery/helmrelease.yaml), and [`crds/snapshot-controller/helmrelease.yaml`](./crds/snapshot-controller/helmrelease.yaml) enable `serviceMonitor` / `podMonitor` without `dependsOn: [prometheus-crds]`, risking cold-bootstrap install failures if they reconcile before `prometheus-crds`.
+- [ ] **Unify `cert-manager` & `envoy-gateway` CRD Management with Other Operators**:
+  - [ ] Unlike all other operators in `crds/`, [`crds/cert-manager/crds.yaml`](./crds/cert-manager/crds.yaml) and [`crds/envoy-gateway/crds.yaml`](./crds/envoy-gateway/crds.yaml) clone full upstream Git repositories via `GitRepository` + nested Flux `Kustomization`s while their `HelmRelease`s run in `system/` with `crds: Skip`, requiring custom `groupName` rules in [`.github/renovate.jsonc`](./.github/renovate.jsonc) to prevent version skew.
+  - [ ] Move the `cert-manager` and `envoy-gateway` controller `HelmRelease`s into `crds/` with `crds: CreateReplace` (leaving `ClusterIssuer`, `GatewayClass`, and `Gateway` CRs in `system/`) to eliminate 2 `GitRepository` clones, 2 extra Flux `Kustomization`s, and 24 lines of Renovate grouping rules.
+- [ ] **Migrate `fairwinds` Charts (`goldilocks`, `vpa`) to Inline `OCIRepository`**:
+  - [ ] [`repos/helm/fairwinds.yaml`](./repos/helm/fairwinds.yaml) is only consumed by [`monitoring/goldilocks/helmrelease.yaml`](./monitoring/goldilocks/helmrelease.yaml) and [`system/vertical-pod-autoscaler/helmrelease.yaml`](./system/vertical-pod-autoscaler/helmrelease.yaml), both of which publish official OCI artifacts (`oci://ghcr.io/fairwindsops/charts/goldilocks` and `oci://ghcr.io/fairwindsops/charts/vpa`). Migrating them to inline `OCIRepository` specs allows removing `repos/helm/fairwinds.yaml`, leaving `app-template` as the sole shared chart in `repos/`.
+
+______________________________________________________________________
+
+## 4. Repository Organization & Directory Boundaries
 
 - [ ] **Standardize Service vs. `monitoring/` Directory Boundaries**:
   - [ ] **Co-locate Service Dashboards, Alerts & Maintenance Jobs**: Currently, some services co-locate their `dashboards/` and `prometheus-rule.yaml` inside their own directory (`system/cert-manager/`, `system/longhorn/`, `backends/rustfs/`, `backends/authelia/`), while others split them into `monitoring/<service>/` (`monitoring/argo/`, `monitoring/dragonfly/`, `monitoring/envoy-gateway/`, `monitoring/external-secrets/`, `monitoring/openebs/`, `monitoring/tofu-controller/`). Because `PrometheusRule` and `PodMonitor` CRDs are already reconciled in the `crds` stage prior to `system`, `backends`, and `apps`, co-locating `dashboards/`, `pod-monitor.yaml`, and `prometheus-rule.yaml` directly within each service's directory simplifies navigation and keeps `monitoring/` focused strictly on the observability stack (`victoria-metrics`, `grafana`, `vector`, `prometheus`, `goldilocks`).
@@ -27,7 +77,7 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
-## 3. CI/CD, Validation & Automation
+## 5. CI/CD, Validation & Automation
 
 - [ ] **Rendered Manifest Diff as Pull Request Comment**:
   - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) with `pull-requests: write` permissions to post rendered manifest diffs directly to PR discussion threads alongside `$GITHUB_STEP_SUMMARY`.
