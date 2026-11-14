@@ -13,7 +13,6 @@ spec:
       data:
         postgres: "{{ .postgres_password }}"
         dragonfly: "{{ .dragonfly_password }}"
-        zot: "{{ .zot_password }}"
   dataFrom:
   - sourceRef:
       generatorRef:
@@ -31,11 +30,3 @@ spec:
     rewrite:
     - transform:
         template: dragonfly_password
-  - sourceRef:
-      generatorRef:
-        apiVersion: generators.external-secrets.io/v1alpha1
-        kind: ClusterGenerator
-        name: password-alphanumeric
-    rewrite:
-    - transform:
-        template: zot_password

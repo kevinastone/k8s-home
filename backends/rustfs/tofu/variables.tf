@@ -27,9 +27,3 @@ variable "dragonfly" {
   description = "Dragonfly user password"
   sensitive   = true
 }
-
-variable "zot" {
-  type        = string
-  description = "Zot user password"
-  sensitive   = true
-}

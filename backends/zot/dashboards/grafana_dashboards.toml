@@ -1,6 +1,0 @@
-#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
-
-[zot]
-id = 20501
-revision = 2
-datasource = { DS_PROMETHEUS = "prometheus" }

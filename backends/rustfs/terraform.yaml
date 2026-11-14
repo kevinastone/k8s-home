@@ -23,4 +23,3 @@ spec:
     varsKeys:
     - postgres
     - dragonfly
-    - zot
