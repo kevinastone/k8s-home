@@ -539,7 +539,7 @@
                     "custom": {
                         "fillOpacity": 70,
                         "lineWidth": 0,
-                        "spanNulls": false,
+                        "spanNulls": 60000,
                         "insertNulls": false,
                         "hideFrom": {
                             "legend": false,
@@ -635,7 +635,7 @@
                             "custom": {
                                 "fillOpacity": 70,
                                 "lineWidth": 0,
-                                "spanNulls": false,
+                                "spanNulls": 60000,
                                 "insertNulls": false,
                                 "hideFrom": {
                                     "legend": false,
@@ -823,7 +823,7 @@
                             "type": "linear"
                         },
                         "showPoints": "never",
-                        "spanNulls": false,
+                        "spanNulls": 60000,
                         "stacking": {
                             "mode": "none"
                         },
@@ -914,7 +914,7 @@
                             "type": "linear"
                         },
                         "showPoints": "never",
-                        "spanNulls": false,
+                        "spanNulls": 60000,
                         "stacking": {
                             "mode": "none"
                         },
@@ -1069,7 +1069,7 @@
                             "type": "linear"
                         },
                         "showPoints": "never",
-                        "spanNulls": false,
+                        "spanNulls": 60000,
                         "stacking": {
                             "mode": "none"
                         },
@@ -1142,7 +1142,7 @@
                             "type": "linear"
                         },
                         "showPoints": "never",
-                        "spanNulls": false,
+                        "spanNulls": 60000,
                         "stacking": {
                             "mode": "none"
                         },
@@ -1309,7 +1309,7 @@
                             "type": "linear"
                         },
                         "showPoints": "never",
-                        "spanNulls": false,
+                        "spanNulls": 60000,
                         "stacking": {
                             "mode": "none"
                         },

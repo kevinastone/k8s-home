@@ -84,7 +84,7 @@ import (
 			pointSize:         5
 			scaleDistribution: type: "linear"
 			showPoints: "never"
-			spanNulls:  false
+			spanNulls:  60000
 			stacking: mode:        "none"
 			thresholdsStyle: mode: *"off" | _
 			hideFrom: {legend: false, tooltip: false, viz: false}
@@ -256,7 +256,7 @@ let statusTimeline = grafana.#StateTimelinePanel & {
 		custom: {
 			fillOpacity: 70
 			lineWidth:   0
-			spanNulls:   false
+			spanNulls:   60000
 			insertNulls: false
 			hideFrom: {legend: false, tooltip: false, viz: false}
 		}
@@ -305,7 +305,7 @@ let statusBreakdownTimeline = grafana.#StateTimelinePanel & {
 		custom: {
 			fillOpacity: 70
 			lineWidth:   0
-			spanNulls:   false
+			spanNulls:   60000
 			insertNulls: false
 			hideFrom: {legend: false, tooltip: false, viz: false}
 		}
