@@ -19,8 +19,15 @@ variable "secret" {
   sensitive   = true
 }
 
+variable "force_destroy" {
+  type        = bool
+  description = "Allow Terraform to empty and destroy a non-empty bucket"
+  default     = false
+}
+
 resource "rustfs_bucket" "bucket" {
-  name = var.name
+  name          = var.name
+  force_destroy = var.force_destroy
 }
 
 resource "rustfs_policy" "policy" {
