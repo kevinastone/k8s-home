@@ -25,6 +25,9 @@ spec:
             args:
             - serve
             - /etc/zot/config.json
+            envFrom:
+            - secretRef:
+                name: zot-s3-creds
             ports:
             - containerPort: &httpPort 5000
               name: http
@@ -81,9 +84,7 @@ spec:
           interval: 30s
     persistence:
       data:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 50Gi
+        type: emptyDir
         globalMounts:
         - path: /var/lib/zot
       config:

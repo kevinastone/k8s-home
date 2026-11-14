@@ -2,9 +2,18 @@
   "distSpecVersion": "1.1.0",
   "storage": {
     "rootDirectory": "/var/lib/zot",
+    "dedupe": false,
     "gc": true,
     "gcDelay": "1h",
     "gcInterval": "6h",
+    "storageDriver": {
+      "name": "s3",
+      "region": "us-east-1",
+      "bucket": "zot",
+      "regionendpoint": "https://s3.k8s.kevinastone.com",
+      "forcepathstyle": true,
+      "secure": true
+    },
     "retention": {
       "policies": [
         {

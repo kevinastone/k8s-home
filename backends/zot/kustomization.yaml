@@ -5,6 +5,7 @@ namespace: zot
 resources:
 - helmrelease.yaml
 - http-route.yaml
+- s3-creds.yaml
 configMapGenerator:
 - name: zot-config
   files:
