@@ -39,10 +39,7 @@ spec:
                 port: http
               readiness: *probes
               startup:
-                enabled: true
-                type: HTTP
-                path: /v2/
-                port: http
+                !!merge <<: *probes
                 spec:
                   initialDelaySeconds: 2
                   periodSeconds: 2
