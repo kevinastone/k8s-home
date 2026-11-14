@@ -40,6 +40,7 @@ resource "rustfs_policy" "policy" {
 resource "rustfs_user" "user" {
   access_key = var.name
   secret_key = var.secret
+  policy     = rustfs_policy.policy.name
   status     = "enabled"
 
   lifecycle {
@@ -49,11 +50,6 @@ resource "rustfs_user" "user" {
       terraform_data.user_replacement
     ]
   }
-}
-
-resource "rustfs_user_policy_attachment" "attachment" {
-  user   = rustfs_user.user.access_key
-  policy = rustfs_policy.policy.name
 }
 
 resource "terraform_data" "secret_rotation" {
