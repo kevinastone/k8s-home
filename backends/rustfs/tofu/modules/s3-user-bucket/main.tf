@@ -2,8 +2,8 @@ terraform {
   required_version = ">= 1.10.0"
   required_providers {
     rustfs = {
-      source  = "ethdevops/rustfs"
-      version = ">= 0.1.1"
+      source  = "caberdo/rustfs"
+      version = "~> 0.8"
     }
   }
 }
@@ -25,23 +25,25 @@ resource "rustfs_bucket" "bucket" {
 
 resource "rustfs_policy" "policy" {
   name = var.name
-  statement = [
-    {
-      action = ["s3:*"]
-      effect = "Allow"
-      # Necessary typo
-      ressource = [
-        "arn:aws:s3:::${var.name}",
-        "arn:aws:s3:::${var.name}/*"
-      ]
-    }
-  ]
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = ["s3:*"]
+        Resource = [
+          "arn:aws:s3:::${var.name}",
+          "arn:aws:s3:::${var.name}/*"
+        ]
+      }
+    ]
+  })
 }
 
 resource "rustfs_user" "user" {
   access_key = var.name
   secret_key = var.secret
-  policy     = rustfs_policy.policy.name
+  status     = "enabled"
 
   lifecycle {
     ignore_changes = [secret_key]
@@ -50,6 +52,11 @@ resource "rustfs_user" "user" {
       terraform_data.user_replacement
     ]
   }
+}
+
+resource "rustfs_user_policy_attachment" "attachment" {
+  user   = rustfs_user.user.access_key
+  policy = rustfs_policy.policy.name
 }
 
 resource "terraform_data" "secret_rotation" {
