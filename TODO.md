@@ -54,3 +54,11 @@ ______________________________________________________________________
   - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) with `pull-requests: write` permissions to post rendered manifest diffs directly to PR discussion threads alongside `$GITHUB_STEP_SUMMARY`.
   - [ ] Pipe `flate diff all -o github` to both `$GITHUB_STEP_SUMMARY` (supports up to 1MB) and a truncated `diff.patch` artifact (~60,000 chars max) so large chart bumps don't fail the GitHub API's 65,536-character comment limit.
   - [ ] Use `marocchino/sticky-pull-request-comment@v3` with `header: flate-diff` and `path: diff.patch` to upsert a single sticky comment across PR updates and Renovate rebases.
+
+______________________________________________________________________
+
+## 6. Backends & Services
+
+- [ ] **Evaluate Zot `ui` and `search` Extensions**:
+  - [ ] Decide whether to enable `"search": { "enable": true }` and `"ui": { "enable": true }` in [`backends/zot/resources/config.json`](./backends/zot/resources/config.json) for browsing cached repositories, tags, and manifests at `https://zot.k8s.kevinastone.com`.
+  - [ ] If enabled, split [`backends/zot/http-route.yaml`](./backends/zot/http-route.yaml) into separate `HTTPRoute`s so the OCI registry API (`/v2`) stays on `public-gateway` (unauthenticated for CRI-O pulls) while the web UI (`/`) is routed through `auth-gateway` (Authelia-protected), plus optional `gethomepage.dev/*` annotations.
