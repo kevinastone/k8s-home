@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: zot
+resources:
+- helmrelease.yaml
+- http-route.yaml
+configMapGenerator:
+- name: zot-config
+  files:
+  - resources/config.json
+components:
+- ../../components/namespace
+- ../../components/goldilocks
+- ../../components/kustomizeconfig
