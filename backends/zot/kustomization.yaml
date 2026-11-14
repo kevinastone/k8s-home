@@ -9,6 +9,12 @@ configMapGenerator:
 - name: zot-config
   files:
   - resources/config.json
+- name: zot-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/zot.json
 components:
 - ../../components/namespace
 - ../../components/goldilocks
