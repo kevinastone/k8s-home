@@ -59,6 +59,7 @@
                 fluxcd
                 kubectl
                 kubectl-cnpg
+                kubernetes-helm
                 kustomize
                 sofka
                 sops
