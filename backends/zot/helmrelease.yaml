@@ -21,7 +21,7 @@ spec:
           main:
             image:
               repository: ghcr.io/project-zot/zot
-              tag: v2.1.23
+              tag: v2.1.23@sha256:9d3de83ac2099e6f4843045b4c9b65b7e8baf40f92d28f54906dee9d4d390fd7
             args:
             - serve
             - /etc/zot/config.json
