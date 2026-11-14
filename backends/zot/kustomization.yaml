@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: zot
 resources:
-- dragonfly.yaml
 - helmrelease.yaml
 - http-route.yaml
 - s3-creds.yaml
@@ -18,7 +17,6 @@ configMapGenerator:
   files:
   - dashboards/zot.json
 components:
-- ../../components/dragonfly
 - ../../components/namespace
 - ../../components/goldilocks
 - ../../components/kustomizeconfig
