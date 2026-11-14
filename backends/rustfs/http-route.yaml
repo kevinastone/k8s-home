@@ -20,6 +20,11 @@ spec:
   - backendRefs:
     - name: rustfs-main
       port: 9001
+    sessionPersistence:
+      sessionName: rustfs_session
+      type: Cookie
+      cookieConfig:
+        lifetimeType: Session
     matches:
     - path:
         type: PathPrefix
