@@ -6,6 +6,11 @@
     "gc": true,
     "gcDelay": "1h",
     "gcInterval": "6h",
+    "remoteCache": true,
+    "cacheDriver": {
+      "name": "redis",
+      "url": "redis://dragonfly:6379"
+    },
     "storageDriver": {
       "name": "s3",
       "region": "us-east-1",
