@@ -25,19 +25,16 @@ resource "rustfs_bucket" "bucket" {
 
 resource "rustfs_policy" "policy" {
   name = var.name
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = ["s3:*"]
-        Resource = [
-          "arn:aws:s3:::${var.name}",
-          "arn:aws:s3:::${var.name}/*"
-        ]
-      }
-    ]
-  })
+  statement = [
+    {
+      action = ["s3:*"]
+      effect = "Allow"
+      resource = [
+        "arn:aws:s3:::${var.name}",
+        "arn:aws:s3:::${var.name}/*"
+      ]
+    }
+  ]
 }
 
 resource "rustfs_user" "user" {
