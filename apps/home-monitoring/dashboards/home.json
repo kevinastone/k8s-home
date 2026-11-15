@@ -85,19 +85,19 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"bedroom_temperature\"}[2h])) * 9 / 5 + 32",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"bedroom_temperature_humidity\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id=\"bedroom_temperature\"}[2h]))",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"bedroom_temperature_pressure\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id=\"bedroom_temperature\"}[2h])) * 0.02952998",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -144,7 +144,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"bedroom_temperature_temperature\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"bedroom_temperature\"}[2h])) * 9 / 5 + 32",
                     "legendFormat": "Bedroom",
                     "format": "time_series",
                     "instant": false
@@ -226,19 +226,19 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"office_temperature\"}[2h])) * 9 / 5 + 32",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"office_temperature_humidity\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id=\"office_temperature\"}[2h]))",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"office_temperature_pressure\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id=\"office_temperature\"}[2h])) * 0.02952998",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -285,7 +285,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"office_temperature_temperature\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"office_temperature\"}[2h])) * 9 / 5 + 32",
                     "legendFormat": "Office",
                     "format": "time_series",
                     "instant": false
@@ -367,19 +367,19 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"living_room_temperature\"}[2h])) * 9 / 5 + 32",
                     "legendFormat": "Temperature",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"living_room_temperature_humidity\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id=\"living_room_temperature\"}[2h]))",
                     "legendFormat": "Humidity",
                     "format": "time_series",
                     "instant": false
                 },
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"living_room_temperature_pressure\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id=\"living_room_temperature\"}[2h])) * 0.02952998",
                     "legendFormat": "Pressure",
                     "format": "time_series",
                     "instant": false
@@ -426,7 +426,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"living_room_temperature_temperature\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"living_room_temperature\"}[2h])) * 9 / 5 + 32",
                     "legendFormat": "Living Room",
                     "format": "time_series",
                     "instant": false
@@ -484,7 +484,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"rack_power_power\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"rack_power\"}[2h]))",
                     "legendFormat": "Rack Power",
                     "format": "time_series",
                     "instant": false
@@ -541,7 +541,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"media_power_power\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"media_power\"}[2h]))",
                     "legendFormat": "Media Power",
                     "format": "time_series",
                     "instant": false
@@ -598,7 +598,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"desk_power_power\",__name__=~\".*_value\"}[2h]))",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"desk_power\"}[2h]))",
                     "legendFormat": "Desk Power",
                     "format": "time_series",
                     "instant": false
@@ -656,7 +656,7 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time({entity_id=\"laundry_power_power\",__name__=~\".*_value\"}[2h])) > bool 10",
+                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"laundry_power\"}[2h])) > bool 10",
                     "legendFormat": "State",
                     "format": "time_series",
                     "instant": false

@@ -1,0 +1,68 @@
+data_dir: /vector-data-dir
+
+api:
+  enabled: true
+
+sources:
+  zigbee2mqtt:
+    type: mqtt
+    host: pgmqtt.mqtt.svc.cluster.local
+    topic: "zigbee2mqtt/+"
+
+  internal_metrics:
+    type: internal_metrics
+
+transforms:
+  parse_zigbee2mqtt:
+    type: remap
+    inputs:
+    - zigbee2mqtt
+    source: |
+      topic = string(.topic) ?? ""
+      if topic == "" || starts_with(topic, "zigbee2mqtt/bridge") { abort }
+      payload, err = parse_json(.message)
+      if err != null { abort }
+      obj, err = object(payload)
+      if err != null { abort }
+
+      device = replace(topic, r'^zigbee2mqtt/', "")
+      slug = replace(downcase(device), r'[^a-z0-9]+', "_")
+      slug = replace(slug, r'^_+|_+$', "")
+
+      events = []
+      for_each(obj) -> |k, v| {
+        if is_float(v) || is_integer(v) {
+          events = push(events, {
+            "entity_id": slug,
+            "field": k,
+            "value": to_float!(v),
+          })
+        }
+      }
+      . = events
+
+  zigbee2mqtt_metrics:
+    type: log_to_metric
+    inputs:
+    - parse_zigbee2mqtt
+    metrics:
+    - type: gauge
+      field: value
+      name: "zigbee2mqtt_{{ field }}"
+      tags:
+        entity_id: "{{ entity_id }}"
+
+sinks:
+  vmcluster_influx:
+    type: prometheus_remote_write
+    inputs:
+    - zigbee2mqtt_metrics
+    endpoint: http://vminsert-vmcluster-influx.victoria-metrics.svc.cluster.local:8480/insert/0/prometheus/api/v1/write
+    healthcheck:
+      enabled: false
+
+  prom_exporter:
+    type: prometheus_exporter
+    inputs:
+    - internal_metrics
+    address: 0.0.0.0:9090

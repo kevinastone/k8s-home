@@ -6,12 +6,12 @@ import (
 
 // Reusable Room Card: Stat panel with sparklines + temperature trend graph
 #RoomPanels: R={
-	room:   string
-	prefix: string
+	room:      string
+	entity_id: string
 
-	let _tempExpr = #"max by (entity_id) (last_over_time({entity_id="\#(R.prefix)_temperature",__name__=~".*_value"}[2h]))"#
-	let _humidityExpr = #"max by (entity_id) (last_over_time({entity_id="\#(R.prefix)_humidity",__name__=~".*_value"}[2h]))"#
-	let _pressureExpr = #"max by (entity_id) (last_over_time({entity_id="\#(R.prefix)_pressure",__name__=~".*_value"}[2h]))"#
+	let _tempExpr = #"max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id="\#(R.entity_id)"}[2h])) * 9 / 5 + 32"#
+	let _humidityExpr = #"max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id="\#(R.entity_id)"}[2h]))"#
+	let _pressureExpr = #"max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id="\#(R.entity_id)"}[2h])) * 0.02952998"#
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
 	statPanel: grafana.#StatPanel & {
@@ -71,7 +71,7 @@ import (
 	name:      string
 	entity_id: string
 
-	let _powerExpr = #"max by (entity_id) (last_over_time({entity_id="\#(P.entity_id)",__name__=~".*_value"}[2h]))"#
+	let _powerExpr = #"max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id="\#(P.entity_id)"}[2h]))"#
 
 	out: grafana.#StatPanel & {
 		gridPos: {h: 3, w: 6}
@@ -107,7 +107,7 @@ import (
 	entity_id: string
 	threshold: number
 
-	let _applianceExpr = #"max by (entity_id) (last_over_time({entity_id="\#(T.entity_id)",__name__=~".*_value"}[2h])) > bool \#(T.threshold)"#
+	let _applianceExpr = #"max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id="\#(T.entity_id)"}[2h])) > bool \#(T.threshold)"#
 
 	out: grafana.#StatPanel & {
 		title: T.name
@@ -133,26 +133,26 @@ import (
 
 // Declarative definitions of rooms and monitored devices
 #Rooms: [
-	{name: "Bedroom", prefix: "bedroom_temperature"},
-	{name: "Office", prefix: "office_temperature"},
-	{name: "Living Room", prefix: "living_room_temperature"},
+	{name: "Bedroom", entity_id: "bedroom_temperature"},
+	{name: "Office", entity_id: "office_temperature"},
+	{name: "Living Room", entity_id: "living_room_temperature"},
 ]
 
 #PowerDevices: [
-	{name: "Rack Power", entity_id: "rack_power_power"},
-	{name: "Media Power", entity_id: "media_power_power"},
-	{name: "Desk Power", entity_id: "desk_power_power"},
+	{name: "Rack Power", entity_id: "rack_power"},
+	{name: "Media Power", entity_id: "media_power"},
+	{name: "Desk Power", entity_id: "desk_power"},
 ]
 
 let washerTile = #BinaryApplianceTile & {
 	name:      "Washing Machine"
-	entity_id: "laundry_power_power"
+	entity_id: "laundry_power"
 	threshold: 10
 }
 
 // Dashboard columns layout
 let roomColumns = [for r in #Rooms {
-	(#RoomPanels & {room: r.name, prefix: r.prefix}).out
+	(#RoomPanels & {room: r.name, entity_id: r.entity_id}).out
 }]
 
 let powerColumn = [
