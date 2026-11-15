@@ -8,7 +8,7 @@ ______________________________________________________________________
 
 - **Engine**: PostgreSQL 17 (CloudNativePG operator).
 - **Topology**: 3 instances per cluster configured with Pod Anti-Affinity across worker nodes.
-- **Local Storage**: `openebs-hostpath` for low-latency NVMe performance (`storage` and `walStorage`).
+- **Local Storage**: `openebs-rawfile` for low-latency NVMe performance (`storage` and `walStorage`).
 - **Object Storage & Backups**:
   - Managed by the `barman-cloud.cloudnative-pg.io` plugin.
   - Continuous WAL archiving and scheduled physical base backups (`ScheduledBackup`) stream to `rustfs` S3 (`s3.k8s.kevinastone.com`).

@@ -22,10 +22,10 @@ spec:
     podAntiAffinityType: required
   storage:
     size: 10Gi
-    storageClass: openebs-hostpath
+    storageClass: openebs-rawfile
   walStorage:
     size: 1Gi
-    storageClass: openebs-hostpath
+    storageClass: openebs-rawfile
   resources:
     requests:
       cpu: 200m
