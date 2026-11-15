@@ -59,13 +59,6 @@ lovelace:
       icon: mdi:view-dashboard
       show_in_sidebar: true
 
-# InfluxDB
-influxdb:
-  host: influxdb.k8s.kevinastone.com
-  tags:
-    db: home_assistant
-  max_retries: 3
-
 recorder:
   db_url: !env_var postgres_uri
   db_max_retries: 360 # 60 minutes (with 10sec interval below)
