@@ -36,7 +36,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_FRONTEND_ENABLED: "true"
               ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 80
               ZIGBEE2MQTT_CONFIG_FRONTEND_HOST: 0.0.0.0
-              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: "true"
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: "false"
               ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
             envFrom:
             - secretRef:

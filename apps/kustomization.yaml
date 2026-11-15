@@ -6,7 +6,6 @@ components:
 resources:
 # keep-sorted start
 - dao-2048
-- home-assistant
 - home-monitoring
 - homepage
 - httpbox
