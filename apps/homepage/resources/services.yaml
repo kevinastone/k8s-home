@@ -1,0 +1,10 @@
+- Dashboards:
+  - Home:
+      icon: mdi-home
+      href: https://grafana.k8s.kevinastone.com/d/home-overview/home
+  - System Health:
+      icon: mdi-heart-pulse
+      href: https://grafana.k8s.kevinastone.com/d/system-health/system-health
+  - UPS Monitoring:
+      icon: mdi-battery-charging
+      href: https://grafana.k8s.kevinastone.com/d/network-ups-tools/ups-monitoring

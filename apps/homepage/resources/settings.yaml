@@ -9,6 +9,11 @@ layout:
   Metrics:
     style: row
     columns: 3
+    icon: mdi-pulse
+    useEqualHeights: true
+  Dashboards:
+    style: row
+    columns: 3
     icon: mdi-chart-line
     useEqualHeights: true
   Servers:
