@@ -31,6 +31,7 @@
         ./nix/devshell.nix
         ./nix/tofu.nix
         ./.github
+        ./apps/home-monitoring
         ./apps/media/transcoder
         ./apps/media/sabnzbd
         ./monitoring/grafana
