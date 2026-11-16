@@ -68,6 +68,7 @@ spec:
               RUSTFS_ERASURE_SET_DRIVE_COUNT: "3"
               RUSTFS_STORAGE_CLASS_STANDARD: "EC:1"
               RUSTFS_REGION: "us-east-1"
+              RUSTFS_SERVER_DOMAINS: "s3.k8s.kevinastone.com"
             envFrom:
             - secretRef:
                 name: rustfs-client-secret

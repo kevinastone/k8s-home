@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: rustfs
 resources:
 - helmrelease.yaml
+- gateway.yaml
 - http-route.yaml
 - terraform.yaml
 - rustfs-users.yaml
