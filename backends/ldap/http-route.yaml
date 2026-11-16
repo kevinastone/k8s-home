@@ -6,6 +6,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
+    gethomepage.dev/icon: /assets/icons/svg/lldap-dark.svg
     gethomepage.dev/name: LLDAP
 spec:
   parentRefs:
