@@ -24,7 +24,9 @@ import (
 			colorMode:   "none"
 		}
 		fieldConfig: {
-			defaults: {}
+			defaults: {
+				fieldMinMax: true
+			}
 			overrides: [
 				{
 					matcher: {id: "byName", options: "Temperature"}

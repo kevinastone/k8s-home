@@ -809,6 +809,8 @@ lineage: schemas: [{
 			min?: number @grafanamaturity(NeedsExpertReview)
 			// The maximum value used in percentage threshold calculations. Leave blank for auto calculation based on all series and fields.
 			max?: number @grafanamaturity(NeedsExpertReview)
+			// Calculate min max per field
+			fieldMinMax?: bool @grafanamaturity(NeedsExpertReview)
 
 			// Convert input values into a display string
 			mappings?: [...#ValueMapping] @grafanamaturity(NeedsExpertReview)

@@ -19,6 +19,7 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "fieldMinMax": true,
                     "mappings": []
                 },
                 "overrides": [
@@ -160,6 +161,7 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "fieldMinMax": true,
                     "mappings": []
                 },
                 "overrides": [
@@ -301,6 +303,7 @@
             },
             "fieldConfig": {
                 "defaults": {
+                    "fieldMinMax": true,
                     "mappings": []
                 },
                 "overrides": [
