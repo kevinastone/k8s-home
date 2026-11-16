@@ -8,14 +8,6 @@ metadata:
 spec:
   gatewayClassName: envoy-gateway-class
   listeners:
-  - name: influxdb
-    protocol: HTTP
-    port: 8086
-    allowedRoutes:
-      kinds:
-      - kind: HTTPRoute
-      namespaces:
-        from: Same
   - name: otlp-grpc
     protocol: HTTP
     port: 4317

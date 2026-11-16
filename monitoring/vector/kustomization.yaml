@@ -17,7 +17,6 @@ configMapGenerator:
   files:
   # keep-sorted start
   - config/base.yaml
-  - config/influxdb.yaml
   - config/internal_metrics.yaml
   - config/otlp.yaml
   - config/victoria_metrics.yaml

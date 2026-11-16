@@ -16,9 +16,6 @@ spec:
     role: Stateless-Aggregator
     replicas: 2
     containerPorts:
-    - name: influxdb
-      containerPort: &influxPort 8086
-      protocol: TCP
     - name: &promPort prom-exporter
       containerPort: 9090
       protocol: TCP
@@ -35,10 +32,6 @@ spec:
       enabled: true
       type: ClusterIP
       ports:
-      - name: influxdb
-        port: *influxPort
-        targetPort: *influxPort
-        protocol: TCP
       - name: otlp-grpc
         port: *otlpGrpcPort
         targetPort: *otlpGrpcPort

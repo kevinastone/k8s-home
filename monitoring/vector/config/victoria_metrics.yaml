@@ -2,7 +2,6 @@ transforms:
   prefix_db_influx:
     type: remap
     inputs:
-    - influxdb
     - opentelemetry.metrics
     source: |
       if exists(.tags.db) {
