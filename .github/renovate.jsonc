@@ -2,13 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":disableRateLimiting",
     ":semanticCommits",
-    ":rebaseStalePrs",
     "docker:enableMajor",
     ":automergeMinor",
     ":automergeDigest"
   ],
+  "rebaseWhen": "conflicted",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
   "ignorePaths": ["**/resources/**"],
   "pinDigest": {
     "automerge": true
@@ -63,6 +64,11 @@
     }
   ],
   "packageRules": [
+    {
+      "description": ["Group container digest updates into a single PR"],
+      "matchUpdateTypes": ["digest"],
+      "groupName": "docker-digests"
+    },
     {
       "matchPackageNames": ["csi-driver-smb"],
       "allowedVersions": "!/v1.15.0/"
