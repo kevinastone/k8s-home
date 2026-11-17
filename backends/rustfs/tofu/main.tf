@@ -9,11 +9,3 @@ module "dragonfly" {
   name   = "dragonfly"
   secret = var.dragonfly
 }
-
-removed {
-  from = module.clickhouse.rustfs_bucket.bucket
-
-  lifecycle {
-    destroy = false
-  }
-}
