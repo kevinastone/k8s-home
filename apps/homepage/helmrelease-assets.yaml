@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/homepage-assets-nginx
-              tag: main@sha256:sha256:622808912bcfd9966235238e361513862311e357dd5e1f76d3a1eba4484e33c1
+              tag: main@sha256:622808912bcfd9966235238e361513862311e357dd5e1f76d3a1eba4484e33c1
             ports:
             - containerPort: 8080
               name: http
