@@ -39,28 +39,3 @@ resource "terraform_data" "secret_rotation" {
 resource "terraform_data" "user_replacement" {
   input = var.AWS_ACCESS_KEY_ID
 }
-
-moved {
-  from = module.bucket.rustfs_bucket.bucket
-  to   = rustfs_bucket.bucket
-}
-
-moved {
-  from = module.bucket.rustfs_policy.policy
-  to   = rustfs_policy.policy
-}
-
-moved {
-  from = module.bucket.rustfs_user.user
-  to   = rustfs_user.user
-}
-
-moved {
-  from = module.bucket.terraform_data.secret_rotation
-  to   = terraform_data.secret_rotation
-}
-
-moved {
-  from = module.bucket.terraform_data.user_replacement
-  to   = terraform_data.user_replacement
-}
