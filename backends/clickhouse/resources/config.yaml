@@ -2,10 +2,14 @@ listen_host: 0.0.0.0
 path: /data/
 
 logger:
-  level: warning
+  level: error
   console: true
   log: ""
   errorlog: ""
+  levels:
+    logger:
+    - name: "bool DB::WriteBufferFromHTTPServerResponse::cancelWithException(HTTPServerRequest &, int, const std::string &, WriteBuffer *)"
+      level: fatal
 
 prometheus:
   endpoint: /metrics
