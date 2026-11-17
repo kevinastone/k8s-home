@@ -6,7 +6,6 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - vmrules.yaml
-- vmcluster-influx.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks

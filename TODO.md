@@ -88,10 +88,10 @@ Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victo
   - [x] Add `grafana-clickhouse-datasource` to `plugins` in [`monitoring/grafana/helmrelease.yaml`](./monitoring/grafana/helmrelease.yaml) and provision an unauthenticated ClickHouse datasource `ConfigMap` (`grafana_datasource: "true"`) in `backends/clickhouse/` (to be replaced by a credentialed `Secret` in Step 6).
   - [x] Update [`apps/home-monitoring/dashboards/home.cue`](./apps/home-monitoring/dashboards/home.cue) to query ClickHouse SQL instead of PromQL, and recompile with `nix develop --command build-dashboards apps/home-monitoring/dashboards`.
 
-- [ ] **5. Decommission `vmcluster-influx`**:
+- [x] **5. Decommission `vmcluster-influx`**:
 
-  - [ ] Remove `vmstorage-vmcluster-influx-0.vmstorage-vmcluster-influx.victoria-metrics.svc:8401` from `vmselect.extraArgs.storageNode` in [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml).
-  - [ ] Delete [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) and remove it from [`monitoring/victoria-metrics/kustomization.yaml`](./monitoring/victoria-metrics/kustomization.yaml).
+  - [x] Remove `vmstorage-vmcluster-influx-0.vmstorage-vmcluster-influx.victoria-metrics.svc:8401` from `vmselect.extraArgs.storageNode` in [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml).
+  - [x] Delete [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) and remove it from [`monitoring/victoria-metrics/kustomization.yaml`](./monitoring/victoria-metrics/kustomization.yaml).
 
 - [x] **6. Harden ClickHouse with User Accounts & ACLs**:
 

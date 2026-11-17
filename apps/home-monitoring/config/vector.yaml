@@ -47,17 +47,6 @@ transforms:
       }
       . = events
 
-  zigbee2mqtt_metrics:
-    type: log_to_metric
-    inputs:
-    - parse_zigbee2mqtt
-    metrics:
-    - type: gauge
-      field: value
-      name: "zigbee2mqtt_{{ name }}"
-      tags:
-        entity_id: "{{ entity_id }}"
-
 sinks:
   clickhouse:
     type: clickhouse
@@ -80,14 +69,6 @@ sinks:
       max_events: 100000
       when_full: block
     acknowledgements:
-      enabled: false
-
-  vmcluster_influx:
-    type: prometheus_remote_write
-    inputs:
-    - zigbee2mqtt_metrics
-    endpoint: http://vminsert-vmcluster-influx.victoria-metrics.svc.cluster.local:8480/insert/0/prometheus/api/v1/write
-    healthcheck:
       enabled: false
 
   prom_exporter:
