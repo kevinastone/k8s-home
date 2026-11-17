@@ -8,6 +8,7 @@ resources:
 - cert-manager
 - cilium
 - cloudflared
+- cluster-secrets
 - csi-driver-smb
 - descheduler
 - envoy-gateway

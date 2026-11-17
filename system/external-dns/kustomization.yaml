@@ -4,6 +4,15 @@ kind: Kustomization
 namespace: external-dns
 resources:
 - helmrelease.yaml
-- cloudflare-api-token-secret.yaml
 components:
 - ../../components/namespace
+patches:
+- target:
+    kind: Namespace
+  patch: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: _
+      labels:
+        secrets.k8s-home.internal/cloudflare-dns: "true"

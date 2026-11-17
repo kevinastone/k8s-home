@@ -7,3 +7,13 @@ resources:
 components:
 - ../../components/namespace
 - ../../components/goldilocks
+patches:
+- target:
+    kind: Namespace
+  patch: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: _
+      labels:
+        secrets.k8s-home.internal/cloudflare-dns: "true"

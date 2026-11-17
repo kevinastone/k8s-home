@@ -6,7 +6,6 @@ resources:
 - helmrelease.yaml
 - cluster-issuer.yaml
 - prometheus-rule.yaml
-- cloudflare-api-token-secret.yaml
 configMapGenerator:
 - name: cert-manager-dashboard
   options:
