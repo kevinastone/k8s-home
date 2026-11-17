@@ -66,13 +66,13 @@ Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victo
   - [x] Add `clickhouse` password generation to [`backends/rustfs/rustfs-users.yaml`](./backends/rustfs/rustfs-users.yaml) using `ClusterGenerator/password-alphanumeric`.
   - [x] Add `variable "clickhouse"` in [`backends/rustfs/tofu/variables.tf`](./backends/rustfs/tofu/variables.tf), `module "clickhouse"` (`./modules/s3-user-bucket`) in [`backends/rustfs/tofu/main.tf`](./backends/rustfs/tofu/main.tf), and pass `clickhouse` in `varsFrom` in [`backends/rustfs/terraform.yaml`](./backends/rustfs/terraform.yaml).
 
-- [ ] **2. Deploy ClickHouse under `backends/clickhouse/` (without user auth)**:
+- [x] **2. Deploy ClickHouse under `backends/clickhouse/` (without user auth)**:
 
-  - [ ] Create `backends/clickhouse/` (`kustomization.yaml`, `helmrelease.yaml` using `app-template` with `clickhouse/clickhouse-server` as a single-replica `StatefulSet` on a `longhorn` PVC labeled `kopiur.home-operations.com/backup: "true"`).
-  - [ ] Add an `ExternalSecret` to pull the `clickhouse` S3 secret from `ClusterSecretStore/rustfs-kubernetes-store`.
-  - [ ] Configure `/etc/clickhouse-server/config.d/storage.yaml` (`storage_configuration`) with a `default` local disk (`longhorn` PVC), an `s3_cold` disk targeting `http://rustfs-main.rustfs.svc.cluster.local:9000/clickhouse/`, and an `s3_cache` (`type: cache`, `max_size: 4Gi`) wrapper on an `emptyDir` (`sizeLimit: 5Gi`) so `kopiur` doesn't back up ephemeral cache blocks, combined into a `hot_to_cold` storage policy.
-  - [ ] Enable ClickHouse's built-in Prometheus endpoint (`/metrics` on port `9363`) and add a `ServiceMonitor` for `vmagent` scraping.
-  - [ ] Register `clickhouse` in [`backends/kustomization.yaml`](./backends/kustomization.yaml).
+  - [x] Create `backends/clickhouse/` (`kustomization.yaml`, `helmrelease.yaml` using `app-template` with `clickhouse/clickhouse-server` as a single-replica `StatefulSet` on a `longhorn` PVC labeled `kopiur.home-operations.com/backup: "true"`).
+  - [x] Add an `ExternalSecret` to pull the `clickhouse` S3 secret from `ClusterSecretStore/rustfs-kubernetes-store`.
+  - [x] Configure `/etc/clickhouse-server/config.d/storage.yaml` (`storage_configuration`) with a `default` local disk (`longhorn` PVC), an `s3_cold` disk targeting `https://s3.k8s.kevinastone.com/clickhouse/`, and an `s3_cache` (`type: cache`, `max_size: 4Gi`) wrapper on an `emptyDir` (`sizeLimit: 5Gi`) so `kopiur` doesn't back up ephemeral cache blocks, combined into a `hot_to_cold` storage policy.
+  - [x] Enable ClickHouse's built-in Prometheus endpoint (`/metrics` on port `9363`) and add a `ServiceMonitor` for `vmagent` scraping.
+  - [x] Register `clickhouse` in [`backends/kustomization.yaml`](./backends/kustomization.yaml).
 
 - [ ] **3. Schema & Ingestion Pipeline Migration**:
 

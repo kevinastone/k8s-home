@@ -6,6 +6,7 @@ components:
 resources:
 # keep-sorted start
 - authelia
+- clickhouse
 - dns
 - envoy-gateway
 - ldap

@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: clickhouse
+resources:
+- helmrelease.yaml
+- http-route.yaml
+- s3-creds.yaml
+components:
+- ../../components/namespace
+- ../../components/goldilocks
+- ../../components/kustomizeconfig
+configMapGenerator:
+- name: clickhouse-config
+  files:
+  - resources/config.yaml

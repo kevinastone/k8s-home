@@ -27,3 +27,9 @@ variable "dragonfly" {
   description = "Dragonfly user password"
   sensitive   = true
 }
+
+variable "clickhouse" {
+  type        = string
+  description = "ClickHouse user password"
+  sensitive   = true
+}

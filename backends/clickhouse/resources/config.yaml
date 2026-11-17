@@ -1,0 +1,37 @@
+listen_host: 0.0.0.0
+path: /data/
+
+logger:
+  level: warning
+  console: true
+  log: ""
+  errorlog: ""
+
+prometheus:
+  endpoint: /metrics
+  port: 9363
+  metrics: true
+  events: true
+  asynchronous_metrics: true
+  errors: true
+
+storage_configuration:
+  disks:
+    s3_cold:
+      type: s3
+      endpoint: https://s3.k8s.kevinastone.com/clickhouse/
+      use_environment_credentials: true
+      region: us-east-1
+      skip_access_check: false
+    s3_cache:
+      type: cache
+      disk: s3_cold
+      path: /cache/
+      max_size: 4Gi
+  policies:
+    hot_to_cold:
+      volumes:
+        hot:
+          disk: default
+        cold:
+          disk: s3_cache
