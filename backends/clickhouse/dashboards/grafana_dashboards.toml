@@ -1,0 +1,5 @@
+#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
+
+[clickhouse]
+id = 14192
+datasource = { DS_PROMETHEUS = "prometheus" }

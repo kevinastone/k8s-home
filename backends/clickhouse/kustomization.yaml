@@ -24,3 +24,9 @@ configMapGenerator:
       grafana_datasource: "true"
   files:
   - clickhouse.yaml=datasources/clickhouse.yaml
+- name: clickhouse-dashboard
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/clickhouse.json
