@@ -12,6 +12,7 @@ resources:
 - ldap
 - mqtt
 - one-password
+- postgres
 - rustfs
 - tailscale
 # keep-sorted end

@@ -6,7 +6,7 @@ spec:
   refreshInterval: 1h
   secretStoreRef:
     kind: ClusterSecretStore
-    name: rustfs-kubernetes-store
+    name: postgres-kubernetes-store
   target:
     name: s3-creds
     creationPolicy: Owner
@@ -14,7 +14,7 @@ spec:
       engineVersion: v2
       data:
         ACCESS_KEY: postgres
-        SECRET_KEY: "{{ .postgres }}"
+        SECRET_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
   dataFrom:
   - extract:
-      key: rustfs-users
+      key: s3-creds
