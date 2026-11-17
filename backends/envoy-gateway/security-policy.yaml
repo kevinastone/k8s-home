@@ -15,8 +15,6 @@ spec:
     failOpen: false
     headersToExtAuth:
     - X-Forwarded-Proto
-    - authorization
-    - proxy-authorization
     - accept
     - cookie
     http:
