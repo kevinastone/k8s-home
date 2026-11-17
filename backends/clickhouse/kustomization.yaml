@@ -14,6 +14,7 @@ resources:
 components:
 - ../../components/namespace
 - ../../components/goldilocks
+- ../../components/kopiur
 - ../../components/kustomizeconfig
 configMapGenerator:
 - name: clickhouse-config
