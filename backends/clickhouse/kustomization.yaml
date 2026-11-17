@@ -10,6 +10,7 @@ resources:
 - kubernetes-store.yaml
 - s3-creds.yaml
 - users.yaml
+- vector-creds.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks

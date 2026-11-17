@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/clusterexternalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ClusterExternalSecret
+metadata:
+  name: clickhouse-vector-creds
+spec:
+  refreshTime: 5m
+  namespaceSelectors:
+  - matchLabels:
+      secrets.k8s-home.internal/clickhouse-vector: "true"
+  externalSecretSpec:
+    refreshInterval: 5m
+    secretStoreRef:
+      kind: ClusterSecretStore
+      name: clickhouse-kubernetes-store
+    target:
+      name: clickhouse-vector-creds
+      creationPolicy: Owner
+      template:
+        engineVersion: v2
+        data:
+          CLICKHOUSE_USER: vector
+          CLICKHOUSE_PASSWORD: "{{ .vector }}"
+    dataFrom:
+    - extract:
+        key: clickhouse-vector-user

@@ -31,3 +31,33 @@ spec:
     rewrite:
     - transform:
         template: grafana_password
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: clickhouse-vector-user
+spec:
+  refreshPolicy: CreatedOnce
+  target:
+    name: clickhouse-vector-user
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        vector: "{{ .vector_password }}"
+        vector.yaml: |
+          users:
+            vector:
+              password: "{{ .vector_password }}"
+              allow_databases:
+                database: metrics
+  dataFrom:
+  - sourceRef:
+      generatorRef:
+        apiVersion: generators.external-secrets.io/v1alpha1
+        kind: ClusterGenerator
+        name: password-alphanumeric
+    rewrite:
+    - transform:
+        template: vector_password

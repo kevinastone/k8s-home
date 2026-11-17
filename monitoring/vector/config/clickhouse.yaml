@@ -1,3 +1,8 @@
+secret:
+  clickhouse:
+    type: directory
+    path: /etc/vector-secrets
+
 transforms:
   clickhouse_metric_to_log:
     type: metric_to_log
@@ -23,6 +28,10 @@ sinks:
     endpoint: http://clickhouse.clickhouse.svc.cluster.local:8123
     database: metrics
     table: telegraf
+    auth:
+      strategy: basic
+      user: "SECRET[clickhouse.CLICKHOUSE_USER]"
+      password: "SECRET[clickhouse.CLICKHOUSE_PASSWORD]"
     compression: gzip
     date_time_best_effort: true
     skip_unknown_fields: true

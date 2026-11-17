@@ -12,6 +12,16 @@ resources:
 components:
 - ../../components/namespace
 - ../../components/kustomizeconfig
+patches:
+- target:
+    kind: Namespace
+  patch: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: _
+      labels:
+        secrets.k8s-home.internal/clickhouse-vector: "true"
 configMapGenerator:
 - name: vector-aggregator-config
   files:

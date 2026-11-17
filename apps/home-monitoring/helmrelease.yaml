@@ -31,5 +31,13 @@ spec:
       limits:
         memory: 256Mi
     dataDir: /vector-data-dir
+    extraVolumes:
+    - name: clickhouse-creds
+      secret:
+        secretName: clickhouse-vector-creds
+    extraVolumeMounts:
+    - name: clickhouse-creds
+      mountPath: /etc/vector-secrets
+      readOnly: true
     existingConfigMaps:
     - home-monitoring-vector-config
