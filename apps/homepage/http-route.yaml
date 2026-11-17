@@ -23,8 +23,8 @@ spec:
           type: ReplacePrefixMatch
           replacePrefixMatch: /
     backendRefs:
-    - name: homepage
-      port: 8080
+    - name: homepage-assets
+      port: 80
   - matches:
     - path:
         type: PathPrefix
