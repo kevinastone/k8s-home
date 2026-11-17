@@ -26,3 +26,9 @@ variable "AWS_SECRET_ACCESS_KEY" {
   description = "The password/secret key for the IAM user"
   sensitive   = true
 }
+
+variable "force_destroy" {
+  type        = bool
+  description = "Allow Terraform to empty and destroy a non-empty bucket"
+  default     = false
+}

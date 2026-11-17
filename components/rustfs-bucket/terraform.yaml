@@ -7,7 +7,7 @@ spec:
   serviceAccountName: tf-runner
   interval: 10m
   approvePlan: auto
-  path: ./backends/rustfs/tofu/bucket
+  path: ./components/rustfs-bucket/tofu
   sourceRef:
     kind: GitRepository
     name: fluxcd-sync
