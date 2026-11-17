@@ -20,7 +20,3 @@ spec:
     - RUSTFS_SECRET_KEY
   - kind: Secret
     name: rustfs-users
-    varsKeys:
-    - postgres
-    - dragonfly
-    - clickhouse
