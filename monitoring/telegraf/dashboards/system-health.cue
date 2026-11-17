@@ -1,4 +1,4 @@
-package vm_monitoring
+package telegraf
 
 import (
 	"time"

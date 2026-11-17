@@ -36,5 +36,4 @@ configMapGenerator:
     labels:
       grafana_dashboard: "true"
   files:
-  - system-health.json=dashboards/system-health.json
   - alerts-overview.json=dashboards/alerts-overview.json

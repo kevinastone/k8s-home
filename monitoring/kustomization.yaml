@@ -19,6 +19,7 @@ resources:
 - peanut
 - postgres
 - prometheus
+- telegraf
 - tofu-controller
 - vector
 - victoria-metrics
