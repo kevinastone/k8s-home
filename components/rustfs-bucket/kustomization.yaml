@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+- ../tf-runner
+resources:
+- s3-creds.yaml
+- terraform.yaml
+patches:
+- target:
+    kind: Namespace
+  patch: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: _
+      labels:
+        secrets.k8s-home.internal/rustfs-admin: "true"

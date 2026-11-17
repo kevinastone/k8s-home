@@ -10,8 +10,10 @@ module "dragonfly" {
   secret = var.dragonfly
 }
 
-module "clickhouse" {
-  source = "./modules/s3-user-bucket"
-  name   = "clickhouse"
-  secret = var.clickhouse
+removed {
+  from = module.clickhouse.rustfs_bucket.bucket
+
+  lifecycle {
+    destroy = false
+  }
 }
