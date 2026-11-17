@@ -95,7 +95,8 @@ Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victo
 
 - [ ] **6. Harden ClickHouse with User Accounts & ACLs**:
 
-  - [ ] Add `ExternalSecret`s in `backends/clickhouse/` to:
-    - [ ] Generate `clickhouse-users` (`default`, `vector`, `grafana` passwords) via `ClusterGenerator/password-alphanumeric` (`refreshPolicy: OnChange`), and template `/etc/clickhouse-server/users.d/` as a mounted `Secret` (scoping `vector` and `grafana` to `metrics`, with `grafana` set to `profile: readonly` to block writes/DDL).
-    - [ ] Replace the temporary datasource `ConfigMap` with an `ExternalSecret`-templated Grafana datasource `Secret` (`grafana_datasource: "true"`) in the `clickhouse` namespace (`jsonData.username: grafana`, `secureJsonData.password` set to `grafana`'s password).
-  - [ ] Add a `ClusterSecretStore` (`clickhouse-kubernetes-store`, matching [`backends/rustfs/rustfs-kubernetes-store.yaml`](./backends/rustfs/rustfs-kubernetes-store.yaml)) so `vector` and `home-monitoring` namespaces can pull `vector`'s ClickHouse password via `ExternalSecret` and update both Vector `clickhouse` sinks to authenticate.
+  - [ ] Configure `/etc/clickhouse-server/users.d/` with 4 scoped accounts:
+    - [ ] `default`: passwordless, restricted to `localhost` (`127.0.0.1` / `::1`) for `/docker-entrypoint-initdb.d/` and local `kubectl exec` `clickhouse-client`.
+    - [ ] `admin`: full permissions (`access_management: 1`) with password populated by an `ExternalSecret` from `ClusterSecretStore/one-password` (for CH-UI / remote admin).
+    - [ ] `vector`: generated password in `clickhouse-users` (`ExternalSecret` + `ClusterGenerator/password-alphanumeric`, `refreshPolicy: CreatedOnce`) with read/write access scoped to `metrics.*`, plus `ExternalSecret`s in `vector` and `home-monitoring` pulling from `clickhouse-kubernetes-store` and configuring auth on both Vector `clickhouse` sinks.
+    - [x] `grafana`: generated password in `clickhouse-users` with `readonly: 2` (`grafana_readonly` profile) scoped to `metrics.*`, and `ExternalSecret/clickhouse-datasource` (`grafana_datasource: "true"`).
