@@ -74,14 +74,14 @@ Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victo
   - [x] Enable ClickHouse's built-in Prometheus endpoint (`/metrics` on port `9363`) and add a `ServiceMonitor` for `vmagent` scraping.
   - [x] Register `clickhouse` in [`backends/kustomization.yaml`](./backends/kustomization.yaml).
 
-- [ ] **3. Schema & Ingestion Pipeline Migration**:
+- [x] **3. Schema & Ingestion Pipeline Migration**:
 
   - [x] Add init SQL (`/docker-entrypoint-initdb.d/`) defining the metrics database and `MergeTree` table(s) with `SETTINGS storage_policy = 'hot_to_cold'` and a `TTL timestamp + INTERVAL 3 DAY TO VOLUME 'cold'` rule (partitioned daily by `toYYYYMMDD(timestamp)` and ordered by `(metric_name, tags, timestamp)`).
   - [x] Update [`apps/home-monitoring/config/vector.yaml`](./apps/home-monitoring/config/vector.yaml) (`zigbee2mqtt` metrics) and [`monitoring/vector/config/clickhouse.yaml`](./monitoring/vector/config/clickhouse.yaml) (`opentelemetry.metrics`) to write to ClickHouse (dual-writing temporarily during validation, then removing `vmcluster_influx`).
   - [x] Configure Vector buffering and acknowledgements to minimize data loss during ClickHouse pod reschedules:
     - [x] Increase sink buffers beyond the 500-event default (e.g., `buffer.type: memory`, `max_events: 100000`, `when_full: block`, or switch to `role: Aggregator` with a PVC and `buffer.type: disk` to also survive Vector pod restarts).
     - [x] Disable end-to-end `acknowledgements` (`enabled: false` / omit) on the `vector-aggregator` ClickHouse sink so Vector ACKs OTLP batches into its buffer immediately instead of blocking/timing out Telegraf while ClickHouse is down.
-  - [ ] *(Optional)* Export historical metrics from `vmcluster-influx` (`/api/v1/export`) and backfill into ClickHouse before decommissioning.
+  - [x] *(Optional)* Export historical metrics from `vmcluster-influx` (`/api/v1/export`) and backfill into ClickHouse before decommissioning.
 
 - [ ] **4. Grafana Datasource & Dashboard Migration**:
 
