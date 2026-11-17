@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: clickhouse-datasource
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: clickhouse-kubernetes-store
+  target:
+    name: clickhouse-datasource
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      metadata:
+        labels:
+          grafana_datasource: "true"
+      data:
+        clickhouse.yaml: |
+          apiVersion: 1
+          datasources:
+          - name: ClickHouse
+            uid: clickhouse
+            type: grafana-clickhouse-datasource
+            access: proxy
+            isDefault: false
+            editable: false
+            jsonData:
+              server: clickhouse.clickhouse.svc.cluster.local
+              port: 8123
+              protocol: http
+              username: grafana
+              defaultDatabase: metrics
+            secureJsonData:
+              password: "{{ .grafana }}"
+  dataFrom:
+  - extract:
+      key: clickhouse-users

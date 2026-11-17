@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: clickhouse-users
+spec:
+  refreshPolicy: CreatedOnce
+  target:
+    name: clickhouse-users
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        grafana: "{{ .grafana_password }}"
+        grafana.yaml: |
+          profiles:
+            grafana_readonly:
+              readonly: 2
+          users:
+            grafana:
+              password: "{{ .grafana_password }}"
+              profile: grafana_readonly
+              allow_databases:
+                database: metrics
+  dataFrom:
+  - sourceRef:
+      generatorRef:
+        apiVersion: generators.external-secrets.io/v1alpha1
+        kind: ClusterGenerator
+        name: password-alphanumeric
+    rewrite:
+    - transform:
+        template: grafana_password

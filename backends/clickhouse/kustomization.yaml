@@ -3,9 +3,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: clickhouse
 resources:
+- datasource.yaml
 - helmrelease.yaml
 - http-route.yaml
+- kubernetes-store.yaml
 - s3-creds.yaml
+- users.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks
@@ -18,12 +21,6 @@ configMapGenerator:
   files:
   - resources/telegraf.sql
   - resources/zigbee2mqtt.sql
-- name: clickhouse-datasource
-  options:
-    labels:
-      grafana_datasource: "true"
-  files:
-  - clickhouse.yaml=datasources/clickhouse.yaml
 - name: clickhouse-dashboard
   options:
     labels:

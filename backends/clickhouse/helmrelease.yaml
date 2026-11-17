@@ -112,3 +112,11 @@ spec:
         name: clickhouse-init # overridden by kustomizeconfig
         globalMounts:
         - path: /docker-entrypoint-initdb.d
+      users:
+        type: secret
+        name: clickhouse-users
+        items:
+        - key: grafana.yaml
+          path: grafana.yaml
+        globalMounts:
+        - path: /etc/clickhouse-server/users.d
