@@ -4,15 +4,6 @@ kind: Component
 components:
 - ../tf-runner
 resources:
+- rustfs-root-secret.yaml
 - s3-creds.yaml
 - terraform.yaml
-patches:
-- target:
-    kind: Namespace
-  patch: |-
-    apiVersion: v1
-    kind: Namespace
-    metadata:
-      name: _
-      labels:
-        secrets.k8s-home.internal/rustfs-admin: "true"
