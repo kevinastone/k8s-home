@@ -8,6 +8,7 @@ resources:
 - authelia
 - clickhouse
 - dns
+- dragonfly
 - envoy-gateway
 - ldap
 - mqtt
