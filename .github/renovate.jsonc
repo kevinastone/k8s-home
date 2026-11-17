@@ -82,6 +82,14 @@
       "allowedVersions": "<=5.2.4"
     },
     {
+      "description": [
+        "Block opentofu-runner digest updates incompatible with tofu-controller v0.16.6"
+      ],
+      "matchPackageNames": ["ghcr.io/home-operations/opentofu-runner"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
