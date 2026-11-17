@@ -1,7 +1,9 @@
-module "postgres" {
-  source = "./modules/s3-user-bucket"
-  name   = "postgres"
-  secret = var.postgres
+removed {
+  from = module.postgres.rustfs_bucket.bucket
+
+  lifecycle {
+    destroy = false
+  }
 }
 
 module "dragonfly" {

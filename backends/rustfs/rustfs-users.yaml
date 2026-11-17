@@ -11,17 +11,8 @@ spec:
     template:
       engineVersion: v2
       data:
-        postgres: "{{ .postgres_password }}"
         dragonfly: "{{ .dragonfly_password }}"
   dataFrom:
-  - sourceRef:
-      generatorRef:
-        apiVersion: generators.external-secrets.io/v1alpha1
-        kind: ClusterGenerator
-        name: password-alphanumeric
-    rewrite:
-    - transform:
-        template: postgres_password
   - sourceRef:
       generatorRef:
         apiVersion: generators.external-secrets.io/v1alpha1

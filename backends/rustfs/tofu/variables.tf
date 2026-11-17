@@ -16,12 +16,6 @@ variable "RUSTFS_SECRET_KEY" {
   sensitive   = true
 }
 
-variable "postgres" {
-  type        = string
-  description = "Postgres user password"
-  sensitive   = true
-}
-
 variable "dragonfly" {
   type        = string
   description = "Dragonfly user password"
