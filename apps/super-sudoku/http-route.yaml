@@ -6,7 +6,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Games
-    gethomepage.dev/icon: /assets/custom/sudoku.svg
+    gethomepage.dev/icon: /assets/selfhst/svg/nyt-sudoku.svg
     gethomepage.dev/name: Sudoku
 spec:
   parentRefs:
