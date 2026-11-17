@@ -1,4 +1,15 @@
-_: {
+{ lib, ... }:
+let
+  policySrc = lib.fileset.toSource {
+    root = ./.;
+    fileset = ./policy;
+  };
+  scriptsSrc = lib.fileset.toSource {
+    root = ./.;
+    fileset = ./scripts;
+  };
+in
+{
   perSystem =
     { pkgs, ... }:
     {
@@ -12,7 +23,7 @@ _: {
             }
             ''
               set -o pipefail
-              opa test ${./.}/policy --verbose | tee $out
+              opa test ${policySrc}/policy --verbose | tee $out
             '';
 
         transcoder-regal-lint =
@@ -22,7 +33,7 @@ _: {
             }
             ''
               set -o pipefail
-              regal lint ${./.}/policy | tee $out
+              regal lint ${policySrc}/policy | tee $out
             '';
 
         transcoder-shellcheck =
@@ -32,7 +43,7 @@ _: {
             }
             ''
               set -o pipefail
-              shellcheck ${./.}/scripts/*.sh | tee $out
+              shellcheck ${scriptsSrc}/scripts/*.sh | tee $out
             '';
       };
 

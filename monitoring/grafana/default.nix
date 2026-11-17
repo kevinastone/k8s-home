@@ -1,8 +1,24 @@
-{ self, ... }:
+{ lib, ... }:
 {
   perSystem =
     { pkgs, ... }:
     let
+      root = ../..;
+      cueSrc = lib.fileset.toSource {
+        inherit root;
+        fileset = lib.fileset.unions [
+          (root + "/cue")
+          (root + "/cue.mod")
+        ];
+      };
+      dashboardsSrc = lib.fileset.toSource {
+        inherit root;
+        fileset = lib.fileset.unions [
+          (root + "/cue")
+          (root + "/cue.mod")
+          (lib.fileset.fileFilter (file: file.hasExt "cue" || file.hasExt "json") root)
+        ];
+      };
       writeNuBin =
         {
           name ? pkgs.lib.removeSuffix ".nu" (baseNameOf script),
@@ -64,7 +80,7 @@
             }
             ''
               set -o pipefail
-              cue --chdir ${self} vet --concrete ./cue/grafana/ | tee $out
+              cue --chdir ${cueSrc} vet --concrete ./cue/grafana/ | tee $out
             '';
 
         dashboards-in-sync =
@@ -73,7 +89,7 @@
               nativeBuildInputs = [ build-dashboards ];
             }
             ''
-              build-dashboards --check ${self}
+              build-dashboards --check ${dashboardsSrc}
               touch $out
             '';
       };

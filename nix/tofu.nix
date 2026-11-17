@@ -1,5 +1,10 @@
-{ self, ... }:
-
+{ lib, ... }:
+let
+  tfSrc = lib.fileset.toSource {
+    root = ../.;
+    fileset = lib.fileset.fileFilter (file: file.hasExt "tf") ../.;
+  };
+in
 {
   perSystem =
     { pkgs, ... }:
@@ -13,7 +18,7 @@
           }
           ''
             set -o pipefail
-            tflint --recursive --chdir=${self}
+            tflint --recursive --chdir=${tfSrc}
             touch $out
           '';
     };
