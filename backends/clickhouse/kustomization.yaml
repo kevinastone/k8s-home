@@ -8,7 +8,6 @@ resources:
 - helmrelease.yaml
 - http-route.yaml
 - kubernetes-store.yaml
-- s3-creds.yaml
 - users.yaml
 - vector-creds.yaml
 components:
@@ -16,6 +15,17 @@ components:
 - ../../components/goldilocks
 - ../../components/kopiur
 - ../../components/kustomizeconfig
+- ../../components/rustfs-bucket
+patches:
+- target:
+    group: external-secrets.io
+    version: v1
+    kind: ExternalSecret
+    name: s3-creds
+  patch: |-
+    - op: replace
+      path: /spec/target/template/data/AWS_ACCESS_KEY_ID
+      value: clickhouse
 configMapGenerator:
 - name: clickhouse-config
   files:
