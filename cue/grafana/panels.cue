@@ -26,11 +26,19 @@ import (
 	datasource?: {type: string, uid: string}
 }
 
+#ClickHouseTarget: {
+	rawSql:     string
+	queryType:  *"timeseries" | "table" | "logs" | "trace"
+	format:     *0 | 1
+	editorType: *"sql" | "builder"
+	datasource: {type: string | *"grafana-clickhouse-datasource", uid: string | *"clickhouse"}
+}
+
 #BasePanel: #Panel & {
 	title?: string | *""
 	datasource: {type: string | *"prometheus", uid: string | *"prometheus"}
 	fieldConfig?: defaults: #FieldDefaults
-	targets?: [...#PromTarget]
+	targets?: [...(#PromTarget | #ClickHouseTarget)]
 }
 
 #TimeSeriesPanel: {

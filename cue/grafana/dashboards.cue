@@ -48,6 +48,18 @@ import (
 	sort:       *1 | _
 }
 
+#ClickHouseQueryVariable: V={
+	#VariableModel
+	name:  string
+	type:  "query"
+	label: *V.name | _
+	datasource: {type: *"grafana-clickhouse-datasource" | _, uid: *"clickhouse" | _}
+	query:      string
+	definition: *V.query | _
+	refresh:    *1 | _
+	sort:       *1 | _
+}
+
 #Dashboard: #DashboardSpec & {
 	title: string
 	uid:   string

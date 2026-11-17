@@ -5,8 +5,11 @@ import (
 	"k8s-home.internal/cue/grafana"
 )
 
+let _clickhouseDS = {type: "grafana-clickhouse-datasource", uid: "clickhouse"}
+
 // Reusable Host TimeSeries Panel for System Health
 #HealthTimeseries: grafana.#TimeSeriesPanel & {
+	datasource: _clickhouseDS
 	options: legend: showLegend: true
 	fieldConfig: defaults: custom: {
 		spanNulls:   div(time.ParseDuration("1h"), time.Millisecond)
@@ -18,8 +21,19 @@ let cpuTemp = #HealthTimeseries & {
 	title: "CPU Temperature"
 	fieldConfig: defaults: unit: "celsius"
 	targets: [
-		grafana.#PromTarget & {
-			expr: #"avg by(host) (host.temperature_celsius{host=~"$host"})"#
+		grafana.#ClickHouseTarget & {
+			rawSql: """
+				SELECT
+				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
+				  host,
+				  avg(value) AS value
+				FROM metrics.telegraf
+				WHERE $__timeFilter(timestamp)
+				  AND name = 'host.temperature_celsius'
+				  AND host IN ($host)
+				GROUP BY time, host
+				ORDER BY time
+				"""
 		},
 	]
 }
@@ -28,8 +42,27 @@ let cpuUsage = #HealthTimeseries & {
 	title: "CPU Usage"
 	fieldConfig: defaults: unit: "percent"
 	targets: [
-		grafana.#PromTarget & {
-			expr: #"100 * (sum by(host) (rate(host.cpu_seconds_total{host=~"$host",mode!~"idle|iowait"}[$__rate_interval])) / sum by(host) (rate(host.cpu_seconds_total{host=~"$host"}[$__rate_interval])))"#
+		grafana.#ClickHouseTarget & {
+			rawSql: """
+				SELECT
+				  time,
+				  host,
+				  100 * sumIf(delta, mode NOT IN ('idle', 'iowait')) / nullIf(sum(delta), 0) AS value
+				FROM (
+				  SELECT
+				    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
+				    host,
+				    tags['mode'] AS mode,
+				    max(value) - min(value) AS delta
+				  FROM metrics.telegraf
+				  WHERE $__timeFilter(timestamp)
+				    AND name = 'host.cpu_seconds_total'
+				    AND host IN ($host)
+				  GROUP BY time, host, tags['cpu'], mode
+				)
+				GROUP BY time, host
+				ORDER BY time
+				"""
 		},
 	]
 }
@@ -38,8 +71,19 @@ let cpuUsage = #HealthTimeseries & {
 let load1 = #HealthTimeseries & {
 	title: "Load 1"
 	targets: [
-		grafana.#PromTarget & {
-			expr: #"avg by(host) (host.load1{host=~"$host"})"#
+		grafana.#ClickHouseTarget & {
+			rawSql: """
+				SELECT
+				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
+				  host,
+				  avg(value) AS value
+				FROM metrics.telegraf
+				WHERE $__timeFilter(timestamp)
+				  AND name = 'host.load1'
+				  AND host IN ($host)
+				GROUP BY time, host
+				ORDER BY time
+				"""
 		},
 	]
 }
@@ -47,15 +91,27 @@ let load1 = #HealthTimeseries & {
 let load5 = #HealthTimeseries & {
 	title: "Load 5"
 	targets: [
-		grafana.#PromTarget & {
-			expr: #"avg by(host) (host.load5{host=~"$host"})"#
+		grafana.#ClickHouseTarget & {
+			rawSql: """
+				SELECT
+				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
+				  host,
+				  avg(value) AS value
+				FROM metrics.telegraf
+				WHERE $__timeFilter(timestamp)
+				  AND name = 'host.load5'
+				  AND host IN ($host)
+				GROUP BY time, host
+				ORDER BY time
+				"""
 		},
 	]
 }
 
 // Disk Gauge
 let diskGauge = grafana.#GaugePanel & {
-	title: "Disk Used"
+	title:      "Disk Used"
+	datasource: _clickhouseDS
 	gridPos: h: 7
 	fieldConfig: defaults: {
 		unit: "percent"
@@ -70,8 +126,19 @@ let diskGauge = grafana.#GaugePanel & {
 		}
 	}
 	targets: [
-		grafana.#PromTarget & {
-			expr: #"100 * avg by(host) (host.filesystem_used_ratio{host=~"$host"})"#
+		grafana.#ClickHouseTarget & {
+			rawSql: """
+				SELECT
+				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
+				  host,
+				  100 * avg(value) AS value
+				FROM metrics.telegraf
+				WHERE $__timeFilter(timestamp)
+				  AND name = 'host.filesystem_used_ratio'
+				  AND host IN ($host)
+				GROUP BY time, host
+				ORDER BY time
+				"""
 		},
 	]
 }
@@ -91,10 +158,10 @@ out: grafana.#Dashboard & {
 	uid:   "system-health"
 	time: (grafana.#Last & {in: "6h"}).out
 	templating: list: [
-		grafana.#QueryVariable & {
-			name:  "host"
-			label: "Host"
-			query: query: #"label_values({__name__=~"host.*"}, host)"#
+		grafana.#ClickHouseQueryVariable & {
+			name:       "host"
+			label:      "Host"
+			query:      "SELECT DISTINCT host FROM metrics.telegraf WHERE $__timeFilter(timestamp) AND host != '' ORDER BY host"
 			multi:      true
 			includeAll: true
 		},

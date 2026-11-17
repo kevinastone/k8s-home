@@ -83,10 +83,10 @@ Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victo
     - [x] Disable end-to-end `acknowledgements` (`enabled: false` / omit) on the `vector-aggregator` ClickHouse sink so Vector ACKs OTLP batches into its buffer immediately instead of blocking/timing out Telegraf while ClickHouse is down.
   - [x] *(Optional)* Export historical metrics from `vmcluster-influx` (`/api/v1/export`) and backfill into ClickHouse before decommissioning.
 
-- [ ] **4. Grafana Datasource & Dashboard Migration**:
+- [x] **4. Grafana Datasource & Dashboard Migration**:
 
   - [x] Add `grafana-clickhouse-datasource` to `plugins` in [`monitoring/grafana/helmrelease.yaml`](./monitoring/grafana/helmrelease.yaml) and provision an unauthenticated ClickHouse datasource `ConfigMap` (`grafana_datasource: "true"`) in `backends/clickhouse/` (to be replaced by a credentialed `Secret` in Step 6).
-  - [ ] Update [`apps/home-monitoring/dashboards/home.cue`](./apps/home-monitoring/dashboards/home.cue) to query ClickHouse SQL instead of PromQL, and recompile with `nix develop --command build-dashboards apps/home-monitoring/dashboards`.
+  - [x] Update [`apps/home-monitoring/dashboards/home.cue`](./apps/home-monitoring/dashboards/home.cue) to query ClickHouse SQL instead of PromQL, and recompile with `nix develop --command build-dashboards apps/home-monitoring/dashboards`.
 
 - [ ] **5. Decommission `vmcluster-influx`**:
 

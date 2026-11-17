@@ -14,8 +14,8 @@
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -86,22 +86,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"bedroom_temperature\"}[2h])) * 9 / 5 + 32",
-                    "legendFormat": "Temperature",
-                    "format": "time_series",
-                    "instant": false
-                },
-                {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id=\"bedroom_temperature\"}[2h]))",
-                    "legendFormat": "Humidity",
-                    "format": "time_series",
-                    "instant": false
-                },
-                {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id=\"bedroom_temperature\"}[2h])) * 0.02952998",
-                    "legendFormat": "Pressure",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n  avgIf(value, name = 'humidity') AS Humidity,\n  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'bedroom_temperature'\n  AND name IN ('temperature', 'humidity', 'pressure')\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Bedroom"
@@ -109,8 +101,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -145,10 +137,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"bedroom_temperature\"}[2h])) * 9 / 5 + 32",
-                    "legendFormat": "Bedroom",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) * 9 / 5 + 32 AS \"Bedroom\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'bedroom_temperature'\n  AND name = 'temperature'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Bedroom Temperature History"
@@ -156,8 +152,8 @@
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -228,22 +224,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"office_temperature\"}[2h])) * 9 / 5 + 32",
-                    "legendFormat": "Temperature",
-                    "format": "time_series",
-                    "instant": false
-                },
-                {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id=\"office_temperature\"}[2h]))",
-                    "legendFormat": "Humidity",
-                    "format": "time_series",
-                    "instant": false
-                },
-                {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id=\"office_temperature\"}[2h])) * 0.02952998",
-                    "legendFormat": "Pressure",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n  avgIf(value, name = 'humidity') AS Humidity,\n  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'office_temperature'\n  AND name IN ('temperature', 'humidity', 'pressure')\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Office"
@@ -251,8 +239,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -287,10 +275,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"office_temperature\"}[2h])) * 9 / 5 + 32",
-                    "legendFormat": "Office",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) * 9 / 5 + 32 AS \"Office\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'office_temperature'\n  AND name = 'temperature'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Office Temperature History"
@@ -298,8 +290,8 @@
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -370,22 +362,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"living_room_temperature\"}[2h])) * 9 / 5 + 32",
-                    "legendFormat": "Temperature",
-                    "format": "time_series",
-                    "instant": false
-                },
-                {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_humidity{entity_id=\"living_room_temperature\"}[2h]))",
-                    "legendFormat": "Humidity",
-                    "format": "time_series",
-                    "instant": false
-                },
-                {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_pressure{entity_id=\"living_room_temperature\"}[2h])) * 0.02952998",
-                    "legendFormat": "Pressure",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n  avgIf(value, name = 'humidity') AS Humidity,\n  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'living_room_temperature'\n  AND name IN ('temperature', 'humidity', 'pressure')\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Living Room"
@@ -393,8 +377,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -429,10 +413,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_temperature{entity_id=\"living_room_temperature\"}[2h])) * 9 / 5 + 32",
-                    "legendFormat": "Living Room",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) * 9 / 5 + 32 AS \"Living Room\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'living_room_temperature'\n  AND name = 'temperature'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Living Room Temperature History"
@@ -440,8 +428,8 @@
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -487,18 +475,22 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"rack_power\"}[2h]))",
-                    "legendFormat": "Rack Power",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) AS \"Rack Power\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'rack_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ]
         },
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -544,18 +536,22 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"media_power\"}[2h]))",
-                    "legendFormat": "Media Power",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) AS \"Media Power\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'media_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ]
         },
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -601,18 +597,22 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"desk_power\"}[2h]))",
-                    "legendFormat": "Desk Power",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) AS \"Desk Power\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'desk_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ]
         },
         {
             "type": "stat",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -659,10 +659,14 @@
             },
             "targets": [
                 {
-                    "expr": "max by (entity_id) (last_over_time(zigbee2mqtt_power{entity_id=\"laundry_power\"}[2h])) > bool 10",
-                    "legendFormat": "State",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  toInt8(avg(value) > 10) AS State\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'laundry_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Washing Machine"

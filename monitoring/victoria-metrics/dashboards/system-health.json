@@ -23,8 +23,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -59,10 +59,14 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (host.temperature_celsius{host=~\"$host\"})",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.temperature_celsius'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "CPU Temperature"
@@ -70,8 +74,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -106,10 +110,14 @@
             },
             "targets": [
                 {
-                    "expr": "100 * (sum by(host) (rate(host.cpu_seconds_total{host=~\"$host\",mode!~\"idle|iowait\"}[$__rate_interval])) / sum by(host) (rate(host.cpu_seconds_total{host=~\"$host\"}[$__rate_interval])))",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  time,\n  host,\n  100 * sumIf(delta, mode NOT IN ('idle', 'iowait')) / nullIf(sum(delta), 0) AS value\nFROM (\n  SELECT\n    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n    host,\n    tags['mode'] AS mode,\n    max(value) - min(value) AS delta\n  FROM metrics.telegraf\n  WHERE $__timeFilter(timestamp)\n    AND name = 'host.cpu_seconds_total'\n    AND host IN ($host)\n  GROUP BY time, host, tags['cpu'], mode\n)\nGROUP BY time, host\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "CPU Usage"
@@ -117,8 +125,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -152,10 +160,14 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (host.load1{host=~\"$host\"})",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.load1'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Load 1"
@@ -163,8 +175,8 @@
         {
             "type": "timeseries",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -198,10 +210,14 @@
             },
             "targets": [
                 {
-                    "expr": "avg by(host) (host.load5{host=~\"$host\"})",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.load5'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Load 5"
@@ -209,8 +225,8 @@
         {
             "type": "gauge",
             "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
             },
             "fieldConfig": {
                 "defaults": {
@@ -263,10 +279,14 @@
             },
             "targets": [
                 {
-                    "expr": "100 * avg by(host) (host.filesystem_used_ratio{host=~\"$host\"})",
-                    "legendFormat": "__auto",
-                    "format": "time_series",
-                    "instant": false
+                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  100 * avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.filesystem_used_ratio'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "queryType": "timeseries",
+                    "format": 0,
+                    "editorType": "sql",
+                    "datasource": {
+                        "type": "grafana-clickhouse-datasource",
+                        "uid": "clickhouse"
+                    }
                 }
             ],
             "title": "Disk Used"
@@ -276,18 +296,15 @@
         "list": [
             {
                 "datasource": {
-                    "type": "prometheus",
-                    "uid": "prometheus"
+                    "type": "grafana-clickhouse-datasource",
+                    "uid": "clickhouse"
                 },
-                "definition": "label_values({__name__=~\"host.*\"}, host)",
+                "definition": "SELECT DISTINCT host FROM metrics.telegraf WHERE $__timeFilter(timestamp) AND host != '' ORDER BY host",
                 "includeAll": true,
                 "label": "Host",
                 "multi": true,
                 "name": "host",
-                "query": {
-                    "query": "label_values({__name__=~\"host.*\"}, host)",
-                    "refId": "StandardVariableQuery"
-                },
+                "query": "SELECT DISTINCT host FROM metrics.telegraf WHERE $__timeFilter(timestamp) AND host != '' ORDER BY host",
                 "refresh": 1,
                 "sort": 1,
                 "type": "query"
