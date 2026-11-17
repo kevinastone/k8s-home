@@ -46,20 +46,6 @@ spec:
               requests:
                 cpu: 25m
                 memory: 50Mi
-          assets:
-            image:
-              repository: ghcr.io/kevinastone/homepage-assets-nginx
-              tag: main@sha256:96712da55c879bd29117eb04d94074cf47ae37f9e3ea98a27a46cde00591dfab
-            ports:
-            - containerPort: 8080
-              name: assets
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              runAsNonRoot: true
-              capabilities:
-                drop:
-                - ALL
     service:
       main:
         controller: main
@@ -67,9 +53,6 @@ spec:
           http:
             port: 80
             targetPort: 3000
-          assets:
-            port: 8080
-            targetPort: 8080
     persistence:
       config:
         type: configMap
@@ -91,18 +74,6 @@ spec:
           path: /app/config/settings.yaml
         - subPath: widgets.yaml
           path: /app/config/widgets.yaml
-      nginx-cache:
-        type: emptyDir
-        advancedMounts:
-          main:
-            assets:
-            - path: /var/cache/nginx
-      nginx-tmp:
-        type: emptyDir
-        advancedMounts:
-          main:
-            assets:
-            - path: /tmp
     serviceAccount:
       homepage: {}
     defaultPodOptions:

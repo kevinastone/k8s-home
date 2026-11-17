@@ -5,6 +5,7 @@ namespace: homepage
 resources:
 - rbac.yaml
 - helmrelease.yaml
+- helmrelease-assets.yaml
 - http-route.yaml
 - kubernetes-store.yaml
 - secret.yaml
