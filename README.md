@@ -37,6 +37,7 @@ flowchart TD
             Longhorn["Longhorn (Distributed Block)"]
             OpenEBS["OpenEBS (LocalPV)"]
             CNPG["CloudNativePG (Postgres HA)"]
+            ClickHouse["ClickHouse (Time-Series / S3 Tiered)"]
             RustFS["rustfs (In-cluster S3)"]
             Dragonfly["Dragonfly (Redis / Caching)"]
         end
@@ -45,7 +46,7 @@ flowchart TD
             VM["VictoriaMetrics (vmagent, vmalert, vmcluster)"]
             AM["VMAlertmanager"]
             Grafana["Grafana (CUE Dashboards)"]
-            VLogs["VictoriaLogs & Vector (Logs)"]
+            VLogs["VictoriaLogs & Vector (Logs & Telemetry)"]
         end
 
         subgraph Apps ["Workloads"]
@@ -95,6 +96,7 @@ ______________________________________________________________________
 - **Block Storage**: [Longhorn](https://longhorn.io/) distributed block storage with snapshotting, and [OpenEBS](https://openebs.io/) LocalPV for high-performance node-local data.
 - **PVC Backups**: [Kopiur](https://github.com/home-operations/kopiur) with CSI `snapshot-controller` backing up stateful Longhorn PVCs to the NAS over SMB (`components/kopiur/`).
 - **Databases**: [CloudNativePG](https://cloudnative-pg.io/) managing high-availability PostgreSQL clusters with Barman Cloud backups to S3.
+- **Time-Series / Analytics**: [ClickHouse](https://clickhouse.com/) with Longhorn hot storage, tiered S3 offloading to `rustfs`, and [CH-UI](https://github.com/caioricciuti/ch-ui) for ad-hoc querying.
 - **Object Storage**: [rustfs](https://github.com/rustfs) S3-compatible in-cluster object storage.
 - **Key-Value Store**: [Dragonfly](https://dragonflydb.io/) Operator high-performance Redis-compatible cache.
 
@@ -102,7 +104,7 @@ ______________________________________________________________________
 
 - **Metrics**: [VictoriaMetrics](https://victoriametrics.com/) Operator (`vmcluster`, `vmalert`, `vmagent`) scraping targets via `PodMonitor` and evaluating `PrometheusRule` manifests.
 - **Alerting**: [VMAlertmanager](https://docs.victoriametrics.com/operator/design/#vmalertmanager) (VictoriaMetrics Operator managed Alertmanager).
-- **Logging**: [VictoriaLogs](https://victoriametrics.com/products/victorialogs/) with [Vector](https://vector.dev/) log shipper agent.
+- **Logging & Telemetry**: [VictoriaLogs](https://victoriametrics.com/products/victorialogs/) and [Vector](https://vector.dev/) routing cluster logs to VictoriaLogs and Telegraf/IoT telemetry to ClickHouse.
 - **Dashboards**: Grafana dashboards generated via **CUE** (`cue/grafana/`).
 
 ______________________________________________________________________
@@ -116,7 +118,7 @@ The deployment flow is defined by the top-level Flux `Kustomization` manifests:
 ├── crds/           # Custom Resource Definitions & CRD controllers
 ├── system/         # Core infrastructure (Cilium, Envoy Gateway, Storage, Cert-Manager)
 ├── monitoring/     # Observability stack (VictoriaMetrics, VictoriaLogs, Grafana, Alerting Rules, Vector)
-├── backends/       # Foundational shared services (DNS, Authelia, LDAP, MQTT, RustFS)
+├── backends/       # Foundational shared services (DNS, Authelia, ClickHouse, LDAP, MQTT, RustFS)
 ├── apps/           # User-facing applications (Home Assistant, Media stack, IoT)
 ├── cue/
 │   └── grafana/    # Shared CUE library for typed Grafana dashboards
@@ -167,9 +169,9 @@ nix develop --command opa test apps/media/transcoder/policy/ -v
 nix develop --command regal lint apps/media/transcoder/policy
 ```
 
-### Renovate Configuration Validation
+### Validation Suite (`nix flake check`)
 
-Whenever `.github/renovate.jsonc` is modified, validate it locally:
+Run the full repository validation suite (formatting, CUE dashboard checks, Vector config validation, OPA/Regal tests, and Renovate config) locally:
 
 ```bash
 nix flake check -L
