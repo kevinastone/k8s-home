@@ -19,14 +19,14 @@ components:
 configMapGenerator:
 - name: clickhouse-config
   files:
-  - resources/config.yaml
+  - config/config.yaml
 - name: clickhouse-init
   files:
-  - resources/telegraf.sql
-  - resources/zigbee2mqtt.sql
+  - initdb/telegraf.sql
+  - initdb/zigbee2mqtt.sql
 - name: clickhouse-default-user
   files:
-  - resources/default.yaml
+  - users/default.yaml
 - name: clickhouse-dashboard
   options:
     labels:
