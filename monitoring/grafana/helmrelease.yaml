@@ -14,6 +14,7 @@ spec:
         tag: 14.3.0
   values:
     plugins:
+    - grafana-clickhouse-datasource
     - victoriametrics-logs-datasource
     grafana.ini:
       auth:

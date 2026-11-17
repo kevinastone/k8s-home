@@ -18,3 +18,9 @@ configMapGenerator:
   files:
   - resources/telegraf.sql
   - resources/zigbee2mqtt.sql
+- name: clickhouse-datasource
+  options:
+    labels:
+      grafana_datasource: "true"
+  files:
+  - clickhouse.yaml=datasources/clickhouse.yaml
