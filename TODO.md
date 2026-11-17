@@ -54,3 +54,48 @@ ______________________________________________________________________
   - [ ] Update the `diff` job in [`.github/workflows/ci.yaml`](./.github/workflows/ci.yaml) with `pull-requests: write` permissions to post rendered manifest diffs directly to PR discussion threads alongside `$GITHUB_STEP_SUMMARY`.
   - [ ] Pipe `flate diff all -o github` to both `$GITHUB_STEP_SUMMARY` (supports up to 1MB) and a truncated `diff.patch` artifact (~60,000 chars max) so large chart bumps don't fail the GitHub API's 65,536-character comment limit.
   - [ ] Use `marocchino/sticky-pull-request-comment@v3` with `header: flate-diff` and `path: diff.patch` to upsert a single sticky comment across PR updates and Renovate rebases.
+
+______________________________________________________________________
+
+## 6. ClickHouse Backend & `vmcluster-influx` Replacement
+
+Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) with a single-replica ClickHouse instance under [`backends/clickhouse/`](./backends/) using `longhorn` for the hot tier (enabling pod rescheduling across node drains/reboots) and offloading colder partitions to `rustfs` S3.
+
+- [x] **1. Provision `clickhouse` Bucket & IAM User in `backends/rustfs/`**:
+
+  - [x] Add `clickhouse` password generation to [`backends/rustfs/rustfs-users.yaml`](./backends/rustfs/rustfs-users.yaml) using `ClusterGenerator/password-alphanumeric`.
+  - [x] Add `variable "clickhouse"` in [`backends/rustfs/tofu/variables.tf`](./backends/rustfs/tofu/variables.tf), `module "clickhouse"` (`./modules/s3-user-bucket`) in [`backends/rustfs/tofu/main.tf`](./backends/rustfs/tofu/main.tf), and pass `clickhouse` in `varsFrom` in [`backends/rustfs/terraform.yaml`](./backends/rustfs/terraform.yaml).
+
+- [ ] **2. Deploy ClickHouse under `backends/clickhouse/` (without user auth)**:
+
+  - [ ] Create `backends/clickhouse/` (`kustomization.yaml`, `helmrelease.yaml` using `app-template` with `clickhouse/clickhouse-server` as a single-replica `StatefulSet` on a `longhorn` PVC labeled `kopiur.home-operations.com/backup: "true"`).
+  - [ ] Add an `ExternalSecret` to pull the `clickhouse` S3 secret from `ClusterSecretStore/rustfs-kubernetes-store`.
+  - [ ] Configure `/etc/clickhouse-server/config.d/storage.yaml` (`storage_configuration`) with a `default` local disk (`longhorn` PVC), an `s3_cold` disk targeting `http://rustfs-main.rustfs.svc.cluster.local:9000/clickhouse/`, and an `s3_cache` (`type: cache`, `max_size: 4Gi`) wrapper on an `emptyDir` (`sizeLimit: 5Gi`) so `kopiur` doesn't back up ephemeral cache blocks, combined into a `hot_to_cold` storage policy.
+  - [ ] Enable ClickHouse's built-in Prometheus endpoint (`/metrics` on port `9363`) and add a `ServiceMonitor` for `vmagent` scraping.
+  - [ ] Register `clickhouse` in [`backends/kustomization.yaml`](./backends/kustomization.yaml).
+
+- [ ] **3. Schema & Ingestion Pipeline Migration**:
+
+  - [ ] Add init SQL (`/docker-entrypoint-initdb.d/`) defining the metrics database and `MergeTree` table(s) with `SETTINGS storage_policy = 'hot_to_cold'` and a `TTL timestamp + INTERVAL 3 DAY TO VOLUME 'cold'` rule (partitioned daily by `toYYYYMMDD(timestamp)` and ordered by `(metric_name, tags, timestamp)`).
+  - [ ] Update [`apps/home-monitoring/config/vector.yaml`](./apps/home-monitoring/config/vector.yaml) (`zigbee2mqtt` metrics) and [`monitoring/vector/config/victoria_metrics.yaml`](./monitoring/vector/config/victoria_metrics.yaml) (`opentelemetry.metrics`) to write to ClickHouse (dual-writing temporarily during validation, then removing `vmcluster_influx`).
+  - [ ] Configure Vector buffering and acknowledgements to minimize data loss during ClickHouse pod reschedules:
+    - [ ] Increase sink buffers beyond the 500-event default (e.g., `buffer.type: memory`, `max_events: 100000`, `when_full: block`, or switch to `role: Aggregator` with a PVC and `buffer.type: disk` to also survive Vector pod restarts).
+    - [ ] Disable end-to-end `acknowledgements` (`enabled: false` / omit) on the `vector-aggregator` ClickHouse sink so Vector ACKs OTLP batches into its buffer immediately instead of blocking/timing out Telegraf while ClickHouse is down.
+  - [ ] *(Optional)* Export historical metrics from `vmcluster-influx` (`/api/v1/export`) and backfill into ClickHouse before decommissioning.
+
+- [ ] **4. Grafana Datasource & Dashboard Migration**:
+
+  - [ ] Add `grafana-clickhouse-datasource` to `plugins` in [`monitoring/grafana/helmrelease.yaml`](./monitoring/grafana/helmrelease.yaml) and provision an unauthenticated ClickHouse datasource `ConfigMap` (`grafana_datasource: "true"`) in `backends/clickhouse/` (to be replaced by a credentialed `Secret` in Step 6).
+  - [ ] Update [`apps/home-monitoring/dashboards/home.cue`](./apps/home-monitoring/dashboards/home.cue) to query ClickHouse SQL instead of PromQL, and recompile with `nix develop --command build-dashboards apps/home-monitoring/dashboards`.
+
+- [ ] **5. Decommission `vmcluster-influx`**:
+
+  - [ ] Remove `vmstorage-vmcluster-influx-0.vmstorage-vmcluster-influx.victoria-metrics.svc:8401` from `vmselect.extraArgs.storageNode` in [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml).
+  - [ ] Delete [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) and remove it from [`monitoring/victoria-metrics/kustomization.yaml`](./monitoring/victoria-metrics/kustomization.yaml).
+
+- [ ] **6. Harden ClickHouse with User Accounts & ACLs**:
+
+  - [ ] Add `ExternalSecret`s in `backends/clickhouse/` to:
+    - [ ] Generate `clickhouse-users` (`default`, `vector`, `grafana` passwords) via `ClusterGenerator/password-alphanumeric` (`refreshPolicy: OnChange`), and template `/etc/clickhouse-server/users.d/` as a mounted `Secret` (scoping `vector` and `grafana` to `metrics`, with `grafana` set to `profile: readonly` to block writes/DDL).
+    - [ ] Replace the temporary datasource `ConfigMap` with an `ExternalSecret`-templated Grafana datasource `Secret` (`grafana_datasource: "true"`) in the `clickhouse` namespace (`jsonData.username: grafana`, `secureJsonData.password` set to `grafana`'s password).
+  - [ ] Add a `ClusterSecretStore` (`clickhouse-kubernetes-store`, matching [`backends/rustfs/rustfs-kubernetes-store.yaml`](./backends/rustfs/rustfs-kubernetes-store.yaml)) so `vector` and `home-monitoring` namespaces can pull `vector`'s ClickHouse password via `ExternalSecret` and update both Vector `clickhouse` sinks to authenticate.
