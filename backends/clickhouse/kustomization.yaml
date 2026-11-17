@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: clickhouse
 resources:
 - datasource.yaml
+- helmrelease-ui.yaml
 - helmrelease.yaml
 - http-route.yaml
 - kubernetes-store.yaml

@@ -6,7 +6,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Metrics
-    gethomepage.dev/href: https://clickhouse.k8s.kevinastone.com/play
+    gethomepage.dev/href: https://clickhouse.k8s.kevinastone.com
     gethomepage.dev/icon: /assets/icons/svg/clickhouse.svg
     gethomepage.dev/name: ClickHouse
 spec:
@@ -18,8 +18,8 @@ spec:
   - clickhouse.k8s.kevinastone.com
   rules:
   - backendRefs:
-    - name: clickhouse
-      port: 8123
+    - name: clickhouse-ui
+      port: 3488
     matches:
     - path:
         type: PathPrefix
