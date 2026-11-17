@@ -15,6 +15,19 @@ spec:
   - matches:
     - path:
         type: PathPrefix
+        value: /assets
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+    backendRefs:
+    - name: homepage
+      port: 8080
+  - matches:
+    - path:
+        type: PathPrefix
         value: /
     # Sticky sessions prevent unnecessary re-renders on page loads and tab focusing when replica count > 1
     # https://gethomepage.dev/installation/k8s/#multiple-replicas
