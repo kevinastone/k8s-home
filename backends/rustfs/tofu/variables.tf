@@ -15,9 +15,3 @@ variable "RUSTFS_SECRET_KEY" {
   description = "RustFS secret key (root)"
   sensitive   = true
 }
-
-variable "dragonfly" {
-  type        = string
-  description = "Dragonfly user password"
-  sensitive   = true
-}

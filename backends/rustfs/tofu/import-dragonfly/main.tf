@@ -4,8 +4,8 @@ module "bucket" {
   secret = var.AWS_SECRET_ACCESS_KEY
 }
 
-# Temporary import to adopt the existing postgres bucket from backends/rustfs/tofu
+# Temporary import to adopt the existing dragonfly bucket from backends/rustfs/tofu
 import {
   to = module.bucket.rustfs_bucket.bucket
-  id = "postgres"
+  id = "dragonfly"
 }

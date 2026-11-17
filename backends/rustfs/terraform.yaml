@@ -15,5 +15,3 @@ spec:
   varsFrom:
   - kind: Secret
     name: rustfs-root-secret
-  - kind: Secret
-    name: rustfs-users
