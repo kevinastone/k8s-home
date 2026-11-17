@@ -32,6 +32,7 @@ spec:
               repository: docker.io/clickhouse/clickhouse-server
               tag: 25.3
             env:
+              CLICKHOUSE_ALWAYS_RUN_INITDB_SCRIPTS: "1"
               CLICKHOUSE_SKIP_USER_SETUP: "1"
             envFrom:
             - secretRef:
@@ -106,3 +107,8 @@ spec:
         name: clickhouse-config # overridden by kustomizeconfig
         globalMounts:
         - path: /etc/clickhouse-server/config.d
+      init:
+        type: configMap
+        name: clickhouse-init # overridden by kustomizeconfig
+        globalMounts:
+        - path: /docker-entrypoint-initdb.d

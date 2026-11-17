@@ -1,0 +1,36 @@
+transforms:
+  clickhouse_metric_to_log:
+    type: metric_to_log
+    inputs:
+    - opentelemetry.metrics
+
+  clickhouse_format:
+    type: remap
+    inputs:
+    - clickhouse_metric_to_log
+    source: |
+      val, err = to_float(.gauge.value || .counter.value)
+      if err != null { abort }
+      .value = val
+      del(.tags.db)
+      .tags = object(.tags) ?? {}
+
+sinks:
+  clickhouse:
+    type: clickhouse
+    inputs:
+    - clickhouse_format
+    endpoint: http://clickhouse.clickhouse.svc.cluster.local:8123
+    database: metrics
+    table: telegraf
+    compression: gzip
+    date_time_best_effort: true
+    skip_unknown_fields: true
+    healthcheck:
+      enabled: false
+    buffer:
+      type: memory
+      max_events: 100000
+      when_full: block
+    acknowledgements:
+      enabled: false

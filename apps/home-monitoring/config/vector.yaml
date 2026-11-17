@@ -33,8 +33,9 @@ transforms:
       for_each(obj) -> |k, v| {
         if is_float(v) || is_integer(v) {
           events = push(events, {
+            "timestamp": now(),
             "entity_id": slug,
-            "field": k,
+            "name": k,
             "value": to_float!(v),
           })
         }
@@ -48,11 +49,30 @@ transforms:
     metrics:
     - type: gauge
       field: value
-      name: "zigbee2mqtt_{{ field }}"
+      name: "zigbee2mqtt_{{ name }}"
       tags:
         entity_id: "{{ entity_id }}"
 
 sinks:
+  clickhouse:
+    type: clickhouse
+    inputs:
+    - parse_zigbee2mqtt
+    endpoint: http://clickhouse.clickhouse.svc.cluster.local:8123
+    database: metrics
+    table: zigbee2mqtt
+    compression: gzip
+    date_time_best_effort: true
+    skip_unknown_fields: true
+    healthcheck:
+      enabled: false
+    buffer:
+      type: memory
+      max_events: 100000
+      when_full: block
+    acknowledgements:
+      enabled: false
+
   vmcluster_influx:
     type: prometheus_remote_write
     inputs:

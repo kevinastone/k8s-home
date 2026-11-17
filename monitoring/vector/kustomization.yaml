@@ -17,6 +17,7 @@ configMapGenerator:
   files:
   # keep-sorted start
   - config/base.yaml
+  - config/clickhouse.yaml
   - config/internal_metrics.yaml
   - config/otlp.yaml
   - config/victoria_metrics.yaml

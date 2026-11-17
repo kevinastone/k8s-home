@@ -14,3 +14,7 @@ configMapGenerator:
 - name: clickhouse-config
   files:
   - resources/config.yaml
+- name: clickhouse-init
+  files:
+  - resources/telegraf.sql
+  - resources/zigbee2mqtt.sql
