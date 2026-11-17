@@ -6,7 +6,6 @@ resources:
 - helmrelease.yaml
 - gateway.yaml
 - http-route.yaml
-- terraform.yaml
 - rustfs-root-secret.yaml
 - rustfs-kubernetes-store.yaml
 - authelia-client-secret.yaml
@@ -24,5 +23,4 @@ configMapGenerator:
 components:
 - ../../components/namespace
 - ../../components/goldilocks
-- ../../components/tf-runner
 - ../../components/kustomizeconfig
