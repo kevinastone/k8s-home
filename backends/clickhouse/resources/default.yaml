@@ -1,0 +1,7 @@
+users:
+  default:
+    networks:
+      "@replace": "replace"
+      ip:
+      - 127.0.0.1
+      - "::1"

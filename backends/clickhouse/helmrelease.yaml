@@ -123,3 +123,15 @@ spec:
         globalMounts:
         - path: /etc/clickhouse-server/users.d/vector.yaml
           subPath: vector.yaml
+      users-default:
+        type: configMap
+        name: clickhouse-default-user
+        globalMounts:
+        - path: /etc/clickhouse-server/users.d/default.yaml
+          subPath: default.yaml
+      users-admin:
+        type: secret
+        name: clickhouse-admin-user
+        globalMounts:
+        - path: /etc/clickhouse-server/users.d/admin.yaml
+          subPath: admin.yaml

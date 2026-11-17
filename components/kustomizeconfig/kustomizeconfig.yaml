@@ -8,6 +8,8 @@ nameReference:
     kind: HelmRelease
   - path: spec/values/persistence/init/name
     kind: HelmRelease
+  - path: spec/values/persistence/users-default/name
+    kind: HelmRelease
   - path: spec/values/existingConfigMaps
     kind: HelmRelease
 

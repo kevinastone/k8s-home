@@ -93,10 +93,10 @@ Replace [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victo
   - [ ] Remove `vmstorage-vmcluster-influx-0.vmstorage-vmcluster-influx.victoria-metrics.svc:8401` from `vmselect.extraArgs.storageNode` in [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml).
   - [ ] Delete [`monitoring/victoria-metrics/vmcluster-influx.yaml`](./monitoring/victoria-metrics/vmcluster-influx.yaml) and remove it from [`monitoring/victoria-metrics/kustomization.yaml`](./monitoring/victoria-metrics/kustomization.yaml).
 
-- [ ] **6. Harden ClickHouse with User Accounts & ACLs**:
+- [x] **6. Harden ClickHouse with User Accounts & ACLs**:
 
-  - [ ] Configure `/etc/clickhouse-server/users.d/` with 4 scoped accounts:
-    - [ ] `default`: passwordless, restricted to `localhost` (`127.0.0.1` / `::1`) for `/docker-entrypoint-initdb.d/` and local `kubectl exec` `clickhouse-client`.
-    - [ ] `admin`: full permissions (`access_management: 1`) with password populated by an `ExternalSecret` from `ClusterSecretStore/one-password` (for CH-UI / remote admin).
+  - [x] Configure `/etc/clickhouse-server/users.d/` with 4 scoped accounts:
+    - [x] `default`: passwordless, restricted to `localhost` (`127.0.0.1` / `::1`) for `/docker-entrypoint-initdb.d/` and local `kubectl exec` `clickhouse-client`.
+    - [x] `admin`: full permissions (`access_management: 1`) with password populated by an `ExternalSecret` from `ClusterSecretStore/one-password` (for CH-UI / remote admin).
     - [x] `vector`: generated password in `clickhouse-users` (`ExternalSecret` + `ClusterGenerator/password-alphanumeric`, `refreshPolicy: CreatedOnce`) with read/write access scoped to `metrics.*`, plus `ClusterExternalSecret/clickhouse-vector-creds` syncing into `vector` and `home-monitoring` and configuring auth on both Vector `clickhouse` sinks.
     - [x] `grafana`: generated password in `clickhouse-users` with `readonly: 2` (`grafana_readonly` profile) scoped to `metrics.*`, and `ExternalSecret/clickhouse-datasource` (`grafana_datasource: "true"`).

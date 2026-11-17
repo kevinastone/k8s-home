@@ -23,6 +23,9 @@ configMapGenerator:
   files:
   - resources/telegraf.sql
   - resources/zigbee2mqtt.sql
+- name: clickhouse-default-user
+  files:
+  - resources/default.yaml
 - name: clickhouse-dashboard
   options:
     labels:
