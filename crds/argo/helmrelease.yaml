@@ -12,7 +12,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/argoproj/argo-helm/argo-events
       ref:
-        tag: 2.4.27
+        tag: 2.4.28
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
