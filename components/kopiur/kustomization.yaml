@@ -1,16 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
-resources:
-- pvc.yaml
-- snapshot-policy.yaml
-- snapshot-schedule.yaml
-patches:
-- target:
-    version: v1
-    kind: Namespace
-  patch: |-
-    - op: add
-      path: /metadata/annotations
-      value:
-        kopiur.home-operations.com/privileged-movers: "true"
+components:
+- _base

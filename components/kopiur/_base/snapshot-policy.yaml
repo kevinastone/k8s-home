@@ -10,6 +10,7 @@ spec:
   credentialProjection:
     enabled: true
   mover:
+    privilegedMode: true
     securityContext:
       runAsNonRoot: false
       runAsUser: 0

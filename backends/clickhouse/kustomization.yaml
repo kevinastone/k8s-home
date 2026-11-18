@@ -13,7 +13,7 @@ resources:
 components:
 - ../../components/namespace
 - ../../components/goldilocks
-- ../../components/kopiur
+- ../../components/kopiur/rolling
 - ../../components/kustomizeconfig
 - ../../components/rustfs-bucket
 patches:

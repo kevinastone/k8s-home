@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+- ../_base
+patches:
+- target:
+    group: kopiur.home-operations.com
+    version: v1alpha1
+    kind: SnapshotPolicy
+    name: kopiur-backup
+  patch: |-
+    - op: replace
+      path: /spec/retention
+      value:
+        keepLatest: 3
+        keepDaily: 3
