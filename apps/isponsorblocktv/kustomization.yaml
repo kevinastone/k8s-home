@@ -4,10 +4,6 @@ kind: Kustomization
 namespace: isponsorblocktv
 resources:
 - helmrelease.yaml
-configMapGenerator:
-- name: isponsorblocktv-config
-  files:
-  - resources/config.json
+- external-secret.yaml
 components:
 - ../../components/namespace
-- ../../components/kustomizeconfig

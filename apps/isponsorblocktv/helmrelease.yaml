@@ -12,6 +12,8 @@ spec:
   values:
     controllers:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             image:
@@ -21,8 +23,8 @@ spec:
     persistence:
       config:
         enabled: true
-        name: isponsorblocktv-config # overriden by kustomizeconfig
-        type: configMap
+        name: isponsorblocktv-config
+        type: secret
         globalMounts:
         - path: /app/data/config.json
           subPath: config.json
