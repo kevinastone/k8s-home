@@ -110,7 +110,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  time,\n  host,\n  100 * sumIf(delta, mode NOT IN ('idle', 'iowait')) / nullIf(sum(delta), 0) AS value\nFROM (\n  SELECT\n    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n    host,\n    tags['mode'] AS mode,\n    max(value) - min(value) AS delta\n  FROM metrics.telegraf\n  WHERE $__timeFilter(timestamp)\n    AND name = 'host.cpu_seconds_total'\n    AND host IN ($host)\n  GROUP BY time, host, tags['cpu'], mode\n)\nGROUP BY time, host\nORDER BY time",
+                    "rawSql": "SELECT\n  time,\n  host,\n  100 * sumIf(rate, mode NOT IN ('idle', 'iowait')) / nullIf(sum(rate), 0) AS value\nFROM (\n  SELECT\n    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n    host,\n    tags['mode'] AS mode,\n    nonNegativeDerivative(value, timestamp) OVER (\n      PARTITION BY host, tags['cpu'], tags['mode']\n      ORDER BY timestamp\n    ) AS rate\n  FROM metrics.telegraf\n  WHERE $__timeFilter(timestamp)\n    AND name = 'host.cpu_seconds_total'\n    AND host IN ($host)\n)\nGROUP BY time, host\nORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",

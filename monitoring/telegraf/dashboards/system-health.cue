@@ -47,18 +47,20 @@ let cpuUsage = #HealthTimeseries & {
 				SELECT
 				  time,
 				  host,
-				  100 * sumIf(delta, mode NOT IN ('idle', 'iowait')) / nullIf(sum(delta), 0) AS value
+				  100 * sumIf(rate, mode NOT IN ('idle', 'iowait')) / nullIf(sum(rate), 0) AS value
 				FROM (
 				  SELECT
 				    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
 				    host,
 				    tags['mode'] AS mode,
-				    max(value) - min(value) AS delta
+				    nonNegativeDerivative(value, timestamp) OVER (
+				      PARTITION BY host, tags['cpu'], tags['mode']
+				      ORDER BY timestamp
+				    ) AS rate
 				  FROM metrics.telegraf
 				  WHERE $__timeFilter(timestamp)
 				    AND name = 'host.cpu_seconds_total'
 				    AND host IN ($host)
-				  GROUP BY time, host, tags['cpu'], mode
 				)
 				GROUP BY time, host
 				ORDER BY time
