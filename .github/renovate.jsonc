@@ -153,6 +153,14 @@
         "/cert-manager/"
       ],
       "groupName": "cert-manager"
+    },
+    {
+      "description": ["Group tofu-controller chart and opentofu-runner image updates"],
+      "matchPackageNames": [
+        "ghcr.io/flux-iac/charts/tofu-controller",
+        "ghcr.io/home-operations/opentofu-runner"
+      ],
+      "groupName": "tofu-controller"
     }
   ]
 }
