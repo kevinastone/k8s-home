@@ -101,6 +101,13 @@
       "allowedVersions": "<=5.2.4"
     },
     {
+      "description": [
+        "Ignore legacy 1.x OpenTofu-versioned tags on opentofu-runner (now versioned to match tofu-controller 0.x)"
+      ],
+      "matchPackageNames": ["ghcr.io/home-operations/opentofu-runner"],
+      "allowedVersions": "<1.0.0"
+    },
+    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
