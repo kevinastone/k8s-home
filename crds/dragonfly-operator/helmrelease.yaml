@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
       ref:
-        tag: v1.7.1
+        tag: v1.8.0
   uninstall:
     keepHistory: false
   values:
