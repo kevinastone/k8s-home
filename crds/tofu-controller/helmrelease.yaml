@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/flux-iac/charts/tofu-controller
       ref:
-        tag: 0.16.6
+        tag: 0.17.0
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
@@ -29,6 +29,6 @@ spec:
     runner:
       image:
         repository: ghcr.io/home-operations/opentofu-runner
-        tag: 1.13.9@sha256:25cf04047b733ce372be192d939e243f3909a48a31a719958bc1ce8b1bedef4a
+        tag: 0.17.0
     awsPackage:
       install: false
