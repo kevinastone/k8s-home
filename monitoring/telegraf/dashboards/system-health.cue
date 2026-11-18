@@ -23,16 +23,13 @@ let cpuTemp = #HealthTimeseries & {
 	targets: [
 		grafana.#ClickHouseTarget & {
 			rawSql: """
-				SELECT
-				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-				  host,
-				  avg(value) AS value
 				FROM metrics.telegraf
-				WHERE $__timeFilter(timestamp)
-				  AND name = 'host.temperature_celsius'
-				  AND host IN ($host)
-				GROUP BY time, host
-				ORDER BY time
+				|> WHERE $__timeFilter(timestamp)
+				     AND name = 'host.temperature_celsius'
+				     AND host IN ($host)
+				|> AGGREGATE avg(value) AS value
+				   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host
+				|> ORDER BY time
 				"""
 		},
 	]
@@ -44,26 +41,22 @@ let cpuUsage = #HealthTimeseries & {
 	targets: [
 		grafana.#ClickHouseTarget & {
 			rawSql: """
-				SELECT
-				  time,
-				  host,
-				  100 * sumIf(rate, mode NOT IN ('idle', 'iowait')) / nullIf(sum(rate), 0) AS value
-				FROM (
-				  SELECT
-				    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-				    host,
-				    tags['mode'] AS mode,
-				    nonNegativeDerivative(value, timestamp) OVER (
-				      PARTITION BY host, tags['cpu'], tags['mode']
-				      ORDER BY timestamp
-				    ) AS rate
-				  FROM metrics.telegraf
-				  WHERE $__timeFilter(timestamp)
-				    AND name = 'host.cpu_seconds_total'
-				    AND host IN ($host)
-				)
-				GROUP BY time, host
-				ORDER BY time
+				FROM metrics.telegraf
+				|> WHERE $__timeFilter(timestamp)
+				     AND name = 'host.cpu_seconds_total'
+				     AND host IN ($host)
+				|> SELECT
+				     toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
+				     host,
+				     tags['mode'] AS mode,
+				     nonNegativeDerivative(value, timestamp) OVER (
+				       PARTITION BY host, tags['cpu'], tags['mode']
+				       ORDER BY timestamp
+				     ) AS rate
+				|> AGGREGATE
+				     100 * sumIf(rate, mode NOT IN ('idle', 'iowait')) / nullIf(sum(rate), 0) AS value
+				   GROUP BY time, host
+				|> ORDER BY time
 				"""
 		},
 	]
@@ -75,16 +68,13 @@ let load1 = #HealthTimeseries & {
 	targets: [
 		grafana.#ClickHouseTarget & {
 			rawSql: """
-				SELECT
-				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-				  host,
-				  avg(value) AS value
 				FROM metrics.telegraf
-				WHERE $__timeFilter(timestamp)
-				  AND name = 'host.load1'
-				  AND host IN ($host)
-				GROUP BY time, host
-				ORDER BY time
+				|> WHERE $__timeFilter(timestamp)
+				     AND name = 'host.load1'
+				     AND host IN ($host)
+				|> AGGREGATE avg(value) AS value
+				   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host
+				|> ORDER BY time
 				"""
 		},
 	]
@@ -95,16 +85,13 @@ let load5 = #HealthTimeseries & {
 	targets: [
 		grafana.#ClickHouseTarget & {
 			rawSql: """
-				SELECT
-				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-				  host,
-				  avg(value) AS value
 				FROM metrics.telegraf
-				WHERE $__timeFilter(timestamp)
-				  AND name = 'host.load5'
-				  AND host IN ($host)
-				GROUP BY time, host
-				ORDER BY time
+				|> WHERE $__timeFilter(timestamp)
+				     AND name = 'host.load5'
+				     AND host IN ($host)
+				|> AGGREGATE avg(value) AS value
+				   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host
+				|> ORDER BY time
 				"""
 		},
 	]
@@ -130,16 +117,13 @@ let diskGauge = grafana.#GaugePanel & {
 	targets: [
 		grafana.#ClickHouseTarget & {
 			rawSql: """
-				SELECT
-				  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-				  host,
-				  100 * avg(value) AS value
 				FROM metrics.telegraf
-				WHERE $__timeFilter(timestamp)
-				  AND name = 'host.filesystem_used_ratio'
-				  AND host IN ($host)
-				GROUP BY time, host
-				ORDER BY time
+				|> WHERE $__timeFilter(timestamp)
+				     AND name = 'host.filesystem_used_ratio'
+				     AND host IN ($host)
+				|> AGGREGATE 100 * avg(value) AS value
+				   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host
+				|> ORDER BY time
 				"""
 		},
 	]
@@ -161,9 +145,15 @@ out: grafana.#Dashboard & {
 	time: (grafana.#Last & {in: "6h"}).out
 	templating: list: [
 		grafana.#ClickHouseQueryVariable & {
-			name:       "host"
-			label:      "Host"
-			query:      "SELECT DISTINCT host FROM metrics.telegraf WHERE $__timeFilter(timestamp) AND host != '' ORDER BY host"
+			name:  "host"
+			label: "Host"
+			query: """
+				FROM metrics.telegraf
+				|> WHERE $__timeFilter(timestamp)
+				     AND host != ''
+				|> SELECT DISTINCT host
+				|> ORDER BY host
+				"""
 			multi:      true
 			includeAll: true
 		},

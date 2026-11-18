@@ -86,7 +86,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n  avgIf(value, name = 'humidity') AS Humidity,\n  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'bedroom_temperature'\n  AND name IN ('temperature', 'humidity', 'pressure')\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'bedroom_temperature'\n     AND name IN ('temperature', 'humidity', 'pressure')\n|> AGGREGATE\n     avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n     avgIf(value, name = 'humidity') AS Humidity,\n     avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -137,7 +137,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) * 9 / 5 + 32 AS \"Bedroom\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'bedroom_temperature'\n  AND name = 'temperature'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'bedroom_temperature'\n     AND name = 'temperature'\n|> AGGREGATE avg(value) * 9 / 5 + 32 AS \"Bedroom\"\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -224,7 +224,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n  avgIf(value, name = 'humidity') AS Humidity,\n  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'office_temperature'\n  AND name IN ('temperature', 'humidity', 'pressure')\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'office_temperature'\n     AND name IN ('temperature', 'humidity', 'pressure')\n|> AGGREGATE\n     avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n     avgIf(value, name = 'humidity') AS Humidity,\n     avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -275,7 +275,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) * 9 / 5 + 32 AS \"Office\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'office_temperature'\n  AND name = 'temperature'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'office_temperature'\n     AND name = 'temperature'\n|> AGGREGATE avg(value) * 9 / 5 + 32 AS \"Office\"\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -362,7 +362,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n  avgIf(value, name = 'humidity') AS Humidity,\n  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'living_room_temperature'\n  AND name IN ('temperature', 'humidity', 'pressure')\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'living_room_temperature'\n     AND name IN ('temperature', 'humidity', 'pressure')\n|> AGGREGATE\n     avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,\n     avgIf(value, name = 'humidity') AS Humidity,\n     avgIf(value, name = 'pressure') * 0.02952998 AS Pressure\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -413,7 +413,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) * 9 / 5 + 32 AS \"Living Room\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'living_room_temperature'\n  AND name = 'temperature'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'living_room_temperature'\n     AND name = 'temperature'\n|> AGGREGATE avg(value) * 9 / 5 + 32 AS \"Living Room\"\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -475,7 +475,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) AS \"Rack Power\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'rack_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'rack_power'\n     AND name = 'power'\n|> AGGREGATE avg(value) AS \"Rack Power\"\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -536,7 +536,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) AS \"Media Power\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'media_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'media_power'\n     AND name = 'power'\n|> AGGREGATE avg(value) AS \"Media Power\"\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -597,7 +597,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  avg(value) AS \"Desk Power\"\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'desk_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'desk_power'\n     AND name = 'power'\n|> AGGREGATE avg(value) AS \"Desk Power\"\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -659,7 +659,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  toInt8(avg(value) > 10) AS State\nFROM metrics.zigbee2mqtt\nWHERE $__timeFilter(timestamp)\n  AND entity_id = 'laundry_power'\n  AND name = 'power'\nGROUP BY time\nORDER BY time",
+                    "rawSql": "FROM metrics.zigbee2mqtt\n|> WHERE $__timeFilter(timestamp)\n     AND entity_id = 'laundry_power'\n     AND name = 'power'\n|> AGGREGATE toInt8(avg(value) > 10) AS State\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",

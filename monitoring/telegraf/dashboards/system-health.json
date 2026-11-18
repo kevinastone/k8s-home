@@ -59,7 +59,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.temperature_celsius'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "rawSql": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND name = 'host.temperature_celsius'\n     AND host IN ($host)\n|> AGGREGATE avg(value) AS value\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -110,7 +110,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  time,\n  host,\n  100 * sumIf(rate, mode NOT IN ('idle', 'iowait')) / nullIf(sum(rate), 0) AS value\nFROM (\n  SELECT\n    toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n    host,\n    tags['mode'] AS mode,\n    nonNegativeDerivative(value, timestamp) OVER (\n      PARTITION BY host, tags['cpu'], tags['mode']\n      ORDER BY timestamp\n    ) AS rate\n  FROM metrics.telegraf\n  WHERE $__timeFilter(timestamp)\n    AND name = 'host.cpu_seconds_total'\n    AND host IN ($host)\n)\nGROUP BY time, host\nORDER BY time",
+                    "rawSql": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND name = 'host.cpu_seconds_total'\n     AND host IN ($host)\n|> SELECT\n     toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n     host,\n     tags['mode'] AS mode,\n     nonNegativeDerivative(value, timestamp) OVER (\n       PARTITION BY host, tags['cpu'], tags['mode']\n       ORDER BY timestamp\n     ) AS rate\n|> AGGREGATE\n     100 * sumIf(rate, mode NOT IN ('idle', 'iowait')) / nullIf(sum(rate), 0) AS value\n   GROUP BY time, host\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -160,7 +160,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.load1'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "rawSql": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND name = 'host.load1'\n     AND host IN ($host)\n|> AGGREGATE avg(value) AS value\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -210,7 +210,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.load5'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "rawSql": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND name = 'host.load5'\n     AND host IN ($host)\n|> AGGREGATE avg(value) AS value\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -279,7 +279,7 @@
             },
             "targets": [
                 {
-                    "rawSql": "SELECT\n  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,\n  host,\n  100 * avg(value) AS value\nFROM metrics.telegraf\nWHERE $__timeFilter(timestamp)\n  AND name = 'host.filesystem_used_ratio'\n  AND host IN ($host)\nGROUP BY time, host\nORDER BY time",
+                    "rawSql": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND name = 'host.filesystem_used_ratio'\n     AND host IN ($host)\n|> AGGREGATE 100 * avg(value) AS value\n   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time, host\n|> ORDER BY time",
                     "queryType": "timeseries",
                     "format": 0,
                     "editorType": "sql",
@@ -299,12 +299,12 @@
                     "type": "grafana-clickhouse-datasource",
                     "uid": "clickhouse"
                 },
-                "definition": "SELECT DISTINCT host FROM metrics.telegraf WHERE $__timeFilter(timestamp) AND host != '' ORDER BY host",
+                "definition": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND host != ''\n|> SELECT DISTINCT host\n|> ORDER BY host",
                 "includeAll": true,
                 "label": "Host",
                 "multi": true,
                 "name": "host",
-                "query": "SELECT DISTINCT host FROM metrics.telegraf WHERE $__timeFilter(timestamp) AND host != '' ORDER BY host",
+                "query": "FROM metrics.telegraf\n|> WHERE $__timeFilter(timestamp)\n     AND host != ''\n|> SELECT DISTINCT host\n|> ORDER BY host",
                 "refresh": 1,
                 "sort": 1,
                 "type": "query"

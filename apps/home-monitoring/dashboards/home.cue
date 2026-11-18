@@ -12,28 +12,25 @@ let _clickhouseDS = {type: "grafana-clickhouse-datasource", uid: "clickhouse"}
 	entity_id: string
 
 	let _envSql = """
-		SELECT
-		  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-		  avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,
-		  avgIf(value, name = 'humidity') AS Humidity,
-		  avgIf(value, name = 'pressure') * 0.02952998 AS Pressure
 		FROM metrics.zigbee2mqtt
-		WHERE $__timeFilter(timestamp)
-		  AND entity_id = '\(R.entity_id)'
-		  AND name IN ('temperature', 'humidity', 'pressure')
-		GROUP BY time
-		ORDER BY time
+		|> WHERE $__timeFilter(timestamp)
+		     AND entity_id = '\(R.entity_id)'
+		     AND name IN ('temperature', 'humidity', 'pressure')
+		|> AGGREGATE
+		     avgIf(value, name = 'temperature') * 9 / 5 + 32 AS Temperature,
+		     avgIf(value, name = 'humidity') AS Humidity,
+		     avgIf(value, name = 'pressure') * 0.02952998 AS Pressure
+		   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time
+		|> ORDER BY time
 		"""
 	let _tempHistorySql = """
-		SELECT
-		  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-		  avg(value) * 9 / 5 + 32 AS "\(R.room)"
 		FROM metrics.zigbee2mqtt
-		WHERE $__timeFilter(timestamp)
-		  AND entity_id = '\(R.entity_id)'
-		  AND name = 'temperature'
-		GROUP BY time
-		ORDER BY time
+		|> WHERE $__timeFilter(timestamp)
+		     AND entity_id = '\(R.entity_id)'
+		     AND name = 'temperature'
+		|> AGGREGATE avg(value) * 9 / 5 + 32 AS "\(R.room)"
+		   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time
+		|> ORDER BY time
 		"""
 
 	// 1. Environment Stats Panel (Temp, Humidity, Pressure)
@@ -97,15 +94,13 @@ let _clickhouseDS = {type: "grafana-clickhouse-datasource", uid: "clickhouse"}
 	entity_id: string
 
 	let _powerSql = """
-		SELECT
-		  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-		  avg(value) AS "\(P.name)"
 		FROM metrics.zigbee2mqtt
-		WHERE $__timeFilter(timestamp)
-		  AND entity_id = '\(P.entity_id)'
-		  AND name = 'power'
-		GROUP BY time
-		ORDER BY time
+		|> WHERE $__timeFilter(timestamp)
+		     AND entity_id = '\(P.entity_id)'
+		     AND name = 'power'
+		|> AGGREGATE avg(value) AS "\(P.name)"
+		   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time
+		|> ORDER BY time
 		"""
 
 	out: grafana.#StatPanel & {
@@ -144,15 +139,13 @@ let _clickhouseDS = {type: "grafana-clickhouse-datasource", uid: "clickhouse"}
 	threshold: number
 
 	let _applianceSql = """
-		SELECT
-		  toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time,
-		  toInt8(avg(value) > \(T.threshold)) AS State
 		FROM metrics.zigbee2mqtt
-		WHERE $__timeFilter(timestamp)
-		  AND entity_id = '\(T.entity_id)'
-		  AND name = 'power'
-		GROUP BY time
-		ORDER BY time
+		|> WHERE $__timeFilter(timestamp)
+		     AND entity_id = '\(T.entity_id)'
+		     AND name = 'power'
+		|> AGGREGATE toInt8(avg(value) > \(T.threshold)) AS State
+		   GROUP BY toStartOfInterval(timestamp, INTERVAL $__interval_s SECOND) AS time
+		|> ORDER BY time
 		"""
 
 	out: grafana.#StatPanel & {
