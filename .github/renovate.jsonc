@@ -61,6 +61,19 @@
       ],
       "autoReplaceStringTemplate": "imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}",
       "datasourceTemplate": "docker"
+    },
+    // Temporary workaround until https://github.com/renovatebot/renovate/pull/47438 lands
+    {
+      "customType": "regex",
+      "description": "Track embedded OCIRepository charts in HelmReleases",
+      "managerFilePatterns": [
+        "/(^|/)helmrelease.*\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "kind:\\s*OCIRepository\\s*\\n\\s+spec:[\\s\\S]*?\\n\\s+url:\\s*oci://(?<depName>[^\\s]+)\\s*\\n\\s+ref:\\s*\\n\\s+tag:\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?"
+      ],
+      "datasourceTemplate": "docker",
+      "depTypeTemplate": "oci-helm-chart"
     }
   ],
   "packageRules": [
@@ -128,6 +141,12 @@
     {
       "description": ["Don't pin digests for managers that don't need a digest"],
       "matchManagers": ["flux", "helmfile"],
+      "pinDigests": false
+    },
+    // Remove along with the embedded OCIRepository customManager once renovatebot/renovate#47438 lands
+    {
+      "description": ["Don't pin digests for embedded OCI Helm charts"],
+      "matchDepTypes": ["oci-helm-chart"],
       "pinDigests": false
     },
     {
