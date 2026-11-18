@@ -13,5 +13,12 @@ patches:
     spec:
       driftDetection:
         mode: enabled
+      install:
+        disableWait: true
+        remediation:
+          retries: 2
       upgrade:
         cleanupOnFail: true
+        disableWait: true
+        remediation:
+          retries: 2
