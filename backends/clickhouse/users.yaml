@@ -81,9 +81,13 @@ spec:
         username: "{{ .username }}"
         password: "{{ .password }}"
         admin.yaml: |
+          profiles:
+            admin:
+              s3_allow_server_credentials_in_user_queries: 1
           users:
             {{ .username }}:
               password: "{{ .password }}"
+              profile: admin
               access_management: 1
               named_collection_control: 1
               show_named_collections: 1
