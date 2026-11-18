@@ -9,7 +9,6 @@ resources:
 components:
 - ../../components/namespace
 - ../../components/goldilocks
-- ../../components/kopiur/rolling
 configMapGenerator:
 - name: vm-datasources
   options:
