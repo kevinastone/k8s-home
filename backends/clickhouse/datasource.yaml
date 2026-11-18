@@ -36,4 +36,4 @@ spec:
               password: "{{ .grafana }}"
   dataFrom:
   - extract:
-      key: clickhouse-users
+      key: clickhouse-grafana-user

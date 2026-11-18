@@ -113,7 +113,7 @@ spec:
         - path: /docker-entrypoint-initdb.d
       users-grafana:
         type: secret
-        name: clickhouse-users
+        name: clickhouse-grafana-user
         globalMounts:
         - path: /etc/clickhouse-server/users.d/grafana.yaml
           subPath: grafana.yaml

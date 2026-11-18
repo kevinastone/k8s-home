@@ -2,11 +2,11 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: clickhouse-users
+  name: clickhouse-grafana-user
 spec:
   refreshPolicy: CreatedOnce
   target:
-    name: clickhouse-users
+    name: clickhouse-grafana-user
     creationPolicy: Owner
     template:
       engineVersion: v2
