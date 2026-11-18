@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://docker.io/envoyproxy/gateway-helm
       ref:
-        tag: 1.9.3
+        tag: 1.10.0
   install:
     crds: Skip
   upgrade:
