@@ -34,6 +34,7 @@
         ./apps/home-monitoring
         ./apps/media/transcoder
         ./apps/media/sabnzbd
+        ./bootstrap
         ./monitoring/grafana
         ./monitoring/vector
       ];
