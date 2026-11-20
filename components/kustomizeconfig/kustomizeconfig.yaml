@@ -18,9 +18,5 @@ nameReference:
     kind: HelmRelease
   - path: spec/values/controllers/main/containers/main/envFrom/secretRef/name
     kind: HelmRelease
-  - path: spec/provider/onepassword/auth/secretRef/connectTokenSecretRef/name
-    kind: ClusterSecretStore
-  - path: spec/provider/onepasswordSDK/auth/serviceAccountSecretRef/name
-    kind: ClusterSecretStore
   - path: spec/secretRef/name
     kind: Receiver

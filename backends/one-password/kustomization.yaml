@@ -11,6 +11,8 @@ components:
 - ../../components/namespace
 - ../../components/goldilocks
 - ../../components/kustomizeconfig
+configurations:
+- kustomizeconfig.yaml
 secretGenerator:
 - name: one-password-credentials
   files:
