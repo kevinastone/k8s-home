@@ -78,8 +78,6 @@ spec:
     template:
       engineVersion: v2
       data:
-        username: "{{ .username }}"
-        password: "{{ .password }}"
         admin.yaml: |
           profiles:
             admin:
