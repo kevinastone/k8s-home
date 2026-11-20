@@ -36,6 +36,17 @@ ______________________________________________________________________
 - [ ] **Unify `cert-manager` & `envoy-gateway` CRD Management with Other Operators**:
   - [ ] Unlike all other operators in `crds/`, [`crds/cert-manager/crds.yaml`](./crds/cert-manager/crds.yaml) and [`crds/envoy-gateway/crds.yaml`](./crds/envoy-gateway/crds.yaml) clone full upstream Git repositories via `GitRepository` + nested Flux `Kustomization`s while their `HelmRelease`s run in `system/` with `crds: Skip`, requiring custom `groupName` rules in [`.github/renovate.jsonc`](./.github/renovate.jsonc) to prevent version skew.
   - [ ] Move the `cert-manager` and `envoy-gateway` controller `HelmRelease`s into `crds/` with `crds: CreateReplace` (leaving `ClusterIssuer`, `GatewayClass`, and `Gateway` CRs in `system/`) to eliminate 2 `GitRepository` clones, 2 extra Flux `Kustomization`s, and 24 lines of Renovate grouping rules.
+- [ ] **Custom `kube-rs` Operator for Per-App ClickHouse Users**:
+  - [ ] **Goal:** Replace centralized `users.d` provisioning in [`backends/clickhouse/users.yaml`](./backends/clickhouse/users.yaml) with self-service per-app `ClickHouseUser` CRs while keeping admin credentials strictly inside the `clickhouse` namespace (avoiding the root-secret fan-out trade-off of per-namespace `tf-runner` components).
+  - [ ] **CRD & Controller (`kube-rs`)**:
+    - Define a `ClickHouseUser` CRD via `#[derive(CustomResource, JsonSchema)]` (`spec.username`, `spec.profile`, `spec.grants`, `spec.secretName`, and `status.conditions` / password hash fingerprint).
+    - Run a single static Rust binary (`kube`, `k8s-openapi`, `tokio`, `reqwest` with `rustls-tls`) in the `clickhouse` namespace using `clickhouse-admin-user` credentials against `http://clickhouse.clickhouse.svc.cluster.local:8123`.
+    - Reconcile with `kube::runtime::finalizer`: generate a password `Secret` in the CR's namespace (owned via `OwnerReference`), execute `CREATE USER IF NOT EXISTS ... IDENTIFIED WITH bcrypt_password BY ... COMMENT 'k8s:<namespace>/<name>'` (checking ownership to prevent cross-namespace username collisions), reconcile `GRANT`/`REVOKE` against `SHOW GRANTS`, and `DROP USER IF EXISTS` on delete.
+    - Requeue periodically (e.g., every 10m) so users and grants self-heal automatically after a `/data` PVC wipe.
+  - [ ] **Packaging & Migration**:
+    - Publish a minimal `scratch`/`distroless` container image and chart/manifests, installing the CRD in `crds/` and the operator in `backends/clickhouse/`.
+    - Migrate `grafana` and `vector` to `ClickHouseUser` CRs with least-privilege grants (`SELECT` / `INSERT` on `metrics.*`), then remove `clickhouse-grafana-user`, `clickhouse-vector-user`, [`backends/clickhouse/vector-creds.yaml`](./backends/clickhouse/vector-creds.yaml), and [`backends/clickhouse/kubernetes-store.yaml`](./backends/clickhouse/kubernetes-store.yaml).
+    - *(Optional follow-up)* Evaluate applying the same operator pattern to `RustFSBucket` to remove `rustfs-root-secret` fan-out in [`components/rustfs-bucket/`](./components/rustfs-bucket/kustomization.yaml).
 
 ______________________________________________________________________
 
