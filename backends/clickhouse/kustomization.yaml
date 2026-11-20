@@ -16,6 +16,8 @@ components:
 - ../../components/kopiur/rolling
 - ../../components/kustomizeconfig
 - ../../components/rustfs-bucket
+configurations:
+- kustomizeconfig.yaml
 patches:
 - target:
     group: external-secrets.io

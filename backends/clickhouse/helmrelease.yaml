@@ -111,27 +111,25 @@ spec:
         name: clickhouse-init # overridden by kustomizeconfig
         globalMounts:
         - path: /docker-entrypoint-initdb.d
-      users-grafana:
-        type: secret
-        name: clickhouse-grafana-user
+      users:
+        type: projected
+        sources:
+        - configMap:
+            name: clickhouse-default-user # overridden by kustomizeconfig
+        - secret:
+            name: clickhouse-grafana-user
+            items:
+            - key: grafana.yaml
+              path: grafana.yaml
+        - secret:
+            name: clickhouse-vector-user
+            items:
+            - key: vector.yaml
+              path: vector.yaml
+        - secret:
+            name: clickhouse-admin-user
+            items:
+            - key: admin.yaml
+              path: admin.yaml
         globalMounts:
-        - path: /etc/clickhouse-server/users.d/grafana.yaml
-          subPath: grafana.yaml
-      users-vector:
-        type: secret
-        name: clickhouse-vector-user
-        globalMounts:
-        - path: /etc/clickhouse-server/users.d/vector.yaml
-          subPath: vector.yaml
-      users-default:
-        type: configMap
-        name: clickhouse-default-user
-        globalMounts:
-        - path: /etc/clickhouse-server/users.d/default.yaml
-          subPath: default.yaml
-      users-admin:
-        type: secret
-        name: clickhouse-admin-user
-        globalMounts:
-        - path: /etc/clickhouse-server/users.d/admin.yaml
-          subPath: admin.yaml
+        - path: /etc/clickhouse-server/users.d
