@@ -29,7 +29,7 @@ spec:
           main:
             image:
               repository: docker.io/clickhouse/clickhouse-server
-              tag: 26.10@sha256:2e107973b8a8bed7e76b104e0fadb8ce591da9b1cc5bb94aa048208c50b5d658
+              tag: 26.10@sha256:cb030c0616aa80d8daf03033ba68d6297a1c86735b142a8e82b96f4cf119ec98
             env:
               CLICKHOUSE_ALWAYS_RUN_INITDB_SCRIPTS: "1"
               CLICKHOUSE_SKIP_USER_SETUP: "1"
