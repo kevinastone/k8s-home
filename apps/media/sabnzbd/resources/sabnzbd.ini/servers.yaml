@@ -3,5 +3,10 @@ servers:
   displayname: Newshosting
   username_env: NEWSHOSTING_USERNAME
   password_env: NEWSHOSTING_PASSWORD
+- name: newshosting.tweaknews.eu
+  displayname: TweakNews
+  username_env: TWEAKNEWS_USERNAME
+  password_env: TWEAKNEWS_PASSWORD
+  priority: 1
 
 

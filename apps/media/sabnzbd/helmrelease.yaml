@@ -50,6 +50,10 @@ spec:
             - NEWSHOSTING_USERNAME=$(NEWSHOSTING_USERNAME)
             - -t
             - NEWSHOSTING_PASSWORD=$(NEWSHOSTING_PASSWORD)
+            - -t
+            - TWEAKNEWS_USERNAME=$(TWEAKNEWS_USERNAME)
+            - -t
+            - TWEAKNEWS_PASSWORD=$(TWEAKNEWS_PASSWORD)
             - -e
             - out
             - --out
@@ -60,6 +64,8 @@ spec:
             envFrom:
             - secretRef:
                 name: newshosting-secret
+            - secretRef:
+                name: tweaknews-secret
             - secretRef:
                 name: nzbgeek-secret
             securityContext:

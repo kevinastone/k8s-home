@@ -19,6 +19,8 @@ _: {
                 -t NZBGEEK_API_KEY=mock \
                 -t NEWSHOSTING_USERNAME=mock \
                 -t NEWSHOSTING_PASSWORD=mock \
+                -t TWEAKNEWS_USERNAME=mock \
+                -t TWEAKNEWS_PASSWORD=mock \
                 -e out \
                 --out text > $out
             '';
