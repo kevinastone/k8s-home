@@ -46,11 +46,11 @@ ______________________________________________________________________
 
 > **Revisit after Section 2:** Once `auth-gateway` uses `oidc` + `jwt`, each app can co-locate a lightweight `SecurityPolicy` (`mergeType: StrategicMerge`) right next to its `http-route.yaml` using `authorization.rules[].principal.jwt.claims` on the `groups` `StringArray` claim (without duplicating OIDC/JWT config or needing per-namespace `ReferenceGrant`s). Set `authorization: { defaultAction: Deny }` on `auth-gateway-policy` so new routes fail closed. *(Note: if per-app 2FA step-up is ever needed, keep or fall back to Authelia `access_control.rules` instead.)*
 
-- [ ] **Add Co-Located Per-Route `SecurityPolicy` Group Rules (or Authelia `access_control` Rules)**:
-  - [ ] Enable `authorization: { defaultAction: Deny }` on `auth-gateway-policy` in [`backends/envoy-gateway/security-policy.yaml`](../envoy-gateway/security-policy.yaml) and attach `mergeType: StrategicMerge` `SecurityPolicy` manifests alongside each app's `http-route.yaml`:
-    - Admin/infrastructure apps (`longhorn`, `goldilocks`, `clickhouse`, `argo`, `zigbee2mqtt`, `unifi`, etc.) → `groups` contains `lldap_admin`.
-    - Media apps (`sonarr`, `radarr`, `prowlarr`, `sabnzbd`, `qbittorrent`) → `groups` contains `media` or `lldap_admin`.
-    - Shared/general apps (`home`, `sudoku`, `2048`) → any authenticated user.
+- [x] **Add Co-Located Per-Route `SecurityPolicy` Group Rules (with Gateway-Level `lldap_admin` Default)**:
+  - [x] Set `authorization: { defaultAction: Deny }` + `allow-admin` (`lldap_admin`) on `auth-gateway-policy` in [`backends/envoy-gateway/security-policy.yaml`](../envoy-gateway/security-policy.yaml) so all admin/infra routes (`longhorn`, `goldilocks`, `clickhouse`, `argo`, `zigbee2mqtt`, `unifi`, `victoria-metrics`, `peanut`, and any new routes) default to `lldap_admin` only.
+  - [x] Added `mergeType: StrategicMerge` overrides for non-admin routes:
+    - Media apps ([`apps/media/security-policy.yaml`](../../apps/media/security-policy.yaml)) → `groups` contains `media` or `lldap_admin`.
+    - Shared/general apps ([`apps/homepage/security-policy.yaml`](../../apps/homepage/security-policy.yaml), [`apps/super-sudoku/security-policy.yaml`](../../apps/super-sudoku/security-policy.yaml), [`apps/dao-2048/security-policy.yaml`](../../apps/dao-2048/security-policy.yaml)) → any authenticated user (`defaultAction: Allow`).
 - [ ] **Add OIDC `authorization_policies` & Fix Over-Permissive App Role Mappings**:
   - [ ] Define named policies under `identity_providers.oidc.authorization_policies` (e.g., `admin_only` requiring `group:lldap_admin` with `default_policy: deny`) in [`resources/configuration.yaml`](./resources/configuration.yaml) and assign them to `rustfs` and `grafana`.
   - [ ] In [`monitoring/grafana/helmrelease.yaml`](../../monitoring/grafana/helmrelease.yaml), replace `role_attribute_path: "'Admin'"` with group-based mapping (`contains(groups[*], 'lldap_admin') && 'Admin' || 'Viewer'`) directly under `auth.generic_oauth` (and remove the invalid commented `auth.generic_oauth.group_mapping` section).

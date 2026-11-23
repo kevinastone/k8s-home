@@ -60,6 +60,19 @@ spec:
         header: Remote-Email
       - claim: name
         header: Remote-Name
+  authorization:
+    defaultAction: Deny
+    rules:
+    - name: allow-admin
+      action: Allow
+      principal:
+        jwt:
+          provider: authelia
+          claims:
+          - name: groups
+            valueType: StringArray
+            values:
+            - lldap_admin
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy

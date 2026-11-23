@@ -1,0 +1,12 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: homepage-authz
+spec:
+  mergeType: StrategicMerge
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: homepage
+  authorization:
+    defaultAction: Allow

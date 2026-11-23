@@ -16,6 +16,7 @@ resources:
 - prowlarr
 - transcoder
 - http-route.yaml
+- security-policy.yaml
 components:
 - ../../components/namespace
 - ../../components/tf-runner

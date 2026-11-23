@@ -1,0 +1,36 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: media-authz
+spec:
+  mergeType: StrategicMerge
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: sonarr
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: radarr
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: prowlarr
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: sabnzbd
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: qbittorrent
+  authorization:
+    defaultAction: Deny
+    rules:
+    - name: allow-media-and-admin
+      action: Allow
+      principal:
+        jwt:
+          provider: authelia
+          claims:
+          - name: groups
+            valueType: StringArray
+            values:
+            - media
+            - lldap_admin
