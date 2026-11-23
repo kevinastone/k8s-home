@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
       ref:
-        tag: 0.98.1
+        tag: 0.99.0
   values:
     fullnameOverride: vm-stack
     defaultDashboards:
