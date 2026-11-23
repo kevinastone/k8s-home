@@ -11,20 +11,42 @@ spec:
     allowOrigins:
     - "https://*.k8s.kevinastone.com"
     allowCredentials: true
-  extAuth:
-    failOpen: false
-    headersToExtAuth:
-    - X-Forwarded-Proto
-    - accept
-    - cookie
-    http:
-      backendRefs:
-      - group: ""
-        kind: Service
-        name: authelia
-        namespace: authelia
-        port: 80
-      path: /api/authz/ext-authz/
+  oidc:
+    provider:
+      issuer: https://auth.k8s.kevinastone.com
+    clientID: envoy-gateway
+    clientSecret:
+      name: envoy-gateway-client-secret
+    redirectURL: https://envoy.k8s.kevinastone.com/oauth2/callback
+    cookieDomain: k8s.kevinastone.com
+    cookieNames:
+      suffix: auth
+      idToken: IdToken
+    disableTokenEncryption: true
+    scopes:
+    - openid
+    - profile
+    - email
+    - groups
+    - offline_access
+  jwt:
+    providers:
+    - name: authelia
+      issuer: https://auth.k8s.kevinastone.com
+      audiences:
+      - envoy-gateway
+      remoteJWKS:
+        uri: https://auth.k8s.kevinastone.com/jwks.json
+      extractFrom:
+        cookies:
+        - IdToken
+      claimToHeaders:
+      - claim: preferred_username
+        header: Remote-User
+      - claim: email
+        header: Remote-Email
+      - claim: name
+        header: Remote-Name
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
