@@ -2,12 +2,6 @@ server:
   buffers:
     read: 65536
     write: 65536
-  endpoints:
-    authz:
-      ext-authz:
-        implementation: ExtAuthz
-        authn_strategies:
-        - name: CookieSession
 
 authentication_backend:
   password_reset:

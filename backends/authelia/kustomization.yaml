@@ -7,7 +7,6 @@ resources:
 - dragonfly
 - helmrelease.yaml
 - http-route.yaml
-- reference-grant.yaml
 - authelia-secret.yaml
 - ldap-secret.yaml
 - client-secret-generator.yaml
