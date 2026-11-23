@@ -4,6 +4,10 @@ kind: ClusterSecretStore
 metadata:
   name: authelia-kubernetes-store
 spec:
+  conditions:
+  - namespaces:
+    - grafana
+    - rustfs
   provider:
     kubernetes:
       remoteNamespace: authelia

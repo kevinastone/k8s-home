@@ -12,8 +12,8 @@ ______________________________________________________________________
   - [x] Switch `X_AUTHELIA_CONFIG_FILTERS` in [`helmrelease.yaml`](./helmrelease.yaml) from `expand-env` to `template`, reading client secrets from files via `{{ secret "/secrets/oidc/<client>" }}` (matching the existing `*_FILE` pattern).
 - [x] **Decouple App-Specific Env Var Names**:
   - [x] Move app-specific key remapping (`GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET`, `RUSTFS_IDENTITY_OPENID_CLIENT_SECRET`) into each consuming app's `ExternalSecret` ([`monitoring/grafana/authelia-client-secret.yaml`](../../monitoring/grafana/authelia-client-secret.yaml), [`backends/rustfs/authelia-client-secret.yaml`](../rustfs/authelia-client-secret.yaml)) using `remoteRef: { key: <client>-client-secret, property: client_secret }`.
-- [ ] **Restrict `authelia-kubernetes-store` Blast Radius**:
-  - [ ] [`kubernetes-store.yaml`](./kubernetes-store.yaml) currently grants cross-namespace read access to *all* `Secret`s in the `authelia` namespace (including `authelia-secret`, `ldap-secret`, and `postgres-app`). Scope access down (via `ClusterSecretStore` conditions or dedicated RBAC) so consuming namespaces can only read `oidc-client-secrets`.
+- [x] **Restrict `authelia-kubernetes-store` Blast Radius**:
+  - [x] Added `spec.conditions.namespaces` (`grafana`, `rustfs`) to [`kubernetes-store.yaml`](./kubernetes-store.yaml) so only OIDC consumer namespaces can use `authelia-kubernetes-store`. *(Note: ESO's Kubernetes provider `Validate()` requires `list` on secrets in `remoteNamespace`, so further per-secret scoping would require moving OIDC client secrets to a dedicated namespace if needed later.)*
 - [ ] **Evaluate Hashed OIDC Client Secrets**:
   - [ ] Authelia currently loads plaintext client secrets in [`resources/configuration.yaml`](./resources/configuration.yaml) (which triggers deprecation warnings). Evaluate hashing the Authelia-side secret (`$pbkdf2-sha512$` or `$argon2id$`) while keeping plaintext for the consuming app.
 - [ ] **Deduplicate & Clean Up [`resources/configuration.yaml`](./resources/configuration.yaml)**:
