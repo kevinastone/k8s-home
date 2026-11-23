@@ -16,10 +16,10 @@ ______________________________________________________________________
   - [x] Added `spec.conditions.namespaces` (`grafana`, `rustfs`) to [`kubernetes-store.yaml`](./kubernetes-store.yaml) so only OIDC consumer namespaces can use `authelia-kubernetes-store`. *(Note: ESO's Kubernetes provider `Validate()` requires `list` on secrets in `remoteNamespace`, so further per-secret scoping would require moving OIDC client secrets to a dedicated namespace if needed later.)*
 - [x] **Hash OIDC Client Secrets for Authelia**:
   - [x] Generate a bcrypt hash (`client_secret_hash` via Sprig `htpasswd`) alongside `client_secret` in [`oidc-clients.yaml`](./oidc-clients.yaml) and mount `client_secret_hash` into Authelia at `/secrets/oidc/<client>` while consuming apps continue pulling plaintext `client_secret`.
-- [ ] **Deduplicate & Clean Up [`resources/configuration.yaml`](./resources/configuration.yaml)**:
-  - [ ] Extract shared OIDC client defaults (`public: false`, `consent_mode: implicit`, `scopes`, `userinfo_signed_response_alg: none`) into a YAML anchor (`&default_oidc_client`).
-  - [ ] Remove redundant `pre_configured_consent_duration: 1y` from clients using `consent_mode: implicit` (it only applies to `explicit` consent mode).
-  - [ ] Update `totp.issuer` from `authelia.com` to a homelab-specific value (e.g., `k8s.kevinastone.com`).
+- [x] **Deduplicate & Clean Up [`resources/configuration.yaml`](./resources/configuration.yaml)**:
+  - [x] Reuse shared OIDC client scopes via YAML anchor (`&oidc_scopes`), drop redundant built-in defaults (`public: false`, `userinfo_signed_response_alg: none`), and migrate legacy `id`/`description`/`secret` keys to `client_id`/`client_name`/`client_secret`.
+  - [x] Remove redundant `pre_configured_consent_duration: 1y` from clients using `consent_mode: implicit` (it only applies to `explicit` consent mode).
+  - [x] Update `totp.issuer` from `authelia.com` to `k8s.kevinastone.com`.
 - [ ] *(Optional — if OIDC client count grows significantly)* **Evaluate API-Driven IdP for Co-Located Per-App OIDC**:
   - [ ] Authelia is file-configured only (no API, CRD, or OpenTofu provider). If many more OIDC apps are added and co-located per-app provisioning (similar to [`components/rustfs-bucket/`](../../components/rustfs-bucket/kustomization.yaml)) becomes desirable, evaluate an IdP with an OpenTofu provider (e.g., Pocket ID, Authentik, or Keycloak).
 
