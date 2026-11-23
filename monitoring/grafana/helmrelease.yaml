@@ -38,15 +38,9 @@ spec:
         name_attribute_path: name
         use_pkce: true
         allow_assign_grafana_admin: true
-        # https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#map-one-role-to-all-users
-        role_attribute_path: |
-          "'Admin'"
+        role_attribute_path: contains(groups[*], 'lldap_admin') && 'Admin' || 'Viewer'
         skip_org_role_sync: false
         org_id: 1
-      # auth.generic_oauth.group_mapping:
-      #   org_id: 1
-      #   role_attribute_path: |
-      #     contains(groups[*], 'lldap_admin') && 'Admin' || 'Viewer'
       auth.anonymous:
         enabled: false
       # auth.anonymous:

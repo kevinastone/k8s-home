@@ -92,6 +92,13 @@ identity_providers:
         - name
         - preferred_username
         - groups
+    authorization_policies:
+      admin_only:
+        default_policy: deny
+        rules:
+        - policy: one_factor
+          subject:
+          - "group:lldap_admin"
     clients:
     - client_id: envoy-gateway
       client_name: Envoy Gateway
@@ -115,7 +122,7 @@ identity_providers:
     - client_id: grafana
       client_name: Grafana
       client_secret: '{{ secret "/secrets/oidc/grafana" }}'
-      authorization_policy: one_factor
+      authorization_policy: admin_only
       consent_mode: implicit
       redirect_uris:
       - https://grafana.k8s.kevinastone.com/login/generic_oauth
@@ -127,7 +134,7 @@ identity_providers:
     - client_id: rustfs
       client_name: RustFS
       client_secret: '{{ secret "/secrets/oidc/rustfs" }}'
-      authorization_policy: one_factor
+      authorization_policy: admin_only
       consent_mode: implicit
       token_endpoint_auth_method: client_secret_post
       redirect_uris:
