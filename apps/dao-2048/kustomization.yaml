@@ -5,7 +5,7 @@ namespace: dao-2048
 resources:
 - helmrelease.yaml
 - http-route.yaml
-- security-policy.yaml
 components:
+- ../../components/auth/any
 - ../../components/namespace
 - ../../components/goldilocks
