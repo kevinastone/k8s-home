@@ -12,7 +12,6 @@ spec:
       engineVersion: v2
       data:
         client_secret: "{{ .password }}"
-        GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "{{ .password }}"
   dataFrom:
   - sourceRef:
       generatorRef:
@@ -34,7 +33,6 @@ spec:
       engineVersion: v2
       data:
         client_secret: "{{ .password }}"
-        RUSTFS_IDENTITY_OPENID_CLIENT_SECRET: "{{ .password }}"
   dataFrom:
   - sourceRef:
       generatorRef:
