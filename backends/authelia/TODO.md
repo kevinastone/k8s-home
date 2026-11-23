@@ -25,18 +25,33 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
-## 2. Per-Application Permissioning (Authelia + Envoy Gateway)
+## 2. Migrate Envoy Gateway `auth-gateway` from `extAuth` to OIDC + JWT
 
-> **Envoy Gateway Gotcha:** A `SecurityPolicy` attached to an `HTTPRoute` **overrides** (rather than merges with) a `SecurityPolicy` attached to the parent `Gateway`. Avoid creating per-app `SecurityPolicy` resources for RBAC — doing so would require duplicating `cors` and `extAuth` per route and expanding [`reference-grant.yaml`](./reference-grant.yaml) to every app namespace. Keep a single Gateway-level `auth-gateway-policy` and enforce per-app RBAC in Authelia using LLDAP groups ([`backends/ldap/tofu/terraform.tfvars`](../ldap/tofu/terraform.tfvars)).
+Replace per-request `extAuth` calls to Authelia on `auth-gateway` with Envoy Gateway's native `oidc` + `jwt` filters so Envoy verifies JWTs locally via Authelia's JWKS and supports co-located per-`HTTPRoute` group RBAC via `SecurityPolicy` (`mergeType: StrategicMerge` + `principal.jwt.claims`).
 
-- [ ] **Replace Wildcard `access_control` Rule with Per-App Group Rules**:
-  - [ ] Replace the `*.k8s.kevinastone.com` catch-all in [`resources/configuration.yaml`](./resources/configuration.yaml) with explicit group-scoped rules so `default_policy: deny` fails closed for newly exposed apps:
-    - Admin/infrastructure apps (`longhorn`, `goldilocks`, `clickhouse`, `argo`, `zigbee2mqtt`, `unifi`, etc.) → `subject: ["group:lldap_admin"]` (consider `policy: two_factor`).
-    - Media apps (`sonarr`, `radarr`, `prowlarr`, `sabnzbd`, `qbittorrent`) → `subject: ["group:media", "group:lldap_admin"]`, `policy: one_factor`.
-    - Shared/general apps (`home`, `sudoku`, `2048`) → `policy: one_factor`.
+- [ ] **Register an `envoy-gateway` OIDC Client in Authelia**:
+  - [ ] Add an `envoy-gateway-client-secret` `ExternalSecret` to [`oidc-clients.yaml`](./oidc-clients.yaml) and mount its `client_secret_hash` into `/secrets/oidc/envoy-gateway` in [`helmrelease.yaml`](./helmrelease.yaml).
+  - [ ] Allow the `envoy` namespace in [`kubernetes-store.yaml`](./kubernetes-store.yaml) (`spec.conditions.namespaces`) and add an `ExternalSecret` in `backends/envoy-gateway/` pulling `client_secret` into the `client-secret` key expected by `SecurityPolicy.spec.oidc.clientSecret`.
+  - [ ] Add an `identity_providers.oidc.claims_policies` entry in [`resources/configuration.yaml`](./resources/configuration.yaml) including `id_token: [groups, email, preferred_username, name]` (Authelia omits `groups` from the ID token by default) and attach it to the `envoy-gateway` client.
+  - [ ] Register a single fixed `redirect_uri` (`https://envoy.k8s.kevinastone.com/oauth2/callback`) on the `envoy-gateway` client in [`resources/configuration.yaml`](./resources/configuration.yaml).
+- [ ] **Create Dedicated OAuth Callback `HTTPRoute` on `auth-gateway`**:
+  - [ ] Add a small `HTTPRoute` in `backends/envoy-gateway/` for `envoy.k8s.kevinastone.com` attached to `auth-gateway` so ExternalDNS publishes the record and Envoy's built-in `oauth2` filter intercepts `/oauth2/callback` in-process (after exchanging the code and setting cookies on `cookieDomain: k8s.kevinastone.com`, Envoy redirects back to the original `*.k8s.kevinastone.com` URL stored in OIDC `state`).
+- [ ] **Switch `auth-gateway-policy` to `oidc` + `jwt`**:
+  - [ ] Replace `extAuth` in [`backends/envoy-gateway/security-policy.yaml`](../envoy-gateway/security-policy.yaml) with `oidc` (`cookieDomain: k8s.kevinastone.com`, `redirectURL: https://envoy.k8s.kevinastone.com/oauth2/callback`, `scopes: [openid, profile, email, groups]`) and `jwt` (validating the ID token against `https://auth.k8s.kevinastone.com/jwks.json`, with optional `claimToHeaders` for `Remote-User`/`Remote-Groups`).
+  - [ ] Clean up unused `ext-authz` config ([`reference-grant.yaml`](./reference-grant.yaml) and `server.endpoints.authz.ext-authz` in [`resources/configuration.yaml`](./resources/configuration.yaml)) once verified.
+
+______________________________________________________________________
+
+## 3. Per-Application Permissioning (Co-Located `SecurityPolicy` & OIDC Authorization Policies)
+
+> **Revisit after Section 2:** Once `auth-gateway` uses `oidc` + `jwt`, each app can co-locate a lightweight `SecurityPolicy` (`mergeType: StrategicMerge`) right next to its `http-route.yaml` using `authorization.rules[].principal.jwt.claims` on the `groups` `StringArray` claim (without duplicating OIDC/JWT config or needing per-namespace `ReferenceGrant`s). Set `authorization: { defaultAction: Deny }` on `auth-gateway-policy` so new routes fail closed. *(Note: if per-app 2FA step-up is ever needed, keep or fall back to Authelia `access_control.rules` instead.)*
+
+- [ ] **Add Co-Located Per-Route `SecurityPolicy` Group Rules (or Authelia `access_control` Rules)**:
+  - [ ] Enable `authorization: { defaultAction: Deny }` on `auth-gateway-policy` in [`backends/envoy-gateway/security-policy.yaml`](../envoy-gateway/security-policy.yaml) and attach `mergeType: StrategicMerge` `SecurityPolicy` manifests alongside each app's `http-route.yaml`:
+    - Admin/infrastructure apps (`longhorn`, `goldilocks`, `clickhouse`, `argo`, `zigbee2mqtt`, `unifi`, etc.) → `groups` contains `lldap_admin`.
+    - Media apps (`sonarr`, `radarr`, `prowlarr`, `sabnzbd`, `qbittorrent`) → `groups` contains `media` or `lldap_admin`.
+    - Shared/general apps (`home`, `sudoku`, `2048`) → any authenticated user.
 - [ ] **Add OIDC `authorization_policies` & Fix Over-Permissive App Role Mappings**:
   - [ ] Define named policies under `identity_providers.oidc.authorization_policies` (e.g., `admin_only` requiring `group:lldap_admin` with `default_policy: deny`) in [`resources/configuration.yaml`](./resources/configuration.yaml) and assign them to `rustfs` and `grafana`.
   - [ ] In [`monitoring/grafana/helmrelease.yaml`](../../monitoring/grafana/helmrelease.yaml), replace `role_attribute_path: "'Admin'"` with group-based mapping (`contains(groups[*], 'lldap_admin') && 'Admin' || 'Viewer'`) directly under `auth.generic_oauth` (and remove the invalid commented `auth.generic_oauth.group_mapping` section).
   - [ ] In [`backends/rustfs/helmrelease.yaml`](../rustfs/helmrelease.yaml), verify `RUSTFS_IDENTITY_OPENID_ROLE_POLICY: consoleAdmin` is gated by Authelia's `admin_only` OIDC authorization policy (or switch to claim-based policy mapping with `groups` scope).
-- [ ] **Forward Identity Headers from Envoy Gateway to Backends**:
-  - [ ] Add `headersToBackend` (`Remote-User`, `Remote-Groups`, `Remote-Name`, `Remote-Email`) under `extAuth.http` in [`backends/envoy-gateway/security-policy.yaml`](../envoy-gateway/security-policy.yaml) so upstream apps behind `auth-gateway` can consume authenticated user/group context if needed.
