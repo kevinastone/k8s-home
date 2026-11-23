@@ -4,22 +4,12 @@ metadata:
   name: media-authz
 spec:
   mergeType: StrategicMerge
-  targetRefs:
+  targetSelectors:
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
-    name: sonarr
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: radarr
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: prowlarr
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: sabnzbd
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: qbittorrent
+    matchExpressions:
+    - key: gateway.k8s.kevinastone.com/public
+      operator: DoesNotExist
   authorization:
     defaultAction: Deny
     rules:
