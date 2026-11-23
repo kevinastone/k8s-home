@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/stakater/charts/reloader
       ref:
-        tag: 2.2.20
+        tag: 2.2.21
   install:
     remediation:
       retries: -1
