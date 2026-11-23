@@ -22,6 +22,19 @@ spec:
     cookieNames:
       suffix: auth
       idToken: IdToken
+    codeVerifierTTL: 2m
+    csrfTokenTTL: 2m
+    denyRedirect:
+      headers:
+      - name: sec-fetch-mode
+        type: Exact
+        value: cors
+      - name: sec-fetch-dest
+        type: Exact
+        value: empty
+      - name: x-requested-with
+        type: Exact
+        value: XMLHttpRequest
     disableTokenEncryption: true
     scopes:
     - openid
