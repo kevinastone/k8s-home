@@ -29,11 +29,11 @@ ______________________________________________________________________
 
 Replace per-request `extAuth` calls to Authelia on `auth-gateway` with Envoy Gateway's native `oidc` + `jwt` filters so Envoy verifies JWTs locally via Authelia's JWKS and supports co-located per-`HTTPRoute` group RBAC via `SecurityPolicy` (`mergeType: StrategicMerge` + `principal.jwt.claims`).
 
-- [ ] **Register an `envoy-gateway` OIDC Client in Authelia**:
-  - [ ] Add an `envoy-gateway-client-secret` `ExternalSecret` to [`oidc-clients.yaml`](./oidc-clients.yaml) and mount its `client_secret_hash` into `/secrets/oidc/envoy-gateway` in [`helmrelease.yaml`](./helmrelease.yaml).
-  - [ ] Allow the `envoy` namespace in [`kubernetes-store.yaml`](./kubernetes-store.yaml) (`spec.conditions.namespaces`) and add an `ExternalSecret` in `backends/envoy-gateway/` pulling `client_secret` into the `client-secret` key expected by `SecurityPolicy.spec.oidc.clientSecret`.
-  - [ ] Add an `identity_providers.oidc.claims_policies` entry in [`resources/configuration.yaml`](./resources/configuration.yaml) including `id_token: [groups, email, preferred_username, name]` (Authelia omits `groups` from the ID token by default) and attach it to the `envoy-gateway` client.
-  - [ ] Register a single fixed `redirect_uri` (`https://envoy.k8s.kevinastone.com/oauth2/callback`) on the `envoy-gateway` client in [`resources/configuration.yaml`](./resources/configuration.yaml).
+- [x] **Register an `envoy-gateway` OIDC Client in Authelia**:
+  - [x] Add an `envoy-gateway-client-secret` `ExternalSecret` to [`oidc-clients.yaml`](./oidc-clients.yaml) and mount its `client_secret_hash` into `/secrets/oidc/envoy-gateway` in [`helmrelease.yaml`](./helmrelease.yaml).
+  - [x] Allow the `envoy` namespace in [`kubernetes-store.yaml`](./kubernetes-store.yaml) (`spec.conditions.namespaces`) and add an `ExternalSecret` in `backends/envoy-gateway/` pulling `client_secret` into the `client-secret` key expected by `SecurityPolicy.spec.oidc.clientSecret`.
+  - [x] Add an `identity_providers.oidc.claims_policies` entry in [`resources/configuration.yaml`](./resources/configuration.yaml) including `id_token: [groups, email, preferred_username, name]` (Authelia omits `groups` from the ID token by default) and attach it to the `envoy-gateway` client.
+  - [x] Register a single fixed `redirect_uri` (`https://envoy.k8s.kevinastone.com/oauth2/callback`) on the `envoy-gateway` client in [`resources/configuration.yaml`](./resources/configuration.yaml).
 - [ ] **Create Dedicated OAuth Callback `HTTPRoute` on `auth-gateway`**:
   - [ ] Add a small `HTTPRoute` in `backends/envoy-gateway/` for `envoy.k8s.kevinastone.com` attached to `auth-gateway` so ExternalDNS publishes the record and Envoy's built-in `oauth2` filter intercepts `/oauth2/callback` in-process (after exchanging the code and setting cookies on `cookieDomain: k8s.kevinastone.com`, Envoy redirects back to the original `*.k8s.kevinastone.com` URL stored in OIDC `state`).
 - [ ] **Switch `auth-gateway-policy` to `oidc` + `jwt`**:

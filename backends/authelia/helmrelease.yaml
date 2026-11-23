@@ -127,6 +127,11 @@ spec:
             items:
             - key: client_secret_hash
               path: rustfs
+        - secret:
+            name: envoy-gateway-client-secret
+            items:
+            - key: client_secret_hash
+              path: envoy-gateway
         globalMounts:
         - path: /secrets/oidc
           readOnly: true

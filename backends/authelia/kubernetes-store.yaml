@@ -6,6 +6,7 @@ metadata:
 spec:
   conditions:
   - namespaces:
+    - envoy
     - grafana
     - rustfs
   provider:
