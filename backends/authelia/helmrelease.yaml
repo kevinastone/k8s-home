@@ -24,10 +24,6 @@ spec:
               repository: ghcr.io/authelia/authelia
               tag: 4.39.28@sha256:bd97cff4fcbf715b5ff1f9ae286afbe6033afce385302520b0368122d43a6f54
             envFrom:
-            - secretRef:
-                name: rustfs-client-secret
-            - secretRef:
-                name: grafana-client-secret
             - prefix: postgres_
               secretRef:
                 name: postgres-app
@@ -47,7 +43,7 @@ spec:
               AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /secrets/oidc_issuer.key
 
               X_AUTHELIA_CONFIG: /config/configuration.yaml
-              X_AUTHELIA_CONFIG_FILTERS: expand-env
+              X_AUTHELIA_CONFIG_FILTERS: template
             probes:
               liveness: &probes
                 enabled: true
@@ -118,4 +114,21 @@ spec:
         name: ldap-secret
         globalMounts:
         - path: /ldap
+          readOnly: true
+      oidc-secrets:
+        type: projected
+        defaultMode: 0400
+        sources:
+        - secret:
+            name: grafana-client-secret
+            items:
+            - key: client_secret
+              path: grafana
+        - secret:
+            name: rustfs-client-secret
+            items:
+            - key: client_secret
+              path: rustfs
+        globalMounts:
+        - path: /secrets/oidc
           readOnly: true

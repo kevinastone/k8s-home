@@ -6,10 +6,10 @@ ______________________________________________________________________
 
 ## 1. OIDC Client Secret Management & Config Cleanup
 
-- [ ] **Consolidate OIDC Client Secrets into a Single `ExternalSecret`**:
-  - [ ] Replace per-app secret manifests ([`grafana-client-secret.yaml`](./grafana-client-secret.yaml), [`rustfs-client-secret.yaml`](./rustfs-client-secret.yaml)) with a single `ExternalSecret` (`oidc-client-secrets`) that uses [`oidc-client-secret-generator`](./client-secret-generator.yaml) with `rewrite` rules to produce clean per-client keys (`grafana`, `rustfs`, etc.).
-  - [ ] Mount `oidc-client-secrets` once at `/secrets/oidc` in [`helmrelease.yaml`](./helmrelease.yaml) and remove the per-client `envFrom` entries so adding a new OIDC client no longer requires editing `helmrelease.yaml` or leaking consuming-app env vars into the Authelia container.
-  - [ ] Switch `X_AUTHELIA_CONFIG_FILTERS` in [`helmrelease.yaml`](./helmrelease.yaml) from `expand-env` to `template`, reading client secrets from files via `{{ secret "/secrets/oidc/<client>" }}` (matching the existing `*_FILE` pattern).
+- [x] **Consolidate OIDC Client Secrets into a Single Manifest & Use File-Mounted Template Secrets**:
+  - [x] Consolidate per-app secret manifests ([`grafana-client-secret.yaml`](./grafana-client-secret.yaml), [`rustfs-client-secret.yaml`](./rustfs-client-secret.yaml)) into [`oidc-clients.yaml`](./oidc-clients.yaml) (keeping one `ExternalSecret` per client with `refreshPolicy: OnChange` so adding a new client never rotates existing clients' secrets).
+  - [x] Mount OIDC client secrets via a `projected` volume at `/secrets/oidc` in [`helmrelease.yaml`](./helmrelease.yaml) and remove the per-client `envFrom` entries so consuming-app env vars are not leaked into the Authelia container.
+  - [x] Switch `X_AUTHELIA_CONFIG_FILTERS` in [`helmrelease.yaml`](./helmrelease.yaml) from `expand-env` to `template`, reading client secrets from files via `{{ secret "/secrets/oidc/<client>" }}` (matching the existing `*_FILE` pattern).
 - [ ] **Decouple App-Specific Env Var Names**:
   - [ ] Move app-specific key remapping (`GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET`, `RUSTFS_IDENTITY_OPENID_CLIENT_SECRET`) into each consuming app's `ExternalSecret` ([`monitoring/grafana/authelia-client-secret.yaml`](../../monitoring/grafana/authelia-client-secret.yaml), [`backends/rustfs/authelia-client-secret.yaml`](../rustfs/authelia-client-secret.yaml)) using `remoteRef: { key: oidc-client-secrets, property: <client> }`.
 - [ ] **Restrict `authelia-kubernetes-store` Blast Radius**:

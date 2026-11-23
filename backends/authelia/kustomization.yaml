@@ -12,8 +12,7 @@ resources:
 - ldap-secret.yaml
 - client-secret-generator.yaml
 - kubernetes-store.yaml
-- rustfs-client-secret.yaml
-- grafana-client-secret.yaml
+- oidc-clients.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks

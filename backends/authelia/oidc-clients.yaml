@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: grafana-client-secret
+spec:
+  refreshPolicy: OnChange
+  target:
+    name: grafana-client-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        client_secret: "{{ .password }}"
+        GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "{{ .password }}"
+  dataFrom:
+  - sourceRef:
+      generatorRef:
+        apiVersion: generators.external-secrets.io/v1alpha1
+        kind: Password
+        name: oidc-client-secret-generator
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: rustfs-client-secret
+spec:
+  refreshPolicy: OnChange
+  target:
+    name: rustfs-client-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        client_secret: "{{ .password }}"
+        RUSTFS_IDENTITY_OPENID_CLIENT_SECRET: "{{ .password }}"
+  dataFrom:
+  - sourceRef:
+      generatorRef:
+        apiVersion: generators.external-secrets.io/v1alpha1
+        kind: Password
+        name: oidc-client-secret-generator
