@@ -122,12 +122,12 @@ spec:
         - secret:
             name: grafana-client-secret
             items:
-            - key: client_secret
+            - key: client_secret_hash
               path: grafana
         - secret:
             name: rustfs-client-secret
             items:
-            - key: client_secret
+            - key: client_secret_hash
               path: rustfs
         globalMounts:
         - path: /secrets/oidc
