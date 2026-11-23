@@ -5,4 +5,5 @@ namespace: envoy
 resources:
 - authelia-client-secret.yaml
 - envoy-proxy.yaml
+- http-route.yaml
 - security-policy.yaml
