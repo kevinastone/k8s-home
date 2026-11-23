@@ -12,7 +12,7 @@ spec:
       engineVersion: v2
       data:
         client_secret: "{{ .password }}"
-        client_secret_hash: '{{ trimPrefix "u:" (htpasswd "u" .password) }}'
+        client_secret_hash: '{{ trimPrefix "u:" (htpasswd "u" .password "bcrypt") }}'
   dataFrom:
   - sourceRef:
       generatorRef:
@@ -34,7 +34,7 @@ spec:
       engineVersion: v2
       data:
         client_secret: "{{ .password }}"
-        client_secret_hash: '{{ trimPrefix "u:" (htpasswd "u" .password) }}'
+        client_secret_hash: '{{ trimPrefix "u:" (htpasswd "u" .password "bcrypt") }}'
   dataFrom:
   - sourceRef:
       generatorRef:
