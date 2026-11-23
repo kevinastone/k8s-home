@@ -108,6 +108,8 @@ identity_providers:
       grant_types:
       - authorization_code
       - refresh_token
+      response_types:
+      - code
       redirect_uris:
       - https://envoy.k8s.kevinastone.com/oauth2/callback
       scopes:
