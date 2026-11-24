@@ -5,8 +5,6 @@ metadata:
   name: dragonfly
 spec:
   jobLabel: app.kubernetes.io/name
-  namespaceSelector:
-    any: true
   selector:
     matchLabels:
       app.kubernetes.io/name: dragonfly
