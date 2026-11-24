@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/infra.contrib.fluxcd.io/terraform_v1alpha2.json
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: oidc-client
+spec:
+  serviceAccountName: tf-runner
+  interval: 15m
+  approvePlan: auto
+  path: ./components/oidc-client/tofu
+  sourceRef:
+    kind: GitRepository
+    name: fluxcd-sync
+    namespace: flux-system
+  varsFrom:
+  - kind: Secret
+    name: keycloak-provisioner-secret
+    varsKeys:
+    - OIDC_PROVISIONER_CLIENT_ID
+    - OIDC_PROVISIONER_CLIENT_SECRET
+  - kind: Secret
+    name: oidc-client-secret
+    varsKeys:
+    - OIDC_CLIENT_SECRET
