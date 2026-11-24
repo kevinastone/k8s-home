@@ -35,7 +35,7 @@ spec:
           init-config:
             image:
               repository: cuelang/cue
-              tag: 0.17.1@sha256:520f883dcc92642389b3b75e8befe4e5a233a1aa903a8c846c4a3b338b202635
+              tag: 0.18.0@sha256:6e394433bfcfb87848ab824f294264b667535c3de53051715637d328d01eddc7
             command:
             - cue
             - export
