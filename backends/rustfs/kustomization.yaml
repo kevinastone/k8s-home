@@ -8,7 +8,6 @@ resources:
 - http-route.yaml
 - rustfs-root-secret.yaml
 - rustfs-kubernetes-store.yaml
-- authelia-client-secret.yaml
 - prometheus-rule.yaml
 configMapGenerator:
 - name: otel-config
@@ -24,3 +23,31 @@ components:
 - ../../components/namespace
 - ../../components/goldilocks
 - ../../components/kustomizeconfig
+- ../../components/oidc-client
+patches:
+- target:
+    group: external-secrets.io
+    version: v1
+    kind: ExternalSecret
+    name: oidc-client-secret
+  patch: |-
+    - op: add
+      path: /spec/target/template/data/RUSTFS_IDENTITY_OPENID_CLIENT_SECRET
+      value: "{{ .password }}"
+- patch: |-
+    apiVersion: infra.contrib.fluxcd.io/v1alpha2
+    kind: Terraform
+    metadata:
+      name: oidc-client
+    spec:
+      vars:
+      - name: client_id
+        value: rustfs
+      - name: client_name
+        value: RustFS
+      - name: redirect_uris
+        value:
+        - https://rustfs.k8s.kevinastone.com/rustfs/admin/v3/oidc/callback/default
+      - name: web_origins
+        value:
+        - https://rustfs.k8s.kevinastone.com
