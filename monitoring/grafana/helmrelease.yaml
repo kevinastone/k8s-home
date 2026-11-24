@@ -24,21 +24,20 @@ spec:
         check_for_plugin_updates: false
       auth.generic_oauth:
         enabled: true
-        name: Authelia
+        name: Keycloak
         icon: signin
         client_id: grafana
-        # client_secret: insecure_secret
         scopes: openid profile email groups
         empty_scopes: false
-        auth_url: https://auth.k8s.kevinastone.com/api/oidc/authorization
-        token_url: https://auth.k8s.kevinastone.com/api/oidc/token
-        api_url: https://auth.k8s.kevinastone.com/api/oidc/userinfo
+        auth_url: https://sso.k8s.kevinastone.com/realms/homelab/protocol/openid-connect/auth
+        token_url: https://sso.k8s.kevinastone.com/realms/homelab/protocol/openid-connect/token
+        api_url: https://sso.k8s.kevinastone.com/realms/homelab/protocol/openid-connect/userinfo
         login_attribute_path: preferred_username
         groups_attribute_path: groups
         name_attribute_path: name
         use_pkce: true
         allow_assign_grafana_admin: true
-        role_attribute_path: contains(groups[*], 'lldap_admin') && 'Admin' || 'Viewer'
+        role_attribute_path: contains(groups[*], 'admin') && 'Admin' || 'Viewer'
         skip_org_role_sync: false
         org_id: 1
       auth.anonymous:
@@ -79,4 +78,4 @@ spec:
     podAnnotations:
       reloader.stakater.com/auto: "true"
 
-    envFromSecret: grafana-client-secret
+    envFromSecret: oidc-client-secret

@@ -5,7 +5,34 @@ namespace: grafana
 resources:
 - helmrelease.yaml
 - http-route.yaml
-- authelia-client-secret.yaml
 components:
 - ../../components/namespace
 - ../../components/goldilocks
+- ../../components/oidc-client
+patches:
+- target:
+    group: external-secrets.io
+    version: v1
+    kind: ExternalSecret
+    name: oidc-client-secret
+  patch: |-
+    - op: add
+      path: /spec/target/template/data/GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      value: "{{ .password }}"
+- patch: |-
+    apiVersion: infra.contrib.fluxcd.io/v1alpha2
+    kind: Terraform
+    metadata:
+      name: oidc-client
+    spec:
+      vars:
+      - name: client_id
+        value: grafana
+      - name: client_name
+        value: Grafana
+      - name: redirect_uris
+        value:
+        - https://grafana.k8s.kevinastone.com/login/generic_oauth
+      - name: web_origins
+        value:
+        - https://grafana.k8s.kevinastone.com
