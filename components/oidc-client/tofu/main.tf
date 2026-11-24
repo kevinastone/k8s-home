@@ -9,6 +9,7 @@ resource "keycloak_openid_client" "client" {
   standard_flow_enabled        = true
   direct_access_grants_enabled = false
   consent_required             = false
+  full_scope_allowed           = false
   pkce_code_challenge_method   = "S256"
 
   valid_redirect_uris = var.redirect_uris

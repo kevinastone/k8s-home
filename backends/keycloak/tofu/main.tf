@@ -117,11 +117,35 @@ resource "keycloak_openid_client" "oidc_provisioner" {
   access_type              = "CONFIDENTIAL"
   standard_flow_enabled    = false
   service_accounts_enabled = true
+  full_scope_allowed       = false
 }
 
 data "keycloak_openid_client" "homelab_realm_management" {
   realm_id  = "master"
   client_id = "${keycloak_realm.homelab.realm}-realm"
+}
+
+locals {
+  oidc_provisioner_roles = toset([
+    "manage-clients",
+    "view-realm",
+  ])
+}
+
+data "keycloak_role" "homelab_realm_management" {
+  for_each = local.oidc_provisioner_roles
+
+  realm_id  = "master"
+  client_id = data.keycloak_openid_client.homelab_realm_management.id
+  name      = each.key
+}
+
+resource "keycloak_generic_role_mapper" "oidc_provisioner" {
+  for_each = data.keycloak_role.homelab_realm_management
+
+  realm_id  = "master"
+  client_id = keycloak_openid_client.oidc_provisioner.id
+  role_id   = each.value.id
 }
 
 resource "keycloak_openid_client_service_account_role" "oidc_provisioner_manage_clients" {
@@ -158,6 +182,12 @@ data "keycloak_openid_client" "realm_management" {
 resource "keycloak_role" "admin" {
   realm_id = keycloak_realm.homelab.id
   name     = "admin"
+}
+
+resource "keycloak_generic_role_mapper" "groups_admin_role" {
+  realm_id        = keycloak_realm.homelab.id
+  client_scope_id = keycloak_openid_client_scope.groups.id
+  role_id         = keycloak_role.admin.id
 }
 
 resource "keycloak_group" "lldap_admin" {
