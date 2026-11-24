@@ -27,18 +27,14 @@ resource "keycloak_ldap_user_federation" "lldap" {
   username_ldap_attribute = "uid"
   rdn_ldap_attribute      = "uid"
   uuid_ldap_attribute     = "uid"
-  user_object_classes = [
-    "inetOrgPerson",
-    "person",
-    "top",
-  ]
+  user_object_classes     = ["person"]
 
   search_scope = "ONE_LEVEL"
   trust_email  = true
   edit_mode    = "READ_ONLY"
 
   full_sync_period    = 3600
-  changed_sync_period = 300
+  changed_sync_period = -1
 }
 
 resource "keycloak_ldap_group_mapper" "lldap_groups" {
@@ -48,7 +44,7 @@ resource "keycloak_ldap_group_mapper" "lldap_groups" {
 
   ldap_groups_dn                 = "ou=groups,${var.lldap_base_dn}"
   group_name_ldap_attribute      = "cn"
-  group_object_classes           = ["groupOfUniqueNames", "top"]
+  group_object_classes           = ["groupOfUniqueNames"]
   membership_attribute_type      = "DN"
   membership_ldap_attribute      = "member"
   membership_user_ldap_attribute = "uid"
