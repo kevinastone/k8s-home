@@ -24,6 +24,7 @@ spec:
       idToken: IdToken
     codeVerifierTTL: 2m
     csrfTokenTTL: 2m
+    defaultRefreshTokenTTL: 8760h
     denyRedirect:
       headers:
       - name: sec-fetch-mode

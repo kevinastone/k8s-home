@@ -79,6 +79,8 @@ access_control:
 
 identity_providers:
   oidc:
+    lifespans:
+      refresh_token: 1y
     jwks:
     - key: |
         {{- fileContent "/secrets/oidc_issuer.key" | nindent 8 }}
