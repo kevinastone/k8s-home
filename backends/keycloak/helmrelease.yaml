@@ -43,6 +43,10 @@ spec:
               KC_METRICS_ENABLED: "true"
               KC_HTTP_METRICS_HISTOGRAMS_ENABLED: "true"
               KC_EVENT_METRICS_USER_ENABLED: "true"
+              # Override default 50%/70% RAMPercentage heap sizing to reduce steady-state memory footprint
+              JAVA_OPTS_KC_HEAP: "-Xms128m -Xmx384m"
+              # Use SerialGC (lower native overhead for low-concurrency homelab) and cap Metaspace
+              JAVA_OPTS_APPEND: "-XX:+UseSerialGC -XX:MaxMetaspaceSize=256m"
             probes:
               liveness: &probes
                 enabled: true
