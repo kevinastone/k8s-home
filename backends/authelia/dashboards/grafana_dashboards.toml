@@ -1,4 +1,0 @@
-#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
-
-[authelia]
-url = "https://raw.githubusercontent.com/authelia/authelia/refs/heads/master/examples/grafana-dashboards/simple.json"

@@ -5,7 +5,6 @@ components:
 - ../components/helmrelease
 resources:
 # keep-sorted start
-- authelia
 - clickhouse
 - dns
 - dragonfly
