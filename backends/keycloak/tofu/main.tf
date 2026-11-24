@@ -74,6 +74,18 @@ resource "keycloak_openid_group_membership_protocol_mapper" "groups" {
   add_to_userinfo     = true
 }
 
+resource "keycloak_openid_user_realm_role_protocol_mapper" "realm_roles_to_groups" {
+  realm_id        = keycloak_realm.homelab.id
+  client_scope_id = keycloak_openid_client_scope.groups.id
+  name            = "realm-roles-to-groups"
+  claim_name      = "groups"
+  multivalued     = true
+
+  add_to_id_token     = true
+  add_to_access_token = true
+  add_to_userinfo     = true
+}
+
 # Scoped service-account client used by components/oidc-client to manage OIDC
 # clients in the homelab realm without fanning out master admin credentials.
 resource "keycloak_openid_client" "oidc_provisioner" {
@@ -99,10 +111,14 @@ resource "keycloak_openid_client_service_account_role" "oidc_provisioner_manage_
   role                    = "manage-clients"
 }
 
-data "keycloak_group" "lldap_admin" {
-  realm_id   = keycloak_realm.homelab.id
-  name       = "lldap_admin"
-  depends_on = [keycloak_ldap_group_mapper.lldap_groups]
+resource "keycloak_role" "admin" {
+  realm_id = keycloak_realm.homelab.id
+  name     = "admin"
+}
+
+resource "keycloak_group" "lldap_admin" {
+  realm_id = keycloak_realm.homelab.id
+  name     = "lldap_admin"
 }
 
 data "keycloak_role" "realm_admin" {
@@ -113,10 +129,11 @@ data "keycloak_role" "realm_admin" {
 
 resource "keycloak_group_roles" "lldap_admin_realm_admin" {
   realm_id = keycloak_realm.homelab.id
-  group_id = data.keycloak_group.lldap_admin.id
+  group_id = keycloak_group.lldap_admin.id
 
   role_ids = [
     data.keycloak_role.realm_admin.id,
+    keycloak_role.admin.id,
   ]
 }
 
