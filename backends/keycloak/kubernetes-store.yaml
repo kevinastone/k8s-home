@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/external-secrets.io/clustersecretstore_v1.json
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: keycloak-kubernetes-store
+spec:
+  conditions:
+  - namespaces:
+    - envoy
+    - grafana
+    - rustfs
+  provider:
+    kubernetes:
+      remoteNamespace: keycloak
+      server:
+        url: https://kubernetes.default.svc
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt
+          namespace: kube-system
+      auth:
+        serviceAccount:
+          name: external-secrets
+          namespace: external-secrets

@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: keycloak
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: quay.io/keycloak/keycloak
+              tag: 26.8.2@sha256:7e66a96e4739239070aeaf72e4c5decf0f7f682cfc725b9f7ea2b336eaba38b3
+            args:
+            - start
+            envFrom:
+            - secretRef:
+                name: keycloak-secret
+            - prefix: postgres_
+              secretRef:
+                name: postgres-app
+            env:
+              KC_DB: postgres
+              KC_DB_URL_HOST: $(postgres_host)
+              KC_DB_URL_PORT: $(postgres_port)
+              KC_DB_URL_DATABASE: $(postgres_dbname)
+              KC_DB_USERNAME: $(postgres_username)
+              KC_DB_PASSWORD: $(postgres_password)
+              KC_HOSTNAME: https://sso.k8s.kevinastone.com
+              KC_HTTP_ENABLED: "true"
+              KC_PROXY_HEADERS: xforwarded
+              KC_HEALTH_ENABLED: "true"
+              KC_METRICS_ENABLED: "true"
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+                path: /health/live
+                port: 9000
+                spec:
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 2
+                  failureThreshold: 3
+              readiness:
+                !!merge <<: *probes
+                path: /health/ready
+              startup:
+                !!merge <<: *probes
+                path: /health/started
+                spec:
+                  initialDelaySeconds: 10
+                  periodSeconds: 5
+                  timeoutSeconds: 2
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 8080
+          management:
+            port: 9000
+    serviceMonitor:
+      main:
+        serviceName: keycloak
+        endpoints:
+        - port: management

@@ -10,6 +10,7 @@ resources:
 - dns
 - dragonfly
 - envoy-gateway
+- keycloak
 - ldap
 - mqtt
 - one-password

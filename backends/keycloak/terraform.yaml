@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/infra.contrib.fluxcd.io/terraform_v1alpha2.json
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: keycloak
+spec:
+  serviceAccountName: tf-runner
+  interval: 15m
+  approvePlan: auto
+  path: ./backends/keycloak/tofu
+  sourceRef:
+    kind: GitRepository
+    name: fluxcd-sync
+    namespace: flux-system
+  varsFrom:
+  - kind: Secret
+    name: keycloak-secret
+    varsKeys:
+    - KC_BOOTSTRAP_ADMIN_USERNAME
+    - KC_BOOTSTRAP_ADMIN_PASSWORD
+  - kind: Secret
+    name: ldap-secret
+    varsKeys:
+    - LLDAP_BIND_PASSWORD
+  writeOutputsToSecret:
+    name: keycloak-provisioner-secret
+    outputs:
+    - OIDC_PROVISIONER_CLIENT_ID
+    - OIDC_PROVISIONER_CLIENT_SECRET
