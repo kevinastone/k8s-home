@@ -29,12 +29,35 @@ resource "keycloak_ldap_user_federation" "lldap" {
   uuid_ldap_attribute     = "uid"
   user_object_classes     = ["person"]
 
-  search_scope = "ONE_LEVEL"
-  trust_email  = true
-  edit_mode    = "READ_ONLY"
+  search_scope           = "ONE_LEVEL"
+  trust_email            = true
+  edit_mode              = "READ_ONLY"
+  delete_default_mappers = true
 
   full_sync_period    = 3600
   changed_sync_period = -1
+}
+
+locals {
+  ldap_user_attributes = {
+    username  = "uid"
+    email     = "mail"
+    firstName = "givenName"
+    lastName  = "sn"
+  }
+}
+
+resource "keycloak_ldap_user_attribute_mapper" "lldap_attributes" {
+  for_each = local.ldap_user_attributes
+
+  realm_id                = keycloak_realm.homelab.id
+  ldap_user_federation_id = keycloak_ldap_user_federation.lldap.id
+  name                    = each.key
+
+  user_model_attribute        = each.key
+  ldap_attribute              = each.value
+  read_only                   = true
+  always_read_value_from_ldap = true
 }
 
 resource "keycloak_ldap_group_mapper" "lldap_groups" {
