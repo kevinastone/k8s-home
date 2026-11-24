@@ -108,6 +108,25 @@ resource "keycloak_openid_client_service_account_role" "oidc_provisioner_manage_
   role                    = "manage-clients"
 }
 
+resource "keycloak_openid_client_service_account_role" "oidc_provisioner_view_realm" {
+  realm_id                = "master"
+  service_account_user_id = keycloak_openid_client.oidc_provisioner.service_account_user_id
+  client_id               = data.keycloak_openid_client.homelab_realm_management.id
+  role                    = "view-realm"
+}
+
+resource "keycloak_openid_client_default_scopes" "oidc_provisioner" {
+  realm_id  = "master"
+  client_id = keycloak_openid_client.oidc_provisioner.id
+
+  default_scopes = [
+    "basic",
+    "roles",
+    "service_account",
+    "kc-admin-api",
+  ]
+}
+
 data "keycloak_openid_client" "realm_management" {
   realm_id  = keycloak_realm.homelab.id
   client_id = "realm-management"
