@@ -54,7 +54,6 @@ resource "keycloak_ldap_group_mapper" "lldap_groups" {
   membership_user_ldap_attribute = "uid"
   memberof_ldap_attribute        = "memberOf"
   mode                           = "READ_ONLY"
-  use_realm_roles_mapping        = false
 }
 
 resource "keycloak_openid_client_scope" "groups" {
