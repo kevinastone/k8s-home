@@ -10,7 +10,6 @@ terraform {
 
 provider "keycloak" {
   url           = var.keycloak_url
-  realm         = var.realm
   client_id     = var.OIDC_PROVISIONER_CLIENT_ID
   client_secret = var.OIDC_PROVISIONER_CLIENT_SECRET
 }

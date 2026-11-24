@@ -82,10 +82,11 @@ resource "keycloak_openid_user_realm_role_protocol_mapper" "realm_roles_to_group
   add_to_userinfo     = true
 }
 
-# Scoped service-account client used by components/oidc-client to manage OIDC
-# clients in the homelab realm without fanning out master admin credentials.
+# Scoped service-account client in master realm used by components/oidc-client
+# to manage OIDC clients in the homelab realm (master realm is required for
+# /admin/serverinfo during provider init) without fanning out master admin creds.
 resource "keycloak_openid_client" "oidc_provisioner" {
-  realm_id  = keycloak_realm.homelab.id
+  realm_id  = "master"
   client_id = "oidc-provisioner"
   name      = "OIDC Client Provisioner"
   enabled   = true
@@ -95,16 +96,21 @@ resource "keycloak_openid_client" "oidc_provisioner" {
   service_accounts_enabled = true
 }
 
-data "keycloak_openid_client" "realm_management" {
-  realm_id  = keycloak_realm.homelab.id
-  client_id = "realm-management"
+data "keycloak_openid_client" "homelab_realm_management" {
+  realm_id  = "master"
+  client_id = "${keycloak_realm.homelab.realm}-realm"
 }
 
 resource "keycloak_openid_client_service_account_role" "oidc_provisioner_manage_clients" {
-  realm_id                = keycloak_realm.homelab.id
+  realm_id                = "master"
   service_account_user_id = keycloak_openid_client.oidc_provisioner.service_account_user_id
-  client_id               = data.keycloak_openid_client.realm_management.id
+  client_id               = data.keycloak_openid_client.homelab_realm_management.id
   role                    = "manage-clients"
+}
+
+data "keycloak_openid_client" "realm_management" {
+  realm_id  = keycloak_realm.homelab.id
+  client_id = "realm-management"
 }
 
 resource "keycloak_role" "admin" {

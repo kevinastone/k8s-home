@@ -20,8 +20,8 @@ spec:
     redirectURL: https://envoy.k8s.kevinastone.com/oauth2/callback
     cookieDomain: k8s.kevinastone.com
     cookieNames:
-      suffix: auth
-      idToken: IdToken
+      suffix: kc
+      idToken: IdToken-kc
     codeVerifierTTL: 2m
     csrfTokenTTL: 2m
     defaultRefreshTokenTTL: 8760h
@@ -53,7 +53,7 @@ spec:
         uri: https://sso.k8s.kevinastone.com/realms/homelab/protocol/openid-connect/certs
       extractFrom:
         cookies:
-        - IdToken
+        - IdToken-kc
       claimToHeaders:
       - claim: preferred_username
         header: Remote-User
