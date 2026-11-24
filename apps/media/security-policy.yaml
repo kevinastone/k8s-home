@@ -17,10 +17,10 @@ spec:
       action: Allow
       principal:
         jwt:
-          provider: authelia
+          provider: keycloak
           claims:
           - name: groups
             valueType: StringArray
             values:
             - media
-            - lldap_admin
+            - admin

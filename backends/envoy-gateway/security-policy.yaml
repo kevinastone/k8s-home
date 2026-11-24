@@ -13,10 +13,10 @@ spec:
     allowCredentials: true
   oidc:
     provider:
-      issuer: https://auth.k8s.kevinastone.com
+      issuer: https://sso.k8s.kevinastone.com/realms/homelab
     clientID: envoy-gateway
     clientSecret:
-      name: envoy-gateway-client-secret
+      name: oidc-client-secret
     redirectURL: https://envoy.k8s.kevinastone.com/oauth2/callback
     cookieDomain: k8s.kevinastone.com
     cookieNames:
@@ -45,12 +45,12 @@ spec:
     - offline_access
   jwt:
     providers:
-    - name: authelia
-      issuer: https://auth.k8s.kevinastone.com
+    - name: keycloak
+      issuer: https://sso.k8s.kevinastone.com/realms/homelab
       audiences:
       - envoy-gateway
       remoteJWKS:
-        uri: https://auth.k8s.kevinastone.com/jwks.json
+        uri: https://sso.k8s.kevinastone.com/realms/homelab/protocol/openid-connect/certs
       extractFrom:
         cookies:
         - IdToken
@@ -68,12 +68,12 @@ spec:
       action: Allow
       principal:
         jwt:
-          provider: authelia
+          provider: keycloak
           claims:
           - name: groups
             valueType: StringArray
             values:
-            - lldap_admin
+            - admin
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
