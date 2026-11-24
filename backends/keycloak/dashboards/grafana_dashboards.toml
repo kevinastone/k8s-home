@@ -1,0 +1,9 @@
+#:schema ../../../monitoring/grafana/scripts/dashboard-schema.json
+
+[keycloak-troubleshooting]
+url = "https://raw.githubusercontent.com/keycloak/keycloak-grafana-dashboard/refs/heads/main/dashboards/keycloak-troubleshooting-dashboard.json"
+datasource = { DS_PROMETHEUS = "prometheus" }
+
+[keycloak-capacity-planning]
+url = "https://raw.githubusercontent.com/keycloak/keycloak-grafana-dashboard/refs/heads/main/dashboards/keycloak-capacity-planning-dashboard.json"
+datasource = { DS_PROMETHEUS = "prometheus" }

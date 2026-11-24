@@ -14,3 +14,11 @@ components:
 - ../../components/namespace
 - ../../components/goldilocks
 - ../../components/tf-runner
+configMapGenerator:
+- name: keycloak-dashboards
+  options:
+    labels:
+      grafana_dashboard: "true"
+  files:
+  - dashboards/keycloak-troubleshooting.json
+  - dashboards/keycloak-capacity-planning.json
