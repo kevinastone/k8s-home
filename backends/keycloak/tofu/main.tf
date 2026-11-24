@@ -99,6 +99,27 @@ resource "keycloak_openid_client_service_account_role" "oidc_provisioner_manage_
   role                    = "manage-clients"
 }
 
+data "keycloak_group" "lldap_admin" {
+  realm_id   = keycloak_realm.homelab.id
+  name       = "lldap_admin"
+  depends_on = [keycloak_ldap_group_mapper.lldap_groups]
+}
+
+data "keycloak_role" "realm_admin" {
+  realm_id  = keycloak_realm.homelab.id
+  client_id = data.keycloak_openid_client.realm_management.id
+  name      = "realm-admin"
+}
+
+resource "keycloak_group_roles" "lldap_admin_realm_admin" {
+  realm_id = keycloak_realm.homelab.id
+  group_id = data.keycloak_group.lldap_admin.id
+
+  role_ids = [
+    data.keycloak_role.realm_admin.id,
+  ]
+}
+
 output "OIDC_PROVISIONER_CLIENT_ID" {
   value = keycloak_openid_client.oidc_provisioner.client_id
 }

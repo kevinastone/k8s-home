@@ -6,6 +6,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Servers
+    gethomepage.dev/href: https://sso.k8s.kevinastone.com/admin/homelab/console/
     gethomepage.dev/icon: /assets/icons/svg/keycloak.svg
     gethomepage.dev/name: Keycloak
 spec:
