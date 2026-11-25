@@ -23,8 +23,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/jr0dd/network-ups-tools
-              tag: v2.8.3@sha256:9f8e14d155c6ef05940cee6f8861e259e951eb11750aeddd02539d986dac1ca0
+              repository: ghcr.io/kevinastone/nix-containers/nut
+              tag: 2.8.5@sha256:cbb0d9540527719c228bfd2fc24e22fd6c5c5ace467a284687bdc7618e7ab356
             resources:
               limits:
                 device/ups: 1
