@@ -124,6 +124,15 @@
       "automerge": true
     },
     {
+      "description": ["CalVer for ClickHouse"],
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "docker.io/clickhouse/clickhouse-server",
+        "clickhouse/clickhouse-server"
+      ],
+      "automerge": true
+    },
+    {
       "description": ["Use OpenTofu registry for terraform providers and modules"],
       "matchDatasources": ["terraform-provider", "terraform-module"],
       "registryUrls": ["https://registry.opentofu.org"]
