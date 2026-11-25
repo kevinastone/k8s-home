@@ -148,7 +148,7 @@ spec:
             workflows.argoproj.io/template-name: transcode
 
     container:
-      image: ghcr.io/kevinastone/ffmpeg:9.0.2@sha256:9a09b42a2a36e211d2bc980ebcb9e646dc495a87a66aea64b54c8b2533d9606e
+      image: ghcr.io/kevinastone/nix-containers/ffmpeg:9.0.2@sha256:9a09b42a2a36e211d2bc980ebcb9e646dc495a87a66aea64b54c8b2533d9606e
       command: [/scripts/transcode.sh]
       env:
       - name: FILEPATH
@@ -205,7 +205,7 @@ spec:
         valueFrom:
           path: /tmp/media-info.json
     container:
-      image: ghcr.io/kevinastone/ffmpeg:9.0.2@sha256:9a09b42a2a36e211d2bc980ebcb9e646dc495a87a66aea64b54c8b2533d9606e
+      image: ghcr.io/kevinastone/nix-containers/ffmpeg:9.0.2@sha256:9a09b42a2a36e211d2bc980ebcb9e646dc495a87a66aea64b54c8b2533d9606e
       command: [/scripts/probe-file.sh]
       args: ["{{inputs.parameters.filepath}}"]
       volumeMounts:
