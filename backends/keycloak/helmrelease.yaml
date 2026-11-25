@@ -19,10 +19,8 @@ spec:
         containers:
           main:
             image:
-              repository: quay.io/keycloak/keycloak
-              tag: 26.8.2@sha256:7e66a96e4739239070aeaf72e4c5decf0f7f682cfc725b9f7ea2b336eaba38b3
-            args:
-            - start
+              repository: ghcr.io/kevinastone/nix-containers/keycloak
+              tag: 26.8.2@sha256:aad0fc54cbeb423d6636551f63ba20402f6cdd5bdad2bc0aa3bb3053500f96fa
             envFrom:
             - secretRef:
                 name: keycloak-secret
@@ -30,7 +28,6 @@ spec:
               secretRef:
                 name: postgres-app
             env:
-              KC_DB: postgres
               KC_DB_URL_HOST: $(postgres_host)
               KC_DB_URL_PORT: $(postgres_port)
               KC_DB_URL_DATABASE: $(postgres_dbname)
@@ -39,8 +36,6 @@ spec:
               KC_HOSTNAME: https://sso.k8s.kevinastone.com
               KC_HTTP_ENABLED: "true"
               KC_PROXY_HEADERS: xforwarded
-              KC_HEALTH_ENABLED: "true"
-              KC_METRICS_ENABLED: "true"
               KC_HTTP_METRICS_HISTOGRAMS_ENABLED: "true"
               KC_EVENT_METRICS_USER_ENABLED: "true"
               # Override default 50%/70% RAMPercentage heap sizing to reduce steady-state memory footprint
@@ -81,8 +76,8 @@ spec:
         pod:
           enableServiceLinks: false
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+            runAsUser: 65532
+            runAsGroup: 65532
             runAsNonRoot: true
     service:
       main:
