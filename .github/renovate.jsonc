@@ -129,7 +129,7 @@
       "registryUrls": ["https://registry.opentofu.org"]
     },
     {
-      "matchPackageNames": ["ghcr.io/kevinastone/nix-containers/ffmpeg"],
+      "matchPackageNames": ["ghcr.io/kevinastone/nix-containers/ffmpeg-argo"],
       "versioning": "semver-coerced"
     },
     {
