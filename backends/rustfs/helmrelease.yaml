@@ -44,14 +44,23 @@ spec:
               repository: docker.io/rustfs/rustfs
               tag: 1.0.7@sha256:69bd3c4d8d79b74723bfd68c9fbd9085155d4d4b44a5a136d87502f3075cc68c
             env:
+              K8S_NAMESPACE:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
+              K8S_POD_NAME:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+              OTEL_RESOURCE_ATTRIBUTES: "job=rustfs,namespace=$(K8S_NAMESPACE),pod=$(K8S_POD_NAME),instance=$(K8S_POD_NAME)"
               # Sends logs to stdout instead of writing to a file
               RUSTFS_OBS_LOG_DIRECTORY: ""
               RUSTFS_OBS_LOG_STDOUT_ENABLED: "true"
               RUST_LOG: "warn"
               RUSTFS_CONSOLE_ENABLE: "true"
-              RUSTFS_OBS_METRIC_ENDPOINT: "http://localhost:4318/v1/metrics"
+              RUSTFS_OBS_METRIC_ENDPOINT: "http://vmagent-vm-stack.victoria-metrics.svc.cluster.local:8429/opentelemetry/v1/metrics"
               RUSTFS_OBS_LOGGER_LEVEL: "warn"
-              RUSTFS_OBS_ENDPOINT: "http://localhost:4318"
+              RUSTFS_OBS_ENDPOINT: "http://vmagent-vm-stack.victoria-metrics.svc.cluster.local:8429/opentelemetry"
               RUSTFS_OBS_USE_STDOUT: "false"
               RUSTFS_OBS_TRACES_EXPORT_ENABLED: "false"
               RUSTFS_OBS_LOGS_EXPORT_ENABLED: "false"
@@ -105,29 +114,6 @@ spec:
                 cpu: 750m
                 memory: 1Gi
                 ephemeral-storage: 2Gi
-          otel-collector:
-            image:
-              repository: docker.io/otel/opentelemetry-collector-contrib
-              tag: 0.166.0@sha256:3e18fe04181de50bdd72e23ad4a4d6214b54351e63d496f1c58127cc4541ad7f
-            args:
-            - "--config=/etc/otel/config.yaml"
-            ports:
-            - containerPort: &metricsPort 8889
-              name: metrics
-            - containerPort: 4317
-              name: otlp-grpc
-            - containerPort: 4318
-              name: otlp-http
-            - containerPort: 13133
-              name: healthcheck
-            probes:
-              liveness: &probes
-                enabled: true
-                type: HTTP
-                path: /health
-                port: healthcheck
-              readiness: *probes
-              startup: *probes
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
@@ -148,9 +134,6 @@ spec:
           http:
             port: *httpPort
             targetPort: http
-          metrics:
-            port: *metricsPort
-            targetPort: metrics
       headless:
         controller: main
         type: ClusterIP
@@ -160,21 +143,6 @@ spec:
           api:
             port: *s3Port
             targetPort: s3
-    serviceMonitor:
-      main:
-        enabled: true
-        service:
-          identifier: main
-        endpoints:
-        - port: metrics
-          interval: 30s
     persistence:
       home:
         type: emptyDir
-      config:
-        type: configMap
-        name: otel-config # overriden by kustomizeconfig
-        advancedMounts:
-          main:
-            otel-collector:
-            - path: /etc/otel

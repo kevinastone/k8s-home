@@ -112,6 +112,7 @@ spec:
     vmagent:
       spec:
         extraArgs:
+          opentelemetry.usePrometheusNaming: "true"
           promscrape.maxScrapeSize: "64MiB"
         resources:
           limits:

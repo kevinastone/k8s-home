@@ -11,8 +11,10 @@ spec:
     - alert: RustFSClusterDown
       annotations:
         summary: "RustFS storage cluster is down"
-        description: "All RustFS storage pods are unreachable or down."
-      expr: absent(up{job="rustfs"} == 1) or sum(up{job="rustfs"}) == 0
+        description: "All RustFS storage pods are unready or metrics are no longer being reported."
+      expr: |
+        absent(rustfs_cluster_erasure_set_health{job="rustfs"}) == 1
+        or kube_statefulset_status_replicas_ready{namespace="rustfs", statefulset="rustfs"} == 0
       for: 2m
       labels:
         severity: critical
