@@ -5,11 +5,10 @@
     ":semanticCommits",
     "docker:enableMajor",
     ":automergeMinor",
-    ":automergeDigest"
+    ":automergeDigest",
+    ":disableRateLimiting"
   ],
   "rebaseWhen": "conflicted",
-  "prConcurrentLimit": 5,
-  "prHourlyLimit": 2,
   "ignorePaths": ["**/resources/**"],
   "pinDigest": {
     "automerge": true
