@@ -9,7 +9,7 @@ configMapGenerator:
 - name: qbittorrent-config
   files:
   - resources/qBittorrent.conf
-  - resources/preferences.jsonc
+  - resources/watched_folders.json
   - resources/qbit-manage.yaml
 
 components:

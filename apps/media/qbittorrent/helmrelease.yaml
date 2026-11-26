@@ -21,7 +21,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
-            image: &image
+            image:
               repository: ghcr.io/kevinastone/nix-containers/qbittorrent
               tag: 5.3.0@sha256:f01392cdf90563daaf6abfeb86bd6397328c3c0d4e8ad5403d3d9ffef64d58c0
             env:
@@ -40,23 +40,11 @@ spec:
               runAsNonRoot: true
               runAsUser: 568
               runAsGroup: 568
-            # Programmatically applies startup preferences (e.g. /incoming monitored folder) via Web API.
-            lifecycle:
-              postStart:
-                exec:
-                  command:
-                  - /bin/sh
-                  - -c
-                  - |
-                    (
-                      while ! curl -s -f http://127.0.0.1:8080/api/v2/app/version >/dev/null 2>&1; do
-                        sleep 1
-                      done
-                      curl -s -X POST --data-urlencode "json=$(jq -c . /config/preferences.jsonc)" http://127.0.0.1:8080/api/v2/app/setPreferences >/dev/null 2>&1
-                    ) &
         initContainers:
           init-config:
-            image: *image
+            image:
+              repository: alpine
+              tag: 3@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
             command:
             - sh
             - -c
@@ -150,8 +138,8 @@ spec:
             - path: /config/qBittorrent/qBittorrent.conf
               subPath: qBittorrent.conf
               readOnly: true
-            - path: /config/preferences.jsonc
-              subPath: preferences.jsonc
+            - path: /config/qBittorrent/watched_folders.json
+              subPath: watched_folders.json
               readOnly: true
           orphan-cleanup:
             app:
