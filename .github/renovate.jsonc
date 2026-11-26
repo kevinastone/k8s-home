@@ -111,12 +111,16 @@
       "automerge": true
     },
     {
-      "description": ["CalVer for ClickHouse"],
+      "description": [
+        "Track ClickHouse LTS (.3/.8) releases and current minor patches on a monthly schedule"
+      ],
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "docker.io/clickhouse/clickhouse-server",
         "clickhouse/clickhouse-server"
       ],
+      "allowedVersions": "/^({{{major}}}\\.{{{minor}}}|\\d+\\.(3|8))(\\.\\d+)*$/",
+      "schedule": ["* * 1 * *"],
       "automerge": true
     },
     {
