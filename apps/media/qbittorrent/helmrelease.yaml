@@ -22,8 +22,8 @@ spec:
         containers:
           app:
             image: &image
-              repository: ghcr.io/home-operations/qbittorrent
-              tag: 5.2.4@sha256:9307627e03981d5473aa31175ea76ed56ea3752333ca49d601b6af45e281e7ba
+              repository: ghcr.io/kevinastone/nix-containers/qbittorrent
+              tag: 5.3.0@sha256:f01392cdf90563daaf6abfeb86bd6397328c3c0d4e8ad5403d3d9ffef64d58c0
             env:
               UMASK: "022"
             probes:

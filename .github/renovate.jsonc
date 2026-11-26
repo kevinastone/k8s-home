@@ -95,11 +95,6 @@
       "allowedVersions": "<5.25.2 || >=6.0.0"
     },
     {
-      "description": ["qbit_manage is not yet compatible with qbittorrent > 5.2.4"],
-      "matchPackageNames": ["ghcr.io/home-operations/qbittorrent"],
-      "allowedVersions": "<=5.2.4"
-    },
-    {
       "matchDatasources": ["kubernetes-api"],
       "enabled": false
     },
