@@ -16,7 +16,7 @@ spec:
           main:
             image:
               repository: ghcr.io/caioricciuti/ch-ui
-              tag: v2.33.1@sha256:669a92700a775081fd0ab4c0828d626bbb566d731add0acddbde4cfd9274fa4b
+              tag: v2.34.0@sha256:9675d0c2288d73e3bdf9809617a8905119dda5ca5f307b2c74e0f601732dc7cc
             args:
             - --pid-file=/app/data/ch-ui-server.pid
             env:
