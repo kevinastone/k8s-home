@@ -18,8 +18,8 @@ spec:
         initContainers:
           init-dirs:
             image:
-              repository: ghcr.io/home-operations/sonarr
-              tag: 5.0.0.3041@sha256:ec7797f30e65cc411fba6768ed575337a5787de7d06c382173df610f2d23a317
+              repository: alpine
+              tag: 3@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
             command:
             - /bin/sh
             - -c
@@ -33,8 +33,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/sonarr
-              tag: 5.0.0.3041@sha256:ec7797f30e65cc411fba6768ed575337a5787de7d06c382173df610f2d23a317
+              repository: ghcr.io/kevinastone/nix-containers/sonarr
+              tag: 5.0.0.2997@sha256:09418489ee6e3ed391d99dfc03111eee55bbd93672a26c6229664d37f0349283
             env:
               SONARR__APP__INSTANCENAME: Sonarr
               SONARR__APP__THEME: dark
