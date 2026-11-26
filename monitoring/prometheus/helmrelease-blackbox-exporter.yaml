@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/prometheus-community/charts/prometheus-blackbox-exporter
       ref:
-        tag: 11.26.2
+        tag: 12.0.0
   values:
     serviceMonitor:
       enabled: true
