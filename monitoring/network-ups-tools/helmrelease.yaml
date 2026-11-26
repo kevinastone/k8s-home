@@ -35,8 +35,8 @@ spec:
                 enabled: true
           exporter:
             image:
-              repository: ghcr.io/druggeri/nut_exporter
-              tag: 3.3.0@sha256:276460d141c732772f8b1fcd785a7de272473e6d39fd85c32b163efc2999cb9a
+              repository: ghcr.io/kevinastone/nix-containers/prometheus-nut-exporter
+              tag: 3.2.5@sha256:b0c46133cf66c92be2466c8b720eba8416014ef55c41299fea5bb68b717877cf
             args:
             - --nut.vars_enable=
     service:
