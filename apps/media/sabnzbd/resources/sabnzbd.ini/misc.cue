@@ -1,5 +1,7 @@
 package sabnzbd
 
+import "strings"
+
 #Misc: {
 	dirscan_dir:                 string | *""
 	dirscan_speed:               int | *5
@@ -18,16 +20,16 @@ package sabnzbd
 	direct_unpack_tested:        bool | *false
 	deobfuscate_final_filenames: bool | *true
 	par_option:                  string | *""
-	host_whitelist:              string | *""
-	host_whitelist_inspection:   bool | *true
-	api_key:                     string | *""
-	nzb_key:                     string | *""
-	no_dupes:                    #DupeAction.#Value | *"off"
-	no_smart_dupes:              #DupeAction.#Value | *"off"
-	notified_new_skin:           int | *0
-	helpful_warnings:            bool | *true
-	cache_limit:                 #DataSize | *""
-	ignore_samples:              bool | *false
+	host_whitelist: [...string] | *[]
+	host_whitelist_inspection: bool | *true
+	api_key:                   string | *""
+	nzb_key:                   string | *""
+	no_dupes:                  #DupeAction.#Value | *"off"
+	no_smart_dupes:            #DupeAction.#Value | *"off"
+	notified_new_skin:         int | *0
+	helpful_warnings:          bool | *true
+	cache_limit:               #DataSize | *""
+	ignore_samples:            bool | *false
 
 	out: """
 		[misc]
@@ -48,7 +50,7 @@ package sabnzbd
 		direct_unpack_tested = \(#BoolToInt["\(direct_unpack_tested)"])
 		deobfuscate_final_filenames = \(#BoolToInt["\(deobfuscate_final_filenames)"])
 		par_option = \((#QuoteIni & {"in": par_option}).out)
-		host_whitelist = \((#QuoteIni & {"in": host_whitelist}).out)
+		host_whitelist = \(strings.Join(host_whitelist, ", "))
 		host_whitelist_inspection = \(#BoolToInt["\(host_whitelist_inspection)"])
 		api_key = \((#QuoteIni & {"in": api_key}).out)
 		nzb_key = \((#QuoteIni & {"in": nzb_key}).out)
@@ -68,9 +70,19 @@ misc: #Misc & {
 	complete_free:        "1G"
 	direct_unpack:        false
 	direct_unpack_tested: true
-	no_dupes:             "off"
-	no_smart_dupes:       "off"
-	notified_new_skin:    2
-	helpful_warnings:     false
-	ignore_samples:       true
+	host_whitelist: [
+		"sabnzbd",
+		"sabnzbd.media",
+		"sabnzbd.media.svc",
+		"sabnzbd.media.svc.cluster",
+		"sabnzbd.media.svc.cluster.local",
+		"sabnzbd.k8s.kevinastone.com",
+	]
+	api_key:           #Env.SABNZBD_API_KEY
+	nzb_key:           #Env.SABNZBD_NZB_KEY
+	no_dupes:          "off"
+	no_smart_dupes:    "off"
+	notified_new_skin: 2
+	helpful_warnings:  false
+	ignore_samples:    true
 }

@@ -6,6 +6,8 @@ package sabnzbd
 	NEWSHOSTING_PASSWORD: string @tag(NEWSHOSTING_PASSWORD)
 	TWEAKNEWS_USERNAME:   string @tag(TWEAKNEWS_USERNAME)
 	TWEAKNEWS_PASSWORD:   string @tag(TWEAKNEWS_PASSWORD)
+	SABNZBD_API_KEY:      string @tag(SABNZBD_API_KEY)
+	SABNZBD_NZB_KEY:      string @tag(SABNZBD_NZB_KEY)
 }
 
 #EnvKey: or([for k, _ in #Env {k}])

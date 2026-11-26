@@ -21,6 +21,8 @@ _: {
                 -t NEWSHOSTING_PASSWORD=mock \
                 -t TWEAKNEWS_USERNAME=mock \
                 -t TWEAKNEWS_PASSWORD=mock \
+                -t SABNZBD_API_KEY=mock \
+                -t SABNZBD_NZB_KEY=mock \
                 -e out \
                 --out text > $out
             '';
