@@ -11,7 +11,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/grafana-community/helm-charts/grafana
       ref:
-        tag: 14.5.1
+        tag: 14.6.0
   values:
     plugins:
     - grafana-clickhouse-datasource
