@@ -44,7 +44,7 @@ spec:
       interval: 12h
       url: oci://ghcr.io/argoproj/argo-helm/argo-workflows
       ref:
-        tag: 2.0.18
+        tag: 2.0.19
   dependsOn:
   - name: prometheus-crds
     namespace: prometheus
