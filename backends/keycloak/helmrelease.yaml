@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: ghcr.io/kevinastone/nix-containers/keycloak
-              tag: 26.8.2@sha256:aad0fc54cbeb423d6636551f63ba20402f6cdd5bdad2bc0aa3bb3053500f96fa
+              tag: 26.8.2@sha256:a793b679ecca5fca68fad5d7617b3c5e76d70ebf273b410701076e869f1d5ea0
             envFrom:
             - secretRef:
                 name: keycloak-secret
