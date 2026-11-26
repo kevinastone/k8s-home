@@ -28,7 +28,7 @@ spec:
         interval: 1m
     runner:
       image:
-        repository: ghcr.io/home-operations/opentofu-runner
-        tag: 0.17.0@sha256:65d25bf7cf1fb41a14e345c914e5b65dd21ee2622c84576a78ca2a54e35edd8b
+        repository: ghcr.io/kevinastone/nix-containers/opentofu-runner
+        tag: 0.17.0@sha256:a09cce1657d37babcb901fcf1e9e58469061cca15b7923d482e375f8487b5a75
     awsPackage:
       install: false
