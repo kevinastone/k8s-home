@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: ghcr.io/kevinastone/nix-containers/sonarr
-              tag: 5.0.0.2997@sha256:afdfd7453dbce10539f907f6128c838f7c45e94fc738f6dfff946d169b9bb0cb
+              tag: 5.0.0.2997@sha256:edc9f98f7fcda4e9d66ab9b9f7a82dcaaaa21132cb8ec4bfc3626c0103dac428
             env:
               SONARR__APP__INSTANCENAME: Sonarr
               SONARR__APP__THEME: dark
