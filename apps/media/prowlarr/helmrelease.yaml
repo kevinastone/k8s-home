@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/kevinastone/nix-containers/prowlarr
-              tag: 3.0.2.5780@sha256:b105db8dc84143fb88a45e20a0ed4f66fb7372b32e0a9fc55f43e92f78a950dc
+              tag: 3.0.2.5780@sha256:69b2d29942df9f4b0ffdf43e192492931003ad3f3f69a7c330dde59d1c03550e
             env:
               PROWLARR__APP__INSTANCENAME: Prowlarr
               PROWLARR__APP__THEME: dark

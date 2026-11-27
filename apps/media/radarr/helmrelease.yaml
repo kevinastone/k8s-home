@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: ghcr.io/kevinastone/nix-containers/radarr
-              tag: 7.0.3.10918@sha256:b70b6fda64ec0fdc8b73c77a060e5614104d6caea2eaadc35696f15d91b6809f
+              tag: 7.0.3.10918@sha256:9349fba81ab83b25431023357fdf9c601aa0054e45836e528b2e818f46d87f04
             env:
               RADARR__APP__INSTANCENAME: Radarr
               RADARR__APP__THEME: dark
