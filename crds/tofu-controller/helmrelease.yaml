@@ -29,6 +29,6 @@ spec:
     runner:
       image:
         repository: ghcr.io/kevinastone/nix-containers/opentofu-runner
-        tag: 0.17.0@sha256:a09cce1657d37babcb901fcf1e9e58469061cca15b7923d482e375f8487b5a75
+        tag: 0.17.0@sha256:1a37fe858c9958f0b532f57e20d4f7dcaa4349b47d8dd01224e1cc0ba7846d5a
     awsPackage:
       install: false
