@@ -13,6 +13,7 @@ resources:
 - sabnzbd
 - sonarr
 - radarr
+- recyclarr
 - prowlarr
 - transcoder
 - http-route.yaml

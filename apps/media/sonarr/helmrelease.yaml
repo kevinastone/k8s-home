@@ -84,43 +84,6 @@ spec:
                 cpu: 100m
               limits:
                 memory: 2Gi
-      recyclarr:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          app:
-            image:
-              repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.8.1@sha256:3e9c41b9ec29bbf65fe846864058730d321a21f7695d8c0d9437b73e34d50ad9
-            command:
-            - /bin/bash
-            - -c
-            args:
-            - |
-              until recyclarr sync; do
-                echo "Waiting for Sonarr API before scheduling..."
-                sleep 5
-              done
-              exec /entrypoint.sh
-            env:
-              COMPlus_EnableDiagnostics: "0"
-              CRON_SCHEDULE: "@daily"
-              TZ: America/Los_Angeles
-            envFrom:
-            - secretRef:
-                name: sonarr-secret
-            resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-              limits:
-                memory: 256Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -161,15 +124,6 @@ spec:
             app:
             - path: /downloads
               subPath: sabnzbd
-      config-file:
-        type: configMap
-        name: sonarr-recyclarr-config
-        advancedMounts:
-          recyclarr:
-            app:
-            - path: /config/recyclarr.yml
-              subPath: recyclarr.yml
-              readOnly: true
       media-cover:
         type: persistentVolumeClaim
         storageClass: longhorn

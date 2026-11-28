@@ -10,8 +10,10 @@ resources:
 
 configMapGenerator:
 - name: sonarr-recyclarr-config
+  options:
+    disableNameSuffixHash: true
   files:
-  - resources/recyclarr.yml
+  - sonarr.yml=resources/recyclarr.yml
 
 components:
 - ../../../components/kustomizeconfig

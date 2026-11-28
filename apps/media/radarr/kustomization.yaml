@@ -10,8 +10,10 @@ resources:
 
 configMapGenerator:
 - name: radarr-recyclarr-config
+  options:
+    disableNameSuffixHash: true
   files:
-  - resources/recyclarr.yml
+  - radarr.yml=resources/recyclarr.yml
 
 components:
 - ../../../components/kustomizeconfig

@@ -22,9 +22,8 @@ ______________________________________________________________________
 
 ## 2. Kustomize Components, Templating & DRY Opportunities
 
-- [ ] **Consolidate `recyclarr` & Media OpenTofu**:
-  - [ ] **Consolidate Dual Always-On `recyclarr` Deployments into a Single `CronJob`**: [`apps/media/radarr/helmrelease.yaml`](./apps/media/radarr/helmrelease.yaml) and [`apps/media/sonarr/helmrelease.yaml`](./apps/media/sonarr/helmrelease.yaml) each run an always-on `recyclarr` Deployment controller sleeping on `CRON_SCHEDULE: "@daily"`. Because Recyclarr natively syncs multiple `radarr:` and `sonarr:` instances from a single config file, consolidate both into a single Kubernetes `CronJob` (`type: cronjob`, matching `orphan-cleanup` in `qbittorrent`) to eliminate two idle long-running pods.
-  - [ ] **Consolidate Media OpenTofu Modules (`prowlarr`, `radarr`, `sonarr`)**: Currently 3 separate `Terraform` CRs in [`apps/media/`](./apps/media/) spawn 3 `tf-runner` pods every 10 minutes with duplicated `varsFrom` (`sabnzbd-secret`, `nzbgeek-secret`) and duplicated NZBGeek/SABnzbd resources across [`radarr/tofu/main.tf`](./apps/media/radarr/tofu/main.tf) and [`sonarr/tofu/main.tf`](./apps/media/sonarr/tofu/main.tf). Consolidate into a single `apps/media/tofu/` module (or use `prowlarr_application_radarr` / `prowlarr_application_sonarr` to sync indexers from Prowlarr) to cut `tofu-controller` runner pods and state secrets from 3 to 1.
+- [ ] **Consolidate Media OpenTofu Modules (`prowlarr`, `radarr`, `sonarr`)**:
+  - [ ] Currently 3 separate `Terraform` CRs in [`apps/media/`](./apps/media/) spawn 3 `tf-runner` pods every 10 minutes with duplicated `varsFrom` (`sabnzbd-secret`, `nzbgeek-secret`) and duplicated NZBGeek/SABnzbd resources across [`radarr/tofu/main.tf`](./apps/media/radarr/tofu/main.tf) and [`sonarr/tofu/main.tf`](./apps/media/sonarr/tofu/main.tf). Consolidate into a single `apps/media/tofu/` module (or use `prowlarr_application_radarr` / `prowlarr_application_sonarr` to sync indexers from Prowlarr) to cut `tofu-controller` runner pods and state secrets from 3 to 1.
 
 ______________________________________________________________________
 

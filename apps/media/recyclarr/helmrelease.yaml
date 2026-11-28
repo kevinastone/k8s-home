@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: recyclarr
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 9.0.0@sha256:4973d11b18b5ef09fb226f4161eecb16434ff7e6b43c56d50fceb52fb22c66c7
+            command:
+            - /sbin/tini
+            - --
+            - /bin/bash
+            - -c
+            args:
+            - |
+              (
+                until wget -q --spider http://127.0.0.1:7983/readyz; do sleep 2; done
+                if [ -n "$(ls -A /config/configs 2>/dev/null)" ]; then
+                  until recyclarr sync; do
+                    echo "Initial sync failed; retrying in 10s..."
+                    sleep 10
+                  done
+                fi
+              ) &
+              exec /entrypoint.sh recyclarr-server
+            env:
+              RECYCLARR_CONFIG_DIR: /config
+              RECYCLARR_DATA_DIR: /data/data
+              RECYCLARR_STATE_DIR: /data/state
+              TZ: America/Los_Angeles
+              RECYCLARR_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: recyclarr-secret
+                    key: RECYCLARR_API_KEY
+              SONARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-secret
+                    key: SONARR__AUTH__APIKEY
+                    optional: true
+              RADARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-secret
+                    key: RADARR__AUTH__APIKEY
+                    optional: true
+            ports:
+            - name: http
+              containerPort: &port 7982
+            - name: metrics
+              containerPort: &metricsPort 7983
+            probes:
+              liveness: &probes
+                enabled: true
+                type: HTTP
+                path: /livez
+                port: *metricsPort
+              readiness:
+                !!merge <<: *probes
+                path: /readyz
+              startup:
+                !!merge <<: *probes
+                spec:
+                  periodSeconds: 5
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - ALL
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: main
+        ports:
+          http:
+            port: *port
+          metrics:
+            port: *metricsPort
+    serviceMonitor:
+      app:
+        enabled: true
+        serviceName: recyclarr
+        endpoints:
+        - port: metrics
+          path: /metrics
+          interval: 60s
+    persistence:
+      config-dir:
+        type: emptyDir
+        globalMounts:
+        - path: /config
+      config:
+        type: configMap
+        name: recyclarr-config # overridden by kustomizeconfig
+        globalMounts:
+        - path: /config/settings.yml
+          subPath: settings.yml
+          readOnly: true
+      configs:
+        type: projected
+        sources:
+        - configMap:
+            name: sonarr-recyclarr-config
+            optional: true
+        - configMap:
+            name: radarr-recyclarr-config
+            optional: true
+        globalMounts:
+        - path: /config/configs
+          readOnly: true
+      data:
+        type: emptyDir
+        globalMounts:
+        - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+        - path: /tmp
