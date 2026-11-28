@@ -41,23 +41,15 @@ spec:
               RECYCLARR_DATA_DIR: /data/data
               RECYCLARR_STATE_DIR: /data/state
               TZ: America/Los_Angeles
-              RECYCLARR_API_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: recyclarr-secret
-                    key: RECYCLARR_API_KEY
-              SONARR__AUTH__APIKEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: sonarr-secret
-                    key: SONARR__AUTH__APIKEY
-                    optional: true
-              RADARR__AUTH__APIKEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: radarr-secret
-                    key: RADARR__AUTH__APIKEY
-                    optional: true
+            envFrom:
+            - secretRef:
+                name: recyclarr-secret
+            - secretRef:
+                name: sonarr-secret
+                optional: true
+            - secretRef:
+                name: radarr-secret
+                optional: true
             ports:
             - name: http
               containerPort: &port 7982
