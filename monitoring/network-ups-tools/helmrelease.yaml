@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/kevinastone/nix-containers/nut
-              tag: 2.8.5@sha256:81499ba1b3c28425938a1e2009704bdcb0eec6f4d788e2b4cd7dd1c2cb9848b1
+              tag: 2.8.5@sha256:384283a6c7898d9f00dca632ee004f62c3a011d1861e778c4026a92c5279d684
             resources:
               limits:
                 device/ups: 1
