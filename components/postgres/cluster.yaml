@@ -5,7 +5,7 @@ metadata:
   name: postgres
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.12-minimal-bookworm@sha256:24f67fab2056b837362377be1f38bd79956092b16fa9923f018141956496a768
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.12-standard-bookworm@sha256:40158efad53733149070e593f981117c33e4e5fdcdf64888c5cb07a509e99455
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   affinity:
