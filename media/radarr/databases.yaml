@@ -8,6 +8,12 @@ spec:
   owner: app
   cluster:
     name: postgres
+  encoding: UTF8
+  localeProvider: builtin
+  builtinLocale: PG_UNICODE_FAST
+  localeCollate: C
+  localeCType: C
+  template: template0
   databaseReclaimPolicy: retain
 ---
 # yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/postgresql.cnpg.io/database_v1.json
@@ -20,4 +26,10 @@ spec:
   owner: app
   cluster:
     name: postgres
+  encoding: UTF8
+  localeProvider: builtin
+  builtinLocale: PG_UNICODE_FAST
+  localeCollate: C
+  localeCType: C
+  template: template0
   databaseReclaimPolicy: delete

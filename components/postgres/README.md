@@ -6,7 +6,8 @@ ______________________________________________________________________
 
 ## Architecture Overview
 
-- **Engine**: PostgreSQL 18 (CloudNativePG operator).
+- **Engine**: PostgreSQL 19 (`minimal-trixie`, CloudNativePG operator).
+- **Locale & Collation**: Built-in provider (`localeProvider: builtin`, `builtinLocale: PG_UNICODE_FAST`) with `C` POSIX ctype/collate—zero `glibc` or `libicu` collation dependencies across OS upgrades.
 - **Topology**: 3 instances per cluster configured with Pod Anti-Affinity across worker nodes.
 - **Local Storage**: `openebs-rawfile` for low-latency NVMe performance (`storage` and `walStorage`).
 - **Object Storage & Backups**:

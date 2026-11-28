@@ -5,9 +5,14 @@ metadata:
   name: postgres
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:19.0-standard-trixie@sha256:6f17393bf934a41fec47439306a17e087c5c2f419ddd5bf4b8dc0241da4bceb0
+  imageName: ghcr.io/cloudnative-pg/postgresql:19.0-minimal-trixie@sha256:12688a494f25aa0b7e1e3cd1800abe85b427fd1a09c991668a48162e3431a2af
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
+  bootstrap:
+    initdb:
+      encoding: UTF8
+      localeProvider: builtin
+      builtinLocale: PG_UNICODE_FAST
   affinity:
     podAntiAffinityType: required
   storage:
@@ -38,4 +43,4 @@ spec:
     isWALArchiver: true
     parameters:
       barmanObjectName: postgres
-      serverName: postgres-v18
+      serverName: postgres-v19
