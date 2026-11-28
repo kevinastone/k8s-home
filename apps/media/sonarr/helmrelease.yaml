@@ -109,27 +109,18 @@ spec:
       media:
         type: persistentVolumeClaim
         existingClaim: media-media
-        advancedMounts:
-          main:
-            app:
-            - path: /storage/media
+        globalMounts:
+        - path: /storage/media
       downloads:
         type: persistentVolumeClaim
         existingClaim: media-downloads
-        advancedMounts:
-          main:
-            init-dirs:
-            - path: /downloads
-              subPath: sabnzbd
-            app:
-            - path: /downloads
-              subPath: sabnzbd
+        globalMounts:
+        - path: /downloads
+          subPath: sabnzbd
       media-cover:
         type: persistentVolumeClaim
         storageClass: longhorn
         accessMode: ReadWriteOnce
         size: 5Gi
-        advancedMounts:
-          main:
-            app:
-            - path: /config/MediaCover
+        globalMounts:
+        - path: /config/MediaCover
