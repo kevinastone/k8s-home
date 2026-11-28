@@ -39,6 +39,13 @@ spec:
               tag: 3.2.5@sha256:b0c46133cf66c92be2466c8b720eba8416014ef55c41299fea5bb68b717877cf
             args:
             - --nut.vars_enable=
+            securityContext:
+              runAsNonRoot: true
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
     service:
       app:
         controller: main
@@ -87,6 +94,8 @@ spec:
         type: configMap
         name: network-ups-tools-config # overriden by kustomizeconfig
         defaultMode: 0640
-        globalMounts:
-        - path: /etc/nut
-          readOnly: true
+        advancedMounts:
+          main:
+            app:
+            - path: /etc/nut
+              readOnly: true
