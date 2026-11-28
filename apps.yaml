@@ -12,7 +12,7 @@ spec:
     kind: GitRepository
     name: fluxcd-sync
   path: "./apps"
-  prune: true
+  prune: false
   timeout: 10m
   retryInterval: 1m
   decryption:
