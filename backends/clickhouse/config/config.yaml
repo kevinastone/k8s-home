@@ -19,6 +19,24 @@ prometheus:
   asynchronous_metrics: true
   errors: true
 
+metric_log:
+  "@remove": "1"
+asynchronous_metric_log:
+  "@remove": "1"
+trace_log:
+  "@remove": "1"
+processors_profile_log:
+  "@remove": "1"
+text_log:
+  "@remove": "1"
+
+query_log:
+  ttl: event_date + INTERVAL 7 DAY DELETE
+part_log:
+  ttl: event_date + INTERVAL 7 DAY DELETE
+error_log:
+  ttl: event_date + INTERVAL 7 DAY DELETE
+
 storage_configuration:
   disks:
     s3_cold:
