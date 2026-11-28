@@ -15,7 +15,7 @@ metadata:
   name: postgres-restored
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.12-standard-trixie@sha256:14f7842047c843a1a055024c0ba63a8740b08f886ab3fc2e1d2bb87af0988b67
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-standard-trixie@sha256:1abcfd1cac6d53cda5185706819aab36d66a4ed88e99fc2ae44ab0826aa99f00
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   affinity:
@@ -57,7 +57,7 @@ spec:
           # barmanObjectName must match the name of the barmancloud.cnpg.io/v1 ObjectStore in the namespace
           barmanObjectName: postgres
           # serverName corresponds to the directory inside the S3 bucket where backups/WALs reside
-          serverName: postgres
+          serverName: postgres-v18
 
   postgresql:
     parameters:
@@ -75,3 +75,4 @@ spec:
   #     isWALArchiver: true
   #     parameters:
   #       barmanObjectName: postgres
+  #       serverName: postgres-v18

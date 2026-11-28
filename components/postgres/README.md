@@ -6,7 +6,7 @@ ______________________________________________________________________
 
 ## Architecture Overview
 
-- **Engine**: PostgreSQL 17 (CloudNativePG operator).
+- **Engine**: PostgreSQL 18 (CloudNativePG operator).
 - **Topology**: 3 instances per cluster configured with Pod Anti-Affinity across worker nodes.
 - **Local Storage**: `openebs-rawfile` for low-latency NVMe performance (`storage` and `walStorage`).
 - **Object Storage & Backups**:
