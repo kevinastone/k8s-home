@@ -11,4 +11,4 @@ configMapGenerator:
   - resources/settings.yml
 
 components:
-- ../../../components/kustomizeconfig
+- ../../components/kustomizeconfig

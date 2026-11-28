@@ -2,19 +2,19 @@
 apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata:
-  name: sonarr
+  name: radarr
 spec:
   serviceAccountName: tf-runner
   interval: 10m
   approvePlan: auto
-  path: ./apps/media/sonarr/tofu
+  path: ./media/radarr/tofu
   sourceRef:
     kind: GitRepository
     name: fluxcd-sync
     namespace: flux-system
   varsFrom:
   - kind: Secret
-    name: sonarr-secret
+    name: radarr-secret
     varsKeys:
     - api_key
   - kind: Secret

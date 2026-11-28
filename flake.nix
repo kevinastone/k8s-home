@@ -32,9 +32,9 @@
         ./nix/tofu.nix
         ./.github
         ./apps/home-monitoring
-        ./apps/media/transcoder
-        ./apps/media/sabnzbd
         ./bootstrap
+        ./media/sabnzbd
+        ./media/transcoder
         ./monitoring/grafana
         ./monitoring/vector
       ];

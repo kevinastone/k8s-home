@@ -2,18 +2,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- external-secret.yaml
 - helmrelease.yaml
 - http-route.yaml
-- terraform.yaml
-- databases.yaml
 
 configMapGenerator:
-- name: sonarr-recyclarr-config
-  options:
-    disableNameSuffixHash: true
+- name: qbittorrent-config
   files:
-  - sonarr.yml=resources/recyclarr.yml
+  - resources/qBittorrent.conf
+  - resources/watched_folders.json
+  - resources/qbit-manage.yaml
 
 components:
-- ../../../components/kustomizeconfig
+- ../../components/kustomizeconfig

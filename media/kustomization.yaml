@@ -19,5 +19,20 @@ resources:
 - http-route.yaml
 - security-policy.yaml
 components:
-- ../../components/namespace
-- ../../components/tf-runner
+- ../components/helmrelease
+- ../components/namespace
+- ../components/tf-runner
+patches:
+- target:
+    group: helm.toolkit.fluxcd.io
+    kind: HelmRelease
+    name: sabnzbd
+  patch: |-
+    apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    metadata:
+      name: sabnzbd
+    spec:
+      upgrade:
+        remediation:
+          retries: 0

@@ -48,7 +48,7 @@ nix develop --command cue vet -c ./cue/grafana/
 To run the OPA policy tests locally via the Nix development shell:
 
 ```bash
-nix develop --command opa test apps/media/transcoder/policy/ -v
+nix develop --command opa test media/transcoder/policy/ -v
 ```
 
 ### Running Regal Lint Locally
@@ -56,7 +56,7 @@ nix develop --command opa test apps/media/transcoder/policy/ -v
 To run the Regal linter locally via the Nix development shell:
 
 ```bash
-nix develop --command regal lint apps/media/transcoder/policy
+nix develop --command regal lint media/transcoder/policy
 ```
 
 ### Validating Renovate Configuration Locally

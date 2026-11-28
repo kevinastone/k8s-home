@@ -9,11 +9,11 @@ resources:
 - databases.yaml
 
 configMapGenerator:
-- name: radarr-recyclarr-config
+- name: sonarr-recyclarr-config
   options:
     disableNameSuffixHash: true
   files:
-  - radarr.yml=resources/recyclarr.yml
+  - sonarr.yml=resources/recyclarr.yml
 
 components:
-- ../../../components/kustomizeconfig
+- ../../components/kustomizeconfig

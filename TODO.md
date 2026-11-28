@@ -11,7 +11,7 @@ While CloudNativePG (`postgres`) and `dragonfly` back up to the in-cluster `rust
 - [ ] **Off-Cluster / 3-2-1 Backup Strategy for `rustfs`**:
   - [ ] `postgres` (Barman) and `dragonfly` back up to `s3.k8s.kevinastone.com` (`rustfs`), which runs as a 3-node distributed erasure-coded cluster on `openebs-rawfile`. Add an off-cluster replication job (e.g., `rclone` CronJob to the NAS SMB share or Backblaze B2) for `rustfs` buckets to satisfy the 3-2-1 backup rule.
 - [ ] **Extend `components/kopiur` Backups to Remaining Stateful Media PVCs**:
-  - [ ] Include [`components/kopiur`](./components/kopiur/kustomization.yaml) in [`apps/media/kustomization.yaml`](./apps/media/kustomization.yaml) and add the `kopiur.home-operations.com/backup: "true"` label to the `config` PVCs in [`apps/media/qbittorrent/helmrelease.yaml`](./apps/media/qbittorrent/helmrelease.yaml) (which holds `/config/qBittorrent/BT_backup` `.torrent` and `.fastresume` state) and [`apps/media/sabnzbd/helmrelease.yaml`](./apps/media/sabnzbd/helmrelease.yaml) (queue/history state).
+  - [ ] Include [`components/kopiur`](./components/kopiur/kustomization.yaml) in [`media/kustomization.yaml`](./media/kustomization.yaml) and add the `kopiur.home-operations.com/backup: "true"` label to the `config` PVCs in [`media/qbittorrent/helmrelease.yaml`](./media/qbittorrent/helmrelease.yaml) (which holds `/config/qBittorrent/BT_backup` `.torrent` and `.fastresume` state) and [`media/sabnzbd/helmrelease.yaml`](./media/sabnzbd/helmrelease.yaml) (queue/history state).
 - [ ] **Optimize VictoriaLogs Storage & High Availability**:
   - [ ] **Migrate VictoriaLogs from `vlsingle` (Longhorn) to Clustered / Replicated HA on `openebs-rawfile`**:
     - [`monitoring/victoria-metrics/helmrelease.yaml`](./monitoring/victoria-metrics/helmrelease.yaml) currently runs `vlsingle` with a single `50Gi` replicated Longhorn PVC (`vlsingle-vm-stack`).
@@ -23,7 +23,7 @@ ______________________________________________________________________
 ## 2. Kustomize Components, Templating & DRY Opportunities
 
 - [ ] **Consolidate Media OpenTofu Modules (`prowlarr`, `radarr`, `sonarr`)**:
-  - [ ] Currently 3 separate `Terraform` CRs in [`apps/media/`](./apps/media/) spawn 3 `tf-runner` pods every 10 minutes with duplicated `varsFrom` (`sabnzbd-secret`, `nzbgeek-secret`) and duplicated NZBGeek/SABnzbd resources across [`radarr/tofu/main.tf`](./apps/media/radarr/tofu/main.tf) and [`sonarr/tofu/main.tf`](./apps/media/sonarr/tofu/main.tf). Consolidate into a single `apps/media/tofu/` module (or use `prowlarr_application_radarr` / `prowlarr_application_sonarr` to sync indexers from Prowlarr) to cut `tofu-controller` runner pods and state secrets from 3 to 1.
+  - [ ] Currently 3 separate `Terraform` CRs in [`media/`](./media/) spawn 3 `tf-runner` pods every 10 minutes with duplicated `varsFrom` (`sabnzbd-secret`, `nzbgeek-secret`) and duplicated NZBGeek/SABnzbd resources across [`radarr/tofu/main.tf`](./media/radarr/tofu/main.tf) and [`sonarr/tofu/main.tf`](./media/sonarr/tofu/main.tf). Consolidate into a single `media/tofu/` module (or use `prowlarr_application_radarr` / `prowlarr_application_sonarr` to sync indexers from Prowlarr) to cut `tofu-controller` runner pods and state secrets from 3 to 1.
 
 ______________________________________________________________________
 

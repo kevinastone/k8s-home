@@ -119,7 +119,8 @@ The deployment flow is defined by the top-level Flux `Kustomization` manifests:
 ├── system/         # Core infrastructure (Cilium, Envoy Gateway, Storage, Cert-Manager)
 ├── monitoring/     # Observability stack (VictoriaMetrics, VictoriaLogs, Grafana, Alerting Rules, Vector)
 ├── backends/       # Foundational shared services (DNS, Authelia, ClickHouse, LDAP, MQTT, RustFS)
-├── apps/           # User-facing applications (Home Assistant, Media stack, IoT)
+├── media/          # Media stack (Radarr, Sonarr, Prowlarr, SABnzbd, qBittorrent, Transcoder)
+├── apps/           # User-facing applications (Homepage, Zigbee2MQTT, Web & IoT services)
 ├── cue/
 │   └── grafana/    # Shared CUE library for typed Grafana dashboards
 ```
@@ -163,10 +164,10 @@ Transcoder policy rules use Open Policy Agent (Rego):
 
 ```bash
 # Run OPA tests
-nix develop --command opa test apps/media/transcoder/policy/ -v
+nix develop --command opa test media/transcoder/policy/ -v
 
 # Run Regal linter
-nix develop --command regal lint apps/media/transcoder/policy
+nix develop --command regal lint media/transcoder/policy
 ```
 
 ### Validation Suite (`nix flake check`)

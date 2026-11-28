@@ -53,7 +53,7 @@ Homepage service widgets (e.g., Radarr, Sonarr, SABnzbd) require API keys to fet
 
 1. **Remote Secret Tagging (`homepage.dev/secret: "true"`)**:
    Any application secret intended for Homepage labels its generated Secret with `homepage.dev/secret: "true"`, and formats the environment variable key using Homepage's variable prefix (e.g., `HOMEPAGE_VAR_<SERVICE>_API_KEY`).
-   *Example from [`apps/media/radarr/external-secret.yaml`](../media/radarr/external-secret.yaml):*
+   *Example from [`media/radarr/external-secret.yaml`](../../media/radarr/external-secret.yaml):*
 
    ```yaml
    template:
@@ -84,7 +84,7 @@ Homepage service widgets (e.g., Radarr, Sonarr, SABnzbd) require API keys to fet
 
 1. **Runtime Widget Resolution**:
    When Homepage discovers an `HTTPRoute` annotated with widgets, Homepage substitutes `{{HOMEPAGE_VAR_<NAME>}}` placeholders with values from its environment.
-   *Example from [`apps/media/radarr/http-route.yaml`](../media/radarr/http-route.yaml):*
+   *Example from [`media/radarr/http-route.yaml`](../../media/radarr/http-route.yaml):*
 
    ```yaml
    metadata:

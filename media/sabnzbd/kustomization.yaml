@@ -23,4 +23,4 @@ configMapGenerator:
   - resources/sabnzbd.ini/types.cue
 
 components:
-- ../../../components/kustomizeconfig
+- ../../components/kustomizeconfig

@@ -50,13 +50,13 @@ Testing is fully automated and written in `policy/main_test.rego`.
 Run the policy tests directly using the Nix development shell:
 
 ```bash
-nix develop --command opa test apps/media/transcoder/policy/ -v
+nix develop --command opa test media/transcoder/policy/ -v
 ```
 
 To run Regal policy linter:
 
 ```bash
-nix develop --command regal lint apps/media/transcoder/policy
+nix develop --command regal lint media/transcoder/policy
 ```
 
 ### Running Tests via Docker / Colima (Alternative)

@@ -7,4 +7,5 @@ resources:
 - system.yaml
 - monitoring.yaml
 - backends.yaml
+- media.yaml
 - apps.yaml
