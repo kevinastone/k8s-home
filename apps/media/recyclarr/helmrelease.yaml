@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       main:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -38,8 +39,8 @@ spec:
               exec /entrypoint.sh recyclarr-server
             env:
               RECYCLARR_CONFIG_DIR: /config
-              RECYCLARR_DATA_DIR: /data/data
-              RECYCLARR_STATE_DIR: /data/state
+              RECYCLARR_DATA_DIR: /data
+              RECYCLARR_STATE_DIR: /state
               TZ: America/Los_Angeles
             envFrom:
             - secretRef:
@@ -129,6 +130,13 @@ spec:
         globalMounts:
         - path: /config/configs
           readOnly: true
+      state:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+        - path: /state
       data:
         type: emptyDir
         globalMounts:
